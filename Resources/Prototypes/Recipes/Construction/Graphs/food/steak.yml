@@ -219,8 +219,14 @@
         sound: /Audio/Effects/sizzle.ogg
       steps:
       - minTemperature: 335
+    - to: cutletflat
+      steps:
+      - tool: Rolling
+        doAfter: 3
   - node: cutlet
     entity: FoodMeatCutletCooked
+  - node: cutletflat
+    entity: TP14FoodMeatSausage
 
 - type: constructionGraph
   id: BearCutlet

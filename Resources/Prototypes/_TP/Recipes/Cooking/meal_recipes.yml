@@ -60,3 +60,10 @@
   result: FoodBakedNugget
   time: 20
   ingredient: FoodMeatChickenCutlet
+
+- type: deepFryingRecipe
+  id: TP14RecipeCorndog
+  name: corndog recipe
+  result: TP14FoodCorndog
+  time: 15
+  ingredient: TP14FoodMeatSausage

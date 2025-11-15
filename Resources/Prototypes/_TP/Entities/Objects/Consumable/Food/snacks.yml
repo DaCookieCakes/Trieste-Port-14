@@ -10,11 +10,33 @@
       - oily
       - cheesy
   - type: Sprite
-    sprite: Objects/Consumable/Food/meals.rsi # TEMPORARY
-    state: fries-carrot
+    sprite: _TP/Objects/Consumable/fried-food.rsi
+    state: cheese_sticks
   - type: SolutionContainerManager
     solutions:
       food:
         reagents:
         - ReagentId: Nutriment
           Quantity: 5
+
+- type: entity
+  id: TP14FoodCorndog
+  parent: FoodSnackBase
+  suffix: Trieste, Food
+  name: corndog
+  description: A staple of fairs and festivals all over the galaxy!
+  components:
+  - type: FlavorProfile
+    flavors:
+      - oily
+      - meaty
+      - bread
+  - type: Sprite
+    sprite: _TP/Objects/Consumable/fried-food.rsi
+    state: corndog
+  - type: SolutionContainerManager
+    solutions:
+      food:
+        reagents:
+        - ReagentId: Nutriment
+          Quantity: 10
