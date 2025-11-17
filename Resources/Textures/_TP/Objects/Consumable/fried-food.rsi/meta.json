@@ -1,20 +1,26 @@
 {
     "version": 1,
     "license": "CC-BY-SA-4.0",
-    "copyright": "Cheese Sticks and Fish Fingers by MysteriousPeeko (sharkpeekotwoelecticboogaloo) for Trieste Port 14",
+    "copyright": "All sprites made by MysteriousPeeko ('sharkpeekotwoelecticboogaloo') for TriestePort14",
     "size": {
         "x": 32,
         "y": 32
     },
     "states": [
         {
-            "name": "cheese_sticks"
+            "name": "Corndog"
         },
         {
-            "name": "corndog"
+            "name": "Fish_Sticks"
         },
         {
-            "name": "fish_fingers"
+            "name": "Fried_Icecream"
+        },
+        {
+            "name": "Funnel_Cake"
+        },
+        {
+            "name": "Mozzarella_Sticks"
         }
     ]
 }
