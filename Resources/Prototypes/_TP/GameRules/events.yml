@@ -19,27 +19,6 @@
     normalWeather: "Rain"
 
 - type: entity
-  id: TP14RainClear
-  parent: BaseStationEventShortDelay
-  components:
-  - type: StationEvent
-    startAnnouncement: station-event-rain-clear-start-announcement
-    startAudio:
-      path: /Audio/Announcements/attention.ogg
-    endAnnouncement: station-event-rain-clear-end-announcement
-    weight: 3
-    duration: 200
-  - type: GameRule
-    delay:
-      min: 5
-      max: 10
-  - type: WeatherChangeRule
-    targetWeather: "Clear"
-    returnWeather: "Rain"
-    lightning: false
-    sunlight: true # This right here breaks the fabric reality in a couple of interesting ways, so that's fun.
-
-- type: entity
   id: TP14CloudStormEvent
   parent: BaseStationEventShortDelay
   components:

@@ -60,6 +60,10 @@
   components:
   - type: BorgSwitchableType
     selectedBorgType: engineering
+  - type: InGas # TP
+    gasID: 9
+    damagedByGas: false
+    gasThreshold: 50
 
 - type: entity
   id: BorgChassisJanitor

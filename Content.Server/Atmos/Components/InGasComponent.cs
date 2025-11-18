@@ -17,7 +17,7 @@ public sealed partial class InGasComponent : Component
     /// <summary>
     ///     ID of gas to check for as an int. Defaults to water.
     /// </summary>
-    [DataField("gasID"), ViewVariables(VVAccess.ReadWrite)]
+    [DataField("gasID")]
     public int GasId = 9;
 
     ///  <summary>
@@ -29,7 +29,7 @@ public sealed partial class InGasComponent : Component
     ///  <summary>
     ///     Amount of gas needed to trigger effect in mols.
     /// </summary>
-    [DataField("gasThreshold"), ViewVariables(VVAccess.ReadWrite)]
+    [DataField("gasThreshold")]
     public float GasThreshold = 0.1f;
 
 
@@ -42,25 +42,25 @@ public sealed partial class InGasComponent : Component
     ///  <summary>
     ///     The crush depth (water) the user can be in. (how much water they can handle before catastrophic death)
     /// </summary>
-    [DataField("crushDepth"), ViewVariables(VVAccess.ReadWrite)]
+    [DataField("crushDepth")]
     public float CrushDepth = 1000;
 
     /// <summary>
     ///   Whether the entity is damaged by water.
     ///   By default things are not
     /// </summary>
-    [DataField("damagedByGas"), ViewVariables(VVAccess.ReadWrite)]
+    [DataField("damagedByGas")]
     public bool DamagedByGas = false;
     /// <summary>
     /// Damage caused by gas contact
     /// </summary>
-    [DataField("damage"), ViewVariables(VVAccess.ReadWrite)]
+    [DataField("damage")]
     public DamageSpecifier Damage = default!;
 
     ///<summary>
     /// Prevents gibbing from gas damage, same purpose as the barotrauma one
     /// </summary>
-    [DataField("maxDamage"), ViewVariables(VVAccess.ReadWrite)]
+    [DataField("maxDamage")]
     public FixedPoint2 MaxDamage = 200;
 
     /// <summary>
