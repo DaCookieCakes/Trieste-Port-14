@@ -1,0 +1,96 @@
+# Base Machines
+- type: entity
+  parent: [ BaseMachinePowered, SmallConstructibleMachine ]
+  id: TP14ChemistryBase
+  abstract: true
+  components:
+  - type: ApcPowerReceiver
+    powerLoad: 300
+  - type: Appearance
+  - type: ContainerContainer
+    containers:
+      machine_board: !type:Container
+      machine_parts: !type:Container
+  - type: Damageable
+    damageContainer: StructuralInorganic
+    damageModifierSet: StructuralMetallic
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 100
+      behaviors:
+      - !type:EmptyAllContainersBehaviour
+      - !type:PlaySoundBehavior
+        sound:
+          collection: WindowShatter
+      - !type:ChangeConstructionNodeBehavior
+        node: machineFrame
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.5,-0.5,0.5,0.5"
+        density: 200
+        mask:
+        - MachineMask
+        layer:
+        - MachineLayer
+  - type: InteractionOutline
+  - type: Machine
+  - type: Physics
+  - type: ReactionMixer
+  - type: SolutionContainerMixer
+  - type: Sprite
+    drawdepth: SmallObjects
+    offset: 0.0, 0.4
+  - type: Transform
+    anchored: true
+    noRot: true
+  - type: WiresPanel
+  - type: WiresVisuals
+
+- type: entity
+  parent: TP14ChemistryBase
+  id: TP14ChemistryBeakersBase
+  abstract: true
+  components:
+  - type: ContainerContainer
+    containers:
+      BeakerSlotA: !type:ContainerSlot
+      BeakerSlotB: !type:ContainerSlot
+      machine_board: !type:Container
+      machine_parts: !type:Container
+  - type: ItemSlots
+    slots:
+      beakerSlotA:
+        whitelist:
+          components:
+          - FitsInDispenser
+      beakerSlotB:
+        whitelist:
+          components:
+          - FitsInDispenser
+
+- type: entity
+  parent: TP14ChemistryBeakersBase
+  id: TP14ChemistryBoilingTubes
+  suffix: Trieste, Chemistry, Medical
+  name: boiling tubes
+  description: A set of boiling tubes, to burn off the lowest boiling point of chemicals.
+  components:
+  - type: ContainerContainer
+    containers:
+      beakerSlotA: !type:ContainerSlot
+  - type: ItemSlots
+    slots:
+      beakerSlotA:
+        whitelist:
+          components:
+          - BoilingTubes
+  - type: ReactionMixer
+    reactionTypes:
+    - TP14Boiling

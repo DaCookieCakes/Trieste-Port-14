@@ -46,6 +46,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="_EmberFall\" />
+    <Folder Include="_TP\Chemistry\Components\" />
+    <Folder Include="_TP\Chemistry\Systems\" />
   </ItemGroup>
   <Import Project="..\RobustToolbox\MSBuild\Robust.Properties.targets" />
 </Project>
