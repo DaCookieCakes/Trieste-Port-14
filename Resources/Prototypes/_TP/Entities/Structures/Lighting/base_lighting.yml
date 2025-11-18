@@ -4,7 +4,7 @@
   id: TP14PoweredSmallLightWaterProof
   suffix: Trieste, Waterproof, Sea
   parent: PoweredSmallLightEmpty
-  name: Exterior Cage Lamp
+  name: exterior cage lamp
   components:
   - type: Sprite
     state: base
@@ -29,16 +29,16 @@
   id: TP14PoweredSmallLightEmergency
   suffix: Trieste, Waterproof, Always Powered
   parent: SmallLight
-  name: Emergency Cage lamp
+  name: emergency cage lamp
   components:
   - type: Sprite
     state: base
   - type: PointLight
     enabled: true
-    color: "#FF0000"
-    radius: 4
-    energy: 2
-    softness: 8
+    color: "#FF7700"
+    radius: 8
+    energy: 1
+    softness: 6
     autoRot: true
     castShadows: true
   - type: PoweredLight
