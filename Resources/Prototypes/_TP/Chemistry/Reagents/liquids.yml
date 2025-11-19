@@ -1,0 +1,17 @@
+- type: triesteReagent
+  id: EthanolReagent
+  reagentID: Ethanol
+  compoundTypes:
+  - Liquid
+
+- type: triesteReagent
+  id: SeaWaterReagent
+  reagentID: SeaWater
+  compoundTypes:
+  - Liquid
+
+- type: triesteReagent
+  id: WaterReagent
+  reagentID: Water
+  compoundTypes:
+  - Liquid

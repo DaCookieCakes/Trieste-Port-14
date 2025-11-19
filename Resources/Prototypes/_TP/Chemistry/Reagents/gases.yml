@@ -1,0 +1,41 @@
+- type: triesteReagent
+  id: ChlorineReagent
+  reagentID: Chlorine
+  boilingPoint: 453.69
+  compoundTypes:
+  - Gas
+
+- type: triesteReagent
+  id: FluorineReagent
+  reagentID: Fluorine
+  boilingPoint: 453.69
+  compoundTypes:
+  - Gas
+
+- type: triesteReagent
+  id: HydrogenReagent
+  reagentID: Hydrogen
+  boilingPoint: 453.69
+  compoundTypes:
+  - Gas
+
+- type: triesteReagent
+  id: NitrogenReagent
+  reagentID: Nitrogen
+  boilingPoint: 453.69
+  compoundTypes:
+  - Gas
+
+- type: triesteReagent
+  id: OxygenReagent
+  reagentID: Oxygen
+  boilingPoint: 453.69
+  compoundTypes:
+  - Gas
+
+- type: triesteReagent
+  id: PlasmaReagent
+  reagentID: Plasma
+  boilingPoint: 453.69
+  compoundTypes:
+  - Gas

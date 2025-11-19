@@ -1,0 +1,34 @@
+- type: triesteReagent
+  id: CalciumReagent
+  reagentID: Calcium
+  boilingPoint: 1000
+  compoundTypes:
+  - Solid
+
+- type: triesteReagent
+  id: GoldReagent
+  reagentID: Gold
+  boilingPoint: 1337.58
+  compoundTypes:
+  - Solid
+
+- type: triesteReagent
+  id: LeadReagent
+  reagentID: Lead
+  boilingPoint: 600.61
+  compoundTypes:
+  - Solid
+
+- type: triesteReagent
+  id: SilverReagent
+  reagentID: Silver
+  boilingPoint: 1234
+  compoundTypes:
+  - Solid
+
+- type: triesteReagent
+  id: UraniumReagent
+  reagentID: Uranium
+  boilingPoint: 1408
+  compoundTypes:
+  - Solid

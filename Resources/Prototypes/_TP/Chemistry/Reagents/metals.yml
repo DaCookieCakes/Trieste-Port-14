@@ -3,7 +3,7 @@
   reagentID: Aluminium
   boilingPoint: 933.25
   compoundTypes:
-  - Solid
+  - Metal
 
 - type: triesteReagent
   id: CopperReagent
@@ -23,5 +23,19 @@
   id: LithiumReagent
   reagentID: Lithium
   boilingPoint: 453.69
+  compoundTypes:
+  - Metal
+
+- type: triesteReagent
+  id: RadiumReagent
+  reagentID: Radium
+  boilingPoint: 973
+  compoundTypes:
+  - Metal
+
+- type: triesteReagent
+  id: SodiumReagent
+  reagentID: Sodium
+  boilingPoint: 371
   compoundTypes:
   - Metal
