@@ -1,0 +1,142 @@
+# Crate Garbage ITSELF
+- type: entityTable
+  id: TP14TableCrateGarbage
+  table: !type:GroupSelector
+    children:
+    - !type:NestedSelector
+      tableId: TP14TableCrateEngineering
+    - !type:NestedSelector
+      tableId: TP14TableCrateMedical
+    - !type:NestedSelector
+      tableId: TP14TableCrateBooks
+    - !type:NestedSelector
+      tableId: TP14TableCrateMoola
+
+## Sub-Tables
+
+# Engineering
+- type: entityTable
+  id: TP14TableCrateEngineering
+  table: !type:GroupSelector
+    children:
+    - !type:GroupSelector
+      weight: 25
+      children:
+      - id: ClothingHandsGlovesColorYellowBudget
+        weight: 88
+      - id: ClothingHandsGlovesFingerlessInsulated
+        weight: 66
+      - id: ClothingHandsGlovesColorYellow
+        weight: 11
+      - id: ClothingHandsGlovesConducting
+        weight: 1
+      - id: PowerCellHigh
+    - !type:GroupSelector
+      weight: 50
+      children:
+      - id: DoubleEmergencyOxygenTank
+      - id: DoubleEmergencyNitrogenTank
+      - id: PowerCellMedium
+    - !type:GroupSelector
+      weight: 75
+      children:
+      - id: AirTankFilled
+      - id: OxygenTankFilled
+        weight: 50
+      - id: NitrogenTankFilled
+        weight: 50
+      - id: TP14WaterTankFilled
+        weight: 50
+      - id: EmergencyFunnyOxygenTankFilled
+        weight: 25
+      - id: EmergencyOxygenTank
+      - id: EmergencyNitrogenTank
+      - id: TP14WaterTankEmergencyFilled
+      - id: Wrench
+      - id: Screwdriver
+      - id: Wirecutter
+      - id: Welder
+      - id: Multitool
+      - id: NetworkConfigurator
+      - id: PowerCellSmall
+
+# Medical
+- type: entityTable
+  id: TP14TableCrateMedical
+  table: !type:GroupSelector
+    children:
+    - !type:GroupSelector
+      weight: 11
+      children:
+      - id: ClothingEyesGlassesChemical
+      - id: ClothingEyesHudMedical
+      - id: ChemicalMedipen
+        weight: 1
+      - id: MedicatedSuture
+      - id: MedkitAdvancedFilled
+      - id: RegenerativeMesh
+    - !type:GroupSelector
+      weight: 33
+      children:
+      - id: MedkitBruteFilled
+      - id: MedkitBurnFilled
+      - id: MedkitFilled
+      - id: MedkitOxygenFilled
+      - id: MedkitRadiationFilled
+      - id: MedkitToxinFilled
+    - !type:GroupSelector
+      weight: 66
+      children:
+      - id: Bloodpack
+      - id: Brutepack
+      - id: Ointment
+      - id: Gauze
+      - id: PillCanisterTricordrazine
+
+# Service
+- type: entityTable
+  id: TP14TableCrateBooks
+  table: !type:GroupSelector
+    children:
+    - id: BookRandom
+    - id: BookRandomStory
+    - id: BookBartendersManual
+    - id: BookChemicalCompendium
+    - id: BookEngineersHandbook
+    - id: BookHowToCookForFortySpaceman
+    - id: BookHowToKeepStationClean
+    - id: BookHowToRockAndStone
+    - id: BookHowToSurvive
+    - id: BookLeafLoversSecret
+    - id: BookMedicalReferenceBook
+    - id: BookScientistsGuidebook
+    - id: BookSecurity
+    - id: BookSpaceEncyclopedia
+    - id: BookSpaceLaw
+    - id: BookTheBookOfControl
+    - id: Paper
+
+- type: entityTable
+  id: TP14TableCrateMoola
+  table: !type:GroupSelector
+    children:
+    - !type:GroupSelector
+      weight: 10
+      children:
+      - id: SpaceCash1000000
+        weight: 1
+      - id: SpaceCash10000
+        weight: 10
+      - id: SpaceCash5000
+        weight: 50
+    - !type:GroupSelector
+      weight: 90
+      children:
+      - id: SpaceCash1000
+      - id: SpaceCash500
+      - id: SpaceCash100
+        weight: 25
+      - id: SpaceCash10
+        weight: 25
+      - id: SpaceCash
+        weight: 1

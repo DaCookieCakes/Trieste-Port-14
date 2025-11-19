@@ -1,4 +1,3 @@
-using Content.Server.BPL.Pinata;
 using Content.Shared.Body.Events;
 using Content.Shared.Damage.Systems;
 using Content.Shared.Gibbing.Events;
@@ -60,7 +59,7 @@ public sealed class PinataSystem : EntitySystem
         args.DroppedEntities.Clear();
 
         var coords = Transform(ent).Coordinates;
-        for (int i = 0; i < _random.Next(12, 21); i++)
+        for (var i = 0; i < _random.Next(12, 21); i++)
         {
             SpawnItem(ent);
         }
@@ -77,7 +76,7 @@ public sealed class PinataSystem : EntitySystem
         args.GibbedParts.Clear();
 
         var coords = Transform(ent).Coordinates;
-        for (int i = 0; i < _random.Next(12, 21); i++)
+        for (var i = 0; i < _random.Next(12, 21); i++)
         {
             SpawnItem(ent);
         }
@@ -86,16 +85,16 @@ public sealed class PinataSystem : EntitySystem
     private void OnHit(Entity<PinataComponent> ent, ref DamageModifyEvent args)
     {
         var damPerGroup = args.Damage.GetDamagePerGroup(_proto);
-        if (damPerGroup.TryGetValue("Brute", out var brute) && brute > 5) //Has to be a decent hit
+        if (!damPerGroup.TryGetValue("Brute", out var brute) || brute <= 5) //Has to be a decent hit
+            return;
+
+        for (var i = 0; i < _random.Next(ent.Comp.MinSpawn, ent.Comp.MaxSpawn); i++)
         {
-            for (int i = 0; i < _random.Next(ent.Comp.MinSpawn, ent.Comp.MaxSpawn); i++)
-            {
-                SpawnItem(ent);
-            }
+            SpawnItem(ent);
         }
     }
 
-    public void SpawnItem(Entity<PinataComponent> entity)
+    private void SpawnItem(Entity<PinataComponent> entity)
     {
         var coords = Transform(entity).Coordinates;
         var newCandy = Spawn(entity.Comp.SpawnOnHit, coords);

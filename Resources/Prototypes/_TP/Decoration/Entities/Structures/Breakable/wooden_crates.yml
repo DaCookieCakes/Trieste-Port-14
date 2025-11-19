@@ -1,0 +1,45 @@
+- type: entity
+  parent: BaseStructureDynamic
+  id: TP14WoodenCrateBase
+  abstract: true
+  description: A crowbar would come in handy!
+  components:
+  - type: Climbable
+  - type: Damageable
+    damageContainer: StructuralInorganic
+    damageModifierSet: Wood
+  - type: Destructible
+    thresholds:
+    - trigger:
+      !type:DamageTrigger
+      damage: 100
+    behaviors:
+    - !type:PlaySoundBehavior
+      sound:
+        collection: WoodDestroy
+    - !type:SpawnEntitiesBehavior
+      spawn:
+        TP14SpawnerCrateGarbage:
+          min: 1
+          max: 3
+    - !type:DoActsBehavior
+      acts: [ "Destruction" ]
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.45,-0.45,0.45,0.45"
+        density: 55
+        mask:
+        - TableMask
+        layer:
+        - TableLayer
+  - type: InteractionOutline
+  - type: FootstepModifier
+    footstepSoundCollection:
+      collection: FootstepWood
+  - type: Pinata
+  - type: Sprite
+    sprite: _TP/Structures/Decoration/Breakable/wooden-crates.rsi
+    noRot: true

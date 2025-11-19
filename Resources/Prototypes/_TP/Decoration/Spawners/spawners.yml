@@ -1,0 +1,14 @@
+- type: entity
+  parent: MarkerBase
+  id: TP14SpawnerCrateGarbage
+  suffix: Trieste, Spawner
+  components:
+  - type: Sprite
+    layers:
+      - state: red
+      - sprite: Objects/Power/power_cells.rsi
+        state: high
+  - type: EntityTableSpawner
+    table: !type:NestedSelector
+      tableId: TP14TableCrateGarbage
+      prob: 0.66
