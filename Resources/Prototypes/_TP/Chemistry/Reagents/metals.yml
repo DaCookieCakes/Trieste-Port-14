@@ -1,0 +1,27 @@
+- type: triesteReagent
+  id: AluminiumReagent
+  reagentID: Aluminium
+  boilingPoint: 933.25
+  compoundTypes:
+  - Solid
+
+- type: triesteReagent
+  id: CopperReagent
+  reagentID: Copper
+  boilingPoint: 1357.77
+  compoundTypes:
+  - Metal
+
+- type: triesteReagent
+  id: IronReagent
+  reagentID: Iron
+  boilingPoint: 1808
+  compoundTypes:
+  - Metal
+
+- type: triesteReagent
+  id: LithiumReagent
+  reagentID: Lithium
+  boilingPoint: 453.69
+  compoundTypes:
+  - Metal

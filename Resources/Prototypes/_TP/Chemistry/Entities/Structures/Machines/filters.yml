@@ -5,7 +5,6 @@
   abstract: true
   components:
   - type: ApcPowerReceiver
-    powerLoad: 300
   - type: Appearance
   - type: ContainerContainer
     containers:
@@ -45,13 +44,12 @@
   - type: ReactionMixer
   - type: SolutionContainerMixer
   - type: Sprite
+    sprite: _TP/Chemistry/Structures/Machines/filters.rsi
     drawdepth: SmallObjects
     offset: 0.0, 0.4
   - type: Transform
     anchored: true
     noRot: true
-  - type: WiresPanel
-  - type: WiresVisuals
 
 - type: entity
   parent: TP14ChemistryBase
@@ -62,8 +60,6 @@
     containers:
       BeakerSlotA: !type:ContainerSlot
       BeakerSlotB: !type:ContainerSlot
-      machine_board: !type:Container
-      machine_parts: !type:Container
   - type: ItemSlots
     slots:
       beakerSlotA:
@@ -77,20 +73,23 @@
 
 - type: entity
   parent: TP14ChemistryBeakersBase
-  id: TP14ChemistryBoilingTubes
-  suffix: Trieste, Chemistry, Medical
+  id: TP14ChemistryBoilingTubesEmpty
+  suffix: Trieste, Chemistry, Medical, Empty
   name: boiling tubes
   description: A set of boiling tubes, to burn off the lowest boiling point of chemicals.
   components:
-  - type: ContainerContainer
-    containers:
-      beakerSlotA: !type:ContainerSlot
-  - type: ItemSlots
-    slots:
-      beakerSlotA:
-        whitelist:
-          components:
-          - BoilingTubes
+  - type: ApcPowerReceiver
+    powerLoad: 0 # Off by default
   - type: ReactionMixer
     reactionTypes:
     - TP14Boiling
+  - type: Sprite
+    layers:
+    - state: boiling-tube
+      visible: true
+    - state: boiling-tube-overlay-a
+      visible: false
+    - state: boiling-tube-overlay-b
+      visible: false
+    - state: boiling-tube-overlay-flame
+      visible: false
