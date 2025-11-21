@@ -12,3 +12,4 @@
     table: !type:NestedSelector
       tableId: TP14TableCrateGarbage
       prob: 0.66
+

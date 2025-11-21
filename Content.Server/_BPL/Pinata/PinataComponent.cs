@@ -33,6 +33,9 @@ public sealed partial class PinataComponent : Component
     public EntProtoId SpawnOnHit = "MaterialWoodPlank1";
 
     [DataField]
+    public float SpawnDamage = 5.0f;
+
+    [DataField]
     public int MinSpawn = 1;
 
     [DataField]

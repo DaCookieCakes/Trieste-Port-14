@@ -22,3 +22,12 @@
     Piercing: 25
     Heat: 25
     Structural: 30
+
+- type: damageModifierSet
+  id: TP14DamageSetWoodenCrate
+  coefficients:
+    Blunt: 2.0
+    Slash: 0.5
+    Piercing: 1.0
+    Heat: 2.0
+    Structural: 2.0

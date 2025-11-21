@@ -2,37 +2,40 @@
   parent: BaseStructureDynamic
   id: TP14WoodenCrateBase
   abstract: true
+  name: Wooden Crate
   description: A crowbar would come in handy!
+  placement:
+    mode: PlaceFree
   components:
   - type: Climbable
   - type: Damageable
     damageContainer: StructuralInorganic
-    damageModifierSet: Wood
+    damageModifierSet: TP14WoodenCrate
   - type: Destructible
     thresholds:
     - trigger:
-      !type:DamageTrigger
-      damage: 100
-    behaviors:
-    - !type:PlaySoundBehavior
-      sound:
-        collection: WoodDestroy
-    - !type:SpawnEntitiesBehavior
-      spawn:
-        TP14SpawnerCrateGarbage:
-          min: 1
-          max: 3
-    - !type:DoActsBehavior
-      acts: [ "Destruction" ]
+        !type:DamageTrigger
+        damage: 36
+      behaviors:
+      - !type:PlaySoundBehavior
+        sound:
+          collection: WoodDestroy
+      - !type:SpawnEntitiesBehavior
+        spawn:
+          TP14SpawnerCrateGarbage:
+            min: 1
+            max: 3
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
   - type: Fixtures
     fixtures:
       fix1:
         shape:
           !type:PhysShapeAabb
           bounds: "-0.45,-0.45,0.45,0.45"
-        density: 55
+        density: 30
         mask:
-        - TableMask
+        - ItemMask
         layer:
         - TableLayer
   - type: InteractionOutline
@@ -43,3 +46,43 @@
   - type: Sprite
     sprite: _TP/Structures/Decoration/Breakable/wooden-crates.rsi
     noRot: true
+
+- type: entity
+  parent: TP14WoodenCrateBase
+  id: TP14WoodenCrateLarge
+  suffix: Trieste, Large
+  components:
+  - type: Sprite
+    state: large
+
+- type: entity
+  parent: TP14WoodenCrateBase
+  id: TP14WoodenCrateLong
+  suffix: Trieste, Long
+  components:
+  - type: Sprite
+    state: long
+
+- type: entity
+  parent: TP14WoodenCrateBase
+  id: TP14WoodenCrateMedium
+  suffix: Trieste, Medium
+  components:
+  - type: Sprite
+    state: medium
+
+- type: entity
+  parent: TP14WoodenCrateBase
+  id: TP14WoodenCrateSmall
+  suffix: Trieste, Small
+  components:
+  - type: Sprite
+    state: small
+
+- type: entity
+  parent: TP14WoodenCrateBase
+  id: TP14WoodenCrateExtraSmall
+  suffix: Trieste, Extra-Small
+  components:
+  - type: Sprite
+    state: extra-small
