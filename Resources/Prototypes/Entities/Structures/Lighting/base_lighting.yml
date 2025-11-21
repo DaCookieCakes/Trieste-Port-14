@@ -47,7 +47,7 @@
   - type: Physics
     bodyType: Static
   - type: InGas
-    gasId: 9
+    gasID: 9
     damagedByGas: true # Water pressure shatters them
     gasThreshold: 75
     damage:

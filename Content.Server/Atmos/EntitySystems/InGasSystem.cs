@@ -1,13 +1,13 @@
 ﻿using Content.Server.Administration.Logs;
 using Content.Server.Atmos.Components;
-using Content.Shared._TP.Atmos;
+using Content.Shared._TP.WaterInteractions;
 using Content.Shared.Alert;
 using Content.Shared.Atmos;
-using Content.Shared.Damage;
 using Content.Shared.Damage.Components;
 using Content.Shared.Damage.Systems;
 using Content.Shared.Database;
 using Content.Shared.FixedPoint;
+using Content.Shared.Fluids.Components;
 using Robust.Shared.Timing;
 
 namespace Content.Server.Atmos.EntitySystems;
@@ -104,17 +104,22 @@ public sealed class InGasSystem : EntitySystem
 
         var currTime = _timing.CurTime;
 
-        // Two list of entities we want to process
+        // Two lists of entities we want to process
         // One is a list of entities that we should process for damage,
         // the other is a list of entities that are in water.
         var entitiesToProcess = new List<(EntityUid uid, InGasComponent inGas, DamageableComponent damageable)>();
         var entitiesInWater = new List<(EntityUid, InGasComponent inGas)>();
+        var puddlesToDelete = new List<EntityUid>();
 
-        var enumerator = EntityQueryEnumerator<InGasComponent, DamageableComponent>();
-        while (enumerator.MoveNext(out var uid, out var inGas, out var damageable))
+        var waterEnumerator = EntityQueryEnumerator<InGasComponent>();
+        while (waterEnumerator.MoveNext(out var uid, out var inGas))
         {
             entitiesInWater.Add((uid, inGas));
+        }
 
+        var damageEnumerator = EntityQueryEnumerator<InGasComponent, DamageableComponent>();
+        while (damageEnumerator.MoveNext(out var uid, out var inGas, out var damageable))
+        {
             if (!inGas.DamagedByGas)
             {
                 continue;
@@ -127,6 +132,13 @@ public sealed class InGasSystem : EntitySystem
         {
             var currentlyInWater = InWater(uid);
             inGas.InWater = currentlyInWater;
+
+            // Puddle deletion system
+            if (TryComp<PuddleComponent>(uid, out _) && currentlyInWater)
+            {
+                puddlesToDelete.Add(uid);
+                continue;
+            }
 
             if (currentlyInWater)
             {
@@ -192,6 +204,10 @@ public sealed class InGasSystem : EntitySystem
                 _alerts.ShowAlert(uid, inGas.DamageAlert, 1);
             }
         }
+
+        foreach (var puddle in puddlesToDelete)
+        {
+            QueueDel(puddle);
+        }
     }
 }
-
