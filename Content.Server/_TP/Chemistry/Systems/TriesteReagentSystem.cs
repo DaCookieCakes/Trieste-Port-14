@@ -59,16 +59,27 @@ public sealed class TriesteReagentSystem : EntitySystem
                 if (props == null)
                     continue;
 
-                args.PushMarkup(Loc.GetString("reagent-boiling-point",
-                    ("reagent", reagentProto.LocalizedName),
-                    ("temp", props.BoilingPoint.ToString("F3"))),
-                    1);
+                if (props.BoilingPoint > 0)
+                {
+                    args.PushMarkup(Loc.GetString("tp14-reagent-boiling-point",
+                        ("reagent", reagentProto.LocalizedName),
+                        ("temp", props.BoilingPoint.ToString("F3"))),
+                        1);
+                }
 
                 var typeStr = string.Join(", ", props.Compounds);
-                args.PushMarkup(Loc.GetString("reagent-compound-type",
+                args.PushMarkup(Loc.GetString("tp14-reagent-compound-type",
                     ("reagent", reagentProto.LocalizedName),
                     ("types", typeStr)),
                     2);
+
+                foreach (var compound in props.Compounds)
+                {
+                    args.PushMarkup(Loc.GetString("tp14-reagent-separation-methods",
+                        ("method", compound.ToString()),
+                        ("reagent", reagentProto.LocalizedName)),
+                        3);
+                }
             }
         }
     }

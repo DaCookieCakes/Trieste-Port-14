@@ -1,17 +1,27 @@
 - type: triesteReagent
   id: EthanolReagent
   reagentID: Ethanol
+  boilingPoint: 373.15
+  compoundTypes:
+  - Liquid
+
+- type: triesteReagent
+  id: MercuryReagent
+  reagentID: Water
+  boilingPoint: 373.15
   compoundTypes:
   - Liquid
 
 - type: triesteReagent
   id: SeaWaterReagent
   reagentID: SeaWater
+  boilingPoint: 373.15
   compoundTypes:
   - Liquid
 
 - type: triesteReagent
   id: WaterReagent
   reagentID: Water
+  boilingPoint: 373.15
   compoundTypes:
   - Liquid

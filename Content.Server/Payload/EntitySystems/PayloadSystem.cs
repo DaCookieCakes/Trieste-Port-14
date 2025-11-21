@@ -150,6 +150,11 @@ public sealed class PayloadSystem : EntitySystem
 
     private void HandleChemicalPayloadTrigger(Entity<ChemicalPayloadComponent> entity, ref TriggerEvent args)
     {
+        if (args.Key != null)
+        {
+            Log.Debug($"Chemical payload triggered with key {args.Key}.");
+        }
+
         if (args.Key != null && !entity.Comp.KeysIn.Contains(args.Key))
             return;
 

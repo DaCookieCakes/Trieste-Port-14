@@ -1,34 +1,36 @@
 - type: triesteReagent
-  id: CalciumReagent
-  reagentID: Calcium
-  boilingPoint: 1000
+  id: CarbonReagent
+  reagentID: Carbon
   compoundTypes:
   - Solid
 
 - type: triesteReagent
-  id: GoldReagent
-  reagentID: Gold
-  boilingPoint: 1337.58
+  id: IodineReagent
+  reagentID: Iodine
   compoundTypes:
   - Solid
 
 - type: triesteReagent
-  id: LeadReagent
-  reagentID: Lead
-  boilingPoint: 600.61
+  id: PhosphorousReagent
+  reagentID: Phosphorous
   compoundTypes:
   - Solid
 
 - type: triesteReagent
-  id: SilverReagent
-  reagentID: Silver
-  boilingPoint: 1234
+  id: SiliconReagent
+  reagentID: Silicon
   compoundTypes:
   - Solid
 
 - type: triesteReagent
-  id: UraniumReagent
-  reagentID: Uranium
-  boilingPoint: 1408
+  id: SugarReagent
+  reagentID: Sugar
   compoundTypes:
   - Solid
+
+- type: triesteReagent
+  id: SulfurReagent
+  reagentID: Sulfur
+  compoundTypes:
+  - Solid
+

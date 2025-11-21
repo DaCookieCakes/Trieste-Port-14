@@ -1,41 +1,69 @@
 - type: triesteReagent
   id: AluminiumReagent
   reagentID: Aluminium
-  boilingPoint: 933.25
+  boilingPoint: 0.0
+  compoundTypes:
+  - Metal
+
+- type: triesteReagent
+  id: CalciumReagent
+  reagentID: Calcium
+  boilingPoint: 0.0
   compoundTypes:
   - Metal
 
 - type: triesteReagent
   id: CopperReagent
   reagentID: Copper
-  boilingPoint: 1357.77
+  boilingPoint: 0.0
   compoundTypes:
   - Metal
 
 - type: triesteReagent
   id: IronReagent
   reagentID: Iron
-  boilingPoint: 1808
+  boilingPoint: 0.0
   compoundTypes:
   - Metal
 
 - type: triesteReagent
   id: LithiumReagent
   reagentID: Lithium
-  boilingPoint: 453.69
+  boilingPoint: 0.0
+  compoundTypes:
+  - Metal
+
+- type: triesteReagent
+  id: PotassiumReagent
+  reagentID: Potassium
+  boilingPoint: 0.0
   compoundTypes:
   - Metal
 
 - type: triesteReagent
   id: RadiumReagent
   reagentID: Radium
-  boilingPoint: 973
+  boilingPoint: 0.0
   compoundTypes:
   - Metal
 
 - type: triesteReagent
   id: SodiumReagent
   reagentID: Sodium
-  boilingPoint: 371
+  boilingPoint: 0.0
+  compoundTypes:
+  - Metal
+
+- type: triesteReagent
+  id: UraniumReagent
+  reagentID: Uranium
+  boilingPoint: 0.0
+  compoundTypes:
+  - Metal
+
+- type: triesteReagent
+  id: ZincReagent
+  reagentID: Zinc
+  boilingPoint: 0.0
   compoundTypes:
   - Metal

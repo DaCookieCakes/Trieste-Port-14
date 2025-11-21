@@ -1,0 +1,21 @@
+- type: gas
+  id: 10
+  name: tp14-gases-chlorine
+  specificHeat: 1000
+  heatCapacityRatio: 1.4
+  molarMass: 32
+  gasMolesVisible: 0.6
+  color: A2FF00
+  reagent: Chlorine
+  pricePerMole: 0
+
+- type: gas
+  id: 11
+  name: tp14-gases-fluorine
+  specificHeat: 1000
+  heatCapacityRatio: 1.4
+  molarMass: 32
+  gasMolesVisible: 0.6
+  color: BA85CC
+  reagent: Fluorine
+  pricePerMole: 0

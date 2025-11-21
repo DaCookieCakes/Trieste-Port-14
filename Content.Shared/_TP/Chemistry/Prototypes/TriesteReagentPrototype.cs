@@ -14,7 +14,7 @@ public sealed partial class TriesteReagentPrototype : IPrototype
     public ProtoId<ReagentPrototype> Reagent;
 
     [DataField]
-    public float BoilingPoint = 373.15f;
+    public float BoilingPoint;
 
     [DataField("compoundTypes", required: true)]
     public List<CompoundType> Compounds = new();
@@ -27,4 +27,5 @@ public enum CompoundType : byte
     Liquid,
     Metal,
     Solid,
+    Other,
 }

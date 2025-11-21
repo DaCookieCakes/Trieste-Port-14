@@ -39,3 +39,10 @@
   boilingPoint: 453.69
   compoundTypes:
   - Gas
+
+- type: triesteReagent
+  id: TritiumReagent
+  reagentID: Tritium
+  boilingPoint: 453.69
+  compoundTypes:
+  - Gas
