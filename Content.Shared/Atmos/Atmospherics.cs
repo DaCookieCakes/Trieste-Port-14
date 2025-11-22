@@ -373,6 +373,9 @@ namespace Content.Shared.Atmos
         Ammonia = 6,
         NitrousOxide = 7,
         Frezon = 8,
-        Water = 9
+        Water = 9,
+        Chlorine = 10,
+        Fluorine = 11,
+        Hydrogen = 12,
     }
 }
