@@ -5,6 +5,8 @@
   placement:
     mode: SnapgridCenter
   components:
+  - type: Anchorable
+    flags: [ None ]
   - type: Appearance
   - type: GenericVisualizer
     visuals:

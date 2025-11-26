@@ -1,0 +1,9 @@
+- type: fish
+  id: TP14FishCrab
+  name: crab
+  species: Crustacean
+  tier: 1
+  harvested: FoodMeatCrab
+  sprites:
+  - sprite: _TP/Aquaponics/Fish/fish.rsi
+    state: crab

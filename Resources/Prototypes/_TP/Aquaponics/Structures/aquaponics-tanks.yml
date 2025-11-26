@@ -1,0 +1,57 @@
+- type: entity
+  parent: [ BaseStructure, BaseMachinePowered ]
+  id: TP14AquaponicsTankEmpty
+  suffix: Trieste, Botany, Empty
+  name: Aquaponics Tank
+  components:
+  - type: AquaponicsTank
+  - type: ItemSlots
+    slots:
+      beaker:
+        whitelist:
+          components:
+          - FitsInDispenser
+  - type: RefillableSolution
+    solution: insertion
+  - type: SolutionContainerManager
+    solutions:
+      insertion:
+        maxVol: 100
+      waste:
+        maxVol: 100
+        canReact: false
+      nutrients:
+        maxVol: 100
+        canReact: false
+  - type: Sprite
+    sprite: _TP/Aquaponics/Structures/aquaponics-tank.rsi
+    state: tank
+
+- type: entity
+  parent: TP14AquaponicsTankEmpty
+  id: TP14AquaponicsTankFilled
+  suffix: Trieste, Botany, Filled
+  components:
+  - type: ItemSlots
+    slots:
+      beaker:
+        startingItem: LargeBeaker
+        whitelist:
+          components:
+          - FitsInDispenser
+  - type: SolutionContainerManager
+    solutions:
+      insertion:
+        maxVol: 100
+      waste:
+        maxVol: 100
+        canReact: false
+      nutrients:
+        maxVol: 100
+        canReact: false
+        reagents:
+          - ReagentId: Nutriment
+            Quantity: 100
+  - type: Sprite
+    sprite: _TP/Aquaponics/Structures/aquaponics-tank.rsi
+    state: tank-beaker

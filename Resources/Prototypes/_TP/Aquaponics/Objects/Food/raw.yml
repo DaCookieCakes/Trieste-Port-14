@@ -1,0 +1,54 @@
+- type: entity
+  parent: BaseItem
+  id: TP14FoodRawFishBase
+  components:
+  - type: FlavorProfile
+    flavors:
+    - fishy
+    - raw
+  - type: SolutionContainerManager
+    solutions:
+      food:
+        reagents:
+        - ReagentId: CarpoToxin
+          Quantity: 15
+  - type: Tag
+    tags:
+    - Raw
+    - Meat
+  - type: Sprite
+    sprite: _TP/Aquaponics/Fish/fish.rsi
+
+- type: entity
+  parent: TP14FoodRawFishBase
+  id: TP14FoodRawCarp
+  name: carp
+  description: A fresh-water fish from back home. It's typically bred in ponds for food.
+  suffix: Trieste, Food, Seafood
+  components:
+  - type: Butcherable
+    butcheringType: Knife
+    spawned:
+    - id: TP14FoodMeatFish
+      amount: 3
+    - id: TP14EggCarp
+      amount: 2
+  - type: Sprite
+    state: carp
+
+- type: entity
+  parent: TP14FoodRawFishBase
+  id: TP14FoodRawTrout
+  name: trout
+  description: A carnivorous freshwater fish. They're found in Terran lakes and rivers.
+  suffix: Trieste, Food, Seafood
+  components:
+  - type: Butcherable
+    butcheringType: Knife
+    spawned:
+    - id: TP14FoodMeatFish
+      amount: 3
+    - id: TP14EggTrout
+      amount: 2
+  - type: Sprite
+    state: carp

@@ -1,0 +1,20 @@
+# Tier 1
+- type: fish
+  id: TP14FishCarp
+  name: carp
+  species: Pisciform
+  tier: 1
+  harvested: TP14FoodRawCarp
+  sprites:
+  - sprite: _TP/Aquaponics/Fish/fish.rsi
+    state: carp
+
+- type: fish
+  id: TP14FishTrout
+  name: carp
+  species: Pisciform
+  tier: 1
+  harvested: TP14FoodRawTrout
+  sprites:
+  - sprite: _TP/Aquaponics/Fish/fish.rsi
+    state: trout

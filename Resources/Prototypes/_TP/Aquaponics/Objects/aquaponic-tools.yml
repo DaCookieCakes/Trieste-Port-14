@@ -1,0 +1,19 @@
+- type: entity
+  parent: BaseItem
+  id: TP14ToolFishScoop
+  name: fish scoop
+  description: To scoop out fish from aquaponic tanks. It's made with plastic and reinforced cloth.
+  components:
+  - type: Item
+    inhandVisuals:
+      left:
+      - state: fish-scoop-inhand-left
+      right:
+      - state: fish-scoop-inhand-right
+    size: small
+  - type: Sprite
+    sprite: _TP/Aquaponics/Objects/tools.rsi
+    state: fish-scoop
+  - type: Tag
+    tags:
+    - TP14TagScoop

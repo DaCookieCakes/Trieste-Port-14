@@ -1,0 +1,123 @@
+# Growth Genes
+- type: FishGene
+  id: TP14GeneFastGrowth
+  name: fast growth
+  description: Increases the growth rate of this species.
+  incompatibilities:
+  - TP14GeneSlowGrowth
+  - TP14GeneDiseaseProne
+
+- type: FishGene
+  id: TP14GeneSlowGrowth
+  name: slowed growth
+  description: Decreases the growth rate of this species.
+  incompatibilities:
+  - TP14GeneFastGrowth
+
+# Lighting Genes
+- type: FishGene
+  id: TP14GeneBioluminescent
+  name: bioluminescence
+  description: Causes this species to glow.
+  instability: 15
+
+- type: FishGene
+  id: TP14GenePhotophilic
+  name: photophilic
+  description: Causes this species to thrive in lighted areas, rather than dark ones.
+  incompatibilities:
+  - TP14GenePhotophobic
+
+- type: FishGene
+  id: TP14GenePhotophobic
+  name: photophobic
+  description: Causes this species to thrive in dark areas, rather than lighted ones.
+  incompatibilities:
+  - TP14GenePhotophilic
+
+# Heat related
+- type: FishGene
+  id: TP14GeneEctothermic
+  name: ectothermic
+  description: Causes this species to thrive in warmer environments.
+  incompatibilities:
+  - TP14GeneEndothermic
+
+- type: FishGene
+  id: TP14GeneEndothermic
+  name: endothermic
+  instability: 15
+  description: Causes this species to thrive in a wide range of environments.
+  incompatibilities:
+  - TP14GeneEctothermic
+
+# Waste/Food Related
+- type: FishGene
+  id: TP14GeneFastMetabolism
+  name: fast metabolism
+  instability: 30
+  description: This species consumes more food in exchange of less meat, but far more waste.
+  incompatibilities:
+  - TP14GeneSlowMetabolism
+  - TP14GeneConservative
+
+- type: FishGene
+  id: TP14GeneSlowMetabolism
+  name: slow metabolism
+  instability: 30
+  description: This species consumes more less food in exchange of more meat, but produces less waste.
+  incompatibilities:
+  - TP14GeneFastMetabolism
+  - TP14GeneWasteful
+
+- type: FishGene
+  id: TP14GeneWasteful
+  name: wasteful
+  instability: 15
+  description: This species produces a lot more waste than the average species.
+  incompatibilities:
+  - TP14GeneSlowMetabolism
+
+- type: FishGene
+  id: TP14GeneConservative
+  name: conservative
+  instability: 15
+  description: This species produces a lot less waste than the average species.
+  incompatibilities:
+  - TP14GeneFastMetabolism
+
+# Other
+- type: FishGene
+  id: TP14GenePoisonous
+  name: poisonous
+  instability: 30
+  description: This species is poisonous, and as such is not suitable for consumption.
+  incompatibilities:
+  - TP14GeneMedicinal
+
+- type: FishGene
+  id: TP14GeneMedicinal
+  name: medicinal
+  instability: 30
+  description: This species is full of medicinal properties.
+  incompatibilities:
+  - TP14GenePoisonous
+  - TP14GeneDiseaseProne
+
+- type: FishGene
+  id: TP14GeneDiseaseProne
+  name: disease prone
+  instability: 20
+  description: This species is more prone to disease and may require special care.
+  incompatibilities:
+  - TP14GeneFastGrowth
+  - TP14GeneMedicinal
+  - TP14GeneDiseaseResistant
+
+- type: FishGene
+  id: TP14GeneDiseaseResistant
+  name: disease resistant
+  instability: 30
+  description: This species is less prone to diseases.
+  incompatibilities:
+  - TP14GeneDiseaseProne

@@ -1,0 +1,12 @@
+- type: entity
+  parent: BaseItem
+  id: TP14EggBase
+  abstract: true
+  description: Add to water and watch them grow before your very eyes! (Growing times may vary)
+  components:
+  - type: FishEgg
+  - type: Item
+    size: Tiny
+  - type: Sprite
+    sprite: _TP/Aquaponics/Fish/eggs.rsi
+    state: EGG

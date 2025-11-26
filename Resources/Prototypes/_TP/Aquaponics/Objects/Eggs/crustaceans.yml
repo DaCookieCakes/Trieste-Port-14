@@ -1,0 +1,8 @@
+- type: entity
+  parent: TP14EggBase
+  id: TP14EggCrab
+  suffix: Trieste, Aquaponics
+  name: crab eggs
+  components:
+  - type: FishEgg
+    speciesID: TP14FishCrab

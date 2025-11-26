@@ -1,0 +1,17 @@
+- type: entity
+  parent: TP14EggBase
+  id: TP14EggCarp
+  suffix: Trieste, Aquaponics
+  name: carp eggs
+  components:
+  - type: FishEgg
+    speciesID: TP14FishCarp
+
+- type: entity
+  parent: TP14EggBase
+  id: TP14EggTrout
+  suffix: Trieste, Aquaponics
+  name: trout eggs
+  components:
+  - type: FishEgg
+    speciesID: TP14FishTrout
