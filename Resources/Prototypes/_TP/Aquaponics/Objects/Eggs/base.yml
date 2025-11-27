@@ -9,4 +9,4 @@
     size: Tiny
   - type: Sprite
     sprite: _TP/Aquaponics/Fish/eggs.rsi
-    state: EGG
+    state: fish_eggs

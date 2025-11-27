@@ -1,9 +1,9 @@
 - type: fish
   id: TP14FishCrab
-  name: crab
+  name: blue crab
   species: Crustacean
   tier: 1
-  harvested: FoodMeatCrab
+  harvested: TP14FoodRawCrab
   sprites:
   - sprite: _TP/Aquaponics/Fish/fish.rsi
     state: crab

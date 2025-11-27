@@ -6,6 +6,8 @@
   components:
   - type: FishEgg
     speciesID: TP14FishCarp
+  - type: Sprite
+    color: "#FFFF44"
 
 - type: entity
   parent: TP14EggBase
@@ -15,3 +17,5 @@
   components:
   - type: FishEgg
     speciesID: TP14FishTrout
+  - type: Sprite
+    color: Red

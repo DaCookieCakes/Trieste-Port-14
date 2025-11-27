@@ -74,7 +74,7 @@ public sealed partial class ResearchSystem
         if (!Resolve(client, ref component, ref clientDatabase, false))
             return false;
 
-        if (!TryGetClientServer(client, out var serverEnt, out _, component))
+        if (!TryGetClientServer(client, out var serverEnt, out var serverDatabase, component))
             return false;
 
         if (!CanServerUnlockTechnology(client, prototype, clientDatabase, component))

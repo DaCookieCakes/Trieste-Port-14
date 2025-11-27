@@ -1,3 +1,5 @@
+using System.Linq;
+using Content.Server.Botany.Components;
 using Content.Server.Popups;
 using Content.Shared._TP.Aquaponics.Components;
 using Content.Shared._TP.Aquaponics.Data;
@@ -35,7 +37,7 @@ public sealed class AquaponicsTankSystem : EntitySystem
     {
         base.Initialize();
 
-        SubscribeLocalEvent<AquaponicsTankComponent, InteractUsingEvent>(OnAfterInteract);
+        SubscribeLocalEvent<AquaponicsTankComponent, InteractUsingEvent>(OnInteractUsing);
         SubscribeLocalEvent<AquaponicsTankComponent, ComponentShutdown>(OnShutdown);
         SubscribeLocalEvent<AquaponicsTankComponent, ExaminedEvent>(OnExamined);
     }
@@ -45,10 +47,10 @@ public sealed class AquaponicsTankSystem : EntitySystem
         if (!args.IsInDetailsRange)
             return;
 
-        if (!_solutionContainer.TryGetSolution(ent.Owner, "waste", out var wasteSolComp, out var wasteSol))
+        if (!_solutionContainer.TryGetSolution(ent.Owner, "waste", out _, out var wasteSol))
             return;
 
-        if (!_solutionContainer.TryGetSolution(ent.Owner, "nutrients", out var foodSolComp, out var foodSol))
+        if (!_solutionContainer.TryGetSolution(ent.Owner, "nutrients", out _, out var foodSol))
             return;
 
         if (!_itemSlots.TryGetSlot(ent.Owner, "beaker", out var tankSlot))
@@ -115,7 +117,7 @@ public sealed class AquaponicsTankSystem : EntitySystem
     /// </summary>
     /// <param name="ent">Aquaponics Tank Entity</param>
     /// <param name="args">InteractUsingEvent arguments</param>
-    private void OnAfterInteract(Entity<AquaponicsTankComponent> ent, ref InteractUsingEvent args)
+    private void OnInteractUsing(Entity<AquaponicsTankComponent> ent, ref InteractUsingEvent args)
     {
         // If args are already handled, we return early.
         if (args.Handled)
@@ -233,6 +235,24 @@ public sealed class AquaponicsTankSystem : EntitySystem
 
             fishToRemove.Clear();
         }
+
+        if (!_solutionContainer.TryGetSolution(ent.Owner, "insertion", out var insSolComp, out var insSol))
+            return;
+
+        if (TryComp<SolutionContainerManagerComponent>(args.Used, out _))
+        {
+            if (_solutionContainer.TryGetSolution(args.Used, "food", out _, out var foodSol))
+            {
+                var splitSol = foodSol.SplitSolution(foodSol.Volume);
+                _solutionContainer.AddSolution(insSolComp.Value, splitSol);
+
+                if (TryComp<ProduceComponent>(args.Used, out var produceComp))
+                    QueueDel(args.Used);
+
+                args.Handled = true;
+                return;
+            }
+        }
     }
 
     /// <summary>
@@ -247,14 +267,14 @@ public sealed class AquaponicsTankSystem : EntitySystem
             SpeciesId =  fishSpecies.ID,
             Health = 100,
             Age = 0,
-            Genes = new(),
+            Genes = [],
             GrowthStage = FishGrowthStage.Egg,
             GeneticInstability = 0,
         };
     }
 
     private float _updateTimer = 0f;
-    private const float UpdateInterval = 3.0f;
+    private const float UpdateInterval = 1.0f;
     /// <summary>
     ///     The main update loop for the aquaponics tanks.
     /// </summary>
@@ -278,10 +298,10 @@ public sealed class AquaponicsTankSystem : EntitySystem
                 continue;
 
             // Now we check for the solution components.
-            if (!_solutionContainer.TryGetSolution(tankUid, "waste", out var wasteSolComp, out var wasteSol))
+            if (!_solutionContainer.TryGetSolution(tankUid, "waste", out var wasteSolComp, out _))
                 continue;
 
-            if (!_solutionContainer.TryGetSolution(tankUid, "nutrients", out var foodSolComp, out var foodSol))
+            if (!_solutionContainer.TryGetSolution(tankUid, "nutrients", out _, out var foodSol))
                 continue;
 
             foreach (var fish in tankComp.CurrentFish)
@@ -297,7 +317,7 @@ public sealed class AquaponicsTankSystem : EntitySystem
 
                 fish.Age += UpdateInterval * ageMult;
 
-                if (fish is { Age: >= 240, IsDead: false })
+                if (fish is { Age: >= 180, IsDead: false })
                 {
                     switch (fish.GrowthStage)
                     {
@@ -328,20 +348,29 @@ public sealed class AquaponicsTankSystem : EntitySystem
                     CheckToDamageOrHealFish(fish, tankUid, tankComp);
 
                     var newWaste = new Solution();
-                    var wasteProd = 1.0f * GetWasteProduction(fish);
+                    var wasteProd = 0.25f * GetWasteProduction(fish);
+                    if (wasteProd < 0.05)
+                        wasteProd = 0.05f;
+
                     newWaste.AddReagent(fish.ProducingReagent, FixedPoint2.New(wasteProd));
                     _solutionContainer.TryAddSolution(wasteSolComp.Value, newWaste);
 
-                    var foodConsumption = 1.0 * GetFoodConsumption(fish);
+                    var foodConsumption = 0.5f * GetFoodConsumption(fish);
+                    if (foodConsumption < 0.05)
+                        foodConsumption = 0.05f;
+
                     foodSol.RemoveSolution(foodConsumption);
 
-                    var disease = 1.0f * GetDiseaseMultiplier(fish);
+                    var disease = 0.1f * GetDiseaseMultiplier(fish);
+                    if (disease < 0.05)
+                        disease = 0.05f;
+
                     tankComp.DiseaseLevel += disease;
                 }
-
-                TransferInsertedSolutions(tankUid, tankComp);
-                TransferWaste(tankUid);
             }
+
+            TransferInsertedSolutions(tankUid);
+            TransferWaste(tankUid);
         }
     }
 
@@ -349,8 +378,7 @@ public sealed class AquaponicsTankSystem : EntitySystem
     ///     A helper method to transfer nutrients from the insertion tank to the nutrient tank.
     /// </summary>
     /// <param name="tankUid"></param>
-    /// <param name="tankComp"></param>
-    private void TransferInsertedSolutions(EntityUid tankUid, AquaponicsTankComponent tankComp)
+    private void TransferInsertedSolutions(EntityUid tankUid)
     {
         if (!_solutionContainer.TryGetSolution(tankUid, "insertion", out _, out var insSol))
             return;
@@ -358,18 +386,31 @@ public sealed class AquaponicsTankSystem : EntitySystem
         if (!_solutionContainer.TryGetSolution(tankUid, "nutrients", out _, out var foodSol))
             return;
 
-        foreach (var (reagent, volume) in insSol.Contents)
-        {
-            var isFood = reagent.Prototype is "Nutriment" or "EZNutrient";
+        if (!_solutionContainer.TryGetSolution(tankUid, "waste", out _, out var wasteSol))
+            return;
 
-            if (!isFood)
+        foreach (var (reagent, volume) in insSol.Contents.ToList())
+        {
+            var isWaste = reagent.Prototype is "Ammonia";
+
+            var foodAmountToAdd = FixedPoint2.Min(volume, foodSol.AvailableVolume);
+            if (reagent.Prototype is "Nutriment")
             {
-                insSol.RemoveReagent(reagent, volume);
-                continue;
+                foodSol.AddReagent(reagent.Prototype, foodAmountToAdd);
             }
 
-            foodSol.AddReagent(reagent, volume);
-            insSol.RemoveReagent(reagent, volume);
+            if (reagent.Prototype is "EZNutrient")
+            {
+                foodSol.AddReagent(reagent.Prototype, foodAmountToAdd * 2);
+            }
+
+            var wasteAmountToAdd = FixedPoint2.Min(volume, wasteSol.AvailableVolume);
+            if (isWaste)
+            {
+                wasteSol.AddReagent(reagent.Prototype, wasteAmountToAdd);
+            }
+
+            insSol.RemoveReagent(reagent.Prototype, volume);
         }
     }
 

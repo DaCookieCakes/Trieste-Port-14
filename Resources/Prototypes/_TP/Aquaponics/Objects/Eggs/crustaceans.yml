@@ -6,3 +6,5 @@
   components:
   - type: FishEgg
     speciesID: TP14FishCrab
+  - type: Sprite
+    color: LightBlue

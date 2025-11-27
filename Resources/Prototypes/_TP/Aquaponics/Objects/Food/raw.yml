@@ -52,3 +52,20 @@
       amount: 2
   - type: Sprite
     state: carp
+
+- type: entity
+  parent: TP14FoodRawFishBase
+  id: TP14FoodRawCrab
+  name: blue crab
+  description: A small salt-water crab that's (mostly) blue in hue. Just watch the pinchers!
+  suffix: Trieste, Food, Seafood
+  components:
+  - type: Butcherable
+    butcheringType: Knife
+    spawned:
+    - id: FoodMeatCrab
+      amount: 3
+    - id: TP14EggCrab
+      amount: 2
+  - type: Sprite
+    state: crab
