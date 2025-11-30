@@ -508,6 +508,12 @@
       collection: MaleSneezes
     Cough:
       collection: MaleCoughs
+    Weh:
+      collection: Weh
+    Hew:
+      collection: Hew
+    Honk:
+      collection: BikeHorn
     Whistle:
       collection: Whistles
     Sigh:
@@ -542,6 +548,12 @@
       collection: FemaleSneezes
     Cough:
       collection: FemaleCoughs
+    Weh:
+      collection: Weh
+    Hew:
+      collection: Hew
+    Honk:
+      collection: BikeHorn
     Whistle:
       collection: Whistles
     Sigh:

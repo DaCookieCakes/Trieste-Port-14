@@ -5,6 +5,7 @@
   interval: 5.0
   chance: 0.1
   withChat: false
+
 # Cluwne
 - type: autoEmote
   id: CluwneGiggle
@@ -12,6 +13,7 @@
   interval: 5.0
   chance: 0.5
   withChat: false
+
 # Kudzu
 - type: autoEmote
   id: MeatGasp
@@ -21,3 +23,15 @@
   ignoreActionBlocker: true
   force: true
   hiddenFromChatWindow: true
+
+- type: autoEmote
+  id: NaturalSneeze
+  emote: Sneeze
+  interval: 20.0
+  chance: 0.01
+
+- type: autoEmote
+  id: NaturalCough
+  emote: Cough
+  interval: 20.0
+  chance: 0.01
