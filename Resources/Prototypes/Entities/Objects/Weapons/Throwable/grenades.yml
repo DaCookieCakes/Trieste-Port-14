@@ -25,10 +25,7 @@
         !type:DamageTrigger
         damage: 10
       behaviors:
-      - !type:TriggerBehavior
-        keyOut: timer # explode immediately
-      - !type:DoActsBehavior
-        acts: ["Destruction"]
+      - !type:TimerStartBehavior
   - type: Appearance
   - type: AnimationPlayer
   - type: GenericVisualizer
