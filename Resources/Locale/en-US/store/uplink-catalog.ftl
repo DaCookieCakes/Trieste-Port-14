@@ -87,6 +87,9 @@ uplink-exploding-pen-desc = A class IV explosive device contained within a stand
 uplink-exploding-syndicate-bomb-name = Syndicate Bomb
 uplink-exploding-syndicate-bomb-desc = A big, anchored bomb that can create a huge explosion if not defused in time. Useful as a distraction. Has an adjustable timer with a minimum setting of 180 seconds.
 
+uplink-deadman-switch-name = Deadman's Switch
+uplink-deadman-switch-desc = A modified remote signaller that triggers when you let go of it. Useful for dramatic ultimatums, bombs optional.
+
 uplink-exploding-syndicate-bomb-fake-name = Decoy Syndicate Bomb
 uplink-exploding-syndicate-bomb-fake-desc = A training bomb carefully made to look just like the real thing. In all ways similar to a syndicate bomb, but only creates a tiny explosion.
 
