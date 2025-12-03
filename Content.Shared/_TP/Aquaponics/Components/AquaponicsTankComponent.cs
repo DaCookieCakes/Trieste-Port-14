@@ -1,4 +1,5 @@
 using Content.Shared._TP.Aquaponics.Data;
+using Robust.Shared.Serialization;
 
 namespace Content.Shared._TP.Aquaponics.Components;
 
@@ -28,4 +29,20 @@ public sealed partial class AquaponicsTankComponent : Component
 
     [DataField]
     public float DiseaseLevel;
+}
+
+[Serializable, NetSerializable]
+public enum AquaponicsTankVisuals : byte
+{
+    Beaker,
+    LightAlert,
+    LightFood,
+    LightHarvest,
+    LightHealth,
+    LightWaste,
+    FishStageOne,
+    FishStageTwo,
+    FishStageThree,
+    FishStageFour,
+    FishStageFive,
 }

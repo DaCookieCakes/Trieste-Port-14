@@ -13,8 +13,10 @@ using Content.Shared.FixedPoint;
 using Content.Shared.Interaction;
 using Content.Shared.Popups;
 using Content.Shared.Tag;
+using Robust.Shared.Containers;
 using Robust.Shared.Player;
 using Robust.Shared.Prototypes;
+using Robust.Shared.Random;
 
 namespace Content.Server._TP.Aquaponics.Systems;
 
@@ -23,15 +25,18 @@ namespace Content.Server._TP.Aquaponics.Systems;
 /// </summary>
 public sealed class AquaponicsTankSystem : EntitySystem
 {
+    [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
     [Dependency] private readonly ItemSlotsSystem _itemSlots = default!;
     [Dependency] private readonly PopupSystem _popup = default!;
     [Dependency] private readonly IPrototypeManager _proto = default!;
+    [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly SharedSolutionContainerSystem _solutionContainer = default!;
     [Dependency] private readonly TagSystem _tag = default!;
 
     private readonly Dictionary<FishData, float> _agingMultipliers = new();
 
     private static readonly ProtoId<TagPrototype> ScoopTag = "TP14TagScoop";
+    private static readonly Dictionary<FishGrowthStage, AquaponicsTankVisuals> FishVisuals = new();
 
     public override void Initialize()
     {
@@ -40,6 +45,18 @@ public sealed class AquaponicsTankSystem : EntitySystem
         SubscribeLocalEvent<AquaponicsTankComponent, InteractUsingEvent>(OnInteractUsing);
         SubscribeLocalEvent<AquaponicsTankComponent, ComponentShutdown>(OnShutdown);
         SubscribeLocalEvent<AquaponicsTankComponent, ExaminedEvent>(OnExamined);
+        SubscribeLocalEvent<AquaponicsTankComponent, EntInsertedIntoContainerMessage>(OnEntInserted);
+        SubscribeLocalEvent<AquaponicsTankComponent, EntRemovedFromContainerMessage>(OnEntRemoved);
+    }
+
+    private void OnEntRemoved(Entity<AquaponicsTankComponent> ent, ref EntRemovedFromContainerMessage args)
+    {
+        _appearance.SetData(ent.Owner, AquaponicsTankVisuals.Beaker, false);
+    }
+
+    private void OnEntInserted(Entity<AquaponicsTankComponent> ent, ref EntInsertedIntoContainerMessage args)
+    {
+        _appearance.SetData(ent.Owner, AquaponicsTankVisuals.Beaker, true);
     }
 
     private void OnExamined(Entity<AquaponicsTankComponent> ent, ref ExaminedEvent args)
@@ -57,9 +74,7 @@ public sealed class AquaponicsTankSystem : EntitySystem
             return;
 
         if (!tankSlot.HasItem)
-        {
             args.PushMarkup(Loc.GetString("aquaponics-tank-examine-no-beaker"), 1);
-        }
 
         if (tankSlot is {HasItem: true, Item: not null})
         {
@@ -75,17 +90,18 @@ public sealed class AquaponicsTankSystem : EntitySystem
         args.PushMarkup(Loc.GetString("aquaponics-tank-examine-nutrients", ("food", foodSol.Volume)), 2);
         args.PushMarkup(Loc.GetString("aquaponics-tank-examine-waste", ("waste", wasteSol.Volume)), 3);
 
+        if (ent.Comp.DiseaseLevel >= 40)
+            args.PushMarkup(Loc.GetString("aquaponics-tank-examine-disease", ("disease", ent.Comp.DiseaseLevel)), 4);
+
         if (ent.Comp.CurrentFish.Count == 0)
-        {
             args.PushMarkup(Loc.GetString("aquaponics-tank-examine-no-fish"), 4);
-        }
 
         foreach (var fish in ent.Comp.CurrentFish)
         {
-            var speciesID = fish.SpeciesId;
-            if (!_proto.TryIndex<FishSpeciesPrototype>(speciesID, out var fishSpecies))
+            var speciesId = fish.SpeciesId;
+            if (!_proto.TryIndex<FishSpeciesPrototype>(speciesId, out var fishSpecies))
             {
-                Log.Error($"Invalid or null fish species during examine event: {speciesID}");
+                Log.Error($"Invalid or null fish species during examine event: {speciesId}");
                 return;
             }
 
@@ -137,10 +153,10 @@ public sealed class AquaponicsTankSystem : EntitySystem
 
             // Otherwise, we create a new fish from the egg's Species ID.
             // If we can't find it, we log an error.
-            var speciesID = fishEggComp.SpeciesId;
-            if (!_proto.TryIndex<FishSpeciesPrototype>(speciesID, out var fishSpecies))
+            var speciesId = fishEggComp.SpeciesId;
+            if (!_proto.TryIndex<FishSpeciesPrototype>(speciesId, out var fishSpecies))
             {
-                Log.Error($"Invalid or null fish species during interact event: {speciesID}");
+                Log.Error($"Invalid or null fish species during interact event: {speciesId}");
                 return;
             }
 
@@ -171,38 +187,50 @@ public sealed class AquaponicsTankSystem : EntitySystem
         // Can't do it here for ConcurrentModification errors.
         if (_tag.HasTag(args.Used, ScoopTag))
         {
-            var fishToRemove = new List<FishData>();
+            if (ent.Comp.CurrentFish.Count <= 0)
+            {
+                _popup.PopupEntity(Loc.GetString("aquaponics-tank-message-scooped-empty"),
+                    ent,
+                    args.User,
+                    PopupType.Medium);
+            }
+
             foreach (var fish in ent.Comp.CurrentFish)
             {
-                var speciesID = fish.SpeciesId;
-                if (!_proto.TryIndex<FishSpeciesPrototype>(speciesID, out var fishSpecies))
+                var speciesId = fish.SpeciesId;
+                if (!_proto.TryIndex<FishSpeciesPrototype>(speciesId, out var fishSpecies))
                 {
-                    Log.Error($"Invalid or null fish species during scoop event: {speciesID}");
+                    Log.Error($"Invalid or null fish species during scoop event: {speciesId}");
                     continue;
                 }
 
                 if (fish.IsDead)
                 {
-                    fishToRemove.Add(fish);
+                    // Remove immediately since we're returning
+                    ent.Comp.CurrentFish.Remove(fish);
+                    _agingMultipliers.Remove(fish);
+
                     _popup.PopupEntity(Loc.GetString("aquaponics-tank-message-scooped-dead-fish",
                             ("species", fishSpecies.Name)),
                         ent,
                         args.User,
                         PopupType.Medium);
 
-                    _popup.PopupEntity(Loc.GetString("aquaponics-tank-message-scooped-others",
-                            ("user", args.User)),
+                    _popup.PopupEntity(Loc.GetString("aquaponics-tank-message-scooped-others"),
                         args.User,
                         Filter.PvsExcept(args.User),
                         false);
 
                     args.Handled = true;
-                    return;
+                    return; // Now it's safe to return
                 }
 
                 if (fish.GrowthStage is (FishGrowthStage.Adult or FishGrowthStage.Elder))
                 {
-                    fishToRemove.Add(fish);
+                    // Remove immediately since we're returning
+                    ent.Comp.CurrentFish.Remove(fish);
+                    _agingMultipliers.Remove(fish);
+
                     _popup.PopupEntity(Loc.GetString("aquaponics-tank-message-scooped",
                             ("species", fishSpecies.Name)),
                         args.User,
@@ -219,21 +247,13 @@ public sealed class AquaponicsTankSystem : EntitySystem
                     var ensuredFish = EnsureComp<GeneticFishComponent>(spawnedFish);
 
                     ensuredFish.SpeciesId = fish.SpeciesId;
-                    ensuredFish.Genes = fish.Genes;
+                    ensuredFish.Genes = fish.Genes.ToList();
                     ensuredFish.GeneticInstability = fish.GeneticInstability;
 
                     args.Handled = true;
                     return;
                 }
             }
-
-            foreach (var removedFish in fishToRemove)
-            {
-                ent.Comp.CurrentFish.Remove(removedFish);
-                _agingMultipliers.Remove(removedFish);
-            }
-
-            fishToRemove.Clear();
         }
 
         if (!_solutionContainer.TryGetSolution(ent.Owner, "insertion", out var insSolComp, out var insSol))
@@ -347,29 +367,39 @@ public sealed class AquaponicsTankSystem : EntitySystem
                 {
                     CheckToDamageOrHealFish(fish, tankUid, tankComp);
 
-                    var newWaste = new Solution();
-                    var wasteProd = 0.25f * GetWasteProduction(fish);
-                    if (wasteProd < 0.05)
-                        wasteProd = 0.05f;
+                    if (_random.Next(3) == 0)
+                    {
+                        var newWaste = new Solution();
+                        var wasteProd = 0.2f * GetWasteProduction(fish);
+                        if (wasteProd < 0.05)
+                            wasteProd = 0.05f;
 
-                    newWaste.AddReagent(fish.ProducingReagent, FixedPoint2.New(wasteProd));
-                    _solutionContainer.TryAddSolution(wasteSolComp.Value, newWaste);
+                        newWaste.AddReagent(fish.ProducingReagent, FixedPoint2.New(wasteProd));
+                        _solutionContainer.TryAddSolution(wasteSolComp.Value, newWaste);
+                    }
 
-                    var foodConsumption = 0.5f * GetFoodConsumption(fish);
-                    if (foodConsumption < 0.05)
-                        foodConsumption = 0.05f;
+                    if (_random.Next(2) == 0)
+                    {
+                        var foodConsumption = 0.33f * GetFoodConsumption(fish);
+                        if (foodConsumption < 0.05)
+                            foodConsumption = 0.05f;
 
-                    foodSol.RemoveSolution(foodConsumption);
+                        foodSol.RemoveSolution(foodConsumption);
+                    }
 
-                    var disease = 0.1f * GetDiseaseMultiplier(fish);
-                    if (disease < 0.05)
-                        disease = 0.05f;
+                    if (_random.Next(4) == 0)
+                    {
+                        var disease = 0.05f * GetDiseaseMultiplier(fish);
+                        if (disease < 0.05)
+                            disease = 0.05f;
 
-                    tankComp.DiseaseLevel += disease;
+                        tankComp.DiseaseLevel += disease;
+                    }
                 }
             }
 
-            TransferInsertedSolutions(tankUid);
+            UpdateTankVisuals()
+            TransferInsertedSolutions(tankUid, tankComp);
             TransferWaste(tankUid);
         }
     }
@@ -378,7 +408,7 @@ public sealed class AquaponicsTankSystem : EntitySystem
     ///     A helper method to transfer nutrients from the insertion tank to the nutrient tank.
     /// </summary>
     /// <param name="tankUid"></param>
-    private void TransferInsertedSolutions(EntityUid tankUid)
+    private void TransferInsertedSolutions(EntityUid tankUid, AquaponicsTankComponent tankComp)
     {
         if (!_solutionContainer.TryGetSolution(tankUid, "insertion", out _, out var insSol))
             return;
@@ -402,6 +432,11 @@ public sealed class AquaponicsTankSystem : EntitySystem
             if (reagent.Prototype is "EZNutrient")
             {
                 foodSol.AddReagent(reagent.Prototype, foodAmountToAdd * 2);
+            }
+
+            if (reagent.Prototype is "Dylovene")
+            {
+                tankComp.DiseaseLevel = Math.Clamp(tankComp.DiseaseLevel - 2.0f, 0, 100);
             }
 
             var wasteAmountToAdd = FixedPoint2.Min(volume, wasteSol.AvailableVolume);
@@ -440,7 +475,7 @@ public sealed class AquaponicsTankSystem : EntitySystem
         // Otherwise, if it CAN HEAL and health is less than 100, we heal the fish.
         var canHeal = true;
         var damageAmount = 0;
-        if (wasteSol.Volume >= 65)
+        if (wasteSol.Volume >= 75)
         {
             damageAmount = -10;
             canHeal = false;
@@ -453,14 +488,10 @@ public sealed class AquaponicsTankSystem : EntitySystem
         }
 
         if (fish.GeneticInstability >= 60)
-        {
             canHeal = false;
-        }
 
         if (canHeal && fish.Health < 100)
-        {
             damageAmount = 10;
-        }
 
         // Now we clamp the health to 0-100 and set the damage or heal amount.
         fish.Health = Math.Clamp(fish.Health + damageAmount, 0, 100);
