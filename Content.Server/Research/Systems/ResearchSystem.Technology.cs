@@ -85,6 +85,11 @@ public sealed partial class ResearchSystem
         ModifyServerPoints(serverEnt.Value, -prototype.Cost);
         UpdateTechnologyCards(serverEnt.Value);
 
+        // !! TRIESTE SPECIFIC !!
+        // Hopefully, marking these as dirty will fix the client not updating properly.
+        Dirty(serverEnt.Value, serverDatabase);
+        Dirty(client, clientDatabase);
+
         _adminLog.Add(LogType.Action, LogImpact.Medium,
             $"{ToPrettyString(user):player} unlocked {prototype.ID} (discipline: {prototype.Discipline}, tier: {prototype.Tier}) at {ToPrettyString(client)}, for server {ToPrettyString(serverEnt.Value)}.");
         return true;
