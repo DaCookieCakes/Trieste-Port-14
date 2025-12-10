@@ -10,7 +10,7 @@
       - state: fish-scoop-inhand-left
       right:
       - state: fish-scoop-inhand-right
-    size: small
+    size: Small
   - type: Sprite
     sprite: _TP/Aquaponics/Objects/tools.rsi
     state: fish-scoop

@@ -1,0 +1,10 @@
+- type: fish
+  id: TP14FishEel
+  name: eel
+  species: Aberrant
+  tier: 1
+  harvested: TP14FoodRawEel
+  sprites:
+  - sprite: _TP/Aquaponics/Fish/fish.rsi
+    state: eel
+  eggID: TP14EggEel

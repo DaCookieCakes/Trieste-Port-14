@@ -8,13 +8,37 @@
     },
     "states": [
         {
+            "name": "bass"
+        },
+        {
+            "name": "blindfish"
+        },
+        {
             "name": "carp"
         },
         {
             "name": "crab"
         },
         {
+            "name": "eel"
+        },
+        {
+            "name": "lampfish"
+        },
+        {
+            "name": "mantis_shrimp"
+        },
+        {
+            "name": "oilfish"
+        },
+        {
             "name": "salmon"
+        },
+        {
+            "name": "sea_spider"
+        },
+        {
+            "name": "shrimp"
         },
         {
             "name": "trout"

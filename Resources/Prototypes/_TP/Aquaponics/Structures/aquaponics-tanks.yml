@@ -1,14 +1,14 @@
 - type: entity
   parent: [ BaseStructure, BaseMachinePowered ]
-  id: TP14AquaponicsTankEmpty
-  suffix: Trieste, Botany, Empty
-  name: Aquaponics Tank
+  id: TP14AquaponicsTankBase
+  abstract: true
   components:
   - type: AmbientSound
     volume: -9
     range: 5
     sound:
       path: /Audio/Ambience/Objects/flowing_water_open.ogg
+  - type: Appearance
   - type: AquaponicsTank
   - type: ItemSlots
     slots:
@@ -16,6 +16,8 @@
         whitelist:
           components:
           - FitsInDispenser
+  - type: Machine
+    board: TP14AquaponicsMachineCircuitboard
   - type: RefillableSolution
     solution: insertion
   - type: SolutionContainerManager
@@ -28,12 +30,61 @@
       nutrients:
         maxVol: 100
         canReact: false
-  - type: Sprite
-    sprite: _TP/Aquaponics/Structures/aquaponics-tank.rsi
-    state: tank
 
 - type: entity
-  parent: TP14AquaponicsTankEmpty
+  parent: [ TP14AquaponicsTankBase ]
+  id: TP14AquaponicsTankEmpty
+  suffix: Trieste, Botany, Empty
+  name: Aquaponics Tank
+  components:
+  - type: Sprite
+    layers:
+    - sprite: _TP/Aquaponics/Structures/aquaponics-tank.rsi
+      state: tank
+      visible: true
+    - sprite: _TP/Aquaponics/Structures/aquaponics-tank.rsi
+      state: tank-beaker
+      map: [ "enum.AquaponicsTankVisuals.Beaker" ]
+      visible: false
+    - sprite: _TP/Aquaponics/Structures/aquaponics-tank-overlays.rsi
+      state: overlay-alert
+      map: [ "enum.AquaponicsTankVisuals.LightAlert" ]
+      visible: false
+    - sprite: _TP/Aquaponics/Structures/aquaponics-tank-overlays.rsi
+      state: overlay-food
+      map: [ "enum.AquaponicsTankVisuals.LightFood" ]
+      visible: true
+    - sprite: _TP/Aquaponics/Structures/aquaponics-tank-overlays.rsi
+      state: overlay-harvest
+      map: [ "enum.AquaponicsTankVisuals.LightHarvest" ]
+      visible: false
+    - sprite: _TP/Aquaponics/Structures/aquaponics-tank-overlays.rsi
+      state: overlay-health
+      map: [ "enum.AquaponicsTankVisuals.LightHealth" ]
+      visible: false
+    - sprite: _TP/Aquaponics/Structures/aquaponics-tank-overlays.rsi
+      state: overlay-waste
+      map: [ "enum.AquaponicsTankVisuals.LightWaste" ]
+      visible: false
+    - sprite: _TP/Aquaponics/Structures/aquaponics-tank-overlays.rsi
+      state: overlay-fish-0
+      map: [ "enum.AquaponicsTankVisuals.FishStageOne" ]
+      visible: false
+    - sprite: _TP/Aquaponics/Structures/aquaponics-tank-overlays.rsi
+      state: overlay-fish-1
+      map: [ "enum.AquaponicsTankVisuals.FishStageTwo" ]
+      visible: false
+    - sprite: _TP/Aquaponics/Structures/aquaponics-tank-overlays.rsi
+      state: overlay-fish-2
+      map: [ "enum.AquaponicsTankVisuals.FishStageThree" ]
+      visible: false
+    - sprite: _TP/Aquaponics/Structures/aquaponics-tank-overlays.rsi
+      state: overlay-fish-3
+      map: [ "enum.AquaponicsTankVisuals.FishStageFour" ]
+      visible: false
+
+- type: entity
+  parent: [ TP14AquaponicsTankBase ]
   id: TP14AquaponicsTankFilled
   suffix: Trieste, Botany, Filled
   components:
@@ -58,5 +109,47 @@
           - ReagentId: Nutriment
             Quantity: 100
   - type: Sprite
-    sprite: _TP/Aquaponics/Structures/aquaponics-tank.rsi
-    state: tank-beaker
+    layers:
+    - sprite: _TP/Aquaponics/Structures/aquaponics-tank.rsi
+      state: tank
+      visible: true
+    - sprite: _TP/Aquaponics/Structures/aquaponics-tank.rsi
+      state: tank-beaker
+      map: [ "enum.AquaponicsTankVisuals.Beaker" ]
+      visible: true
+    - sprite: _TP/Aquaponics/Structures/aquaponics-tank-overlays.rsi
+      state: overlay-alert
+      map: [ "enum.AquaponicsTankVisuals.LightAlert" ]
+      visible: false
+    - sprite: _TP/Aquaponics/Structures/aquaponics-tank-overlays.rsi
+      state: overlay-food
+      map: [ "enum.AquaponicsTankVisuals.LightFood" ]
+      visible: false
+    - sprite: _TP/Aquaponics/Structures/aquaponics-tank-overlays.rsi
+      state: overlay-harvest
+      map: [ "enum.AquaponicsTankVisuals.LightHarvest" ]
+      visible: false
+    - sprite: _TP/Aquaponics/Structures/aquaponics-tank-overlays.rsi
+      state: overlay-health
+      map: [ "enum.AquaponicsTankVisuals.LightHealth" ]
+      visible: false
+    - sprite: _TP/Aquaponics/Structures/aquaponics-tank-overlays.rsi
+      state: overlay-waste
+      map: [ "enum.AquaponicsTankVisuals.LightWaste" ]
+      visible: false
+    - sprite: _TP/Aquaponics/Structures/aquaponics-tank-overlays.rsi
+      state: overlay-fish-0
+      map: [ "enum.AquaponicsTankVisuals.FishStageOne" ]
+      visible: false
+    - sprite: _TP/Aquaponics/Structures/aquaponics-tank-overlays.rsi
+      state: overlay-fish-1
+      map: [ "enum.AquaponicsTankVisuals.FishStageTwo" ]
+      visible: false
+    - sprite: _TP/Aquaponics/Structures/aquaponics-tank-overlays.rsi
+      state: overlay-fish-2
+      map: [ "enum.AquaponicsTankVisuals.FishStageThree" ]
+      visible: false
+    - sprite: _TP/Aquaponics/Structures/aquaponics-tank-overlays.rsi
+      state: overlay-fish-3
+      map: [ "enum.AquaponicsTankVisuals.FishStageFour" ]
+      visible: false

@@ -1,0 +1,16 @@
+- type: entity
+  parent: TP14FoodRawFishBase
+  id: TP14FoodRawEel
+  name: eel
+  description: Not to be confused with its electric variant, a slippery fiend!
+  suffix: Trieste, Food, Seafood
+  components:
+  - type: Butcherable
+    butcheringType: Knife
+    spawned:
+    - id: TP14FoodMeatFish
+      amount: 4
+    - id: TP14EggEel
+      amount: 1
+  - type: Sprite
+    state: eel

@@ -32,8 +32,6 @@ public sealed partial class SharedDeepFryerComponent : Component
     public SoundPathSpecifier Buzzer = new("/Audio/_TP/Machines/Kitchen/frying_buzzer.ogg");
 
     public readonly string ContainerId = "fryer_slots";
-
-    public readonly string SolutionContainerId = "fryer";
 }
 
 [Serializable, NetSerializable]

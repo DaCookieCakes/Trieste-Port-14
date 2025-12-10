@@ -91,6 +91,25 @@
       Manipulator: 4
       Steel: 10
 
+# Service
+- type: entity
+  id: TP14AquaponicsMachineCircuitboard
+  parent: BaseMachineCircuitboard
+  suffix: Trieste, Circuit-Board
+  name: aquaponics tank machine board
+  components:
+  - type: Sprite
+    state: service
+  - type: MachineBoard
+    prototype: TP14AquaponicsTankEmpty
+    stackRequirements:
+      Manipulator: 2
+      Plastic: 8
+      Cable: 4
+  - type: Tag
+    tags:
+    - TP14TagAquaponicsMachineBoard
+
 - type: entity
   id: TP14OvenMachineCircuitboard
   parent: BaseMachineCircuitboard

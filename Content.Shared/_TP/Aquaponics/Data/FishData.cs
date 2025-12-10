@@ -32,6 +32,9 @@ public sealed class FishData
 
     [DataField]
     public ProtoId<ReagentPrototype>  ProducingReagent = "Ammonia";
+
+    [DataField("eggID")]
+    public EntProtoId? ProducingEggId;
 }
 
 public enum FishGrowthStage

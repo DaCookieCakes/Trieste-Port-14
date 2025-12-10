@@ -1,0 +1,62 @@
+- type: entity
+  parent: TP14FoodRawFishBase
+  id: TP14FoodRawCrab
+  name: blue crab
+  description: A small salt-water crab that's (mostly) blue in hue. Just watch the pinchers.
+  suffix: Trieste, Food, Seafood
+  components:
+  - type: Butcherable
+    butcheringType: Knife
+    spawned:
+    - id: FoodMeatCrab
+      amount: 2
+    - id: TP14EggCrab
+      amount: 1
+  - type: Sprite
+    state: crab
+
+- type: entity
+  parent: TP14FoodRawFishBase
+  id: TP14FoodRawMantisShrimp
+  name: mantis shrimp
+  description: Not as much of a universal delicacy, and their snap heats the air.
+  suffix: Trieste, Food, Seafood
+  components:
+  - type: Butcherable
+    butcheringType: Knife
+    spawned:
+    - id: TP14EggMantisShrimp
+      amount: 1
+  - type: Sprite
+    state: mantis_shrimp
+
+- type: entity
+  parent: TP14FoodRawFishBase
+  id: TP14FoodRawSeaSpider
+  name: sea spider
+  description: It's like some sort of spider of the sea. Still freaky!
+  suffix: Trieste, Food, Seafood
+  components:
+  - type: Butcherable
+    butcheringType: Knife
+    spawned:
+    - id: TP14EggSeaSpider
+      amount: 1
+  - type: Sprite
+    state: sea_spider
+
+
+- type: entity
+  parent: TP14FoodRawFishBase
+  id: TP14FoodRawShrimp
+  name: shrimp
+  description: It's a favorite among space-faring cats.
+  suffix: Trieste, Food, Seafood
+  components:
+  - type: Butcherable
+    butcheringType: Knife
+    spawned:
+    - id: TP14EggShrimp
+      amount: 1
+  - type: Sprite
+    state: shrimp

@@ -1,9 +1,46 @@
+# Tier 1
+- type: fish
+  id: TP14FishShrimp
+  name: shrimp
+  species: Crustacean
+  tier: 1
+  harvested: TP14FoodRawShrimp
+  sprites:
+  - sprite: _TP/Aquaponics/Fish/fish.rsi
+    state: shrimp
+  eggID: TP14EggShrimp
+
+# Tier 2
 - type: fish
   id: TP14FishCrab
   name: blue crab
   species: Crustacean
-  tier: 1
+  tier: 2
   harvested: TP14FoodRawCrab
   sprites:
   - sprite: _TP/Aquaponics/Fish/fish.rsi
     state: crab
+  eggID: TP14EggCrab
+
+- type: fish
+  id: TP14FishSeaSpider
+  name: sea spider
+  species: Crustacean
+  tier: 2
+  harvested: TP14FoodRawSeaSpider
+  sprites:
+  - sprite: _TP/Aquaponics/Fish/fish.rsi
+    state: sea_spider
+  eggID: TP14EggSeaSpider
+
+# Tier 3
+- type: fish
+  id: TP14FishMantisShrimp
+  name: mantis shrimp
+  species: Crustacean
+  tier: 3
+  harvested: TP14FoodRawMantisShrimp
+  sprites:
+  - sprite: _TP/Aquaponics/Fish/fish.rsi
+    state: mantis_shrimp
+  eggID: TP14EggMantisShrimp

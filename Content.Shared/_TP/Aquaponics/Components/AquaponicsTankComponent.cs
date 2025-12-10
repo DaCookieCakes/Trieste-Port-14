@@ -1,4 +1,5 @@
 using Content.Shared._TP.Aquaponics.Data;
+using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization;
 
 namespace Content.Shared._TP.Aquaponics.Components;
@@ -12,14 +13,19 @@ public sealed partial class AquaponicsTankComponent : Component
     /// <summary>
     ///     The current fish species in the tank.
     /// </summary>
-    public List<FishData> CurrentFish = new();
+    public readonly List<FishData> CurrentFish = new();
+
+    /// <summary>
+    ///     The currently contained eggs in the tank
+    /// </summary>
+    public EntProtoId? ContainedEggId = null;
 
     /// <summary>
     ///     The value of how many fish can be stored in a tank.
-    ///     The Default is 2.
+    ///     The Default is 1.
     /// </summary>
     [DataField]
-    public int MaxFish = 2;
+    public int MaxFish = 1;
 
     /// <summary>
     ///     Whether the tank can hold plants along-side fish.
@@ -44,5 +50,4 @@ public enum AquaponicsTankVisuals : byte
     FishStageTwo,
     FishStageThree,
     FishStageFour,
-    FishStageFive,
 }

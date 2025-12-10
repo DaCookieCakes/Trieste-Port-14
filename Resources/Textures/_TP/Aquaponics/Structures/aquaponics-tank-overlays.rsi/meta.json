@@ -17,6 +17,24 @@
             ]
         },
         {
+            "name": "overlay-fish-0"
+        },
+        {
+            "name": "overlay-fish-1"
+        },
+        {
+            "name": "overlay-fish-2"
+        },
+        {
+            "name": "overlay-fish-3",
+            "delays": [
+                [
+                    0.6,
+                    0.6
+                ]
+            ]
+        },
+        {
             "name": "overlay-food",
             "delays": [
                 [
@@ -45,15 +63,6 @@
         },
         {
             "name": "overlay-waste",
-            "delays": [
-                [
-                    0.1,
-                    0.1
-                ]
-            ]
-        },
-        {
-            "name": "overlay-water",
             "delays": [
                 [
                     0.1,

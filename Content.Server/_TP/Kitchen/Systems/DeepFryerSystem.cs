@@ -5,7 +5,6 @@ using Content.Server.Power.EntitySystems;
 using Content.Shared._TP.Kitchen;
 using Content.Shared._TP.Kitchen.Components;
 using Content.Shared._TP.Kitchen.Events;
-using Content.Shared.Chemistry.EntitySystems;
 using Content.Shared.Damage;
 using Content.Shared.Damage.Components;
 using Content.Shared.Damage.Systems;
@@ -35,7 +34,6 @@ public sealed class DeepFryerSystem : EntitySystem
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly PowerReceiverSystem _power = default!;
     [Dependency] private readonly IPrototypeManager _proto = default!;
-    [Dependency] private readonly SharedSolutionContainerSystem _solutionContainer = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
 
     public override void Initialize()
@@ -91,17 +89,6 @@ public sealed class DeepFryerSystem : EntitySystem
         if (usedMeta.EntityName.StartsWith("burnt") || usedMeta.EntityName.StartsWith("burned"))
         {
             _popup.PopupEntity(Loc.GetString("Deep-Fryer-Message-Burnt-Item", ("item", args.Used)), ent, args.User);
-            args.Handled = true;
-            return;
-        }
-
-
-        if (!_solutionContainer.TryGetSolution(ent.Owner, ent.Comp.SolutionContainerId, out _, out var solName))
-            return;
-
-        if (solName.Volume <= 25)
-        {
-            _popup.PopupEntity(Loc.GetString("Deep-Fryer-Message-Low-Oil", ("fryer", ent.Owner)), ent, args.User);
             args.Handled = true;
             return;
         }
@@ -166,25 +153,6 @@ public sealed class DeepFryerSystem : EntitySystem
         if (deepFryerComp.IsBroken)
         {
             _popup.PopupEntity(Loc.GetString("Deep-Fryer-Message-Broken", ("fryer", deepFryerEnt.Owner)), deepFryerEnt, args.User);
-            return;
-        }
-
-        // NOW we check if the deep fryer has enough oil. This is done via Olive Oil for now.
-        // This is also done with two checks - a total volume, and specifically olive oil.
-        // If either are false, popup and return.
-        if (!_solutionContainer.TryGetSolution(deepFryerEnt.Owner, deepFryerComp.SolutionContainerId, out _, out var solName))
-            return;
-
-        if (solName.Volume <= 25)
-        {
-            _popup.PopupEntity(Loc.GetString("Deep-Fryer-Message-Low-Oil", ("fryer", deepFryerEnt.Owner)), deepFryerEnt, args.User);
-            return;
-        }
-
-        var cookingOilAmnt = solName.GetTotalPrototypeQuantity("OilOlive");
-        if (cookingOilAmnt <= 25)
-        {
-            _popup.PopupEntity(Loc.GetString("Deep-Fryer-Message-Low-Oil", ("fryer", deepFryerEnt.Owner)), deepFryerEnt, args.User);
             return;
         }
 
@@ -294,20 +262,6 @@ public sealed class DeepFryerSystem : EntitySystem
                     _audio.Stop(soundEntity.Value);
                     _fryerSounds[uid] = null;
                 }
-            }
-
-            // Now we check for if the deep fryer has enough oil. If not, disable it and skip the loop.
-            if (!_solutionContainer.TryGetSolution(uid,
-                    deepFryerComp.SolutionContainerId,
-                    out _,
-                    out var solName))
-                continue;
-
-            var cookingOilAmnt = solName.GetTotalPrototypeQuantity("OilOlive");
-            if (cookingOilAmnt <= 25 || solName.Volume <= 25)
-            {
-                deepFryerComp.IsEnabled = false;
-                continue;
             }
 
             // Now we check for if it's a container. If not, skip the loop.

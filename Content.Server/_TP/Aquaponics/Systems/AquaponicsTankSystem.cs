@@ -34,9 +34,7 @@ public sealed class AquaponicsTankSystem : EntitySystem
     [Dependency] private readonly TagSystem _tag = default!;
 
     private readonly Dictionary<FishData, float> _agingMultipliers = new();
-
     private static readonly ProtoId<TagPrototype> ScoopTag = "TP14TagScoop";
-    private static readonly Dictionary<FishGrowthStage, AquaponicsTankVisuals> FishVisuals = new();
 
     public override void Initialize()
     {
@@ -45,8 +43,18 @@ public sealed class AquaponicsTankSystem : EntitySystem
         SubscribeLocalEvent<AquaponicsTankComponent, InteractUsingEvent>(OnInteractUsing);
         SubscribeLocalEvent<AquaponicsTankComponent, ComponentShutdown>(OnShutdown);
         SubscribeLocalEvent<AquaponicsTankComponent, ExaminedEvent>(OnExamined);
+
+        SubscribeLocalEvent<AquaponicsTankComponent, ComponentStartup>(OnComponentStartup);
         SubscribeLocalEvent<AquaponicsTankComponent, EntInsertedIntoContainerMessage>(OnEntInserted);
         SubscribeLocalEvent<AquaponicsTankComponent, EntRemovedFromContainerMessage>(OnEntRemoved);
+    }
+
+    private void OnComponentStartup(Entity<AquaponicsTankComponent> ent, ref ComponentStartup args)
+    {
+        if (!_itemSlots.TryGetSlot(ent.Owner, "beaker", out var tankSlot))
+            return;
+
+        _appearance.SetData(ent.Owner, AquaponicsTankVisuals.Beaker, tankSlot.HasItem);
     }
 
     private void OnEntRemoved(Entity<AquaponicsTankComponent> ent, ref EntRemovedFromContainerMessage args)
@@ -195,6 +203,34 @@ public sealed class AquaponicsTankSystem : EntitySystem
                     PopupType.Medium);
             }
 
+            var coords = Transform(ent).Coordinates;
+            if (ent.Comp.ContainedEggId != null)
+            {
+                if (!_proto.TryIndex(ent.Comp.ContainedEggId, out var eggProto))
+                {
+                    Log.Error($"Invalid or null egg prototype during scoop event: {eggProto}");
+                    return;
+                }
+
+                _popup.PopupEntity(Loc.GetString("aquaponics-tank-message-scooped-eggs",
+                        ("egg", eggProto.Name)),
+                    ent,
+                    args.User,
+                    PopupType.Medium);
+
+                _popup.PopupEntity(Loc.GetString("aquaponics-tank-message-scooped-eggs-others",
+                        ("user", args.User)),
+                    ent,
+                    args.User,
+                    PopupType.Medium);
+
+                Spawn(ent.Comp.ContainedEggId, coords);
+                ent.Comp.ContainedEggId = null;
+
+                return;
+                args.Handled = true;
+            }
+
             foreach (var fish in ent.Comp.CurrentFish)
             {
                 var speciesId = fish.SpeciesId;
@@ -206,9 +242,13 @@ public sealed class AquaponicsTankSystem : EntitySystem
 
                 if (fish.IsDead)
                 {
-                    // Remove immediately since we're returning
                     ent.Comp.CurrentFish.Remove(fish);
                     _agingMultipliers.Remove(fish);
+
+                    _appearance.SetData(ent.Owner, AquaponicsTankVisuals.FishStageOne, false);
+                    _appearance.SetData(ent.Owner, AquaponicsTankVisuals.FishStageTwo, false);
+                    _appearance.SetData(ent.Owner, AquaponicsTankVisuals.FishStageThree, false);
+                    _appearance.SetData(ent.Owner, AquaponicsTankVisuals.FishStageFour, false);
 
                     _popup.PopupEntity(Loc.GetString("aquaponics-tank-message-scooped-dead-fish",
                             ("species", fishSpecies.Name)),
@@ -222,14 +262,15 @@ public sealed class AquaponicsTankSystem : EntitySystem
                         false);
 
                     args.Handled = true;
-                    return; // Now it's safe to return
+                    return;
                 }
 
                 if (fish.GrowthStage is (FishGrowthStage.Adult or FishGrowthStage.Elder))
                 {
-                    // Remove immediately since we're returning
                     ent.Comp.CurrentFish.Remove(fish);
                     _agingMultipliers.Remove(fish);
+
+                    _appearance.SetData(ent.Owner, AquaponicsTankVisuals.FishStageFour, false);
 
                     _popup.PopupEntity(Loc.GetString("aquaponics-tank-message-scooped",
                             ("species", fishSpecies.Name)),
@@ -242,7 +283,6 @@ public sealed class AquaponicsTankSystem : EntitySystem
                         Filter.PvsExcept(args.User),
                         false);
 
-                    var coords = Transform(ent).Coordinates;
                     var spawnedFish = Spawn(fishSpecies.HarvestedItemId, coords);
                     var ensuredFish = EnsureComp<GeneticFishComponent>(spawnedFish);
 
@@ -266,7 +306,7 @@ public sealed class AquaponicsTankSystem : EntitySystem
                 var splitSol = foodSol.SplitSolution(foodSol.Volume);
                 _solutionContainer.AddSolution(insSolComp.Value, splitSol);
 
-                if (TryComp<ProduceComponent>(args.Used, out var produceComp))
+                if (TryComp<ProduceComponent>(args.Used, out _))
                     QueueDel(args.Used);
 
                 args.Handled = true;
@@ -290,6 +330,7 @@ public sealed class AquaponicsTankSystem : EntitySystem
             Genes = [],
             GrowthStage = FishGrowthStage.Egg,
             GeneticInstability = 0,
+            ProducingEggId = fishSpecies.ProducingEggId,
         };
     }
 
@@ -349,12 +390,42 @@ public sealed class AquaponicsTankSystem : EntitySystem
                             break;
                         case FishGrowthStage.Juvenile:
                             fish.GrowthStage = FishGrowthStage.Adult;
+                            if (_random.Next(12) == 0)
+                            {
+                                if (!_proto.HasIndex(fish.ProducingEggId))
+                                {
+                                    Log.Error($"Invalid fish egg ID: {fish.ProducingEggId} during egg production");
+                                    continue;
+                                }
+
+                                tankComp.ContainedEggId = fish.ProducingEggId;
+                            }
                             break;
                         case FishGrowthStage.Adult:
                             fish.GrowthStage = FishGrowthStage.Elder;
+                            if (_random.Next(8) == 0)
+                            {
+                                if (!_proto.HasIndex(fish.ProducingEggId))
+                                {
+                                    Log.Error($"Invalid fish egg ID: {fish.ProducingEggId} during egg production");
+                                    continue;
+                                }
+
+                                tankComp.ContainedEggId = fish.ProducingEggId;
+                            }
                             break;
                         case FishGrowthStage.Elder:
                             fish.Health -= 10;
+                            if (_random.Next(6) == 0)
+                            {
+                                if (!_proto.HasIndex(fish.ProducingEggId))
+                                {
+                                    Log.Error($"Invalid fish egg ID: {fish.ProducingEggId} during egg production");
+                                    continue;
+                                }
+
+                                tankComp.ContainedEggId = fish.ProducingEggId;
+                            }
                             break;
                     }
 
@@ -365,42 +436,107 @@ public sealed class AquaponicsTankSystem : EntitySystem
                 // adding waste to the tank, consuming food, increasing disease, and removing fish.
                 if (!fish.IsDead)
                 {
-                    CheckToDamageOrHealFish(fish, tankUid, tankComp);
+                    if (fish.GrowthStage != FishGrowthStage.Elder)
+                        CheckToDamageOrHealFish(fish, tankUid, tankComp);
 
-                    if (_random.Next(3) == 0)
+                    if (fish.GrowthStage > FishGrowthStage.Egg)
                     {
-                        var newWaste = new Solution();
-                        var wasteProd = 0.2f * GetWasteProduction(fish);
-                        if (wasteProd < 0.05)
-                            wasteProd = 0.05f;
+                        if (_random.Next(3) == 0)
+                        {
+                            var newWaste = new Solution();
+                            var wasteProd = 0.2f * GetWasteProduction(fish);
+                            if (wasteProd < 0.05)
+                                wasteProd = 0.05f;
 
-                        newWaste.AddReagent(fish.ProducingReagent, FixedPoint2.New(wasteProd));
-                        _solutionContainer.TryAddSolution(wasteSolComp.Value, newWaste);
-                    }
+                            newWaste.AddReagent(fish.ProducingReagent, FixedPoint2.New(wasteProd));
+                            _solutionContainer.TryAddSolution(wasteSolComp.Value, newWaste);
+                        }
 
-                    if (_random.Next(2) == 0)
-                    {
-                        var foodConsumption = 0.33f * GetFoodConsumption(fish);
-                        if (foodConsumption < 0.05)
-                            foodConsumption = 0.05f;
+                        if (_random.Next(2) == 0)
+                        {
+                            var foodConsumption = 0.2f * GetFoodConsumption(fish);
+                            if (foodConsumption < 0.05)
+                                foodConsumption = 0.05f;
 
-                        foodSol.RemoveSolution(foodConsumption);
-                    }
+                            foodSol.RemoveSolution(foodConsumption);
+                        }
 
-                    if (_random.Next(4) == 0)
-                    {
-                        var disease = 0.05f * GetDiseaseMultiplier(fish);
-                        if (disease < 0.05)
-                            disease = 0.05f;
+                        if (_random.Next(4) == 0)
+                        {
+                            var disease = 0.05f * GetDiseaseMultiplier(fish);
+                            if (disease < 0.05)
+                                disease = 0.05f;
 
-                        tankComp.DiseaseLevel += disease;
+                            tankComp.DiseaseLevel += disease;
+                        }
                     }
                 }
             }
 
-            UpdateTankVisuals()
+            UpdateTankVisuals(tankUid, tankComp);
             TransferInsertedSolutions(tankUid, tankComp);
             TransferWaste(tankUid);
+        }
+    }
+
+    private void UpdateTankVisuals(EntityUid tankUid, AquaponicsTankComponent tankComp)
+    {
+        if (!_solutionContainer.TryGetSolution(tankUid, "nutrients", out _, out var foodSol))
+            return;
+
+        if (!_solutionContainer.TryGetSolution(tankUid, "waste", out _, out var wasteSol))
+            return;
+
+        if (!_itemSlots.TryGetSlot(tankUid, "beaker", out var tankSlot))
+            return;
+
+        if (tankSlot is { HasItem: true, Item: not null })
+        {
+            if (!_solutionContainer.TryGetSolution(tankSlot.Item.Value, "beaker", out var beakerSolComp, out var beakerSol))
+                return;
+
+            _appearance.SetData(tankUid,
+                AquaponicsTankVisuals.LightWaste,
+                beakerSol.Volume >= beakerSol.MaxVolume * 0.8);
+        }
+
+        _appearance.SetData(tankUid,
+            AquaponicsTankVisuals.LightAlert,
+            wasteSol.Volume >= (wasteSol.MaxVolume * 0.65));
+
+        _appearance.SetData(tankUid,
+            AquaponicsTankVisuals.LightFood,
+            foodSol.Volume <= (foodSol.MaxVolume * 0.35));
+
+        if (tankComp.CurrentFish.Count > 0)
+        {
+            var fish = tankComp.CurrentFish[0];
+            if (fish.IsDead)
+                return;
+
+            _appearance.SetData(tankUid,
+                AquaponicsTankVisuals.LightHealth,
+                fish.Health <= 50);
+
+            _appearance.SetData(tankUid,
+                AquaponicsTankVisuals.FishStageOne,
+                fish.GrowthStage == FishGrowthStage.Egg);
+
+            _appearance.SetData(tankUid,
+                AquaponicsTankVisuals.FishStageTwo,
+                fish.GrowthStage == FishGrowthStage.Fry);
+
+            _appearance.SetData(tankUid,
+                AquaponicsTankVisuals.FishStageThree,
+                fish.GrowthStage == FishGrowthStage.Juvenile);
+
+            _appearance.SetData(tankUid,
+                AquaponicsTankVisuals.FishStageFour,
+                fish.GrowthStage is FishGrowthStage.Adult or FishGrowthStage.Elder);
+
+            _appearance.SetData(tankUid,
+                AquaponicsTankVisuals.LightHarvest,
+                fish.GrowthStage is FishGrowthStage.Adult or FishGrowthStage.Elder);
         }
     }
 
@@ -408,6 +544,7 @@ public sealed class AquaponicsTankSystem : EntitySystem
     ///     A helper method to transfer nutrients from the insertion tank to the nutrient tank.
     /// </summary>
     /// <param name="tankUid"></param>
+    /// <param name="tankComp"></param>
     private void TransferInsertedSolutions(EntityUid tankUid, AquaponicsTankComponent tankComp)
     {
         if (!_solutionContainer.TryGetSolution(tankUid, "insertion", out _, out var insSol))
@@ -424,19 +561,17 @@ public sealed class AquaponicsTankSystem : EntitySystem
             var isWaste = reagent.Prototype is "Ammonia";
 
             var foodAmountToAdd = FixedPoint2.Min(volume, foodSol.AvailableVolume);
-            if (reagent.Prototype is "Nutriment")
+            switch (reagent.Prototype)
             {
-                foodSol.AddReagent(reagent.Prototype, foodAmountToAdd);
-            }
-
-            if (reagent.Prototype is "EZNutrient")
-            {
-                foodSol.AddReagent(reagent.Prototype, foodAmountToAdd * 2);
-            }
-
-            if (reagent.Prototype is "Dylovene")
-            {
-                tankComp.DiseaseLevel = Math.Clamp(tankComp.DiseaseLevel - 2.0f, 0, 100);
+                case "Nutriment":
+                    foodSol.AddReagent(reagent.Prototype, foodAmountToAdd);
+                    break;
+                case "EZNutrient":
+                    foodSol.AddReagent(reagent.Prototype, foodAmountToAdd * 2);
+                    break;
+                case "Dylovene":
+                    tankComp.DiseaseLevel = Math.Clamp(tankComp.DiseaseLevel - 2.0f, 0, 100);
+                    break;
             }
 
             var wasteAmountToAdd = FixedPoint2.Min(volume, wasteSol.AvailableVolume);

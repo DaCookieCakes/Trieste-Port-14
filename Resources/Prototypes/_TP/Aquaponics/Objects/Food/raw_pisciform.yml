@@ -1,0 +1,123 @@
+- type: entity
+  parent: TP14FoodRawFishBase
+  id: TP14FoodRawBass
+  name: bass
+  description: Not to be confused with a bass.
+  suffix: Trieste, Food, Seafood
+  components:
+  - type: Butcherable
+    butcheringType: Knife
+    spawned:
+    - id: TP14FoodMeatFish
+      amount: 2
+    - id: TP14EggBass
+      amount: 1
+  - type: Sprite
+    state: bass
+
+- type: entity
+  parent: TP14FoodRawFishBase
+  id: TP14FoodRawBlindfish
+  name: blindfish
+  description: A blind blindfish!
+  suffix: Trieste, Food, Seafood
+  components:
+  - type: Butcherable
+    butcheringType: Knife
+    spawned:
+    - id: TP14FoodMeatFish
+      amount: 3
+    - id: TP14EggBlindfish
+      amount: 1
+  - type: Sprite
+    state: blindfish
+
+- type: entity
+  parent: TP14FoodRawFishBase
+  id: TP14FoodRawCarp
+  name: carp
+  description: A fresh-water fish from back home. It's typically bred in ponds for food.
+  suffix: Trieste, Food, Seafood
+  components:
+  - type: Butcherable
+    butcheringType: Knife
+    spawned:
+    - id: TP14FoodMeatFish
+      amount: 1
+    - id: TP14EggCarp
+      amount: 1
+  - type: Sprite
+    state: carp
+
+- type: entity
+  parent: TP14FoodRawFishBase
+  id: TP14FoodRawLampfish
+  name: lampfish
+  description: Moths love staring at this one, oddly enough..
+  suffix: Trieste, Food, Seafood
+  components:
+  - type: Butcherable
+    butcheringType: Knife
+    spawned:
+    - id: TP14FoodMeatFish
+      amount: 2
+    - id: TP14EggLampfish
+      amount: 1
+  - type: Sprite
+    state: lampfish
+  - type: PointLight
+    enabled: true
+    radius: 2
+
+- type: entity
+  parent: TP14FoodRawFishBase
+  id: TP14FoodRawOilfish
+  name: oilfish
+  description: Sadly, does not produce black gold!
+  suffix: Trieste, Food, Seafood
+  components:
+  - type: Butcherable
+    butcheringType: Knife
+    spawned:
+    - id: TP14FoodMeatFish
+      amount: 2
+    - id: TP14EggOilfish
+      amount: 1
+  - type: Sprite
+    state: oilfish
+
+- type: entity
+  parent: TP14FoodRawFishBase
+  id: TP14FoodRawSalmon
+  name: salmon
+  description: A freshwater fish from a much larger group.
+  suffix: Trieste, Food, Seafood
+  components:
+  - type: Butcherable
+    butcheringType: Knife
+    spawned:
+    - id: TP14FoodMeatFish
+      amount: 4
+    - id: TP14EggSalmon
+      amount: 1
+  - type: Sprite
+    state: salmon
+
+- type: entity
+  parent: TP14FoodRawFishBase
+  id: TP14FoodRawTrout
+  name: trout
+  description: A carnivorous freshwater fish. They're found in Terran lakes and rivers.
+  suffix: Trieste, Food, Seafood
+  components:
+  - type: Butcherable
+    butcheringType: Knife
+    spawned:
+    - id: TP14FoodMeatFish
+      amount: 2
+    - id: TP14EggTrout
+      amount: 1
+  - type: Sprite
+    state: trout
+
+

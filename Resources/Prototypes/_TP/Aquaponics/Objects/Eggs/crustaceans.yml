@@ -8,3 +8,37 @@
     speciesID: TP14FishCrab
   - type: Sprite
     color: LightBlue
+
+- type: entity
+  parent: TP14EggBase
+  id: TP14EggMantisShrimp
+  suffix: Trieste, Aquaponics
+  name: mantis shrimp eggs
+  components:
+  - type: FishEgg
+    speciesID: TP14FishMantisShrimp
+  - type: Sprite
+    color: Brown
+
+- type: entity
+  parent: TP14EggBase
+  id: TP14EggMantisSeaSpider
+  suffix: Trieste, Aquaponics
+  name: sea spider eggs
+  components:
+  - type: FishEgg
+    speciesID: TP14FishSeaSpider
+  - type: Sprite
+    color: Yellow
+
+- type: entity
+  parent: TP14EggBase
+  id: TP14EggShrimp
+  suffix: Trieste, Aquaponics
+  name: shrimp eggs
+  components:
+  - type: FishEgg
+    speciesID: TP14FishShrimp
+  - type: Sprite
+    color: Brown
+

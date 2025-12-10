@@ -8,13 +8,72 @@
   sprites:
   - sprite: _TP/Aquaponics/Fish/fish.rsi
     state: carp
+  eggID: TP14EggCarp
 
 - type: fish
   id: TP14FishTrout
-  name: carp
+  name: trout
   species: Pisciform
   tier: 1
   harvested: TP14FoodRawTrout
   sprites:
   - sprite: _TP/Aquaponics/Fish/fish.rsi
     state: trout
+  eggID: TP14EggTrout
+
+- type: fish
+  id: TP14FishOilfish
+  name: oilfish
+  species: Pisciform
+  tier: 1
+  harvested: TP14FoodRawOilfish
+  sprites:
+  - sprite: _TP/Aquaponics/Fish/fish.rsi
+    state: oilfish
+  eggID: TP14EggOilfish
+
+# Tier 2
+- type: fish
+  id: TP14FishBass
+  name: bass
+  species: Pisciform
+  tier: 1
+  harvested: TP14FoodRawBass
+  sprites:
+  - sprite: _TP/Aquaponics/Fish/fish.rsi
+    state: bass
+  eggID: TP14EggBass
+
+- type: fish
+  id: TP14FishSalmon
+  name: salmon
+  species: Pisciform
+  tier: 2
+  harvested: TP14FoodRawSalmon
+  sprites:
+  - sprite: _TP/Aquaponics/Fish/fish.rsi
+    state: salmon
+  eggID: TP14EggSalmon
+
+- type: fish
+  id: TP14FishLampfish
+  name: lampfish
+  species: Pisciform
+  tier: 2
+  harvested: TP14FoodRawLampfish
+  sprites:
+  - sprite: _TP/Aquaponics/Fish/fish.rsi
+    state: lampfish
+  eggID: TP14EggLampfish
+
+# Tier 3
+- type: fish
+  id: TP14FishBlindfish
+  name: blindfish
+  species: Pisciform
+  tier: 3
+  harvested: TP14FoodRawBlindfish
+  sprites:
+  - sprite: _TP/Aquaponics/Fish/fish.rsi
+    state: blindfish
+  eggID: TP14EggBlindfish

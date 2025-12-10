@@ -12,24 +12,12 @@
     containers:
       fryer_slots: !type:ContainerSlot
   - type: DeepFryer
-  - type: ExaminableSolution
-    solution: fryer
   - type: ItemSlots
     slots:
       fryer_slots:
         ejectOnInteract: true
   - type: Machine
     board: TP14DeepFryerCircuitboard
-  - type: RefillableSolution
-    solution: fryer
-  - type: SolutionContainerManager
-    solutions:
-      fryer:
-        reagents:
-        - ReagentId: OilOlive
-          Quantity: 100
-  - type: SolutionItemStatus
-    solution: fryer
   - type: SolutionTransfer
     maxTransferAmount: 50
   - type: Sprite
@@ -48,12 +36,6 @@
   suffix: Trieste, Service
   name: table-top deep fryer
   components:
-  - type: SolutionContainerManager
-    solutions:
-      fryer:
-        reagents:
-        - ReagentId: OilOlive
-          Quantity: 100
   - type: Sprite
     sprite: _TP/Structures/Machines/deepfryer.rsi
     layers:

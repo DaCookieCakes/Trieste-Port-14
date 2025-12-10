@@ -39,11 +39,10 @@ public sealed class FishEggSystem : EntitySystem
         }
 
         var genesStr = string.Join(", ", totalGenes);
-        args.PushMarkup(Loc.GetString("fish-egg-examine-name", ("name", fishSpecies.Name)), 1);
-        args.PushMarkup(Loc.GetString("fish-egg-examine-species", ("species", fishSpecies.Species)), 2);
-        args.PushMarkup(Loc.GetString("fish-egg-examine-tier", ("tier", fishSpecies.FishTier)), 3);
+        args.PushMarkup(Loc.GetString("fish-egg-examine-species", ("species", fishSpecies.Species)), 1);
+        args.PushMarkup(Loc.GetString("fish-egg-examine-tier", ("tier", fishSpecies.FishTier)), 2);
 
         if (totalGenes.Count > 0)
-            args.PushMarkup(Loc.GetString("fish-egg-examine-genes", ("genes", genesStr)), 4);
+            args.PushMarkup(Loc.GetString("fish-egg-examine-genes", ("genes", genesStr)), 3);
     }
 }

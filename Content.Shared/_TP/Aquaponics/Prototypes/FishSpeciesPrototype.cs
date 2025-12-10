@@ -55,6 +55,9 @@ public sealed class FishSpeciesPrototype : IPrototype
 
     [DataField("sprites", required: true)]
     public List<SpriteSpecifier> SpriteSpecifier { get; private set; } = default!;
+
+    [DataField("eggID")]
+    public EntProtoId? ProducingEggId;
 }
 
 public enum FishSpecies

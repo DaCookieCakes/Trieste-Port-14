@@ -1,5 +1,27 @@
 - type: entity
   parent: TP14EggBase
+  id: TP14EggBass
+  suffix: Trieste, Aquaponics
+  name: bass eggs
+  components:
+  - type: FishEgg
+    speciesID: TP14FishBass
+  - type: Sprite
+    color: "#FFFF44"
+
+- type: entity
+  parent: TP14EggBase
+  id: TP14EggBlindfish
+  suffix: Trieste, Aquaponics
+  name: blindfish
+  components:
+  - type: FishEgg
+    speciesID: TP14FishBlindfish
+  - type: Sprite
+    color: "#FFFF44"
+
+- type: entity
+  parent: TP14EggBase
   id: TP14EggCarp
   suffix: Trieste, Aquaponics
   name: carp eggs
@@ -11,6 +33,39 @@
 
 - type: entity
   parent: TP14EggBase
+  id: TP14EggLampfish
+  suffix: Trieste, Aquaponics
+  name: lampfish eggs
+  components:
+  - type: FishEgg
+    speciesID: TP14FishLampfish
+  - type: Sprite
+    color: Red
+
+- type: entity
+  parent: TP14EggBase
+  id: TP14EggOilfish
+  suffix: Trieste, Aquaponics
+  name: oilfish eggs
+  components:
+  - type: FishEgg
+    speciesID: TP14FishOilfish
+  - type: Sprite
+    color: Black
+
+- type: entity
+  parent: TP14EggBase
+  id: TP14EggSalmon
+  suffix: Trieste, Aquaponics
+  name: salmon eggs
+  components:
+  - type: FishEgg
+    speciesID: TP14FishSalmon
+  - type: Sprite
+    color: Red
+
+- type: entity
+  parent: TP14EggBase
   id: TP14EggTrout
   suffix: Trieste, Aquaponics
   name: trout eggs
@@ -19,3 +74,4 @@
     speciesID: TP14FishTrout
   - type: Sprite
     color: Red
+
