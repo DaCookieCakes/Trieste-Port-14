@@ -1,8 +1,8 @@
 - type: entity
   name: drifter
   id: TP14MobDrifter
-  suffix: Trieste, Sea, Drifter
   parent: MobSpaceBasic
+  suffix: Trieste, Sea, Drifter
   description: A spindly, opportunistic predator which injects prey with a paralyzing agent before siphoning their blood.
   components:
   - type: Sprite
@@ -512,6 +512,10 @@
           32:
             sprite: _TP/Mobs/Animals/sea-bunny-displacement.rsi
             state: neck
+  - type: PointLight
+    radius: 1.75
+    energy: 1
+    falloff: 10
 
 - type: entity
   parent: [ SimpleSpaceMobBase ]
@@ -671,6 +675,10 @@
           32:
             sprite: _TP/Mobs/Animals/LeafSheep/displacement.rsi
             state: neck
+  - type: PointLight
+    radius: 1.75
+    energy: 1
+    falloff: 10
 
 - type: entity
   parent: MobCrab

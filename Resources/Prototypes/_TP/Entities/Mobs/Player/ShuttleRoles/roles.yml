@@ -1,14 +1,10 @@
 - type: entity
   id: RandomHumanoidSettler
   name: planetary settler
-  suffix: Trieste, Random, Spawner
-  parent: MarkerBase
   components:
   - type: Sprite
-    layers:
-    - state: red
-    - sprite: Structures/Decoration/banner.rsi
-      state: banner-yellow
+    sprite: Structures/Decoration/banner.rsi
+    state: banner-yellow
   - type: RandomHumanoidSpawner
     settings: PlanetarySettler
   - type: GhostRole
@@ -17,15 +13,25 @@
     rules: ghost-role-information-nonantagonist-rules
 
 - type: entity
-  parent: MarkerBase
+  id: RandomHumanoidHermit
+  name: stranded hermit
+  components:
+  - type: Sprite
+    sprite: Structures/Decoration/banner.rsi
+    state: banner-yellow
+  - type: RandomHumanoidSpawner
+    settings: StrandedHermit
+  - type: GhostRole
+    name: ghost-role-information-hermit-name
+    description: ghost-role-information-hermit-desc
+    rules: ghost-role-information-nonantagonist-rules
+
+- type: entity
   id: RandomHumanoidTheThingy
-  suffix: Trieste, Random, Spawner
   name: the thingy
   components:
   - type: Sprite
-    layers:
-    - state: red
-    - sprite: Structures/Decoration/banner.rsi
-      state: banner-yellow
+    sprite: Structures/Decoration/banner.rsi
+    state: banner-yellow
   - type: RandomHumanoidSpawner
     settings: TheThingy
