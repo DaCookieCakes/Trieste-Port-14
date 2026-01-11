@@ -35,8 +35,8 @@ THE SOFTWARE.
 public sealed class PinataSystem : EntitySystem
 {
     [Dependency] private readonly IRobustRandom _random = default!;
-    [Dependency] private readonly SharedPhysicsSystem Physics = default!;
-    [Dependency] private readonly SharedTransformSystem TransformSystem = default!;
+    [Dependency] private readonly SharedPhysicsSystem _physics = default!;
+    [Dependency] private readonly SharedTransformSystem _transformSystem = default!;
     [Dependency] private readonly IPrototypeManager _proto = default!;
 
     public override void Initialize()
@@ -85,7 +85,7 @@ public sealed class PinataSystem : EntitySystem
     private void OnHit(Entity<PinataComponent> ent, ref DamageModifyEvent args)
     {
         var damPerGroup = args.Damage.GetDamagePerGroup(_proto);
-        if (!damPerGroup.TryGetValue("Brute", out var brute) || brute <= ent.Comp.spawnDamage) //Has to be a decent hit - Edited for Trieste port from 5 to 1.5
+        if (!damPerGroup.TryGetValue("Brute", out var brute) || brute <= ent.Comp.SpawnDamage)
             return;
 
         for (var i = 0; i < _random.Next(ent.Comp.MinSpawn, ent.Comp.MaxSpawn); i++)
@@ -101,9 +101,9 @@ public sealed class PinataSystem : EntitySystem
         var physics = EnsureComp<PhysicsComponent>(newCandy);
 
         var targetMapVelocity = _random.NextVector2().Normalized() * _random.Next(8, 20);
-        var currentMapVelocity = Physics.GetMapLinearVelocity(newCandy, physics);
+        var currentMapVelocity = _physics.GetMapLinearVelocity(newCandy, physics);
         var finalLinear = physics.LinearVelocity + targetMapVelocity - currentMapVelocity;
-        Physics.SetLinearVelocity(newCandy, finalLinear, body: physics);
-        TransformSystem.SetWorldRotation(newCandy, _random.NextVector2().ToWorldAngle());
+        _physics.SetLinearVelocity(newCandy, finalLinear, body: physics);
+        _transformSystem.SetWorldRotation(newCandy, _random.NextVector2().ToWorldAngle());
     }
 }

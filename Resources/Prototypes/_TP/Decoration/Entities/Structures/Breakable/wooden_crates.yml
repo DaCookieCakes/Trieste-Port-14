@@ -10,7 +10,7 @@
   - type: Climbable
   - type: Damageable
     damageContainer: StructuralInorganic
-    damageModifierSet: TP14WoodenCrate
+    damageModifierSet: TP14DamageSetWoodenCrate
   - type: Destructible
     thresholds:
     - trigger:
@@ -23,7 +23,7 @@
       - !type:SpawnEntitiesBehavior
         spawn:
           TP14SpawnerCrateGarbage:
-            min: 1
+            min: 0
             max: 3
       - !type:DoActsBehavior
         acts: [ "Destruction" ]
@@ -43,6 +43,9 @@
     footstepSoundCollection:
       collection: FootstepWood
   - type: Pinata
+    spawnDamage: 1.5
+    minSpawn: 1
+    maxSpawn: 1
   - type: Sprite
     sprite: _TP/Structures/Decoration/Breakable/wooden-crates.rsi
     noRot: true
