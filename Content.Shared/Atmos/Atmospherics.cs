@@ -207,15 +207,15 @@ namespace Content.Shared.Atmos
         public const int MonstermosTileLimit = 200;
 
         /// <summary>
-        ///     Total number of gases. Increase this if you want to add more!
+        ///     Total number of gases.
         /// </summary>
-        public const int TotalNumberOfGases = 10;
+        public static int TotalNumberOfGases = Enum.GetValues(typeof(Gas)).Length; // Trieste - Why the SHIT was this a separate int?
 
         /// <summary>
         ///     This is the actual length of the gases arrays in mixtures.
         ///     Set to the closest multiple of 4 relative to <see cref="TotalNumberOfGases"/> for SIMD reasons.
         /// </summary>
-        public const int AdjustedNumberOfGases = ((TotalNumberOfGases + 3) / 4) * 4;
+        public static readonly int AdjustedNumberOfGases = ((TotalNumberOfGases + 3) / 4) * 4;
 
         /// <summary>
         ///     Amount of heat released per mole of burnt hydrogen or tritium (hydrogen isotope)
@@ -376,6 +376,6 @@ namespace Content.Shared.Atmos
         Water = 9,
         Chlorine = 10,
         Fluorine = 11,
-        Hydrogen = 12,
+        Hydrogen = 12
     }
 }
