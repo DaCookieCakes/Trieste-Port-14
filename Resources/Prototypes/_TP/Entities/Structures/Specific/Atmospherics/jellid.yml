@@ -5,6 +5,7 @@
   suffix: TP14, Engineering, Jellid
   components:
   - type: AtmosMonitor
+    temperatureThresholdId: ignore
     gasThresholdPrototypes:
       Oxygen: danger
       Nitrogen: danger
