@@ -1,0 +1,8 @@
+- type: entity
+  parent: AirAlarm
+  id: TP14AirAlarmSci
+  suffix: Trieste, Engineering, Science
+  components:
+  - type: AirAlarm
+  - type: AccessReader
+    access: [["Atmospherics"], ["Research"]]

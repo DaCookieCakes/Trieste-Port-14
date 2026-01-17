@@ -8,7 +8,7 @@
       connections:
       - legs
       organs:
-        lungs: OrganWaterLungs
+        lungs: TP14OrganWaterLungs
         stomach: OrganAnimalStomach
         liver: OrganAnimalLiver
         heart: OrganArachnidHeart
