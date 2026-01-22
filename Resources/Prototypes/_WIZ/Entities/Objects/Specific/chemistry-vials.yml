@@ -1,5 +1,3 @@
-# TODO: Have a seperate lid state that can be popped on and off (not as a seperate item) that changes whether the vial can be spilled or not.
-
 - type: entity
   name: vial
   parent: BaseItem
@@ -20,9 +18,16 @@
     sprite: Objects/Specific/Chemistry/vial.rsi
     layers:
       - state: vial-1
+        map: ["enum.OpenableVisuals.Layer"]
       - state: vial-1-1
         map: ["enum.SolutionContainerLayers.Fill"]
         visible: false
+  - type: GenericVisualizer # TP14
+    visuals:
+      enum.OpenableVisuals.Opened:
+        enum.OpenableVisuals.Layer:
+          True: { state: "vial-open" }
+          False: { state: "vial" }
   - type: Appearance
   - type: SolutionContainerVisuals
     maxFillLevels: 6
@@ -106,11 +111,19 @@
   - type: Spillable
     solution: beaker
   - type: DnaSubstanceTrace
+  - type: Openable # TP14 - There was a comment to add this
+    sound:
+      collection: bottleOpenSounds
+    closeable: true
+    closeSound:
+      collection: bottleCloseSounds
+
 
 - type: entity
   id: VestineChemistryVial
   parent: BaseChemistryEmptyVial
-  suffix: vestine
+  name: vestine vial
+  suffix: vestine 30u
   components:
   - type: Label
     currentLabel: reagent-name-vestine
@@ -129,6 +142,7 @@
   id: VestineChemistryVialHalf
   name: vestine vial
   parent: BaseChemistryEmptyVial
+  suffix: vestine 15u
   components:
     - type: SolutionContainerManager
       solutions:
