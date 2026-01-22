@@ -32,7 +32,7 @@
     - texture:
         !type:GeneratedParallaxTextureSource
         id: ""
-        configPath: "/Prototypes/Parallaxes/parallax_config.toml"
+        configPath: "/Prototypes/_WIZ/Parallaxes/parallax_config.toml"
       slowness: 0.875
       scrolling: "0, -0.475"
   layersLQUseHQ: false
