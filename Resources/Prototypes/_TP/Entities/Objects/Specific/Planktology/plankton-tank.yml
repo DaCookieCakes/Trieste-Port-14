@@ -1,0 +1,51 @@
+- type: entity
+  parent: BaseMachinePowered
+  id: TP14PlanktonTankEmpty
+  name: plankton cultivation tank
+  description: A stationary aquarium for cultivating plankton species. Requires power and SeaWater.
+  suffix: Trieste, Research
+  components:
+  - type: ApcPowerReceiver
+    powerLoad: 200
+  - type: Sprite
+    noRot: true
+    sprite: Structures/Storage/glassbox.rsi
+    layers:
+    - state: base
+      visible: true
+    - state: glass
+      visible: true
+  - type: SolutionContainerManager
+    solutions:
+      tank:
+        maxVol: 100
+      input:
+        maxVol: 25
+  - type: PlanktonTank
+    currentTemperature: 20
+    targetTemperature: 20
+    maxSpecies: 2
+  - type: Plankton
+    temperatureToleranceLow: 0
+    temperatureToleranceHigh: 40
+  - type: ItemSlots
+    slots:
+      plankton_container_slot:
+        name: Sample Container
+        whitelist:
+          components:
+          - Plankton
+        ejectOnInteract: true
+
+- type: entity
+  parent: TP14PlanktonTankEmpty
+  id: TP14PlanktonTankFull
+  suffix: Trieste, Research, Full
+  components:
+  - type: SolutionContainerManager
+    solutions:
+      tank:
+        maxVol: 100
+        reagents:
+        - ReagentId: SeaWater
+          Quantity: 100

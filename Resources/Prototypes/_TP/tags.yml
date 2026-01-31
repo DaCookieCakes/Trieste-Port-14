@@ -42,6 +42,9 @@
   id: TP14OvenMachineBoard
 
 - type: Tag
+  id: TP14TagPlanktonHarvesterBoard
+
+- type: Tag
   id: PearlEditor
 
 - type: Tag
@@ -64,3 +67,4 @@
 
 - type: Tag
   id: Wreck
+

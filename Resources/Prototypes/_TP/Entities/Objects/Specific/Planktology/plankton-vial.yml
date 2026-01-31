@@ -1,0 +1,44 @@
+- type: entity
+  parent: BaseItem
+  id: TP14PlanktonContainer
+  name: plankton sample container
+  description: A small container designed to hold plankton cultures.
+  suffix: Trieste
+  components:
+  - type: Sprite
+    sprite: Objects/Specific/Chemistry/vial.rsi
+    state: vial-1
+  - type: Item
+    size: Tiny
+    sprite: Objects/Specific/Chemistry/vial.rsi
+    shape:
+    - 0,0,0,0
+  - type: Plankton
+    temperatureToleranceLow: 0
+    temperatureToleranceHigh: 40
+  - type: SolutionContainerManager
+    solutions:
+      beaker:
+        maxVol: 50
+  - type: FitsInDispenser
+    solution: beaker
+  - type: RefillableSolution
+    solution: beaker
+  - type: DrainableSolution
+    solution: beaker
+  - type: ExaminableSolution
+    solution: beaker
+  - type: DrawableSolution
+    solution: beaker
+  - type: InjectableSolution
+    solution: beaker
+
+- type: entity
+  parent: TP14PlanktonContainer
+  id: TP14PlanktonSampleContainerEmpty
+  suffix: Trieste, Empty
+  components:
+  - type: SolutionContainerManager
+    solutions:
+      beaker:
+        maxVol: 50

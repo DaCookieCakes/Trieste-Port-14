@@ -2,12 +2,11 @@
 using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototype;
 
-namespace Content.Server.Planktonics;
+namespace Content.Server._TP.Planktonics;
 
 [RegisterComponent]
 public sealed partial class PlanktonScannerComponent : Component
 {
-
     [DataField]
     public bool AnalysisMode = false;
 

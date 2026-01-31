@@ -1,15 +1,10 @@
-using Content.Shared.Chemistry.Reagent;
-
-namespace Content.Shared.Plankton;
+namespace Content.Shared._TP.Plankton;
 
 [RegisterComponent]
-public partial class PlanktonComponent : Component
+public sealed partial class PlanktonComponent : Component
 {
-    [DataField("reagentId")]
-    public ReagentId ReagentId { get; set; } = new ReagentId();
-
      [DataField("deadPlankton")]
-    public float DeadPlankton { get; set; } = 0f;
+    public float DeadPlankton { get; set; }
 
     public List<PlanktonSpeciesInstance> SpeciesInstances { get; set; } = new();
 
@@ -23,14 +18,14 @@ public partial class PlanktonComponent : Component
         public float CurrentHunger { get; set; }
         public bool IsAlive { get; set; }
 
-        public PlanktonSpeciesInstance(PlanktonName speciesName, PlanktonDiet diet, PlanktonCharacteristics characteristics, float currentSize, float CurrentHunger, bool IsAlive)
+        public PlanktonSpeciesInstance(PlanktonName speciesName, PlanktonDiet diet, PlanktonCharacteristics characteristics, float currentSize, float currentHunger, bool isAlive)
         {
             SpeciesName = speciesName;
             Diet = diet;
             Characteristics = characteristics;
             CurrentSize = currentSize;
-            CurrentHunger = 100f;
-            IsAlive = true;
+            CurrentHunger = currentHunger;
+            IsAlive = isAlive;
         }
     }
 
@@ -93,7 +88,7 @@ public partial class PlanktonComponent : Component
         "Mesorhizobium", "Navicula", "Nitzschia", "Oscillatoria", "Phaeodactylum",
         "Phacus", "Platymonas", "Protoperidinium", "Pyramimonas", "Spirulina",
         "Synedra", "Tetradontia", "Trachelomonas", "Volvox", "Vorticella", "Bill",
-        "Ratilus", "Betamios", "Noctliuca", "Terminidia", "Democracia", "Kharaa", 
+        "Ratilus", "Betamios", "Noctliuca", "Terminidia", "Democracia", "Kharaa",
         "Meridia", "Malevalon", "ERROR", "Kerbalius", "Raptura"
     };
 
@@ -105,7 +100,7 @@ public partial class PlanktonComponent : Component
         "tuberculata", "subtilis", "hyalina", "cephalopodiformis", "corymbosa",
         "unobtania", "tri-tachia", "xenofila", "macrospora", "apogeelia",
         "lucida", "triesta", "rounyens", "tcarotenoides", "ectoplasmica",
-        "thingius", "cordycepsia", "krabby", "jones", "4546B", "rottia", "hearthiata", 
+        "thingius", "cordycepsia", "krabby", "jones", "4546B", "rottia", "hearthiata",
         "nomaia", "exadv1ia", "florania", "hylotlia", "thargoidis", "celesteia", "brackenis"
     };
 

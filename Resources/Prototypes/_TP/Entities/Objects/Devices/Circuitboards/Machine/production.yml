@@ -144,3 +144,21 @@
   - type: Tag
     tags:
     - TP14TagDeepFryerBoard
+
+- type: entity
+  id: TP14PlanktonHarvesterCircuitBoard
+  parent: BaseMachineCircuitboard
+  suffix: Trieste, Circuit-Board
+  name: plankton harvester circuit board
+  components:
+  - type: Sprite
+    state: science
+  - type: MachineBoard
+    prototype: TP14PlanktonHarvester
+    stackRequirements:
+      Manipulator: 3
+      Steel: 15
+      Glass: 30
+  - type: Tag
+    tags:
+    - TP14TagPlanktonHarvesterBoard

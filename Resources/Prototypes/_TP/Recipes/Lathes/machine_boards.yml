@@ -4,17 +4,27 @@
   id: IncubatorMachineCircuitboard
   result: IncubatorMachineCircuitboard
 
+
 # Power
 - type: latheRecipe
   parent: [ BaseGoldCircuitboardRecipe, BaseEngineeringMachineRecipeCategory ]
   id: TP14SMESAdvancedMachineCircuitboardRecipe
   result: TP14SMESAdvancedMachineCircuitboard
 
+
 # Atmospherics
 - type: latheRecipe
   parent: [ BaseCircuitboardRecipe, BaseEngineeringMachineRecipeCategory ]
   id: JellidPortableScrubberMachineCircuitBoard
   result: JellidPortableScrubberMachineCircuitBoard
+
+
+# Research
+- type: latheRecipe
+  parent: [ BaseCircuitboardRecipe, BaseResearchMachineRecipeCategory ]
+  id: TP14PlanktonHarvesterCircuitboardRecipe
+  result: TP14PlanktonHarvesterCircuitBoard
+
 
 # Shuttle
 - type: latheRecipe
@@ -26,6 +36,7 @@
   parent: [ BaseCircuitboardRecipe, BaseSupplyMachineRecipeCategory ]
   id: TP14LargePropellerMachineCircuitboardRecipe
   result: TP14LargePropellerMachineCircuitboard
+
 
 # Service
 - type: latheRecipe
