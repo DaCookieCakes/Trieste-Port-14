@@ -1,0 +1,14 @@
+- type: entity
+  parent: MarkerBase
+  id: TP14CoralSpawner
+  name: coral spawner
+  suffix: Trieste, Sea, 50%
+  components:
+  - type: Sprite
+    sprite: "_TP/Objects/Flora/Forage/coral.rsi"
+    state: red_tile
+    color: "#FFFFFF99"
+  - type: RandomSpawner
+    prototypes:
+    - TP14CoralWallRed
+    chance: 0.5

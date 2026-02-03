@@ -90,16 +90,13 @@ public sealed class PlanktonTankSystem : EntitySystem
         if (Math.Abs(tempDiff) < 0.1f)
         {
             if (TryComp<ApcPowerReceiverComponent>(uid, out var receiver))
-            {
                 receiver.Load = component.IdlePowerConsumption;
-            }
+
             return;
         }
 
         if (TryComp<ApcPowerReceiverComponent>(uid, out var activeReceiver))
-        {
             activeReceiver.Load = component.ActivePowerConsumption;
-        }
 
         // Now we check if the tempDiff IS ABOVE ZERO.
         // If it is, increase temp. Otherwise, decrease temp.
@@ -296,8 +293,8 @@ public sealed class PlanktonTankSystem : EntitySystem
         if (!TryComp<PlanktonComponent>(containerEntity, out var containerPlankton))
             return;
 
-        var livingSpecies = plankton.SpeciesInstances.ToList();
-        foreach (var species in livingSpecies)
+        var speciesInstances = plankton.SpeciesInstances.ToList();
+        foreach (var species in speciesInstances)
         {
             var capturedSpecies = species;
 
@@ -316,20 +313,17 @@ public sealed class PlanktonTankSystem : EntitySystem
             args.Verbs.Add(extractVerb);
         }
 
-        if (containerPlankton.SpeciesInstances.Count > 0)
+        var containerSpeciesInstances = containerPlankton.SpeciesInstances.ToList();
+        foreach (var species in containerSpeciesInstances)
         {
-            var planktonSpecies = containerPlankton.SpeciesInstances.First();
-            if (!planktonSpecies.IsAlive)
-                return;
-
+            var capturedSpecies = species;
             Verb insertVerb = new()
             {
-                Text = Loc.GetString("plankton-tank-insert-species",
-                    ("species", planktonSpecies.SpeciesName.ToString())),
+                Text = Loc.GetString("plankton-tank-insert-species", ("species", capturedSpecies.SpeciesName.ToString())),
                 Icon = new SpriteSpecifier.Texture(new ResPath("/Textures/Interface/VerbIcons/in.svg.192dpi.png")),
                 Act = () =>
                 {
-                    InsertSpecies(uid, component, containerPlankton);
+                    InsertSpecies(uid, component, capturedSpecies);
                 },
                 Priority = -2,
             };
@@ -344,7 +338,9 @@ public sealed class PlanktonTankSystem : EntitySystem
     /// <param name="tankUid">The Tank UID</param>
     /// <param name="tankComponent">The Tank Component</param>
     /// <param name="species">The Species Component</param>
-    private void InsertSpecies(EntityUid tankUid, PlanktonTankComponent tankComponent, PlanktonComponent species)
+    private void InsertSpecies(EntityUid tankUid,
+        PlanktonTankComponent tankComponent,
+        PlanktonComponent.PlanktonSpeciesInstance species)
     {
         // If we can't add a species because the tank is full, we return early.
         // We also check if the tank can even contain plankton.
@@ -357,15 +353,22 @@ public sealed class PlanktonTankSystem : EntitySystem
         if (!TryComp<PlanktonComponent>(tankUid, out var tankPlankton))
             return;
 
+        if (!_container.TryGetContainer(tankUid, "plankton_container_slot", out var slot) ||
+            slot.ContainedEntities.Count == 0)
+            return;
+
+        var containerEntity = slot.ContainedEntities[0];
+        if (!TryComp<PlanktonComponent>(containerEntity, out var containerPlankton))
+            return;
+
         // If we pass those checks, we then get the first species in the container.
         // We then add it to the tank, and remove it from the container.
         // Finally, we display a message at the tank.
-        var firstPlanktonSpecies = species.SpeciesInstances.First();
 
-        tankPlankton.SpeciesInstances.Add(firstPlanktonSpecies);
-        species.SpeciesInstances.Remove(firstPlanktonSpecies);
+        tankPlankton.SpeciesInstances.Add(species);
+        containerPlankton.SpeciesInstances.Remove(species);
 
-        _popup.PopupEntity(Loc.GetString("plankton-tank-inserted", ("species", firstPlanktonSpecies.SpeciesName.ToString())), tankUid);
+        _popup.PopupEntity(Loc.GetString("plankton-tank-inserted", ("species", species.SpeciesName.ToString())), tankUid);
     }
 
     /// <summary>

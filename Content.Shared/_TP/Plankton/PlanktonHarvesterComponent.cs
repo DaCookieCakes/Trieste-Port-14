@@ -11,19 +11,31 @@ namespace Content.Shared._TP.Plankton;
 public sealed partial class PlanktonHarvesterComponent : Component
 {
     /// <summary>
-    /// Minimum amount of seawater gas required per harvest cycle.
+    ///     Minimum amount of SeaWater required per harvest cycle.
     /// </summary>
     [DataField]
-    public float SeaWaterRequired = 10f;
+    public float SeaWaterRequired = 100f;
 
     /// <summary>
-    /// How long between harvest attempts in seconds.
+    ///     How long it takes to harvest while a container is present
     /// </summary>
     [DataField]
-    public float HarvestInterval = 60f;
+    public float HarvestInterval = 20f;
 
     /// <summary>
-    /// Next time the harvester can attempt to harvest plankton.
+    ///     Delay between harvests
+    /// </summary>
+    [DataField]
+    public float CooldownInterval = 30F;
+
+    /// <summary>
+    ///     Next time the harvester can attempt to harvest plankton.
+    /// </summary>
+    [DataField(customTypeSerializer: typeof(TimeOffsetSerializer))]
+    public TimeSpan NextCooldown = TimeSpan.Zero;
+
+    /// <summary>
+    ///     Next time the harvester can attempt to harvest plankton.
     /// </summary>
     [DataField(customTypeSerializer: typeof(TimeOffsetSerializer))]
     public TimeSpan NextHarvestTime = TimeSpan.Zero;
@@ -50,7 +62,7 @@ public sealed partial class PlanktonHarvesterComponent : Component
     /// Power consumption when actively harvesting.
     /// </summary>
     [DataField]
-    public float ActivePowerConsumption = 10000f;
+    public float ActivePowerConsumption = 1000f;
 
     /// <summary>
     /// Power consumption when idle.
@@ -76,9 +88,6 @@ public sealed partial class PlanktonHarvesterComponent : Component
     [ViewVariables]
     public bool IsPowered = false;
 
-    /// <summary>
-    /// Whether a harvest is currently in progress.
-    /// </summary>
     [ViewVariables]
-    public bool IsHarvesting = false;
+    public bool CanHarvest = false;
 }

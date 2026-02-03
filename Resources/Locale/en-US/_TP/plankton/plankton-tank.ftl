@@ -14,7 +14,9 @@ plankton-tank-extract-species = Extract {$species}
 plankton-tank-extracted = Successfully extracted {$species} into a container.
 
 ## Species Insertion
+plankton-tank-insert-species = Insert {$species}
 plankton-tank-full = The tank is at maximum capacity
+plankton-tank-inserted = Successfully inserted {$species} into the tank.
 
 ## Status Messages
 plankton-tank-species-limit = This tank is at maximum capacity ({$max} species).

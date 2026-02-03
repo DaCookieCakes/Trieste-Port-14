@@ -1,18 +1,15 @@
 using System.Linq;
 using Content.Shared._TP.Plankton;
-using Content.Shared.Electrocution;
 using Content.Shared.Examine;
 using Content.Shared.Radiation.Events;
-using Robust.Server.GameObjects;
 
-namespace Content.Server._TP.Plankton;
+namespace Content.Server._TP.Plankton.PlanktonSystems;
 
-public sealed class PlanktonSystem : EntitySystem
+public sealed partial class PlanktonSystem : EntitySystem
 {
     [Dependency] private readonly IEntityManager _entityManager = default!;
-    [Dependency] private readonly PointLightSystem _pointLight = default!;
 
-    private const float UpdateInterval = 1f; // Interval in seconds
+    private const float UpdateInterval = 2.5f;
     private const float HungerInterval = 5f;
 
     private float _updateTimer;
@@ -22,7 +19,6 @@ public sealed class PlanktonSystem : EntitySystem
     public override void Initialize()
     {
         base.Initialize();
-        SubscribeLocalEvent<PlanktonComponent, ComponentInit>(OnPlanktonCompInit);
         SubscribeLocalEvent<PlanktonComponent, OnIrradiatedEvent>(OnRadiation);
         SubscribeLocalEvent<PlanktonComponent, ExaminedEvent>(OnExamine);
     }
@@ -35,9 +31,7 @@ public sealed class PlanktonSystem : EntitySystem
         foreach (var plankton in component.SpeciesInstances)
         {
             if (!plankton.IsAlive)
-            {
                 args.PushMarkup($"The {plankton.SpeciesName} colony is dead!");
-            }
         }
     }
 
@@ -50,10 +44,10 @@ public sealed class PlanktonSystem : EntitySystem
 
         if (_updateTimer >= UpdateInterval)
         {
-            foreach (var entity in EntityManager.EntityQuery<PlanktonComponent>())
+            var query = EntityQueryEnumerator<PlanktonComponent>();
+            while (query.MoveNext(out var plaktonUid, out var planktonComp))
             {
-                var uid = entity.Owner; // entity.Owner is the EntityUid
-                PlanktonInteraction(uid);
+                UpdateCharacteristics(planktonComp, plaktonUid);
             }
 
             _updateTimer = 0f;
@@ -69,11 +63,6 @@ public sealed class PlanktonSystem : EntitySystem
 
             _hungerTimer = 0f;
         }
-    }
-
-    private void OnPlanktonCompInit(EntityUid uid, PlanktonComponent component, ComponentInit args)
-    {
-        Log.Info($"Plankton component initialized");
     }
 
     private void PlanktonInteraction(EntityUid uid)
@@ -93,75 +82,59 @@ public sealed class PlanktonSystem : EntitySystem
     {
         foreach (var planktonInstance in component.SpeciesInstances)
         {
-            if (planktonInstance.IsAlive)
+            if (!planktonInstance.IsAlive)
+                continue;
+
+            if ((planktonInstance.Characteristics & PlanktonComponent.PlanktonCharacteristics.Aggressive) != 0)
             {
-                if ((planktonInstance.Characteristics & PlanktonComponent.PlanktonCharacteristics.Aggressive) != 0)
-                {
-                    PerformAggressionCheck(component);
-                }
+                PerformAggressionCheck(component);
+            }
 
-                if ((planktonInstance.Characteristics & PlanktonComponent.PlanktonCharacteristics.Bioluminescent) != 0)
-                {
-                    if (!HasComp<PointLightComponent>(uid))
-                        EnsureComp<PointLightComponent>(uid);
+            if ((planktonInstance.Characteristics & PlanktonComponent.PlanktonCharacteristics.Mimicry) != 0)
+            {
 
-                    _pointLight.SetEnabled(uid, true);
-                    _pointLight.SetEnergy(uid, 8F);
-                    _pointLight.SetRadius(uid, 1F);
-                }
+            }
 
-                if ((planktonInstance.Characteristics & PlanktonComponent.PlanktonCharacteristics.Charged) != 0)
-                {
-                    if (!HasComp<ElectrifiedComponent>(uid))
-                        EnsureComp<ElectrifiedComponent>(uid).RequirePower = false;
-                }
+            if ((planktonInstance.Characteristics & PlanktonComponent.PlanktonCharacteristics.ChemicalProduction) != 0)
+            {
 
-                if ((planktonInstance.Characteristics & PlanktonComponent.PlanktonCharacteristics.Mimicry) != 0)
-                {
+            }
 
-                }
+            if ((planktonInstance.Characteristics & PlanktonComponent.PlanktonCharacteristics.MagneticField) != 0)
+            {
 
-                if ((planktonInstance.Characteristics & PlanktonComponent.PlanktonCharacteristics.ChemicalProduction) != 0)
-                {
+            }
 
-                }
+            if ((planktonInstance.Characteristics & PlanktonComponent.PlanktonCharacteristics.Hallucinogenic) != 0)
+            {
+            }
 
-                if ((planktonInstance.Characteristics & PlanktonComponent.PlanktonCharacteristics.MagneticField) != 0)
-                {
+            if ((planktonInstance.Characteristics & PlanktonComponent.PlanktonCharacteristics.PheromoneGlands) != 0)
+            {
+            }
 
-                }
+            if ((planktonInstance.Characteristics & PlanktonComponent.PlanktonCharacteristics.PolypColony) != 0)
+            {
+            }
 
-                if ((planktonInstance.Characteristics & PlanktonComponent.PlanktonCharacteristics.Hallucinogenic) != 0)
-                {
-                }
+            if ((planktonInstance.Characteristics & PlanktonComponent.PlanktonCharacteristics.AerosolSpores) != 0)
+            {
+            }
 
-                if ((planktonInstance.Characteristics & PlanktonComponent.PlanktonCharacteristics.PheromoneGlands) != 0)
-                {
-                }
+            if ((planktonInstance.Characteristics & PlanktonComponent.PlanktonCharacteristics.HyperExoticSpecies) != 0)
+            {
+            }
 
-                if ((planktonInstance.Characteristics & PlanktonComponent.PlanktonCharacteristics.PolypColony) != 0)
-                {
-                }
+            if ((planktonInstance.Characteristics & PlanktonComponent.PlanktonCharacteristics.Sentience) != 0)
+            {
+            }
 
-                if ((planktonInstance.Characteristics & PlanktonComponent.PlanktonCharacteristics.AerosolSpores) != 0)
-                {
-                }
+            if ((planktonInstance.Characteristics & PlanktonComponent.PlanktonCharacteristics.Pyrophilic) != 0)
+            {
+            }
 
-                if ((planktonInstance.Characteristics & PlanktonComponent.PlanktonCharacteristics.HyperExoticSpecies) != 0)
-                {
-                }
-
-                if ((planktonInstance.Characteristics & PlanktonComponent.PlanktonCharacteristics.Sentience) != 0)
-                {
-                }
-
-                if ((planktonInstance.Characteristics & PlanktonComponent.PlanktonCharacteristics.Pyrophilic) != 0)
-                {
-                }
-
-                if ((planktonInstance.Characteristics & PlanktonComponent.PlanktonCharacteristics.Cryophilic) != 0)
-                {
-                }
+            if ((planktonInstance.Characteristics & PlanktonComponent.PlanktonCharacteristics.Cryophilic) != 0)
+            {
             }
         }
     }
@@ -228,9 +201,22 @@ public sealed class PlanktonSystem : EntitySystem
                 {
                     const float photosyntheticFood = 0.001f;
                     planktonInstance.CurrentHunger += photosyntheticFood;
-                    Log.Info($"{planktonInstance.SpeciesName} photosynthesizing");
                     break;
                 }
+                case PlanktonComponent.PlanktonDiet.Radiophage:
+                    break;
+                case PlanktonComponent.PlanktonDiet.Saguinophage:
+                    break;
+                case PlanktonComponent.PlanktonDiet.Electrophage:
+                    break;
+                case PlanktonComponent.PlanktonDiet.Symbiotroph:
+                    break;
+                case PlanktonComponent.PlanktonDiet.Chemophage:
+                    break;
+                case PlanktonComponent.PlanktonDiet.Scavenger:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
     }
@@ -392,6 +378,9 @@ public sealed class PlanktonSystem : EntitySystem
         {
             if (!planktonInstance.IsAlive)
                 continue;
+
+            if (planktonInstance.CurrentSize <= 0)
+                planktonInstance.IsAlive = false;
 
             if (planktonInstance.CurrentHunger <= 0)
             {

@@ -30,10 +30,10 @@
   - type: PipeColorVisuals
   - type: Rotatable
   - type: PlanktonHarvester
-    harvestInterval: 30
-    seawaterRequired: 10
+    harvestInterval: 20
+    seawaterRequired: 100
     minSpecies: 1
-    maxSpecies: 3
+    maxSpecies: 1
   - type: AtmosPipeColor
   - type: AtmosPipeLayers
     spriteLayersRsiPaths:

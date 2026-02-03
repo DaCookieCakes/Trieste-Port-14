@@ -1,0 +1,47 @@
+- type: entity
+  parent: BaseItem
+  id: TP14CoralItemRed
+  name: red coral
+  description: A beautiful red coral. Probably worth a pretty penny.
+  suffix: Trieste, Sea
+  components:
+  - type: Sprite
+    sprite: "_TP/Objects/Flora/Forage/coral.rsi"
+    state: red
+  - type: StaticPrice
+    price: 500
+
+- type: entity
+  parent: BaseStructure
+  id: TP14CoralWallRed
+  name: red coral
+  description: A hardy colony of beautiful red coral.
+  components:
+  - type: Clickable
+  - type: Damageable
+    damageContainer: StructuralInorganic
+    damageModifierSet: Rock
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 120
+      behaviors:
+      - !type:SpawnEntitiesBehavior
+        spawn:
+          TP14CoralItemRed:
+            min: 1
+            max: 4
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+      - !type:PlaySoundBehavior
+        sound:
+          path: /Audio/Effects/break_stone.ogg
+          params:
+            volume: -6
+  - type: Sprite
+    sprite: "_TP/Objects/Flora/Forage/coral.rsi"
+    state: red_tile
+  - type: Icon
+    sprite: "_TP/Objects/Flora/Forage/coral.rsi"
+    state: red_tile
