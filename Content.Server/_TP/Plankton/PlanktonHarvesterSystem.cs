@@ -7,6 +7,7 @@ using Content.Shared.Examine;
 using Content.Shared.Interaction;
 using Content.Shared.Popups;
 using Content.Shared.Power;
+using Robust.Shared.Audio;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Containers;
 using Robust.Shared.Random;
@@ -25,7 +26,6 @@ public sealed class PlanktonHarvesterSystem : EntitySystem
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
-    [Dependency] private readonly SharedTransformSystem _transform = default!;
 
     public override void Initialize()
     {
@@ -46,7 +46,6 @@ public sealed class PlanktonHarvesterSystem : EntitySystem
         base.Update(frameTime);
 
         _updateTimer += frameTime;
-
         if (_updateTimer >= 1F)
         {
             var harvesterQuery = EntityQueryEnumerator<PlanktonHarvesterComponent>();
@@ -99,147 +98,166 @@ public sealed class PlanktonHarvesterSystem : EntitySystem
     {
         harvesterComp.IsPowered = args.Powered;
         harvesterComp.NextHarvestTime = _timing.CurTime + TimeSpan.FromSeconds(harvesterComp.HarvestInterval);
+
+        if (!harvesterComp.IsPowered)
+            harvesterComp.NextCooldown = _timing.CurTime + TimeSpan.FromSeconds(harvesterComp.HarvestInterval);
     }
 
     /// <summary>
     ///     Examination messages for the Harvester entity
     /// </summary>
-    /// <param name="uid">Harvester Uid</param>
-    /// <param name="component">Harvester Component</param>
+    /// <param name="harvesterUid">Harvester Uid</param>
+    /// <param name="harvesterComp">Harvester Component</param>
     /// <param name="args">ExaminedEvent arguments</param>
-    private void OnExamined(EntityUid uid, PlanktonHarvesterComponent component, ExaminedEvent args)
+    private void OnExamined(EntityUid harvesterUid, PlanktonHarvesterComponent harvesterComp, ExaminedEvent args)
     {
         if (!args.IsInDetailsRange)
             return;
 
         // Power examination
-        var powerStatus = component.IsPowered ? "online" : "offline";
+        var powerStatus = harvesterComp.IsPowered ? "online" : "offline";
         args.PushMarkup(Loc.GetString("plankton-harvester-examine-power", ("status", powerStatus)));
 
         // Issue and Harvesting examination
         // Issues include the container being empty, and the harvester cooldown.
         // Harvesting is just a timer when it CAN harvest.
-        var container = _container.GetContainer(uid, component.ContainerSlotId);
-        var cooldown = (component.NextCooldown - _timing.CurTime).TotalSeconds;
-        if (!component.CanHarvest)
+        var container = _container.GetContainer(harvesterUid, harvesterComp.ContainerSlotId);
+        var cooldown = (harvesterComp.NextCooldown - _timing.CurTime).TotalSeconds;
+        if (!harvesterComp.CanHarvest)
         {
             if (container.ContainedEntities.Count <= 0)
-                args.PushMarkup("plankton-harvester-container-empty");
+                args.PushMarkup(Loc.GetString("plankton-harvester-examine-container-empty"));
 
-            args.PushMarkup(component.NextCooldown > _timing.CurTime
-                ? Loc.GetString("plankton-harvester-cooldown", ("time", $"{cooldown:F0}"))
-                : Loc.GetString("plankton-harvester-ready"));
+            args.PushMarkup(harvesterComp.NextCooldown > _timing.CurTime
+                ? Loc.GetString("plankton-harvester-examine-cooldown", ("time", $"{cooldown:F0}"))
+                : Loc.GetString("plankton-harvester-examine-ready"));
         }
         else
         {
-            var harvestTime = (component.NextHarvestTime - _timing.CurTime).TotalSeconds;
-            if (component.CanHarvest)
-                args.PushMarkup(Loc.GetString("plankton-harvester-harvesting", ("time", $"{harvestTime:F0}")));
+            var harvestTime = (harvesterComp.NextHarvestTime - _timing.CurTime).TotalSeconds;
+            if (harvesterComp.CanHarvest)
+                args.PushMarkup(Loc.GetString("plankton-harvester-examine-harvesting", ("time", $"{harvestTime:F0}")));
         }
     }
 
-    private void OnInteractUsing(EntityUid uid, PlanktonHarvesterComponent component, InteractUsingEvent args)
+    /// <summary>
+    ///     Inserting am item on the Harvester.
+    /// </summary>
+    /// <param name="harvesterUid">Harvester Uid</param>
+    /// <param name="harvesterComp">Harvester Component</param>
+    /// <param name="args">InteractUsingEvent arguments</param>
+    private void OnInteractUsing(EntityUid harvesterUid, PlanktonHarvesterComponent harvesterComp, InteractUsingEvent args)
     {
         if (args.Handled)
             return;
 
         // Check if the used item is a valid Plankton container,
-        // and whether the slot is already occupied.
+        // and if valid insert it into the harvester.
         if (!HasComp<PlanktonComponent>(args.Used))
             return;
 
-        var container = _container.GetContainer(uid, component.ContainerSlotId);
-
-        // If valid and the slot isn't occupied, insert the container.
+        var container = _container.GetContainer(harvesterUid, harvesterComp.ContainerSlotId);
         if (_container.Insert(args.Used, container))
         {
-            _popup.PopupEntity(Loc.GetString("plankton-harvester-container-inserted"), uid, args.User);
+            _popup.PopupEntity(Loc.GetString("plankton-harvester-container-inserted"), harvesterUid, args.User);
             args.Handled = true;
         }
     }
 
-    private void OnContainerInserted(EntityUid uid, PlanktonHarvesterComponent component, EntInsertedIntoContainerMessage args)
+    /// <summary>
+    ///     After an item is inserted into the harvester.
+    /// </summary>
+    /// <param name="harvesterUid">Harvester Uid</param>
+    /// <param name="harvesterComp">Harvester Component</param>
+    /// <param name="args">EntInsertedIntoContainerMessage arguments</param>
+    private void OnContainerInserted(EntityUid harvesterUid, PlanktonHarvesterComponent harvesterComp, EntInsertedIntoContainerMessage args)
     {
-        if (args.Container.ID != component.ContainerSlotId)
+        if (args.Container.ID != harvesterComp.ContainerSlotId)
             return;
 
-        // Update the power consumption when a container is inserted.
-        if (TryComp<ApcPowerReceiverComponent>(uid, out var receiver))
-        {
-            receiver.Load = component.IdlePowerConsumption;
-        }
+        // Update the power consumption when a container is inserted
+        if (TryComp<ApcPowerReceiverComponent>(harvesterUid, out var receiver) && harvesterComp.CanHarvest)
+            receiver.Load = harvesterComp.ActivePowerConsumption;
     }
 
-    private void OnContainerRemoved(EntityUid uid, PlanktonHarvesterComponent component, EntRemovedFromContainerMessage args)
+    /// <summary>
+    ///     After an item is removed from the harvester.
+    /// </summary>
+    /// <param name="harvesterUid">Harvester Uid</param>
+    /// <param name="harvesterComp">Harvester Component</param>
+    /// <param name="args">EntRemovedFromContainerMessage arguments</param>
+    private void OnContainerRemoved(EntityUid harvesterUid, PlanktonHarvesterComponent harvesterComp, EntRemovedFromContainerMessage args)
     {
-        if (args.Container.ID != component.ContainerSlotId)
+        if (args.Container.ID != harvesterComp.ContainerSlotId)
             return;
 
-        component.CanHarvest = false;
+        // Reset the harvest time
+        harvesterComp.CanHarvest = false;
+        harvesterComp.NextHarvestTime = _timing.CurTime + TimeSpan.FromSeconds(harvesterComp.HarvestInterval);
     }
 
-    private void TryHarvestPlankton(EntityUid uid, PlanktonHarvesterComponent component)
+    private void TryHarvestPlankton(EntityUid harvesterUid, PlanktonHarvesterComponent harvesterComp)
     {
-        // Check if we have a container loaded, and set the next harvest time 30 seconds from now.
-        var container = _container.GetContainer(uid, component.ContainerSlotId);
-        if (container.ContainedEntities.Count == 0)
-        {
-            component.NextHarvestTime = _timing.CurTime + TimeSpan.FromSeconds(component.HarvestInterval);
-            return;
-        }
+        // Check if we have a container loaded, and then check if it's an instance of Plankton.
+        // If so, we check if it's above the max species this harvester can generate.
+        // Then we move onto pipe nodes.
+        var container = _container.GetContainer(harvesterUid, harvesterComp.ContainerSlotId);
 
         var containerEntity = container.ContainedEntities[0];
         if (!TryComp<PlanktonComponent>(containerEntity, out var plankton))
-        {
-            component.NextHarvestTime = _timing.CurTime + TimeSpan.FromSeconds(component.HarvestInterval);
             return;
-        }
 
-        if (plankton.SpeciesInstances.Count >= 2)
-        {
+        if (plankton.SpeciesInstances.Count >= harvesterComp.MaxSpecies)
             return;
-        }
 
-        // Get the pipe node and check the air mixture.
-        // If it's SeaWater, consume it from the pipe and start harvesting plankton.
-        if (!_nodeContainer.TryGetNode(uid, "pipe", out PipeNode? pipeNode))
+        // Finally we generate the species. The count is based on the harvester itself.
+        if (harvesterComp.NextHarvestTime < _timing.CurTime)
         {
-            Log.Error($"PlanktonHarvester {uid} has no pipe node!");
-            component.NextHarvestTime = _timing.CurTime + TimeSpan.FromSeconds(component.HarvestInterval);
-            return;
+            // If the harvester needs water, we get the pipe node and check the air mixture.
+            // If there IS seawater, consume it from the pipe.
+            // If there IS NO seawater, fail the harvest.
+            if (harvesterComp.SeaWaterRequired > 0)
+            {
+                if (!_nodeContainer.TryGetNode(harvesterUid, "pipe", out PipeNode? pipeNode))
+                    return;
+
+                var airMixture = pipeNode.Air;
+                if (airMixture.TotalMoles == 0)
+                {
+                    _popup.PopupEntity(Loc.GetString("plankton-harvester-no-atmosphere"), harvesterUid);
+                    _audio.PlayPvs(harvesterComp.FailSound, harvesterUid, AudioParams.Default.WithVolume(0.6F));
+                    harvesterComp.CanHarvest = false;
+                    harvesterComp.NextCooldown = _timing.CurTime + TimeSpan.FromSeconds(harvesterComp.CooldownInterval);
+                    return;
+                }
+
+                var seawaterAmount = airMixture.GetMoles(Gas.Water);
+                if (seawaterAmount < harvesterComp.SeaWaterRequired)
+                {
+                    _popup.PopupClient(Loc.GetString("plankton-harvester-insufficient-seawater"), harvesterUid);
+                    _audio.PlayPvs(harvesterComp.FailSound, harvesterUid, AudioParams.Default.WithVolume(0.6F));
+                    harvesterComp.CanHarvest = false;
+                    harvesterComp.NextCooldown = _timing.CurTime + TimeSpan.FromSeconds(harvesterComp.CooldownInterval);
+                    return;
+                }
+
+                airMixture.AdjustMoles(Gas.Water, -harvesterComp.SeaWaterRequired);
+            }
+
+            var speciesCount = _random.Next(harvesterComp.MinSpecies, harvesterComp.MaxSpecies);
+            GeneratePlanktonSpecies(plankton, speciesCount);
+            CompleteHarvest(harvesterUid, harvesterComp);
         }
-
-        var airMixture = pipeNode.Air;
-        if (airMixture.TotalMoles == 0)
-        {
-            FailHarvest(uid, component, "plankton-harvester-no-atmosphere");
-            return;
-        }
-
-        var seawaterAmount = airMixture.GetMoles(Gas.Water);
-        if (seawaterAmount < component.SeaWaterRequired)
-        {
-            FailHarvest(uid, component, "plankton-harvester-insufficient-seawater");
-            return;
-        }
-
-        airMixture.AdjustMoles(Gas.Water, -component.SeaWaterRequired);
-
-        component.CanHarvest = true;
-
-        // Once we're harvesting,we set the power load to the ACTIVE amount.
-        // We then generate the plankton species, and run the complete harvest method.
-        if (TryComp<ApcPowerReceiverComponent>(uid, out var receiver))
-            receiver.Load = component.ActivePowerConsumption;
-
-        var speciesCount = _random.Next(component.MinSpecies, component.MaxSpecies + 1);
-        GeneratePlanktonSpecies(containerEntity, plankton, speciesCount);
-        CompleteHarvest(uid, component);
     }
 
-    private void GeneratePlanktonSpecies(EntityUid containerUid, PlanktonComponent plankton, int count)
+    /// <summary>
+    ///     Generates an entirely new Plankton species with three characteristics.
+    /// </summary>
+    /// <param name="planktonComp">Plankton Component</param>
+    /// <param name="speciesCount">How many species to generate</param>
+    private void GeneratePlanktonSpecies(PlanktonComponent planktonComp, int speciesCount)
     {
-        for (var i = 0; i < count; i++)
+        for (var i = 0; i < speciesCount; i++)
         {
             var firstName = PlanktonComponent.PlanktonFirstNames[
                 _random.Next(PlanktonComponent.PlanktonFirstNames.Length)];
@@ -249,8 +267,9 @@ public sealed class PlanktonHarvesterSystem : EntitySystem
 
             var planktonName = new PlanktonComponent.PlanktonName(firstName, secondName);
 
-            // Randomly generate 2-3 characteristics
-            var numCharacteristics = _random.Next(2, 4);
+            // Randomly generate 3 characteristics.
+            // TODO - Weighted pool for characteristics/diets that fit together
+            const int numCharacteristics = 3;
             var possibleCharacteristics = Enum.GetValues<PlanktonComponent.PlanktonCharacteristics>();
             var selectedCharacteristics = new HashSet<PlanktonComponent.PlanktonCharacteristics>();
 
@@ -261,7 +280,7 @@ public sealed class PlanktonHarvesterSystem : EntitySystem
                 {
                     var randomCharacteristic = (PlanktonComponent.PlanktonCharacteristics)characteristicValue;
 
-                    // Prevent Cryophilic + Pyrophilic
+                    // TEMP - Prevent Cryophilic + Pyrophilic
                     if ((selectedCharacteristics.Contains(PlanktonComponent.PlanktonCharacteristics.Cryophilic) &&
                          randomCharacteristic == PlanktonComponent.PlanktonCharacteristics.Pyrophilic) ||
                         (selectedCharacteristics.Contains(PlanktonComponent.PlanktonCharacteristics.Pyrophilic) &&
@@ -274,14 +293,13 @@ public sealed class PlanktonHarvesterSystem : EntitySystem
                 }
             }
 
-            // Combine characteristics
+            // Combine the characteristics, and then we create a new plankton species.
             PlanktonComponent.PlanktonCharacteristics combinedCharacteristics = 0;
             foreach (var characteristic in selectedCharacteristics)
             {
                 combinedCharacteristics |= characteristic;
             }
 
-            // Create new plankton instance
             var planktonInstance = new PlanktonComponent.PlanktonSpeciesInstance(
                 planktonName,
                 (PlanktonComponent.PlanktonDiet)_random.Next(
@@ -292,30 +310,27 @@ public sealed class PlanktonHarvesterSystem : EntitySystem
                 true
             );
 
-            plankton.SpeciesInstances.Add(planktonInstance);
+            planktonComp.SpeciesInstances.Add(planktonInstance);
 
             Log.Info($"Harvested plankton species {planktonInstance.SpeciesName} with diet {planktonInstance.Diet} and characteristics {combinedCharacteristics}");
         }
     }
 
-    private void CompleteHarvest(EntityUid uid, PlanktonHarvesterComponent component)
+    /// <summary>
+    ///     Completes the harvest once finished generating species
+    /// </summary>
+    /// <param name="harvesterUid">Harvester Uid</param>
+    /// <param name="harvesterComp">Harvester Component</param>
+    private void CompleteHarvest(EntityUid harvesterUid, PlanktonHarvesterComponent harvesterComp)
     {
-        component.CanHarvest = false;
-        component.NextHarvestTime = _timing.CurTime + TimeSpan.FromSeconds(component.HarvestInterval);
+        harvesterComp.CanHarvest = false;
+        harvesterComp.NextHarvestTime = _timing.CurTime + TimeSpan.FromSeconds(harvesterComp.HarvestInterval);
+        harvesterComp.NextCooldown = _timing.CurTime + TimeSpan.FromSeconds(harvesterComp.CooldownInterval);
 
-        _audio.PlayPvs(component.HarvestSound, uid);
-        _popup.PopupEntity(Loc.GetString("plankton-harvester-success"), uid);
+        _audio.PlayPvs(harvesterComp.HarvestSound, harvesterUid, AudioParams.Default.WithVolume(0.6F));
+        _popup.PopupEntity(Loc.GetString("plankton-harvester-success"), harvesterUid);
 
-        if (TryComp<ApcPowerReceiverComponent>(uid, out var receiver))
-            receiver.Load = component.IdlePowerConsumption;
-    }
-
-    private void FailHarvest(EntityUid uid, PlanktonHarvesterComponent component, string messageKey)
-    {
-        // Retries have a shorter timer.
-        component.NextHarvestTime = _timing.CurTime + TimeSpan.FromSeconds(component.HarvestInterval / 2);
-
-        _audio.PlayPvs(component.FailSound, uid);
-        _popup.PopupEntity(Loc.GetString(messageKey), uid);
+        if (TryComp<ApcPowerReceiverComponent>(harvesterUid, out var receiver))
+            receiver.Load = harvesterComp.IdlePowerConsumption;
     }
 }

@@ -11,7 +11,7 @@ namespace Content.Shared._TP.Plankton;
 public sealed partial class PlanktonHarvesterComponent : Component
 {
     /// <summary>
-    ///     Minimum amount of SeaWater required per harvest cycle.
+    ///     Minimum amount of seawater required per harvest cycle.
     /// </summary>
     [DataField]
     public float SeaWaterRequired = 100f;
@@ -29,7 +29,7 @@ public sealed partial class PlanktonHarvesterComponent : Component
     public float CooldownInterval = 30F;
 
     /// <summary>
-    ///     Next time the harvester can attempt to harvest plankton.
+    ///     Next time the harvester cools down.
     /// </summary>
     [DataField(customTypeSerializer: typeof(TimeOffsetSerializer))]
     public TimeSpan NextCooldown = TimeSpan.Zero;
