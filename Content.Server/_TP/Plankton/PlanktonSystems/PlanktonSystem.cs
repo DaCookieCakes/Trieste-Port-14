@@ -2,9 +2,13 @@ using System.Linq;
 using Content.Shared._TP.Plankton;
 using Content.Shared.Examine;
 using Content.Shared.Radiation.Events;
+using Robust.Shared.Random;
 
 namespace Content.Server._TP.Plankton.PlanktonSystems;
 
+/// <summary>
+///     Main Plankton entity system class
+/// </summary>
 public sealed partial class PlanktonSystem : EntitySystem
 {
     [Dependency] private readonly IEntityManager _entityManager = default!;
@@ -23,15 +27,28 @@ public sealed partial class PlanktonSystem : EntitySystem
         SubscribeLocalEvent<PlanktonComponent, ExaminedEvent>(OnExamine);
     }
 
-    private void OnExamine(EntityUid uid, PlanktonComponent component, ExaminedEvent args)
+    /// <summary>
+    ///     Examination of the colony species
+    /// </summary>
+    /// <param name="planktonUid">PlanktonUid</param>
+    /// <param name="planktonComp">Plankton Component</param>
+    /// <param name="args">ExaminedEvent arguments</param>
+    private void OnExamine(EntityUid planktonUid, PlanktonComponent planktonComp, ExaminedEvent args)
     {
         if (!args.IsInDetailsRange)
             return;
 
-        foreach (var plankton in component.SpeciesInstances)
+        foreach (var plankton in planktonComp.SpeciesInstances)
         {
-            if (!plankton.IsAlive)
-                args.PushMarkup($"The {plankton.SpeciesName} colony is dead!");
+            if ((plankton.Characteristics & PlanktonComponent.PlanktonCharacteristics.Mimicry) != 0)
+            {
+                if (_random.Prob(0.75F) && plankton.IsAlive)
+                    return;
+            }
+
+            args.PushMarkup(plankton.IsAlive
+                ? Loc.GetString("plankton-examine-species", ("species", plankton.SpeciesName))
+                :  Loc.GetString("plankton-examine-species-dead", ("species", plankton.SpeciesName)));
         }
     }
 
@@ -42,23 +59,24 @@ public sealed partial class PlanktonSystem : EntitySystem
         _updateTimer += frameTime;
         _hungerTimer += frameTime;
 
+        // Main update loop, handles passive Characteristics.
         if (_updateTimer >= UpdateInterval)
         {
             var query = EntityQueryEnumerator<PlanktonComponent>();
-            while (query.MoveNext(out var plaktonUid, out var planktonComp))
+            while (query.MoveNext(out var planktonUid, out var planktonComp))
             {
-                UpdateCharacteristics(planktonComp, plaktonUid);
+                UpdateCharacteristics(planktonComp, planktonUid);
+                UpdateInteractions(planktonComp, planktonUid);
             }
 
             _updateTimer = 0f;
         }
 
+        // Hunger update loop, handles cross-species Characteristics and hunger.
         if (_hungerTimer >= HungerInterval)
         {
             foreach (var entity in EntityManager.EntityQuery<PlanktonComponent>())
             {
-                PlanktonHunger(entity);
-                PlanktonGrowth(entity);
             }
 
             _hungerTimer = 0f;
@@ -80,63 +98,7 @@ public sealed partial class PlanktonSystem : EntitySystem
 
     private void CheckPlanktonCharacteristics(PlanktonComponent component, EntityUid uid)
     {
-        foreach (var planktonInstance in component.SpeciesInstances)
-        {
-            if (!planktonInstance.IsAlive)
-                continue;
 
-            if ((planktonInstance.Characteristics & PlanktonComponent.PlanktonCharacteristics.Aggressive) != 0)
-            {
-                PerformAggressionCheck(component);
-            }
-
-            if ((planktonInstance.Characteristics & PlanktonComponent.PlanktonCharacteristics.Mimicry) != 0)
-            {
-
-            }
-
-            if ((planktonInstance.Characteristics & PlanktonComponent.PlanktonCharacteristics.ChemicalProduction) != 0)
-            {
-
-            }
-
-            if ((planktonInstance.Characteristics & PlanktonComponent.PlanktonCharacteristics.MagneticField) != 0)
-            {
-
-            }
-
-            if ((planktonInstance.Characteristics & PlanktonComponent.PlanktonCharacteristics.Hallucinogenic) != 0)
-            {
-            }
-
-            if ((planktonInstance.Characteristics & PlanktonComponent.PlanktonCharacteristics.PheromoneGlands) != 0)
-            {
-            }
-
-            if ((planktonInstance.Characteristics & PlanktonComponent.PlanktonCharacteristics.PolypColony) != 0)
-            {
-            }
-
-            if ((planktonInstance.Characteristics & PlanktonComponent.PlanktonCharacteristics.AerosolSpores) != 0)
-            {
-            }
-
-            if ((planktonInstance.Characteristics & PlanktonComponent.PlanktonCharacteristics.HyperExoticSpecies) != 0)
-            {
-            }
-
-            if ((planktonInstance.Characteristics & PlanktonComponent.PlanktonCharacteristics.Sentience) != 0)
-            {
-            }
-
-            if ((planktonInstance.Characteristics & PlanktonComponent.PlanktonCharacteristics.Pyrophilic) != 0)
-            {
-            }
-
-            if ((planktonInstance.Characteristics & PlanktonComponent.PlanktonCharacteristics.Cryophilic) != 0)
-            {
-            }
-        }
     }
 
     /// <summary>
@@ -162,8 +124,8 @@ public sealed partial class PlanktonSystem : EntitySystem
             }
             else
             {
-                planktonInstance.CurrentSize -= (float)0.5;
-                component.DeadPlankton += (float)0.5;
+                planktonInstance.CurrentSize -= 0.5F;
+                component.DeadPlankton += 0.5F;
 
                 Log.Info($"{planktonInstance.SpeciesName} is dying due to radiation exposure! Current size is {planktonInstance.CurrentSize}");
 

@@ -2,7 +2,7 @@
   parent: [ BaseMachinePowered, SmallConstructibleMachine ]
   id: TP14PlanktonHarvester
   name: plankton harvester
-  description: Filters and harvests plankton from SeaWater.
+  description: Filters and harvests plankton from seawater.
   suffix: Trieste, Research
   placement:
     mode: SnapgridCenter

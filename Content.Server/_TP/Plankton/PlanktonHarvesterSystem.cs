@@ -196,6 +196,11 @@ public sealed class PlanktonHarvesterSystem : EntitySystem
         harvesterComp.NextHarvestTime = _timing.CurTime + TimeSpan.FromSeconds(harvesterComp.HarvestInterval);
     }
 
+    /// <summary>
+    ///     Tries to harvest plankton
+    /// </summary>
+    /// <param name="harvesterUid">Harvester Uid</param>
+    /// <param name="harvesterComp">Harvester Component</param>
     private void TryHarvestPlankton(EntityUid harvesterUid, PlanktonHarvesterComponent harvesterComp)
     {
         // Check if we have a container loaded, and then check if it's an instance of Plankton.

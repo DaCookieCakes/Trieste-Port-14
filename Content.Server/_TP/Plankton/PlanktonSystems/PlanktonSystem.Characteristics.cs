@@ -14,6 +14,7 @@ using Content.Shared.Radiation.Components;
 using Robust.Server.GameObjects;
 using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
+using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 
 namespace Content.Server._TP.Plankton.PlanktonSystems;
@@ -34,7 +35,7 @@ public sealed partial class PlanktonSystem
         return (planktonSpecies.Characteristics & characteristics) != 0;
     }
 
-    public void UpdateCharacteristics(PlanktonComponent planktonComp, EntityUid planktonUid)
+    private void UpdateCharacteristics(PlanktonComponent planktonComp, EntityUid planktonUid)
     {
         foreach (var planktonSpecies in planktonComp.SpeciesInstances.Where(planktonSpecies => planktonSpecies.IsAlive))
         {
@@ -63,17 +64,20 @@ public sealed partial class PlanktonSystem
 
     private void PerformSentience(PlanktonComponent planktonComp, PlanktonComponent.PlanktonSpeciesInstance planktonSpecies, EntityUid planktonUid)
     {
-        if (!TryComp<GhostRoleComponent>(planktonUid, out var ghostRoleComp))
+        if (TryComp<GhostRoleComponent>(planktonUid, out var ghostRoleComp))
         {
-            // Yes this typo is intentional. It's funny.
-            var gost = EnsureComp<GhostRoleComponent>(planktonUid);
-            gost.RoleName = Loc.GetString("plankton-component-ghost-role-name");
-            gost.RoleDescription = Loc.GetString("plankton-component-ghost-role-description", ("species", planktonSpecies.SpeciesName));
-            gost.RoleRules = Loc.GetString("plankton-component-ghost-role-rules");
-
-            _ghostRole.RegisterGhostRole((planktonUid, gost));
             return;
         }
+
+
+        var ghostRole = EnsureComp<GhostRoleComponent>(planktonUid);
+        EnsureComp<GhostTakeoverAvailableComponent>(planktonUid);
+        ghostRole.RoleName = Loc.GetString("plankton-component-ghost-role-name");
+        ghostRole.RoleDescription = Loc.GetString("plankton-component-ghost-role-description");
+        ghostRole.RoleRules = Loc.GetString("plankton-component-ghost-role-rules");
+        ghostRole.MindRoles = new() { "MindRoleGhostRoleFreeAgentHarmless" };
+
+        _ghostRole.RegisterGhostRole((planktonUid, ghostRole));
 
         _popup.PopupEntity(Loc.GetString("plankton-component-ghost-waking"), planktonUid);
     }
@@ -82,15 +86,15 @@ public sealed partial class PlanktonSystem
     {
         if (!TryComp<RadiationSourceComponent>(planktonUid, out var radComp))
         {
-            EnsureComp<RadiationSourceComponent>(planktonUid);
+            var radSource = EnsureComp<RadiationSourceComponent>(planktonUid);
             return;
         }
 
-        if (radComp.Enabled)
-            return;
-
-        radComp.Enabled = true;
-        radComp.Intensity = planktonSpecies.CurrentSize * 0.2F;
+        if (!radComp.Enabled)
+        {
+            radComp.Enabled = true;
+            radComp.Intensity = planktonSpecies.CurrentSize * 0.05F;
+        }
     }
 
     private void PerformAerosolSpores(PlanktonComponent.PlanktonSpeciesInstance planktonSpecies, EntityUid planktonUid)
@@ -183,25 +187,28 @@ public sealed partial class PlanktonSystem
     /// <param name="planktonUid"></param>
     private void PerformCharged(PlanktonComponent.PlanktonSpeciesInstance planktonSpecies, EntityUid planktonUid)
     {
-        if (!TryComp<ElectrifiedComponent>(planktonUid, out _))
+        if (!TryComp<ElectrifiedComponent>(planktonUid, out var electrifiedComp))
         {
-            var electrified = EnsureComp<ElectrifiedComponent>(planktonUid);
-            electrified.RequirePower = false;
+            EnsureComp<ElectrifiedComponent>(planktonUid);
+            return;
         }
+
+        electrifiedComp.RequirePower = false;
     }
 
     private void PerformBioluminescence(PlanktonComponent.PlanktonSpeciesInstance planktonSpecies, EntityUid planktonUid)
     {
         if (!TryComp<PointLightComponent>(planktonUid, out var lightComp))
         {
-            var light = EnsureComp<PointLightComponent>(planktonUid);
+            EnsureComp<PointLightComponent>(planktonUid);
+            return;
+        }
 
-            if (!light.Enabled)
-            {
-                _pointLight.SetEnergy(planktonUid, 16F);
-                _pointLight.SetRadius(planktonUid, 0.25F);
-                _pointLight.SetEnabled(planktonUid, true);
-            }
+        if (!lightComp.Enabled)
+        {
+            _pointLight.SetEnergy(planktonUid, 16F);
+            _pointLight.SetRadius(planktonUid, 0.25F);
+            _pointLight.SetEnabled(planktonUid, true);
         }
     }
 }
