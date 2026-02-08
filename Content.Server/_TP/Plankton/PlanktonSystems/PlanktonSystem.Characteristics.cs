@@ -1,4 +1,5 @@
 using System.Linq;
+using Content.Server.Ghost;
 using Content.Server.Ghost.Roles;
 using Content.Server.Ghost.Roles.Components;
 using Content.Shared._TP.Plankton;
@@ -6,6 +7,8 @@ using Content.Shared.Body.Components;
 using Content.Shared.Damage;
 using Content.Shared.Damage.Systems;
 using Content.Shared.Electrocution;
+using Content.Shared.Mind;
+using Content.Shared.Mind.Components;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Popups;
 using Content.Shared.Power.Components;
@@ -14,6 +17,7 @@ using Content.Shared.Radiation.Components;
 using Robust.Server.GameObjects;
 using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
+using Robust.Shared.Player;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 
@@ -24,11 +28,13 @@ public sealed partial class PlanktonSystem
     [Dependency] private readonly SharedBatterySystem _battery = default!;
     [Dependency] private readonly DamageableSystem _damageable = default!;
     [Dependency] private readonly GhostRoleSystem _ghostRole = default!;
+    [Dependency] private readonly GhostSystem _ghost = default!;
     [Dependency] private readonly EntityLookupSystem _lookup = default!;
     [Dependency] private readonly PointLightSystem _pointLight = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
+    [Dependency] private readonly SharedMindSystem _mind = default!;
 
     private static bool HasCharacteristic(PlanktonComponent.PlanktonSpeciesInstance planktonSpecies, PlanktonComponent.PlanktonCharacteristics characteristics)
     {
@@ -37,63 +43,87 @@ public sealed partial class PlanktonSystem
 
     private void UpdateCharacteristics(PlanktonComponent planktonComp, EntityUid planktonUid)
     {
-        foreach (var planktonSpecies in planktonComp.SpeciesInstances.Where(planktonSpecies => planktonSpecies.IsAlive))
+
+
+        foreach (var planktonSpecies in planktonComp.SpeciesInstances)
         {
+            if (!planktonSpecies.IsAlive)
+            {
+                RemComp<PointLightComponent>(planktonUid);
+                RemComp<ElectrifiedComponent>(planktonUid);
+                RemComp<RadiationSourceComponent>(planktonUid);
+
+                // Get the mind
+                if (!_mind.TryGetMind(planktonComp.Owner, out var mindId, out var mind))
+                    return;
+
+                if (!TryComp<ActorComponent>(planktonUid, out _))
+                    return;
+
+                // Return them to ghost
+                _ghost.OnGhostAttempt(mindId, true, mind: mind);
+
+                // Remove ghost role and sentient components
+                RemComp<GhostRoleComponent>(planktonUid);
+                RemComp<ActorComponent>(planktonUid);
+
+                _popup.PopupEntity(Loc.GetString("plankton-sentience-died"), planktonUid);
+
+                Log.Info($"Sentient plankton died, returning player to observer");
+                continue;
+            }
+
             if (HasCharacteristic(planktonSpecies, PlanktonComponent.PlanktonCharacteristics.AerosolSpores) && _random.Prob(0.1F))
                 PerformAerosolSpores(planktonSpecies, planktonUid);
 
             if (HasCharacteristic(planktonSpecies, PlanktonComponent.PlanktonCharacteristics.Bioluminescent))
-                PerformBioluminescence(planktonSpecies, planktonUid);
+                PerformBioluminescence(planktonUid);
 
             if (HasCharacteristic(planktonSpecies, PlanktonComponent.PlanktonCharacteristics.Charged))
-                PerformCharged(planktonSpecies, planktonUid);
+                PerformCharged(planktonUid);
 
             if (HasCharacteristic(planktonSpecies, PlanktonComponent.PlanktonCharacteristics.MagneticField) && _random.Prob(0.1F))
                 PerformMagneticField(planktonSpecies, planktonUid);
 
             if (HasCharacteristic(planktonSpecies, PlanktonComponent.PlanktonCharacteristics.PolypColony) && _random.Prob(0.05F))
-                PerformPolypSpread(planktonSpecies, planktonUid);
+                PerformPolypSpread(planktonUid);
 
             if (HasCharacteristic(planktonSpecies, PlanktonComponent.PlanktonCharacteristics.Radioactive))
                 PerformRadiation(planktonSpecies, planktonUid);
 
             if (HasCharacteristic(planktonSpecies, PlanktonComponent.PlanktonCharacteristics.Sentience) && _random.Prob(0.1F))
-                PerformSentience(planktonComp, planktonSpecies, planktonUid);
+                PerformSentience(planktonUid, planktonSpecies, planktonComp);
         }
     }
 
-    private void PerformSentience(PlanktonComponent planktonComp, PlanktonComponent.PlanktonSpeciesInstance planktonSpecies, EntityUid planktonUid)
+    private void PerformSentience(EntityUid planktonUid, PlanktonComponent.PlanktonSpeciesInstance planktonSpecies, PlanktonComponent planktonComp)
     {
-        if (TryComp<GhostRoleComponent>(planktonUid, out var ghostRoleComp))
-        {
+        if (TryComp<GhostRoleComponent>(planktonUid, out _))
             return;
-        }
 
 
         var ghostRole = EnsureComp<GhostRoleComponent>(planktonUid);
         EnsureComp<GhostTakeoverAvailableComponent>(planktonUid);
         ghostRole.RoleName = Loc.GetString("plankton-component-ghost-role-name");
-        ghostRole.RoleDescription = Loc.GetString("plankton-component-ghost-role-description");
+        ghostRole.RoleDescription = Loc.GetString("plankton-component-ghost-role-description", ("species", planktonSpecies.SpeciesName));
         ghostRole.RoleRules = Loc.GetString("plankton-component-ghost-role-rules");
         ghostRole.MindRoles = new() { "MindRoleGhostRoleFreeAgentHarmless" };
 
         _ghostRole.RegisterGhostRole((planktonUid, ghostRole));
-
         _popup.PopupEntity(Loc.GetString("plankton-component-ghost-waking"), planktonUid);
     }
 
     private void PerformRadiation(PlanktonComponent.PlanktonSpeciesInstance planktonSpecies, EntityUid planktonUid)
     {
-        if (!TryComp<RadiationSourceComponent>(planktonUid, out var radComp))
-        {
-            var radSource = EnsureComp<RadiationSourceComponent>(planktonUid);
+        if (TryComp<RadiationSourceComponent>(planktonUid, out _))
             return;
-        }
 
-        if (!radComp.Enabled)
+        var radSource = EnsureComp<RadiationSourceComponent>(planktonUid);
+
+        if (!radSource.Enabled)
         {
-            radComp.Enabled = true;
-            radComp.Intensity = planktonSpecies.CurrentSize * 0.05F;
+            radSource.Enabled = true;
+            radSource.Intensity = planktonSpecies.CurrentSize * 0.05F;
         }
     }
 
@@ -124,7 +154,7 @@ public sealed partial class PlanktonSystem
     /// </summary>
     /// <param name="planktonSpecies">Plankton Instance Species</param>
     /// <param name="planktonUid">Plankton UID</param>
-    private void PerformPolypSpread(PlanktonComponent.PlanktonSpeciesInstance planktonSpecies, EntityUid planktonUid)
+    private void PerformPolypSpread(EntityUid planktonUid)
     {
         var xForm = Transform(planktonUid);
         if (!TryComp<MapGridComponent>(xForm.GridUid, out var gridComp))
@@ -185,7 +215,7 @@ public sealed partial class PlanktonSystem
     /// </summary>
     /// <param name="planktonSpecies"></param>
     /// <param name="planktonUid"></param>
-    private void PerformCharged(PlanktonComponent.PlanktonSpeciesInstance planktonSpecies, EntityUid planktonUid)
+    private void PerformCharged(EntityUid planktonUid)
     {
         if (!TryComp<ElectrifiedComponent>(planktonUid, out var electrifiedComp))
         {
@@ -196,7 +226,7 @@ public sealed partial class PlanktonSystem
         electrifiedComp.RequirePower = false;
     }
 
-    private void PerformBioluminescence(PlanktonComponent.PlanktonSpeciesInstance planktonSpecies, EntityUid planktonUid)
+    private void PerformBioluminescence(EntityUid planktonUid)
     {
         if (!TryComp<PointLightComponent>(planktonUid, out var lightComp))
         {

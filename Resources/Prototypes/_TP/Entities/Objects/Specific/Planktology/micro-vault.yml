@@ -1,0 +1,25 @@
+- type: entity
+  parent: BaseStructureDynamic
+  id: TP14PlanktonMicroVault
+  name: micro-vault
+  description: An advanced container used for long-term storage of Plankton colonies.
+  components:
+  - type: Appearance
+  - type: InteractionOutline
+  - type: Transform
+    noRot: true
+  - type: Sprite
+    noRot: true
+    sprite: Structures/Storage/canister.rsi
+    state: yellow
+  - type: Plankton
+    temperatureToleranceLow: 0
+    temperatureToleranceHigh: 40
+  - type: ItemSlots
+    slots:
+      plankton_container_slot:
+        name: sample container
+        whitelist:
+          components:
+          - Plankton
+        ejectOnInteract: true

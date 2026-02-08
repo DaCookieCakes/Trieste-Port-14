@@ -10,15 +10,15 @@ plankton-tank-temp-increased = Target temperature set to {$temp}°C
 plankton-tank-temp-decreased = Target temperature set to {$temp}°C
 
 ## Species Extraction
-plankton-tank-extract-species = Extract {$species}
-plankton-tank-extracted = Successfully extracted {$species} into a container.
+plankton-tank-extract-species = Extract All Species
+plankton-tank-extracted = Successfully extracted all species into a container.
 
 ## Species Insertion
-plankton-tank-insert-species = Insert {$species}
+plankton-tank-insert-species = Insert All Species
 plankton-tank-full = The tank is at maximum capacity
-plankton-tank-inserted = Successfully inserted {$species} into the tank.
+plankton-tank-inserted = Successfully inserted all species into the tank.
 
 ## Status Messages
 plankton-tank-species-limit = This tank is at maximum capacity ({$max} species).
-plankton-tank-no-seawater = The plankton are dying - not enough seawater!
+plankton-tank-no-seawater = The plankton are dying as there's not enough seawater!
 plankton-tank-temp-stress = The temperature is stressing the plankton!

@@ -1,11 +1,22 @@
 - type: entity
   parent: [StorageTank, StructureWheeled]
   id: TP14PlanktonSeparatorEmpty
-  name: plankton separator
+  name: genetic isolator
   description: A liquid tank with an advanced filter, capable to divvying up plankton species.
   suffix: Trieste, Science
   components:
   - type: PlanktonSeparator
+  - type: Plankton
+    temperatureToleranceLow: 0
+    temperatureToleranceHigh: 40
+  - type: ItemSlots
+    slots:
+      plankton_container_slot:
+        name: sample container
+        whitelist:
+          components:
+          - Plankton
+        ejectOnInteract: true
   - type: StaticPrice
     price: 1000
   - type: Sprite
@@ -24,7 +35,15 @@
   - type: SolutionContainerManager
     solutions:
       tank:
-        maxVol: 1000
+        maxVol: 100
+  - type: RefillableSolution
+    solution: tank
+  - type: DrainableSolution
+    solution: tank
+    exactVolume: true
+  - type: DrawableSolution
+    solution: tank
+
 
 - type: entity
   parent: TP14PlanktonSeparatorEmpty

@@ -101,7 +101,15 @@ public sealed partial class PlanktonSystem
         if (!planktonSpecies.IsAlive)
             return;
 
-        _explosion.QueueExplosion(
+        foreach (var allSpecies in planktonComp.SpeciesInstances)
+        {
+            if (allSpecies == planktonSpecies)
+                continue;
+
+            if (!allSpecies.IsAlive)
+                continue;
+
+            _explosion.QueueExplosion(
             planktonUid,
             "Default",
             1f,
@@ -110,7 +118,11 @@ public sealed partial class PlanktonSystem
             0f,
             0,
             false
-        );
+            );
+
+            planktonComp.DeadPlankton += allSpecies.CurrentSize;
+            allSpecies.IsAlive = false;
+        }
     }
 
     private void PerformMimicry(PlanktonComponent.PlanktonSpeciesInstance planktonSpecies, PlanktonComponent planktonComp)

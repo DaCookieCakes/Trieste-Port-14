@@ -1,8 +1,10 @@
+using System.Linq;
 using Content.Server.NodeContainer.EntitySystems;
 using Content.Server.NodeContainer.Nodes;
 using Content.Server.Power.Components;
 using Content.Shared._TP.Plankton;
 using Content.Shared.Atmos;
+using Content.Shared.Chemistry.Reagent;
 using Content.Shared.Examine;
 using Content.Shared.Interaction;
 using Content.Shared.Popups;
@@ -55,8 +57,13 @@ public sealed class PlanktonHarvesterSystem : EntitySystem
                     continue;
 
                 var containerSlot = _container.GetContainer(harvesterUid, harvesterComp.ContainerSlotId);
+
+                if (containerSlot.ContainedEntities.Count <= 0)
+                    continue;
+
                 harvesterComp.CanHarvest = containerSlot.ContainedEntities.Count > 0
-                                           && harvesterComp.NextCooldown <= _timing.CurTime;
+                                           && harvesterComp.NextCooldown <= _timing.CurTime
+                                           && HasComp<PlanktonComponent>(containerSlot.ContainedEntities[0]);
 
                 if (harvesterComp.CanHarvest)
                 {
@@ -100,7 +107,7 @@ public sealed class PlanktonHarvesterSystem : EntitySystem
         harvesterComp.NextHarvestTime = _timing.CurTime + TimeSpan.FromSeconds(harvesterComp.HarvestInterval);
 
         if (!harvesterComp.IsPowered)
-            harvesterComp.NextCooldown = _timing.CurTime + TimeSpan.FromSeconds(harvesterComp.HarvestInterval);
+            harvesterComp.NextCooldown = _timing.CurTime + TimeSpan.FromSeconds(harvesterComp.CooldownInterval);
     }
 
     /// <summary>
@@ -178,6 +185,8 @@ public sealed class PlanktonHarvesterSystem : EntitySystem
         // Update the power consumption when a container is inserted
         if (TryComp<ApcPowerReceiverComponent>(harvesterUid, out var receiver) && harvesterComp.CanHarvest)
             receiver.Load = harvesterComp.ActivePowerConsumption;
+
+        harvesterComp.NextHarvestTime = _timing.CurTime + TimeSpan.FromSeconds(harvesterComp.HarvestInterval);
     }
 
     /// <summary>
@@ -193,7 +202,6 @@ public sealed class PlanktonHarvesterSystem : EntitySystem
 
         // Reset the harvest time
         harvesterComp.CanHarvest = false;
-        harvesterComp.NextHarvestTime = _timing.CurTime + TimeSpan.FromSeconds(harvesterComp.HarvestInterval);
     }
 
     /// <summary>
@@ -274,6 +282,7 @@ public sealed class PlanktonHarvesterSystem : EntitySystem
 
             // Randomly generate 3 characteristics.
             // TODO - Weighted pool for characteristics/diets that fit together
+            // TODO - Pool for incompatible characteristics
             const int numCharacteristics = 3;
             var possibleCharacteristics = Enum.GetValues<PlanktonComponent.PlanktonCharacteristics>();
             var selectedCharacteristics = new HashSet<PlanktonComponent.PlanktonCharacteristics>();
@@ -304,21 +313,48 @@ public sealed class PlanktonHarvesterSystem : EntitySystem
             {
                 combinedCharacteristics |= characteristic;
             }
+            var diet = PickValidDiet(combinedCharacteristics);
 
             var planktonInstance = new PlanktonComponent.PlanktonSpeciesInstance(
                 planktonName,
                 (PlanktonComponent.PlanktonDiet)_random.Next(
                     Enum.GetValues<PlanktonComponent.PlanktonDiet>().Length),
                 combinedCharacteristics,
-                1.0f,
+                25f,
                 50f,
                 true
             );
+
+            if (planktonInstance is { Diet: PlanktonComponent.PlanktonDiet.Chemophage, PreferredReagent: null })
+            {
+                var reagentString = _random.Pick((planktonInstance.Characteristics & PlanktonComponent.PlanktonCharacteristics.HyperExoticSpecies) != 0
+                        ? PlanktonComponent.ChemophageExoticReagents
+                        : PlanktonComponent.ChemophageReagents);
+
+                var reagentId = new ReagentId(reagentString, null);
+                planktonInstance.PreferredReagent = reagentId;
+
+                Log.Info($"{planktonInstance.SpeciesName} is a Chemophage that feeds on {planktonInstance.PreferredReagent}");
+            }
 
             planktonComp.SpeciesInstances.Add(planktonInstance);
 
             Log.Info($"Harvested plankton species {planktonInstance.SpeciesName} with diet {planktonInstance.Diet} and characteristics {combinedCharacteristics}");
         }
+    }
+
+    private object PickValidDiet(PlanktonComponent.PlanktonCharacteristics characteristics)
+    {
+        var allDiets = Enum.GetValues<PlanktonComponent.PlanktonDiet>().ToList();
+        var validDiets = new List<PlanktonComponent.PlanktonDiet>(allDiets);
+
+        if ((characteristics & PlanktonComponent.PlanktonCharacteristics.Radioactive) != 0)
+            validDiets.Remove(PlanktonComponent.PlanktonDiet.Radiophage);
+
+        if ((characteristics & PlanktonComponent.PlanktonCharacteristics.ChemicalProduction) != 0)
+            validDiets.Remove(PlanktonComponent.PlanktonDiet.Chemophage);
+
+        return validDiets.Count == 0 ? PlanktonComponent.PlanktonDiet.Scavenger : _random.Pick(validDiets);
     }
 
     /// <summary>

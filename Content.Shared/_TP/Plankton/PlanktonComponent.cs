@@ -1,3 +1,5 @@
+using Content.Shared.Chemistry.Reagent;
+
 namespace Content.Shared._TP.Plankton;
 
 [RegisterComponent]
@@ -37,16 +39,17 @@ public sealed partial class PlanktonComponent : Component
         public float CurrentSize { get; set; } = currentSize;
         public float CurrentHunger { get; set; } = currentHunger;
         public bool IsAlive { get; set; } = isAlive;
+        public ReagentId? PreferredReagent { get; set; }
     }
 
     /// <summary>
     ///     <para>Carnivore - Eats other plankton colonies</para>
     ///     <para>Chemophage - Eats a specific, or category, of chemicals</para>
     ///     <para>Decomposer - Eats the corpses of dead cultures</para>
-    ///     <para>Electrophage - Uses electricity from lightning bolts</para>
-    ///     <para>Photosynthetic - Eats from light</para>
+    ///     <para>Electrotroph - Uses electricity from lightning bolts</para>
+    ///     <para>Phototroph - Eats from light</para>
     ///     <para>Radiophage - Eats radiation</para>
-    ///     <para>Saguinophage - Eats blood - Possibly a parasite?</para>
+    ///     <para>Hemophage - Eats blood - Possibly a parasite?</para>
     ///     <para>Scavenger - Eats waste and trash objects - Useful for janitors!</para>
     ///     <para>Symbiotroph - Thrives with other plankton and eats their byproduct.</para>
     /// </summary>
@@ -55,13 +58,37 @@ public sealed partial class PlanktonComponent : Component
         Carnivore,
         Chemophage,
         Decomposer,
-        Electrophage,
-        Photosynthetic,
+        Electrotroph,
+        Phototroph,
         Radiophage,
-        Saguinophage,
+        Hemophage,
         Scavenger,
         Symbiotroph,
     }
+
+    /// <summary>
+    ///     A list of chemicals for the Chemophage diet.
+    /// </summary>
+    public static readonly string[] ChemophageReagents = new[]
+    {
+        "Sugar",        "Nutriment",        "Ethanol",                  "Ammonia",
+        "Nitrogen",     "Carbon",           "Hydroxide",                "Mercury",
+        "Dylovene",     "Tricordrazine",    "SeaWaterSolutionBrute",    "SeaWaterSolutionBurn",
+    };
+
+    /// <summary>
+    ///     A list of hyper-exodtic specific Chemophage diet chemicals.
+    /// </summary>
+    public static readonly string[] ChemophageExoticReagents = new[]
+    {
+        "SpaceDrugs",   "Desoxyephedrine",  "Carpotoxin",       "Razorium",
+        "Amatoxin",     "Laughter",         "MindbreakerToxin", "Pax",
+    };
+
+    public static List<string> BloodReagents = new()
+    {
+        "Blood", "InsectBlood", "Sap", "CopperBlood", "AmmoniaBlood",
+    };
 
     /// <summary>
     ///     <para>AerosolSpores - Releases spores into a 3x3 grid around it. Anything not wearing internals will be infested with some sort of growth or cellular damage.</para>
