@@ -227,6 +227,10 @@
     interactFailureString: petting-failure-derelict-cyborg
     interactSuccessSound:
       path: /Audio/Ambience/Objects/periodic_beep.ogg
+  - type: InGas # TP14
+    gasID: 9
+    damagedByGas: false
+    gasThreshold: 50
 
 - type: entity
   parent: BaseBorgChassisDerelict
