@@ -7,3 +7,13 @@
   group: Foods
   color: "#F9E7BF"
   recognizable: true
+
+- type: reagent
+  id: ReagentYeast
+  name: reagent-name-yeast
+  desc: reagent-desc-yeast
+  physicalDesc: reagent-physical-desc-powdery
+  flavor: bitter
+  group: Foods
+  color: "#a89c81"
+  recognizable: true

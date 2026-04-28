@@ -1,0 +1,15 @@
+- type: entity
+  parent: [ReagentPacketBase, ItemHeftyBase]
+  id: EntityReagentContainerYeast
+  name: dry yeast bag
+  description: A big bag of dry yeast. Good for baking!
+  components:
+  - type: Sprite
+    state: flour-big
+  - type: SolutionContainerManager
+    solutions:
+      food:
+        maxVol: 50
+        reagents:
+        - ReagentId: ReagentYeast
+          Quantity: 50

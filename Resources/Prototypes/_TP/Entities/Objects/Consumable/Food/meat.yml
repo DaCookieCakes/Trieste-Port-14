@@ -78,3 +78,50 @@
       - state: sausage-inhand-left
       right:
       - state: sausage-inhand-right
+
+# Chicken (RAW)
+- type: entity
+  parent: FoodMeatChicken
+  id: EntFoodChickenRaw
+  name: raw chicken
+  description: An entire raw chicken. Remember to wash your hands!
+  components:
+  - type: Sprite
+    sprite: _TP/Objects/Consumable/Food/meat.rsi
+    state: chicken-whole-raw
+  - type: SolutionContainerManager
+    solutions:
+      food:
+        reagents:
+        - ReagentId: UncookedAnimalProteins
+          Quantity: 54
+        - ReagentId: Fat
+          Quantity: 54
+  - type: SliceableFood
+    slice:
+    - proto: FoodMeatChicken
+      count: 2
+    - proto: EntFoodChickenLegRaw
+      count: 2
+    - proto: EntFoodChickenWingRaw
+      count: 2
+  - type: Item
+    size: Normal
+
+- type: entity
+  parent: FoodMeatChicken
+  id: EntFoodChickenLegRaw
+  name: raw chicken leg
+  components:
+  - type: Sprite
+    sprite: _TP/Objects/Consumable/Food/meat.rsi
+    state: chicken-leg-raw
+
+- type: entity
+  parent: FoodMeatChicken
+  id: EntFoodChickenWingRaw
+  name: raw chicken wing
+  components:
+  - type: Sprite
+    sprite: _TP/Objects/Consumable/Food/meat.rsi
+    state: chicken-wing-raw

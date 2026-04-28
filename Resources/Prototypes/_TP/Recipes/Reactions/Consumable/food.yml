@@ -7,3 +7,23 @@
       amount: 6
   products:
     TP14CondimentCustard: 12
+
+- type: reaction
+  id: ReactionDough
+  name: Dough
+  group: TP14-Reactives
+  impact: Low
+  quantized: true
+  conserveEnergy: false
+  requiredMixerCategories:
+  - Stir
+  reactants:
+    Flour:
+      amount: 10
+    Water:
+      amount: 15
+    ReagentYeast:
+      amount: 5
+  effects:
+  - !type:SpawnEntity
+    entity: FoodDough

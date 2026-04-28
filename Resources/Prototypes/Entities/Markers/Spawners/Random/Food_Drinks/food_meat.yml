@@ -41,6 +41,9 @@
       - id: FoodMeatChicken
         amount: !type:RangeNumberSelector
           range: 1, 5
+      - id: EntFoodChickenRaw # TP : Added
+        amount: !type:RangeNumberSelector
+          range: 1, 5
       - id: FoodMeatDuck
         amount: !type:RangeNumberSelector
           range: 1, 5

@@ -1,3 +1,4 @@
+using System.Linq;
 using Content.Server.DoAfter;
 using Content.Server.Nutrition.Components;
 using Content.Shared.Chemistry.EntitySystems;
@@ -15,9 +16,11 @@ using Robust.Shared.Containers;
 using Robust.Shared.Physics.Components;
 using Robust.Shared.Physics.Systems;
 using Content.Shared.Destructible;
+using Robust.Shared.Prototypes;
 
 namespace Content.Server.Nutrition.EntitySystems;
 
+// !! TRIESTE PORT MODIFIED !! //
 public sealed class SliceableFoodSystem : EntitySystem
 {
     [Dependency] private readonly SharedSolutionContainerSystem _solutionContainer = default!;
@@ -69,11 +72,12 @@ public sealed class SliceableFoodSystem : EntitySystem
             args.Handled = true;
     }
 
+    // !! TRIESTE PORT OVERHAUL !! //
     private bool TrySliceFood(Entity<TransformComponent?, SliceableFoodComponent?, EdibleComponent?> entity,
         EntityUid user,
         EntityUid? usedItem)
     {
-        if (!Resolve(entity, ref entity.Comp1, ref entity.Comp2, ref entity.Comp3) || string.IsNullOrEmpty(entity.Comp2.Slice))
+        if (!Resolve(entity, ref entity.Comp1, ref entity.Comp2, ref entity.Comp3) || entity.Comp2.Slice.Count == 0)
             return false;
 
         if (!_solutionContainer.TryGetSolution(entity.Owner, entity.Comp3.Solution, out var soln, out var solution))
@@ -82,16 +86,18 @@ public sealed class SliceableFoodSystem : EntitySystem
         if (!TryComp<UtensilComponent>(usedItem, out var utensil) || (utensil.Types & UtensilType.Knife) == 0)
             return false;
 
-        var sliceVolume = solution.Volume / FixedPoint2.New(entity.Comp2.TotalCount);
-        for (int i = 0; i < entity.Comp2.TotalCount; i++)
+        var totalCount = entity.Comp2.Slice.Sum(s => s.Count);
+        var sliceVolume = solution.Volume / FixedPoint2.New(totalCount);
+
+        foreach (var sliceResult in entity.Comp2.Slice)
         {
-            var sliceUid = Slice(entity, user);
+            for (var i = 0; i < sliceResult.Count; i++)
+            {
+                var sliceUid = Slice(entity, user, sliceResult.Proto);
 
-            var lostSolution =
-                _solutionContainer.SplitSolution(soln.Value, sliceVolume);
-
-            // Fill new slice
-            FillSlice(sliceUid, lostSolution);
+                var lostSolution = _solutionContainer.SplitSolution(soln.Value, sliceVolume);
+                FillSlice(sliceUid, lostSolution);
+            }
         }
 
         _audio.PlayPvs(entity.Comp2.Sound, entity.Comp1.Coordinates, AudioParams.Default.WithVolume(-2));
@@ -103,18 +109,17 @@ public sealed class SliceableFoodSystem : EntitySystem
     }
 
     /// <summary>
-    /// Create a new slice in the world and returns its entity.
-    /// The solutions must be set afterwards.
+    ///     !! TRIESTE PORT OVERHAUL !!
+    ///     Create a new slice in the world and returns its entity.
+    ///     The solutions must be set afterward.
     /// </summary>
-    public EntityUid Slice(Entity<TransformComponent?, SliceableFoodComponent?> entity, EntityUid user)
+    public EntityUid Slice(Entity<TransformComponent?, SliceableFoodComponent?> entity, EntityUid user, EntProtoId proto)
     {
         if (!Resolve(entity, ref entity.Comp1, ref entity.Comp2))
             return EntityUid.Invalid;
 
-        var sliceUid = Spawn(entity.Comp2.Slice, _transform.GetMapCoordinates((entity, entity.Comp1)));
+        var sliceUid = Spawn(proto, _transform.GetMapCoordinates((entity, entity.Comp1)));
 
-        // try putting the slice into the container if the food being sliced is in a container!
-        // this lets you do things like slice a pizza up inside of a hot food cart without making a food-everywhere mess
         _transform.DropNextTo(sliceUid, entity);
         _transform.SetLocalRotation(sliceUid, 0);
 

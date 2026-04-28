@@ -667,8 +667,9 @@
         - ReagentId: Theobromine
           Quantity: 18
   - type: SliceableFood
-    count: 6
-    slice: FoodBakedBrownie
+    slice:
+    - proto: FoodBakedBrownie
+      count: 6
 
 - type: entity
   name: brownie
@@ -726,8 +727,9 @@
         - ReagentId: THC
           Quantity: 150
   - type: SliceableFood
-    count: 6
-    slice: FoodBakedCannabisBrownie
+    slice:
+    - proto: FoodBakedCannabisBrownie
+      count: 6
 
 - type: entity
   parent: FoodBakedBase

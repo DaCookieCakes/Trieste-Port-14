@@ -32,21 +32,22 @@
     - !type:SpawnEntity
       entity: FoodChevre
 
-- type: reaction
-  id: CreateDough
-  name: Dough           # TP14
-  group: TP14-Reactives # TP14
-  impact: Low
-  quantized: true
-  conserveEnergy: false
-  reactants:
-    Flour:
-      amount: 15
-    Water:
-      amount: 10
-  effects:
-    - !type:SpawnEntity
-      entity: FoodDough
+# TP14 - Custom dough recipe in _TP/Recipes/
+#- type: reaction
+#  id: CreateDough
+#  name: Dough           # TP14
+#  group: TP14-Reactives # TP14
+#  impact: Low
+#  quantized: true
+#  conserveEnergy: false
+#  reactants:
+#    Flour:
+#      amount: 15
+#    Water:
+#      amount: 10
+#  effects:
+#    - !type:SpawnEntity
+#      entity: FoodDough
 
 - type: reaction
   id: CreateCornmealDough

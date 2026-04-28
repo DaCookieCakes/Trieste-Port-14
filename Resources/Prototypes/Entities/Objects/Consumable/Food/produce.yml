@@ -845,8 +845,9 @@
       - ReagentId: JuicePineapple
         Quantity: 10
   - type: SliceableFood
-    count: 5
-    slice: FoodPineappleSlice
+    slice:
+    - proto: FoodPineappleSlice
+      count: 5
   - type: Tag
     tags:
     - Fruit
@@ -1286,8 +1287,9 @@
   - type: Produce
     seedId: onion
   - type: SliceableFood
-    count: 5
-    slice: FoodOnionSlice
+    slice:
+    - proto: FoodOnionSlice
+      count: 5
   - type: Tag
     tags:
     - Vegetable
@@ -1319,8 +1321,9 @@
   - type: Produce
     seedId: onionred
   - type: SliceableFood
-    count: 5
-    slice: FoodOnionRedSlice
+    slice:
+    - proto: FoodOnionRedSlice
+      count: 5
   - type: Tag
     tags:
     - Vegetable
@@ -2132,8 +2135,9 @@
       - !type:DoActsBehavior
         acts: [ "Destruction" ]
   - type: SliceableFood
-    count: 5
-    slice: FoodWatermelonSlice
+    slice:
+    - proto: FoodWatermelonSlice
+      count: 5
   - type: Butcherable
     butcheringType: Knife
     spawned:
@@ -2235,8 +2239,9 @@
       - !type:DoActsBehavior
         acts: [ "Destruction" ]
   - type: SliceableFood
-    count: 5
-    slice: FoodHolymelonSlice
+    slice:
+    - proto: FoodHolymelonSlice
+      count: 5
   - type: Butcherable
     butcheringType: Knife
     spawned:

@@ -251,7 +251,7 @@
         Base: dead-0
   - type: Butcherable
     spawned:
-    - id: FoodMeatChicken
+    - id: EntFoodChickenRaw # TP : FoodMeatChicken -> EntFoodChickenRaw
       amount: 1
   - type: InteractionPopup
     successChance: 0.8

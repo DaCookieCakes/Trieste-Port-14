@@ -17,12 +17,12 @@
         </PanelContainer>
 
         <GridContainer Columns="2" Margin="10">
-            <BoxContainer Orientation="Vertical" HorizontalExpand="True">
+            <BoxContainer Orientation="Vertical">
                 <Label Text="{Loc 'guidebook-deep-fryer-ingredients-header'}"/>
                 <GridContainer Columns="3" Name="IngredientsGrid"/>
             </BoxContainer>
 
-            <BoxContainer Orientation="Vertical" HorizontalExpand="True">
+            <BoxContainer Orientation="Vertical" HorizontalExpand="True" VerticalAlignment="Top" HorizontalAlignment="Center">
                 <Label Text="{Loc 'guidebook-deep-fryer-cook-time-header'}"/>
                 <RichTextLabel Name="CookTimeLabel"/>
             </BoxContainer>

@@ -289,8 +289,9 @@
   - type: Sprite
     state: dough
   - type: SliceableFood
-    count: 3
-    slice: FoodDoughSlice
+    slice:
+    - proto: FoodDoughSlice
+      count: 3
   - type: Construction
     graph: Pizza
     node: start
@@ -361,8 +362,9 @@
   - type: Sprite
     state: cornmealdough
   - type: SliceableFood
-    count: 3
-    slice: FoodDoughCornmealSlice
+    slice:
+    - proto: FoodDoughCornmealSlice
+      count: 3
 
 - type: entity
   parent: FoodBakingBase
@@ -397,8 +399,9 @@
   - type: Sprite
     state: tortilladough
   - type: SliceableFood
-    count: 3
-    slice: FoodDoughTortillaSlice
+    slice:
+    - proto: FoodDoughTortillaSlice
+      count: 3
 
 - type: entity
   parent: FoodBakingBase
@@ -454,8 +457,9 @@
   - type: Sprite
     state: cotton-dough
   - type: SliceableFood
-    count: 3
-    slice: FoodDoughCottonSlice
+    slice:
+    - proto: FoodDoughCottonSlice
+      count: 3
   - type: Construction
     graph: CottonPizza
     node: start
@@ -578,8 +582,9 @@
     graph: Pizza
     node: flat
   - type: SliceableFood
-    count: 3
-    slice: FoodCroissantRaw
+    slice:
+    - proto: FoodCroissantRaw
+      count: 3
 
 - type: entity
   parent: FoodBakingBase
@@ -597,8 +602,9 @@
     graph: CottonPizza
     node: flat
   - type: SliceableFood
-    count: 3
-    slice: FoodCroissantRawCotton
+    slice:
+    - proto: FoodCroissantRawCotton
+      count: 3
 
 - type: entity
   parent: FoodBakingBase
@@ -669,8 +675,9 @@
         - ReagentId: Butter
           Quantity: 15
   - type: SliceableFood
-    count: 3
-    slice: FoodButterSlice
+    slice:
+    - proto: FoodButterSlice
+      count: 3
 
 - type: entity
   parent: FoodBakingBase
@@ -728,8 +735,9 @@
   - type: Sprite
     state: cheesewheel
   - type: SliceableFood
-    count: 4
-    slice: FoodCheeseSlice
+    slice:
+    - proto: FoodCheeseSlice
+      count: 4
 
 - type: entity
   parent: FoodBakingBase
@@ -782,8 +790,9 @@
   - type: Sprite
     state: chevrelog
   - type: SliceableFood
-    count: 3
-    slice: FoodChevreSlice
+    slice:
+    - proto: FoodChevreSlice
+      count: 3
   - type: SolutionContainerManager
     solutions:
       food:
@@ -844,8 +853,9 @@
         - ReagentId: Nutriment
           Quantity: 6
   - type: SliceableFood
-    count: 3
-    slice: FoodTofuSlice
+    slice:
+    - proto: FoodTofuSlice
+      count: 3
 
 - type: entity
   parent: FoodBakingBase

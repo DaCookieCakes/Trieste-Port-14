@@ -79,7 +79,8 @@
     - state: alpha-filling
       color: blue
   - type: SliceableFood
-    slice: FoodCakeBlueberrySlice
+    slice:
+    - proto: FoodCakeBlueberrySlice
   - type: Tag
     tags:
     - Cake
@@ -133,7 +134,8 @@
   - type: Sprite
     state: plain
   - type: SliceableFood
-    slice: FoodCakePlainSlice
+    slice:
+    - proto: FoodCakePlainSlice
   - type: SolutionContainerManager
     solutions:
       food:
@@ -177,7 +179,8 @@
   - type: Sprite
     state: carrot
   - type: SliceableFood
-    slice: FoodCakeCarrotSlice
+    slice:
+    - proto: FoodCakeCarrotSlice
   - type: SolutionContainerManager
     solutions:
       food:
@@ -254,7 +257,8 @@
   - type: Sprite
     state: brain
   - type: SliceableFood
-    slice: FoodCakeBrainSlice
+    slice:
+    - proto: FoodCakeBrainSlice
   - type: Tag
     tags:
     - Cake
@@ -308,7 +312,8 @@
   - type: Sprite
     state: cheese
   - type: SliceableFood
-    slice: FoodCakeCheeseSlice
+    slice:
+    - proto: FoodCakeCheeseSlice
   - type: Item
     inhandVisuals:
       left:
@@ -352,7 +357,8 @@
     - state: alpha-filling
       color: "#ff9900"
   - type: SliceableFood
-    slice: FoodCakeOrangeSlice
+    slice:
+    - proto: FoodCakeOrangeSlice
   - type: Tag
     tags:
     - Cake
@@ -407,7 +413,8 @@
     - state: alpha-filling
       color: "#00ff00"
   - type: SliceableFood
-    slice: FoodCakeLimeSlice
+    slice:
+    - proto: FoodCakeLimeSlice
   - type: Tag
     tags:
     - Cake
@@ -462,7 +469,8 @@
     - state: alpha-filling
       color: "#ffff00"
   - type: SliceableFood
-    slice: FoodCakeLemonSlice
+    slice:
+    - proto: FoodCakeLemonSlice
   - type: Tag
     tags:
     - Cake
@@ -518,7 +526,8 @@
       - lemoon
       - berry
   - type: SliceableFood
-    slice: FoodCakeLemoonSlice
+    slice:
+    - proto: FoodCakeLemoonSlice
   - type: SolutionContainerManager
     solutions:
       food:
@@ -589,7 +598,8 @@
     - state: alpha
       color: "#ba672e"
   - type: SliceableFood
-    slice: FoodCakeChocolateSlice
+    slice:
+    - proto: FoodCakeChocolateSlice
   - type: SolutionContainerManager
     solutions:
       food:
@@ -652,7 +662,8 @@
     - state: alpha-filling
       color: "#ff4300"
   - type: SliceableFood
-    slice: FoodCakeAppleSlice
+    slice:
+    - proto: FoodCakeAppleSlice
   - type: Tag
     tags:
     - Cake
@@ -706,7 +717,8 @@
   - type: Sprite
     state: slime
   - type: SliceableFood
-    slice: FoodCakeSlimeSlice
+    slice:
+    - proto: FoodCakeSlimeSlice
   - type: Tag
     tags:
     - Cake
@@ -760,7 +772,8 @@
   - type: Sprite
     state: pumpkinspice
   - type: SliceableFood
-    slice: FoodCakePumpkinSlice
+    slice:
+    - proto: FoodCakePumpkinSlice
   - type: SolutionContainerManager
     solutions:
       food:
@@ -828,7 +841,8 @@
   - type: Sprite
     state: christmas
   - type: SliceableFood
-    slice: FoodCakeChristmasSlice
+    slice:
+    - proto: FoodCakeChristmasSlice
   - type: Tag
     tags:
     - Cake
@@ -873,7 +887,8 @@
   - type: Sprite
     state: birthday
   - type: SliceableFood
-    slice: FoodCakeBirthdaySlice
+    slice:
+    - proto: FoodCakeBirthdaySlice
   - type: Item
     heldPrefix: birthday
 
@@ -898,7 +913,8 @@
   - type: Sprite
     state: vanilla
   - type: SliceableFood
-    slice: FoodCakeVanillaSlice
+    slice:
+    - proto: FoodCakeVanillaSlice
   - type: SolutionContainerManager #TODO Sprinkles
     solutions:
       food:
@@ -951,7 +967,8 @@
   - type: Sprite
     state: clown
   - type: SliceableFood
-    slice: FoodCakeClownSlice
+    slice:
+    - proto: FoodCakeClownSlice
   - type: SolutionContainerManager #TODO Sprinkles
     solutions:
       food:
@@ -998,7 +1015,8 @@
   - type: Sprite
     state: trumpet
   - type: SliceableFood
-    slice: FoodCakeSpacemanSlice
+    slice:
+    - proto: FoodCakeSpacemanSlice
   - type: SolutionContainerManager
     solutions:
       food:
@@ -1136,8 +1154,9 @@
   - type: Sprite
     state: suppermatter
   - type: SliceableFood
-    slice: FoodCakeSuppermatterSlice
-    count: 8
+    slice:
+    - proto: FoodCakeSuppermatterSlice
+      count: 8
   - type: SolutionContainerManager
     solutions:
       food:
@@ -1199,7 +1218,8 @@
   - type: Sprite
     state: cotton
   - type: SliceableFood
-    slice: FoodCakeCottonSlice
+    slice:
+    - proto: FoodCakeCottonSlice
   - type: Tag
     tags:
     - Cake
@@ -1272,7 +1292,8 @@
         - ReagentId: Milk
           Quantity: 10
   - type: SliceableFood
-    slice: FoodCakeBerryDelightSlice
+    slice:
+    - proto: FoodCakeBerryDelightSlice
   - type: Tag
     tags:
     - Cake

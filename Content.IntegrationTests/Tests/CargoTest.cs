@@ -16,6 +16,7 @@ using Robust.Shared.Prototypes;
 
 namespace Content.IntegrationTests.Tests;
 
+// !! TRIESTE PORT MODIFIED !! //
 [TestFixture]
 public sealed class CargoTest
 {
@@ -178,31 +179,34 @@ public sealed class CargoTest
                 var ent = entManager.SpawnEntity(proto, coord);
                 var sliceable = entManager.GetComponent<SliceableFoodComponent>(ent);
 
+                // !! TRIESTE PORT START !! //
                 // Check each bounty
-                foreach (var bounty in bounties)
+                foreach (var sliceResult in sliceable.Slice)
                 {
-                    // Check each entry in the bounty
-                    foreach (var entry in bounty.Entries)
+                    // Spawn a slice
+                    var slice = entManager.SpawnEntity(sliceResult.Proto, coord);
+
+                    // Check each bounty.
+                    foreach (var bounty in bounties)
                     {
-                        // See if the entity counts as part of this bounty entry
-                        if (!cargo.IsValidBountyEntry(ent, entry))
-                            continue;
-
-                        // Spawn a slice
-                        var slice = entManager.SpawnEntity(sliceable.Slice, coord);
-
-                        // See if the slice also counts for this bounty entry
-                        if (!cargo.IsValidBountyEntry(slice, entry))
+                        // Check each entry in the bounty.
+                        foreach (var entry in bounty.Entries)
                         {
-                            entManager.DeleteEntity(slice);
-                            continue;
+                            if (!cargo.IsValidBountyEntry(ent, entry))
+                                continue;
+
+                            // See if the slice also counts for this bounty entry
+                            if (!cargo.IsValidBountyEntry(slice, entry))
+                                continue;
+
+                            // If for some reason it can only make one slice, that's okay, I guess
+                            Assert.That(sliceable.TotalCount, Is.EqualTo(1),
+                                $"{proto} counts as part of cargo bounty {bounty.ID} and slices into {sliceable.TotalCount} slices which count for the same bounty!");
                         }
-
-                        entManager.DeleteEntity(slice);
-
-                        // If for some reason it can only make one slice, that's okay, I guess
-                        Assert.That(sliceable.TotalCount, Is.EqualTo(1), $"{proto} counts as part of cargo bounty {bounty.ID} and slices into {sliceable.TotalCount} slices which count for the same bounty!");
                     }
+                    // !! TRIESTE PORT END !! //
+
+                    entManager.DeleteEntity(slice);
                 }
 
                 entManager.DeleteEntity(ent);

@@ -21,8 +21,6 @@
           Quantity: 30
         - ReagentId: Vitamin
           Quantity: 5
-  - type: SliceableFood
-    count: 8
   - type: Item
     size: Normal
     shape:
@@ -79,7 +77,9 @@
     layers:
     - state: margherita
   - type: SliceableFood
-    slice: FoodPizzaMargheritaSlice
+    slice:
+    - proto: FoodPizzaMargheritaSlice
+      count: 8
 
 - type: entity
   name: slice of margherita pizza
@@ -114,7 +114,9 @@
     layers:
     - state: meat
   - type: SliceableFood
-    slice: FoodPizzaMeatSlice
+    slice:
+    - proto: FoodPizzaMeatSlice
+      count: 8
   - type: Tag
     tags:
     - Meat
@@ -159,7 +161,9 @@
     layers:
     - state: mushroom
   - type: SliceableFood
-    slice: FoodPizzaMushroomSlice
+    slice:
+    - proto: FoodPizzaMushroomSlice
+      count: 8
 
 - type: entity
   name: slice of mushroom pizza
@@ -197,7 +201,9 @@
     layers:
     - state: vegetable
   - type: SliceableFood
-    slice: FoodPizzaVegetableSlice
+    slice:
+    - proto: FoodPizzaVegetableSlice
+      count: 8
   - type: SolutionContainerManager
     solutions:
       food:
@@ -257,7 +263,9 @@
     layers:
     - state: donkpocket
   - type: SliceableFood
-    slice: FoodPizzaDonkpocketSlice
+    slice:
+    - proto: FoodPizzaDonkpocketSlice
+      count: 8
   - type: SolutionContainerManager
     solutions:
       food:
@@ -323,7 +331,9 @@
     layers:
     - state: dank
   - type: SliceableFood
-    slice: FoodPizzaDankSlice
+    slice:
+    - proto: FoodPizzaDankSlice
+      count: 8
   - type: SolutionContainerManager
     solutions:
       food:
@@ -378,7 +388,9 @@
     layers:
     - state: sassysage
   - type: SliceableFood
-    slice: FoodPizzaSassysageSlice
+    slice:
+    - proto: FoodPizzaSassysageSlice
+      count: 8
   - type: Tag
     tags:
     - Meat
@@ -425,7 +437,9 @@
     layers:
     - state: pineapple
   - type: SliceableFood
-    slice: FoodPizzaPineappleSlice
+    slice:
+    - proto: FoodPizzaPineappleSlice
+      count: 8
   - type: Tag
     tags:
     - Meat
@@ -474,7 +488,9 @@
     layers:
     - state: arnold
   - type: SliceableFood
-    slice: FoodPizzaArnoldSlice
+    slice:
+    - proto: FoodPizzaArnoldSlice
+      count: 8
   - type: SolutionContainerManager
     solutions:
       food:
@@ -581,7 +597,9 @@
     layers:
     - state: uranium-pizza
   - type: SliceableFood
-    slice: FoodPizzaUraniumSlice
+    slice:
+    - proto: FoodPizzaUraniumSlice
+      count: 8
   - type: Tag
     tags:
     - Meat
@@ -656,7 +674,9 @@
   - type: Edible
     requiresSpecialDigestion: true
   - type: SliceableFood
-    slice: FoodPizzaCottonSlice
+    slice:
+    - proto: FoodPizzaCottonSlice
+      count: 8
   - type: Tag
     tags:
     - ClothMade
@@ -719,7 +739,9 @@
     layers:
     - state: worldpeas
   - type: SliceableFood
-    slice: FoodPizzaWorldpeasSlice
+    slice:
+    - proto: FoodPizzaWorldpeasSlice
+      count: 8
   - type: SolutionContainerManager
     solutions:
       food:

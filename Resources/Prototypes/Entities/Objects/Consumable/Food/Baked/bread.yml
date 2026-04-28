@@ -61,7 +61,8 @@
     - state: alpha-filling
       color: "#FF613F"
   - type: SliceableFood
-    slice: FoodBreadVolcanicSlice
+    slice:
+    - proto: FoodBreadVolcanicSlice
 
 - type: entity
   name: volcanic slice
@@ -92,7 +93,8 @@
     layers:
     - state: banana
   - type: SliceableFood
-    slice: FoodBreadBananaSlice
+    slice:
+    - proto: FoodBreadBananaSlice
   - type: Tag
     tags:
     - Fruit
@@ -134,7 +136,8 @@
     layers:
     - state: cotton
   - type: SliceableFood
-    slice: FoodBreadCottonSlice
+    slice:
+    - proto: FoodBreadCottonSlice
   - type: Tag
     tags:
     - ClothMade
@@ -193,7 +196,8 @@
     layers:
     - state: cornbread
   - type: SliceableFood
-    slice: FoodBreadCornSlice
+    slice:
+    - proto: FoodBreadCornSlice
   - type: SolutionContainerManager
     solutions:
       food:
@@ -239,7 +243,8 @@
     layers:
     - state: creamcheese
   - type: SliceableFood
-    slice: FoodBreadCreamcheeseSlice
+    slice:
+    - proto: FoodBreadCreamcheeseSlice
   - type: SolutionContainerManager
     solutions:
       food:
@@ -289,7 +294,8 @@
     layers:
     - state: meat
   - type: SliceableFood
-    slice: FoodBreadMeatSlice
+    slice:
+    - proto: FoodBreadMeatSlice
   - type: SolutionContainerManager
     solutions:
       food:
@@ -347,7 +353,8 @@
     layers:
     - state: mimana
   - type: SliceableFood
-    slice: FoodBreadMimanaSlice
+    slice:
+    - proto: FoodBreadMimanaSlice
   - type: SolutionContainerManager
     solutions:
       food:
@@ -400,7 +407,8 @@
     layers:
     - state: plain
   - type: SliceableFood
-    slice: FoodBreadPlainSlice
+    slice:
+    - proto: FoodBreadPlainSlice
 
 - type: entity
   name: bread slice
@@ -426,7 +434,8 @@
     layers:
     - state: sausage
   - type: SliceableFood
-    slice: FoodBreadSausageSlice
+    slice:
+    - proto: FoodBreadSausageSlice
   - type: SolutionContainerManager
     solutions:
       food:
@@ -487,7 +496,8 @@
     layers:
     - state: spidermeat
   - type: SliceableFood
-    slice: FoodBreadMeatSpiderSlice
+    slice:
+    - proto: FoodBreadMeatSpiderSlice
   - type: SolutionContainerManager
     solutions:
       food:
@@ -545,7 +555,8 @@
     layers:
     - state: tofu
   - type: SliceableFood
-    slice: FoodBreadTofuSlice
+    slice:
+    - proto: FoodBreadTofuSlice
   - type: SolutionContainerManager
     solutions:
       food:
@@ -594,7 +605,8 @@
     layers:
     - state: xenomeat
   - type: SliceableFood
-    slice: FoodBreadMeatXenoSlice
+    slice:
+    - proto: FoodBreadMeatXenoSlice
   - type: SolutionContainerManager
     solutions:
       food:
@@ -649,8 +661,9 @@
   - type: Sprite
     state: baguette
   - type: SliceableFood
-    count: 12
-    slice: FoodBreadBaguetteSlice
+    slice:
+    - proto: FoodBreadBaguetteSlice
+      count: 12
   - type: SolutionContainerManager
     solutions:
       food:
@@ -693,7 +706,9 @@
   - type: Sprite
     state: baguette-cotton
   - type: SliceableFood
-    slice: FoodBreadBaguetteCottonSlice
+    slice:
+    - proto: FoodBreadBaguetteCottonSlice
+      count: 12
   - type: Edible
     requiresSpecialDigestion: true
   - type: Tag
@@ -930,7 +945,8 @@
     - meaty
     - bread
   - type: SliceableFood
-    slice: FoodBreadSausageSlice
+    slice:
+    - proto: FoodBreadSausageSlice
   - type: SolutionContainerManager
     solutions:
       food:

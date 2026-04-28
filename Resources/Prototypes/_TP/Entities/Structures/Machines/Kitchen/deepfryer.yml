@@ -48,14 +48,15 @@
   - type: SolutionTransfer
     maxTransferAmount: 50
   - type: Sprite
-    sprite: _TP/Structures/Machines/deepfryer.rsi
+    sprite: _FarHorizons/Structures/Machines/Kitchen/deepfryer.rsi # FarHorizons - resprite
     layers:
     - state: icon
     - state: active
       map: [ "enum.DeepFryerVisuals.Active" ]
       visible: false
     drawdepth: SmallObjects
-    snapCardinals: true
+  - type: Transform # FarHorizons - resprite
+    noRot: false    #
 #For the previous entity several components were added to allow fluids to be added to the fryer and to allow removal to prevent bricking.
 #In addition power was changed from 0 to 50 so its not powered always.
 #As well as an insert sound to replace the default gun one
@@ -68,7 +69,7 @@
   name: table-top deep fryer
   components:
   - type: Sprite
-    sprite: _TP/Structures/Machines/deepfryer.rsi
+    sprite: _FarHorizons/Structures/Machines/Kitchen/deepfryer.rsi # FarHorizons - resprite
     layers:
     - state: table-icon
     - state: table-active

@@ -28,8 +28,6 @@
   - type: Edible #It's actually possible now to have a pie stored in a tin rather than spawning trash when you finish eating it. But right now I'm just cleaning up.
     trash:
     - FoodPlateTin
-  - type: SliceableFood
-    count: 4
   - type: Tag
     tags:
     - Pie
@@ -80,7 +78,9 @@
     - state: tin
     - state: apple
   - type: SliceableFood
-    slice: FoodPieAppleSlice
+    slice:
+    - proto: FoodPieAppleSlice
+      count: 4
   - type: Tag
     tags:
     - Fruit
@@ -122,7 +122,9 @@
     - state: tin
     - state: baklava
   - type: SliceableFood
-    slice: FoodPieBaklavaSlice
+    slice:
+    - proto: FoodPieBaklavaSlice
+      count: 4
 
 - type: entity
   name: slice of baklava
@@ -177,7 +179,9 @@
     - Fruit
     - Pie
   - type: SliceableFood
-    slice: FoodPieBananaCreamSlice
+    slice:
+    - proto: FoodPieBananaCreamSlice
+      count: 4
 
 - type: entity
   name: slice of banana cream pie
@@ -215,7 +219,9 @@
       color: pink
     - state: berryclafoutis
   - type: SliceableFood
-    slice: FoodPieClafoutisSlice
+    slice:
+    - proto: FoodPieClafoutisSlice
+      count: 4
   - type: Tag
     tags:
     - Fruit
@@ -256,7 +262,9 @@
     - state: tin
     - state: cherry
   - type: SliceableFood
-    slice: FoodPieCherrySlice
+    slice:
+    - proto: FoodPieCherrySlice
+      count: 4
   - type: Tag
     tags:
     - Fruit
@@ -296,7 +304,9 @@
     - state: tin
     - state: meat
   - type: SliceableFood
-    slice: FoodPieMeatSlice
+    slice:
+    - proto: FoodPieMeatSlice
+      count: 4
   - type: Tag
     tags:
     - Meat
@@ -337,7 +347,9 @@
     - state: tin
     - state: pumpkin
   - type: SliceableFood
-    slice: FoodPiePumpkinSlice
+    slice:
+    - proto: FoodPiePumpkinSlice
+      count: 4
   - type: Tag
     tags:
     - Pie
@@ -373,7 +385,9 @@
     - state: tin
     - state: xeno
   - type: SliceableFood
-    slice: FoodPieXenoSlice
+    slice:
+    - proto: FoodPieXenoSlice
+      count: 4
   - type: Tag
     tags:
     - Meat
@@ -414,7 +428,9 @@
     - state: tin
     - state: frosty
   - type: SliceableFood
-    slice: FoodPieFrostySlice
+    slice:
+    - proto: FoodPieFrostySlice
+      count: 4
 
 - type: entity
   name: slice of frosty pie
@@ -445,7 +461,9 @@
   - type: Item
     heldPrefix: mime
   - type: SliceableFood
-    slice: FoodTartMimeSlice
+    slice:
+    - proto: FoodTartMimeSlice
+      count: 4
 
 - type: entity
   name: slice of mime tart

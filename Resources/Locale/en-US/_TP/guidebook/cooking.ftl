@@ -9,9 +9,9 @@ guidebook-deepfryer-cook-time =
     }
 guidebook-deepfryer-ingredient-name = [bold]{$name}[/bold]
 
-guidebook-reaction-reactants-header = Reactants
+guidebook-reaction-reactants-header = Ingredients
 guidebook-reaction-result-header = Result
 guidebook-reaction-name = { $name }
 guidebook-reaction-reactant-display = { $reagent } ({ $amount }u)
 guidebook-reaction-product-display = { $reagent } ({ $amount }u)
-guidebook-reaction-entity-product-display = { $name }
+guidebook-reaction-entity-product-display = { $name } x{ $amount }

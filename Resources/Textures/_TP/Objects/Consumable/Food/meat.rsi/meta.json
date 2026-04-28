@@ -1,0 +1,29 @@
+{
+    "version": 1,
+    "license": "CC-BY-SA-3.0",
+    "copyright": "Taken from tgstation and modified by Swept, potato1234x and deltanedas at https://github.com/tgstation/tgstation/commit/40d75cc340c63582fb66ce15bf75a36115f6bdaa, Whole Chicken by DaCookieCakes for Trieste Port 14.",
+    "size": {
+        "x": 32,
+        "y": 32
+    },
+    "states": [
+        {
+            "name": "chicken-leg-raw"
+        },
+        {
+            "name": "chicken-whole-cooked"
+        },
+        {
+            "name": "chicken-whole-raw"
+        },
+        {
+            "name": "chicken-wing-raw"
+        },
+        {
+            "name": "generic-pink-inhand-left"
+        },
+        {
+            "name": "generic-pink-inhand-right"
+        }
+    ]
+}
