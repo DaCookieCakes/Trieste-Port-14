@@ -1,3 +1,4 @@
+using System.Linq;
 using Content.Server.CrewManifest;
 using Content.Server.Station.Systems;
 using Content.Shared.CartridgeLoader;
@@ -9,6 +10,7 @@ using Robust.Shared.Prototypes;
 
 namespace Content.Server.CartridgeLoader.Cartridges;
 
+// !! TRIESTE MODIFIED !! //
 public sealed class CrewManifestCartridgeSystem : EntitySystem
 {
     [Dependency] private readonly CartridgeLoaderSystem _cartridgeLoader = default!;
@@ -57,10 +59,11 @@ public sealed class CrewManifestCartridgeSystem : EntitySystem
         if (!Resolve(uid, ref component))
             return;
 
+        // TRIESTE:
+        // A fix for the Sweetwater PDA issue. Just get the first station available.
         var owningStation = _stationSystem.GetOwningStation(uid);
-
         if (owningStation is null)
-            return;
+            owningStation = _stationSystem.GetStations().FirstOrDefault();
 
         var (stationName, entries) = _crewManifest.GetCrewManifest(owningStation.Value);
 
