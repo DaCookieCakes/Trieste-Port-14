@@ -1,12 +1,17 @@
-namespace Content.Server._TP.Temperature.Components;
+using Robust.Shared.Serialization;
+
+namespace Content.Shared._TP.Power.Generator;
 
 /// <summary>
 ///     Component for the storm array.
-///     Created by Cookie (Father Cheese) for Trieste Port 14.
+///     Created by Cookie for Trieste Port 14.
 /// </summary>
 [RegisterComponent]
 public sealed partial class StormArrayComponent : Component
 {
+    [DataField]
+    public bool Enabled;
+
     #region Announcements
 
     [DataField]
@@ -30,6 +35,18 @@ public sealed partial class StormArrayComponent : Component
 
     #region Cooling
 
+    /// <summary>
+    ///     How many joules per second the array generates from the storm.
+    /// </summary>
+    [DataField]
+    public float HeatGenerationRate = 25000f;
+
+    /// <summary>
+    ///     Heat capacity for internal temperature calculations.
+    /// </summary>
+    [DataField]
+    public float SelfHeatCapacity = 5000f;
+
     [DataField]
     public float CoolingEfficiency = 0.8F;
 
@@ -43,9 +60,13 @@ public sealed partial class StormArrayComponent : Component
     [ViewVariables]
     public float LastCoolantFlow = 0.0F;
 
-    [ViewVariables]
-    public float LastPressureDelta = 0.0F;
-
     #endregion
 
+}
+
+[Serializable, NetSerializable]
+public enum StormArrayVisuals : byte
+{
+    Idle,
+    Active,
 }

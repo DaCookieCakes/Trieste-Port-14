@@ -1,14 +1,14 @@
-using Content.Client._TP14.Temperature.Components;
 using Content.Client.Examine;
+using Content.Shared._TP.Power.Generator;
 using Robust.Shared.Map;
 using Robust.Shared.Prototypes;
 
-namespace Content.Client._TP14.Temperature.Systems;
+namespace Content.Client._TP.Power.Generator;
 
 /// <summary>
 ///     Client-side logic for the storm array.
 ///     This is essentially a carbon-copy of the TEG Circulator system.
-///     Created by Cookie (Father Cheese) for Trieste Port 14.
+///     Created by Cookie for Trieste Port 14.
 /// </summary>
 public sealed class StormArraySystem : EntitySystem
 {
