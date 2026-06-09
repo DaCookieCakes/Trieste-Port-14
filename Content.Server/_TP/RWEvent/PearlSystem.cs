@@ -7,13 +7,13 @@ using Robust.Shared.Audio.Systems;
 
 namespace Content.Server._TP.RWEvent;
 
-public sealed class PearlScannerSystem : EntitySystem
+public sealed partial class PearlScannerSystem : EntitySystem
 {
-    [Dependency] private readonly UseDelaySystem _useDelay = default!;
-    [Dependency] private readonly PopupSystem _popupSystem = default!;
-    [Dependency] private readonly PaperSystem _paper = default!;
-    [Dependency] private readonly MetaDataSystem _metaSystem = default!;
-    [Dependency] private readonly SharedAudioSystem _audioSystem = default!;
+    [Dependency] private UseDelaySystem _useDelay = default!;
+    [Dependency] private PopupSystem _popupSystem = default!;
+    [Dependency] private PaperSystem _paper = default!;
+    [Dependency] private MetaDataSystem _metaSystem = default!;
+    [Dependency] private SharedAudioSystem _audioSystem = default!;
 
     public override void Initialize()
     {
@@ -27,7 +27,7 @@ public sealed class PearlScannerSystem : EntitySystem
         return;
 
     var target = args.Target.Value; // Safe to use Value here
-    if (!TryComp<PearlComponent>(target, out var pearl))
+    if (!TryComp<Shared._TP.RWEvent.PearlComponent>(target, out var pearl))
         return;
 
     CreatePopup(uid, target, pearl, component); // Now passing a non-null EntityUid
@@ -41,7 +41,7 @@ public sealed class PearlScannerSystem : EntitySystem
         if (!args.CanAccess)
             return;
 
-        if (!TryComp<PearlComponent>(args.Target, out var pearl))
+        if (!TryComp<Shared._TP.RWEvent.PearlComponent>(args.Target, out var pearl))
             return;
 
         var verb = new UtilityVerb()
@@ -56,7 +56,7 @@ public sealed class PearlScannerSystem : EntitySystem
         args.Verbs.Add(verb);
     }
 
-    private void CreatePopup(EntityUid uid, EntityUid target, PearlComponent pearl, PearlScannerComponent scanner)
+    private void CreatePopup(EntityUid uid, EntityUid target, Shared._TP.RWEvent.PearlComponent pearl, PearlScannerComponent scanner)
     {
         if (TryComp(uid, out UseDelayComponent? useDelay)
             && !_useDelay.TryResetDelay((uid, useDelay), true))

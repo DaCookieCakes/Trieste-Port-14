@@ -1,17 +1,11 @@
-﻿using System.Linq;
-using Content.Server.Atmos.Components;
-using Content.Server.Chemistry.EntitySystems;
+﻿using Content.Server.Atmos.Components;
 using Content.Shared._TP.Jellids;
 using Content.Shared.Atmos.Components;
 using Content.Shared.Chemistry.EntitySystems;
 using Content.Shared.Damage;
 using Content.Shared.Damage.Systems;
-using Content.Shared.Fluids.Components;
 using Content.Shared.Overlays;
 using Content.Shared.Silicons.Laws.Components;
-using Content.Shared.TP.Abyss.Components;
-using Robust.Server.Audio;
-using Robust.Shared.Audio;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Prototypes;
 
@@ -22,18 +16,18 @@ namespace Content.Server._TP.WaterInteractions;
 /// In real terms, this system measures the "depth" of objects, and relates it to their designated crush depths.
 /// If you are deeper than your crush depth and don't have an abyssal hardsuit on. Ruh roh.
 /// </summary>
-public sealed class WaterInteractionSystem : EntitySystem
+public sealed partial class WaterInteractionSystem : EntitySystem
 {
     private const float UpdateTimer = 1f;
     private float _timer;
     private const float NoiseTimer = 1f;
     private float _noisetimer;
 
-    [Dependency] private readonly DamageableSystem _damageable = default!;
-    [Dependency] private readonly IEntityManager _entityManager = default!;
-    [Dependency] private readonly SharedAudioSystem _audio = default!;
-    [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
-    [Dependency] private readonly SharedSolutionContainerSystem _solution = default!;
+    [Dependency] private DamageableSystem _damageable = default!;
+    [Dependency] private IEntityManager _entityManager = default!;
+    [Dependency] private SharedAudioSystem _audio = default!;
+    [Dependency] private IPrototypeManager _prototypeManager = default!;
+    [Dependency] private SharedSolutionContainerSystem _solution = default!;
 
     private EntityUid? _soundEntity;
 
@@ -91,7 +85,7 @@ public sealed class WaterInteractionSystem : EntitySystem
                     }
                 }
 
-                if (TryComp<AbyssalProtectedComponent>(uid, out var abyssalProtected))
+                if (TryComp<Shared._TP.WaterInteractions.AbyssalProtectedComponent>(uid, out var abyssalProtected))
                 {
                     continue;
                 }
