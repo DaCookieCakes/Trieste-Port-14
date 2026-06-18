@@ -1,16 +1,22 @@
 ## Examine Messages
-plankton-tank-examine-power = The tank is [color=cyan]{$status}[/color].
-plankton-tank-examine-temp = Current temperature: [color=yellow]{$current}°C[/color] (Target: {$target}°C)
-plankton-tank-examine-species = Contains [color=green]{$count}[/color] out of {$max} species.
+tank-examine-power = The tank's power monitor displays: [color=orange]{$power}[/color].
+tank-examine-colony-count = Contains [color=green]{$count}[/color] out of {$max} species.
+tank-examine-temp-0 = The tank is set to a [color=cyan]low temperature[/color].
+tank-examine-temp-1 = The tank is set to a [color=yellow]average temperature[/color].
+tank-examine-temp-2 = The tank is set to a [color=red]hot temperature[/color].
 
 ## Temperature Control Verbs
+plankton-verb-tank-toggle-light = Toggle tank light
+tank-verb-extract-species = Extract all species
+tank-verb-insert-species = Insert all species
 plankton-tank-increase-temp = Increase Temperature (+5°C)
 plankton-tank-decrease-temp = Decrease Temperature (-5°C)
 plankton-tank-temp-increased = Target temperature set to {$temp}°C
 plankton-tank-temp-decreased = Target temperature set to {$temp}°C
 
-## Species Extraction
-plankton-tank-extract-species = Extract All Species
+## Popups
+tank-popup-light-off = You turned the light off.
+tank-popup-light-on = You turned the light on.
 plankton-tank-extracted = Successfully extracted all species into a container.
 
 ## Species Insertion

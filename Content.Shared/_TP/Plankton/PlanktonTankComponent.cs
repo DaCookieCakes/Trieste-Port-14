@@ -19,49 +19,7 @@ public sealed partial class PlanktonTankComponent : Component
     ///     Current temperature of the tank in Celsius.
     /// </summary>
     [DataField]
-    public float CurrentTemperature = 20f;
-
-    /// <summary>
-    ///     Target temperature the tank is trying to reach.
-    /// </summary>
-    [DataField]
-    public float TargetTemperature = 20f;
-
-    /// <summary>
-    ///     Minimum temperature the tank can be set to.
-    /// </summary>
-    [DataField]
-    public float MinTemperature = -10f;
-
-    /// <summary>
-    ///     Maximum temperature the tank can be set to.
-    /// </summary>
-    [DataField]
-    public float MaxTemperature = 60f;
-
-    /// <summary>
-    ///     How fast the tank heats up per second when powered.
-    /// </summary>
-    [DataField]
-    public float HeatingRate = 0.5f;
-
-    /// <summary>
-    ///     How fast the tank cools down per second when powered.
-    /// </summary>
-    [DataField]
-    public float CoolingRate = 0.5f;
-
-    /// <summary>
-    ///     Temperature change per verb interaction (Increase/Decrease Heat buttons).
-    /// </summary>
-    [DataField]
-    public float TemperatureStep = 5f;
-
-    /// <summary>
-    ///     Power consumption when actively heating or cooling.
-    /// </summary>
-    [DataField]
-    public float ActivePowerConsumption = 1000f;
+    public int CurrentTemperature = 1;
 
     /// <summary>
     ///     Power consumption when idle.

@@ -40,15 +40,21 @@ public sealed partial class PlanktonComponent : Component
         public float CurrentHunger { get; set; } = currentHunger;
         public bool IsAlive { get; set; } = isAlive;
         public ReagentId? PreferredReagent { get; set; }
+
+        /// <summary>
+        ///     What tank 'temperature' the colony can thrive in.
+        ///     This is a value of 0, 1, or 2. 0 being low, 2 being high.
+        /// </summary>
+        public int TemperatureTolerance = 1;
     }
 
     /// <summary>
-    ///     <para>Carnivore - Eats other plankton colonies</para>
-    ///     <para>Chemophage - Eats a specific, or category, of chemicals</para>
-    ///     <para>Decomposer - Eats the corpses of dead cultures</para>
-    ///     <para>Electrotroph - Uses electricity from lightning bolts</para>
-    ///     <para>Phototroph - Eats from light</para>
-    ///     <para>Radiophage - Eats radiation</para>
+    ///     <para>Carnivore - Eats living cultures.</para>
+    ///     <para>Chemotroph - Eats a specific, or category of, chemical(s).</para>
+    ///     <para>Decomposer - Eats the corpses of dead cultures.</para>
+    ///     <para>Electrotroph - Uses electricity.</para>
+    ///     <para>Phototroph - Eats from light.</para>
+    ///     <para>Radiophage - Eats radiation.</para>
     ///     <para>Hemophage - Eats blood - Possibly a parasite?</para>
     ///     <para>Scavenger - Eats waste and trash objects - Useful for janitors!</para>
     ///     <para>Symbiotroph - Thrives with other plankton and eats their byproduct.</para>
@@ -56,7 +62,7 @@ public sealed partial class PlanktonComponent : Component
     public enum PlanktonDiet
     {
         Carnivore,
-        Chemophage,
+        Chemotroph,
         Decomposer,
         Electrotroph,
         Phototroph,
@@ -67,22 +73,11 @@ public sealed partial class PlanktonComponent : Component
     }
 
     /// <summary>
-    ///     A list of chemicals for the Chemophage diet.
+    ///     A list of chemicals for the Chemotroph diet.
     /// </summary>
-    public static readonly string[] ChemophageReagents = new[]
+    public static readonly string[] ChemotrophReagents = new[]
     {
-        "Sugar",        "Nutriment",        "Ethanol",                  "Ammonia",
-        "Nitrogen",     "Carbon",           "Hydroxide",                "Mercury",
-        "Dylovene",     "Tricordrazine",    "SeaWaterSolutionBrute",    "SeaWaterSolutionBurn",
-    };
-
-    /// <summary>
-    ///     A list of hyper-exodtic specific Chemophage diet chemicals.
-    /// </summary>
-    public static readonly string[] ChemophageExoticReagents = new[]
-    {
-        "SpaceDrugs",   "Desoxyephedrine",  "Carpotoxin",       "Razorium",
-        "Amatoxin",     "Laughter",         "MindbreakerToxin", "Pax",
+        "Sulfur", "Iron", "Hydrogen", "Ammonia",
     };
 
     public static List<string> BloodReagents = new()
@@ -91,23 +86,23 @@ public sealed partial class PlanktonComponent : Component
     };
 
     /// <summary>
-    ///     <para>AerosolSpores - Releases spores into a 3x3 grid around it. Anything not wearing internals will be infested with some sort of growth or cellular damage.</para>
+    ///     <para>AerosolSpores - Releases spores into a 3x3 grid around itself. Anything not wearing internals will be infested with cellular damage.</para>
     ///     <para>Aggressive - Kills other plankton in the same enclosure.</para>
-    ///     <para>Bioluminescent - Glows</para>
-    ///     <para>Charged - Handling their container requires insuls</para>
-    ///     <para>ChemicalProduction - Has a byproduct of a specific chemical</para>
-    ///     <para>Cryophilic - Loves cold environments</para>
-    ///     <para>Hallucinogenic - Causes a crazy high if ingested(?)</para>
+    ///     <para>Bioluminescent - Glows.</para>
+    ///     <para>Charged - Handling their container requires insuls.</para>
+    ///     <para>ChemicalProduction - Has a byproduct of a specific chemical.</para>
+    ///     <para>Cryophilic - Loves colder environments.</para>
+    ///     <para>Hallucinogenic - Causes a crazy high if ingested.</para>
     ///     <para>HyperExotic - Has strange mutations and hard to work with. Worth a lot of points.</para>
-    ///     <para>MagneticField - Interferes with Electronics and Jellids</para>
-    ///     <para>Mimicry - Disguises effectively, can be confused for other present species</para>
-    ///     <para>Parasitic - Touching a living being infests them with the species, causing bleed damage and draining hunger</para>
-    ///     <para>PheromoneGlands - Alters the behavior of other species, either positively or negatively</para>
-    ///     <para>PolypColony - Grows coral around itself</para>
-    ///     <para>Pyrophilic - Thrives in hot environments</para>
-    ///     <para>Pyrotechnic - Causes explosions with other plankton</para>
-    ///     <para>Radioactive - Spits out small dosages of radiation</para>
-    ///     <para>Sentience -  single organism gathered that exhibits behavior of an intelligent being - He wants the Krabby Patty formula</para>
+    ///     <para>MagneticField - Interferes with Electronics and Jellids.</para>
+    ///     <para>Mimicry - Disguises effectively, can be confused for other present species.</para>
+    ///     <para>Parasitic - Touching a living being causes infestation, causing bleed damage and draining hunger.</para>
+    ///     <para>PheromoneGlands - Alters the behavior of other species, either positively or negatively.</para>
+    ///     <para>PolypColony - Grows coral in a 3x3 grid around itself.</para>
+    ///     <para>Pyrophilic - Loves hotter environments.</para>
+    ///     <para>Pyrotechnic - Causes explosions with other plankton.</para>
+    ///     <para>Radioactive - Spits out small dosages of radiation.</para>
+    ///     <para>Sentience - Exhibits behavior of an intelligent being - They want the formula.</para>
     /// </summary>
     [Flags]
     public enum PlanktonCharacteristics
@@ -144,17 +139,6 @@ public sealed partial class PlanktonComponent : Component
     public PlanktonCharacteristics Characteristics { get; set; }
 
     #region extra
-    /// <summary>
-    ///     Minimum temperature tolerance
-    /// </summary>
-    [DataField("temperatureToleranceLow"), ViewVariables(VVAccess.ReadWrite)]
-    public float TemperatureToleranceLow { get; set; } = 0.0f;
-
-    /// <summary>
-    ///     Maximum temperature tolerance
-    /// </summary>
-    [DataField("temperatureToleranceHigh"), ViewVariables(VVAccess.ReadWrite)]
-    public float TemperatureToleranceHigh { get; set; } = 30.0f;
 
     public static readonly string[] PlanktonFirstNames =
     [

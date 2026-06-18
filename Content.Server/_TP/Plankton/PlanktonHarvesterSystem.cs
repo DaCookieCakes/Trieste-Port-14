@@ -18,16 +18,16 @@ using Robust.Shared.Timing;
 namespace Content.Server._TP.Plankton;
 
 /// <summary>
-///     Handles plankton harvesting from SeaWater through atmospheric pipes
+///     Handles plankton harvesting from SeaWater through gas pipes.
 /// </summary>
-public sealed class PlanktonHarvesterSystem : EntitySystem
+public sealed partial class PlanktonHarvesterSystem : EntitySystem
 {
-    [Dependency] private readonly SharedAudioSystem _audio = default!;
-    [Dependency] private readonly SharedContainerSystem _container = default!;
-    [Dependency] private readonly NodeContainerSystem _nodeContainer = default!;
-    [Dependency] private readonly SharedPopupSystem _popup = default!;
-    [Dependency] private readonly IRobustRandom _random = default!;
-    [Dependency] private readonly IGameTiming _timing = default!;
+    [Dependency] private SharedAudioSystem _audio = default!;
+    [Dependency] private SharedContainerSystem _container = default!;
+    [Dependency] private NodeContainerSystem _nodeContainer = default!;
+    [Dependency] private SharedPopupSystem _popup = default!;
+    [Dependency] private IRobustRandom _random = default!;
+    [Dependency] private IGameTiming _timing = default!;
 
     public override void Initialize()
     {
@@ -159,7 +159,7 @@ public sealed class PlanktonHarvesterSystem : EntitySystem
             return;
 
         // Check if the used item is a valid Plankton container,
-        // and if valid insert it into the harvester.
+        // if valid then insert it into the harvester.
         if (!HasComp<PlanktonComponent>(args.Used))
             return;
 
@@ -224,43 +224,43 @@ public sealed class PlanktonHarvesterSystem : EntitySystem
             return;
 
         // Finally we generate the species. The count is based on the harvester itself.
-        if (harvesterComp.NextHarvestTime < _timing.CurTime)
+        if (harvesterComp.NextHarvestTime >= _timing.CurTime)
+            return;
+
+        // If the harvester needs water, we get the pipe node and check the air mixture.
+        // If there IS seawater, consume it from the pipe.
+        // If there IS NO seawater, fail the harvest.
+        if (harvesterComp.SeaWaterRequired > 0)
         {
-            // If the harvester needs water, we get the pipe node and check the air mixture.
-            // If there IS seawater, consume it from the pipe.
-            // If there IS NO seawater, fail the harvest.
-            if (harvesterComp.SeaWaterRequired > 0)
+            if (!_nodeContainer.TryGetNode(harvesterUid, "pipe", out PipeNode? pipeNode))
+                return;
+
+            var airMixture = pipeNode.Air;
+            if (airMixture.TotalMoles == 0)
             {
-                if (!_nodeContainer.TryGetNode(harvesterUid, "pipe", out PipeNode? pipeNode))
-                    return;
-
-                var airMixture = pipeNode.Air;
-                if (airMixture.TotalMoles == 0)
-                {
-                    _popup.PopupEntity(Loc.GetString("plankton-harvester-no-atmosphere"), harvesterUid);
-                    _audio.PlayPvs(harvesterComp.FailSound, harvesterUid, AudioParams.Default.WithVolume(0.6F));
-                    harvesterComp.CanHarvest = false;
-                    harvesterComp.NextCooldown = _timing.CurTime + TimeSpan.FromSeconds(harvesterComp.CooldownInterval);
-                    return;
-                }
-
-                var seawaterAmount = airMixture.GetMoles(Gas.Water);
-                if (seawaterAmount < harvesterComp.SeaWaterRequired)
-                {
-                    _popup.PopupClient(Loc.GetString("plankton-harvester-insufficient-seawater"), harvesterUid);
-                    _audio.PlayPvs(harvesterComp.FailSound, harvesterUid, AudioParams.Default.WithVolume(0.6F));
-                    harvesterComp.CanHarvest = false;
-                    harvesterComp.NextCooldown = _timing.CurTime + TimeSpan.FromSeconds(harvesterComp.CooldownInterval);
-                    return;
-                }
-
-                airMixture.AdjustMoles(Gas.Water, -harvesterComp.SeaWaterRequired);
+                _popup.PopupEntity(Loc.GetString("plankton-harvester-no-atmosphere"), harvesterUid);
+                _audio.PlayPvs(harvesterComp.FailSound, harvesterUid, AudioParams.Default.WithVolume(0.6F));
+                harvesterComp.CanHarvest = false;
+                harvesterComp.NextCooldown = _timing.CurTime + TimeSpan.FromSeconds(harvesterComp.CooldownInterval);
+                return;
             }
 
-            var speciesCount = _random.Next(harvesterComp.MinSpecies, harvesterComp.MaxSpecies);
-            GeneratePlanktonSpecies(plankton, speciesCount);
-            CompleteHarvest(harvesterUid, harvesterComp);
+            var seawaterAmount = airMixture.GetMoles(Gas.Water);
+            if (seawaterAmount < harvesterComp.SeaWaterRequired)
+            {
+                _popup.PopupClient(Loc.GetString("plankton-harvester-insufficient-seawater"), harvesterUid);
+                _audio.PlayPvs(harvesterComp.FailSound, harvesterUid, AudioParams.Default.WithVolume(0.6F));
+                harvesterComp.CanHarvest = false;
+                harvesterComp.NextCooldown = _timing.CurTime + TimeSpan.FromSeconds(harvesterComp.CooldownInterval);
+                return;
+            }
+
+            airMixture.AdjustMoles(Gas.Water, -harvesterComp.SeaWaterRequired);
         }
+
+        var speciesCount = _random.Next(harvesterComp.MinSpecies, harvesterComp.MaxSpecies);
+        GeneratePlanktonSpecies(plankton, speciesCount);
+        CompleteHarvest(harvesterUid, harvesterComp);
     }
 
     /// <summary>
@@ -317,29 +317,26 @@ public sealed class PlanktonHarvesterSystem : EntitySystem
 
             var planktonInstance = new PlanktonComponent.PlanktonSpeciesInstance(
                 planktonName,
-                (PlanktonComponent.PlanktonDiet)_random.Next(
-                    Enum.GetValues<PlanktonComponent.PlanktonDiet>().Length),
+                (PlanktonComponent.PlanktonDiet)diet,
                 combinedCharacteristics,
                 25f,
                 50f,
                 true
             );
 
-            if (planktonInstance is { Diet: PlanktonComponent.PlanktonDiet.Chemophage, PreferredReagent: null })
+            if (planktonInstance is { Diet: PlanktonComponent.PlanktonDiet.Chemotroph, PreferredReagent: null })
             {
-                var reagentString = _random.Pick((planktonInstance.Characteristics & PlanktonComponent.PlanktonCharacteristics.HyperExoticSpecies) != 0
-                        ? PlanktonComponent.ChemophageExoticReagents
-                        : PlanktonComponent.ChemophageReagents);
+                var reagentString = _random.Pick(PlanktonComponent.ChemotrophReagents);
 
                 var reagentId = new ReagentId(reagentString, null);
                 planktonInstance.PreferredReagent = reagentId;
 
-                Log.Info($"{planktonInstance.SpeciesName} is a Chemophage that feeds on {planktonInstance.PreferredReagent}");
+                Log.Debug($"{planktonInstance.SpeciesName} is a Chemophage that feeds on {planktonInstance.PreferredReagent}");
             }
 
             planktonComp.SpeciesInstances.Add(planktonInstance);
 
-            Log.Info($"Harvested plankton species {planktonInstance.SpeciesName} with diet {planktonInstance.Diet} and characteristics {combinedCharacteristics}");
+            Log.Debug($"Harvested plankton species {planktonInstance.SpeciesName} with diet {planktonInstance.Diet} and characteristics {combinedCharacteristics}");
         }
     }
 
@@ -352,7 +349,7 @@ public sealed class PlanktonHarvesterSystem : EntitySystem
             validDiets.Remove(PlanktonComponent.PlanktonDiet.Radiophage);
 
         if ((characteristics & PlanktonComponent.PlanktonCharacteristics.ChemicalProduction) != 0)
-            validDiets.Remove(PlanktonComponent.PlanktonDiet.Chemophage);
+            validDiets.Remove(PlanktonComponent.PlanktonDiet.Chemotroph);
 
         return validDiets.Count == 0 ? PlanktonComponent.PlanktonDiet.Scavenger : _random.Pick(validDiets);
     }

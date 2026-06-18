@@ -52,13 +52,13 @@ public sealed partial class PlanktonSystem
             if (!allSpecies.IsAlive)
                 continue;
 
-            // We flip a coin. If 'heads' (0.5F)...
+            // We flip a coin.
             //
+            // If 'heads' (0.5F)...
             // We flip ANOTHER coin. If that one is 'heads' - We Increase the other plankton food.
             // If 'tails' - Decrease food.
             //
             // If the first coin is 'tails'...
-            //
             // We flip YET ANOTHER coin. If that one is 'heads' - We increase the colony size by 2.5
             // If 'tails' - decrease size
             if (_random.Prob(0.5F))

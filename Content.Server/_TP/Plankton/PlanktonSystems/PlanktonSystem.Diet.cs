@@ -1,19 +1,16 @@
 using System.Linq;
-using Content.Server.Ghost.Roles.Components;
 using Content.Server.Power.Components;
 using Content.Server.Radiation.Components;
 using Content.Server.Radiation.Systems;
 using Content.Shared._TP.Plankton;
 using Content.Shared.Chemistry.EntitySystems;
-using Content.Shared.Mind.Components;
-using Content.Shared.Radiation.Components;
 
 namespace Content.Server._TP.Plankton.PlanktonSystems;
 
 public sealed partial class PlanktonSystem
 {
-    [Dependency] private readonly SharedSolutionContainerSystem _solutionContainer = default!;
-    [Dependency] private readonly RadiationSystem _radiation = default!;
+    [Dependency] private SharedSolutionContainerSystem _solutionContainer = default!;
+    [Dependency] private RadiationSystem _radiation = default!;
 
     private void UpdateDiets(PlanktonComponent planktonComp, EntityUid planktonUid)
     {
@@ -30,7 +27,7 @@ public sealed partial class PlanktonSystem
                 case PlanktonComponent.PlanktonDiet.Carnivore:
                     PerformCarnivoreDiet(planktonSpecies, planktonComp);
                     break;
-                case PlanktonComponent.PlanktonDiet.Chemophage:
+                case PlanktonComponent.PlanktonDiet.Chemotroph:
                     PerformChemophageDiet(planktonUid, planktonSpecies);
                     break;
                 case PlanktonComponent.PlanktonDiet.Decomposer:

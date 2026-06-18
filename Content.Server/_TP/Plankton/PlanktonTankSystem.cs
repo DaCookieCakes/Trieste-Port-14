@@ -22,13 +22,13 @@ namespace Content.Server._TP.Plankton;
 /// <summary>
 ///     Handles the planktology tank.
 /// </summary>
-public sealed class PlanktonTankSystem : EntitySystem
+public sealed partial class PlanktonTankSystem : EntitySystem
 {
-    [Dependency] private readonly SharedAudioSystem _audio = default!;
-    [Dependency] private readonly SharedContainerSystem _container = default!;
-    [Dependency] private readonly SharedMindSystem _mind = default!;
-    [Dependency] private readonly SharedPopupSystem _popup = default!;
-    [Dependency] private readonly SharedSolutionContainerSystem _solution = default!;
+    [Dependency] private SharedAudioSystem _audio = default!;
+    [Dependency] private SharedContainerSystem _container = default!;
+    [Dependency] private SharedMindSystem _mind = default!;
+    [Dependency] private SharedPopupSystem _popup = default!;
+    [Dependency] private SharedSolutionContainerSystem _solution = default!;
 
     private const float UpdateInterval = 1f;
     private float _updateTimer;
@@ -40,8 +40,8 @@ public sealed class PlanktonTankSystem : EntitySystem
         SubscribeLocalEvent<PlanktonTankComponent, ComponentInit>(OnTankInit);
         SubscribeLocalEvent<PlanktonTankComponent, PowerChangedEvent>(OnPowerChanged);
         SubscribeLocalEvent<PlanktonTankComponent, ExaminedEvent>(OnExamined);
-        SubscribeLocalEvent<PlanktonTankComponent, GetVerbsEvent<AlternativeVerb>>(AddTemperatureVerbs);
-        SubscribeLocalEvent<PlanktonTankComponent, GetVerbsEvent<Verb>>(AddExtractAndInsertVerbs);
+        SubscribeLocalEvent<PlanktonTankComponent, GetVerbsEvent<AlternativeVerb>>(AddAlternativeVerbs);
+        SubscribeLocalEvent<PlanktonTankComponent, GetVerbsEvent<Verb>>(AddNormalVerbs);
     }
 
     public override void Update(float frameTime)
@@ -52,12 +52,29 @@ public sealed class PlanktonTankSystem : EntitySystem
 
         if (_updateTimer >= UpdateInterval)
         {
-            foreach (var tank in EntityQuery<PlanktonTankComponent>())
+            var query = EntityQueryEnumerator<PlanktonTankComponent>();
+            while (query.MoveNext(out var tankUid, out var tankComp))
             {
-                UpdateTemperature(tank.Owner, tank);
-                CheckPlanktonSurvival(tank.Owner, tank);
+                CheckTankSystems(tankUid);
+                CheckPlanktonSurvival(tankUid, tankComp);
             }
+
             _updateTimer = 0f;
+        }
+    }
+
+    private void CheckTankSystems(EntityUid tankUid)
+    {
+        if (!TryComp<PlanktonComponent>(tankUid, out var plankton))
+            return;
+
+        foreach (var species in plankton.SpeciesInstances.Where(species => species.IsAlive))
+        {
+            if ((species.Characteristics & PlanktonComponent.PlanktonCharacteristics.MagneticField) != 0)
+            {
+                if (TryComp<ApcPowerReceiverComponent>(tankUid, out var receiver) && receiver.Powered)
+                    receiver.Load = 1000;
+            }
         }
     }
 
@@ -80,45 +97,6 @@ public sealed class PlanktonTankSystem : EntitySystem
     }
 
     /// <summary>
-    ///     Updates the Tank's temperature.
-    /// </summary>
-    /// <param name="uid">The Tank UID</param>
-    /// <param name="component">The Tank Component</param>
-    private void UpdateTemperature(EntityUid uid, PlanktonTankComponent component)
-    {
-        // If the component IS NOT power, we return early.
-        if (!component.IsPowered)
-            return;
-
-        var tempDiff = component.TargetTemperature - component.CurrentTemperature;
-
-        // Now we check if the temperature difference is below 0.1 via ABS.
-        // If so, we set the receiver load to idle consumption (500) and return.
-        // If not, however, we set the receiver load to the ACTIVE state. (1000)
-        if (Math.Abs(tempDiff) < 0.1f)
-        {
-            if (TryComp<ApcPowerReceiverComponent>(uid, out var receiver))
-                receiver.Load = component.IdlePowerConsumption;
-
-            return;
-        }
-
-        if (TryComp<ApcPowerReceiverComponent>(uid, out var activeReceiver))
-            activeReceiver.Load = component.ActivePowerConsumption;
-
-        // Now we check if the tempDiff IS ABOVE ZERO.
-        // If it is, increase temp. Otherwise, decrease temp.
-        if (tempDiff > 0)
-        {
-            component.CurrentTemperature += Math.Min(component.HeatingRate * UpdateInterval, tempDiff);
-        }
-        else
-        {
-            component.CurrentTemperature -= Math.Min(component.CoolingRate * UpdateInterval, Math.Abs(tempDiff));
-        }
-    }
-
-    /// <summary>
     ///     Checks whether the plankton can survive.
     /// </summary>
     /// <param name="uid">The Tank UID</param>
@@ -130,7 +108,7 @@ public sealed class PlanktonTankSystem : EntitySystem
 
         // Check if tank has enough SeaWater.
         // If not, we start to rapidly kill the plankton cultures.
-        if (_solution.TryGetSolution(uid, tank.WaterSolutionName, out var solutionEnt, out var solution))
+        if (_solution.TryGetSolution(uid, tank.WaterSolutionName, out _, out var solution))
         {
             var seawaterAmount = 0f;
 
@@ -139,6 +117,7 @@ public sealed class PlanktonTankSystem : EntitySystem
                 if (reagent.Reagent.Prototype == "SeaWater")
                 {
                     seawaterAmount += reagent.Quantity.Float();
+                    solution.RemoveReagent("SeaWater", reagent.Quantity.Float());
                 }
             }
 
@@ -146,18 +125,7 @@ public sealed class PlanktonTankSystem : EntitySystem
             {
                 foreach (var species in plankton.SpeciesInstances)
                 {
-                    if (!species.IsAlive)
-                        continue;
-
-                    species.CurrentSize -= 2f;
-                    plankton.DeadPlankton += 2f;
-
-                    if (species.CurrentSize <= 0)
-                    {
-                        species.CurrentSize = 0;
-                        species.IsAlive = false;
-                        Log.Info($"{species.SpeciesName} died due to a lack of seawater in tank {uid}");
-                    }
+                    HurtColony(uid, tank, species, plankton, 2F);
                 }
 
                 return;
@@ -170,39 +138,55 @@ public sealed class PlanktonTankSystem : EntitySystem
             if (!species.IsAlive)
                 continue;
 
-            // Get the base tolerance from the plankton component,
-            // then modify the tolerance based on characteristics.
-            // Pyrophilic increases the tolerance, and Cryophilic decreases it.
-            var toleranceLow = plankton.TemperatureToleranceLow;
-            var toleranceHigh = plankton.TemperatureToleranceHigh;
-
-            if ((species.Characteristics & PlanktonComponent.PlanktonCharacteristics.Pyrophilic) != 0)
-            {
-                toleranceHigh += 20f;
-                toleranceLow -= 10f;
-            }
-
             if ((species.Characteristics & PlanktonComponent.PlanktonCharacteristics.Cryophilic) != 0)
             {
-                toleranceLow -= 20f;
-                toleranceHigh += 10f;
-            }
-
-            // Now we check if the tolerance is above or below the low tolerance.
-            // If so, we decrease the Plankton size and increase the dead count.
-            if (tank.CurrentTemperature < toleranceLow || tank.CurrentTemperature > toleranceHigh)
-            {
-                species.CurrentSize -= 0.5f;
-                plankton.DeadPlankton += 0.5f;
-
-                if (species.CurrentSize <= 0)
+                if (tank.CurrentTemperature != 0)
                 {
-                    species.CurrentSize = 0;
-                    species.IsAlive = false;
-                    plankton.DeadPlankton += Math.Abs(species.CurrentSize);
-                    Log.Info($"{species.SpeciesName} died due to temperature stress in tank {uid}");
+                    HurtColony(uid, tank, species, plankton, 1F);
                 }
             }
+            else if ((species.Characteristics & PlanktonComponent.PlanktonCharacteristics.Pyrophilic) != 0)
+            {
+                if (tank.CurrentTemperature != 2)
+                {
+                    HurtColony(uid, tank, species, plankton, 1F);
+                }
+            }
+            else
+            {
+                if (tank.CurrentTemperature != 1)
+                {
+                    HurtColony(uid, tank, species, plankton, 1F);
+                }
+            }
+        }
+    }
+
+    private void HurtColony(EntityUid tankUid,
+        PlanktonTankComponent tankComp,
+        PlanktonComponent.PlanktonSpeciesInstance species,
+        PlanktonComponent plankton,
+        float killSize)
+    {
+        if (!species.IsAlive)
+            return;
+
+        var aks = Math.Min(species.CurrentSize, killSize);
+        species.CurrentSize -= aks;
+        plankton.DeadPlankton += aks;
+
+        if (species.CurrentSize <= 0)
+        {
+            species.IsAlive = false;
+
+            RemComp<PointLightComponent>(tankUid);
+            RemComp<ElectrifiedComponent>(tankUid);
+            RemComp<RadiationSourceComponent>(tankUid);
+
+            if (TryComp<ApcPowerReceiverComponent>(tankUid, out var receiver))
+                receiver.Load = tankComp.IdlePowerConsumption;
+
+            Log.Debug($"The colony of plankton: {species.SpeciesName} has died.");
         }
     }
 
@@ -211,14 +195,20 @@ public sealed class PlanktonTankSystem : EntitySystem
         if (!args.IsInDetailsRange)
             return;
 
-        args.PushMarkup(Loc.GetString("plankton-tank-examine-temp",
-            ("current", $"{component.CurrentTemperature:F1}"),
-            ("target", $"{component.TargetTemperature:F1}")));
+        if (TryComp<ApcPowerReceiverComponent>(uid, out var receiver) && receiver.Powered)
+            args.PushMarkup(Loc.GetString("$tank-examine-power",  ("power", receiver.Load.ToString("F2"))));
+
+        args.PushMarkup(Loc.GetString($"tank-examine-temp-{component.CurrentTemperature}"));
 
         if (TryComp<PlanktonComponent>(uid, out var plankton))
         {
             var speciesCount = plankton.SpeciesInstances.Count;
-            args.PushMarkup(Loc.GetString("plankton-tank-examine-species",
+            var deadCount = plankton.DeadPlankton;
+
+            if (deadCount > 300)
+                speciesCount += 1;
+
+            args.PushMarkup(Loc.GetString("tank-examine-colony-count",
                 ("count", speciesCount),
                 ("max", component.MaxSpecies)));
         }
@@ -230,53 +220,47 @@ public sealed class PlanktonTankSystem : EntitySystem
     /// <param name="uid">The Tank UID</param>
     /// <param name="component">The Tank Component</param>
     /// <param name="args">GetVerbsEvent for Alternative Verbs arguments</param>
-    private void AddTemperatureVerbs(EntityUid uid, PlanktonTankComponent component, GetVerbsEvent<AlternativeVerb> args)
+    private void AddAlternativeVerbs(EntityUid uid, PlanktonTankComponent component, GetVerbsEvent<AlternativeVerb> args)
     {
         // Basic checks first, like if we can access or can interact.
         if (!args.CanAccess || !args.CanInteract)
             return;
 
+        if (!component.IsPowered)
+            return;
+
+        var newTemp = component.CurrentTemperature switch
+        {
+            0 => 1,
+            1 => 2,
+            2 => 0,
+            _ => 1,
+        };
+
         // Increase temperature
-        AlternativeVerb increaseTemp = new()
+        AlternativeVerb changeTemp = new()
         {
             Text = Loc.GetString("plankton-tank-increase-temp"),
             Icon = new SpriteSpecifier.Texture(new("/Textures/Interface/VerbIcons/light.svg.192dpi.png")),
             Act = () =>
             {
-                var newTemp = Math.Min(component.TargetTemperature + component.TemperatureStep, component.MaxTemperature);
-                component.TargetTemperature = newTemp;
+                component.CurrentTemperature = newTemp;
                 _audio.PlayPvs(component.AdjustSound, uid);
                 _popup.PopupEntity(Loc.GetString("plankton-tank-temp-increased", ("temp", $"{newTemp:F1}")), uid, args.User);
             },
             Priority = 1
         };
 
-        // Decrease temperature
-        AlternativeVerb decreaseTemp = new()
-        {
-            Text = Loc.GetString("plankton-tank-decrease-temp"),
-            Icon = new SpriteSpecifier.Texture(new("/Textures/Interface/VerbIcons/snow.svg.192dpi.png")),
-            Act = () =>
-            {
-                var newTemp = Math.Max(component.TargetTemperature - component.TemperatureStep, component.MinTemperature);
-                component.TargetTemperature = newTemp;
-                _audio.PlayPvs(component.AdjustSound, uid);
-                _popup.PopupEntity(Loc.GetString("plankton-tank-temp-decreased", ("temp", $"{newTemp:F1}")), uid, args.User);
-            },
-            Priority = 0
-        };
-
-        args.Verbs.Add(increaseTemp);
-        args.Verbs.Add(decreaseTemp);
+        args.Verbs.Add(changeTemp);
     }
 
     /// <summary>
-    ///     Verbs for extracting and inserting plankton.
+    ///     Verbs for extracting and inserting plankton colonies.
     /// </summary>
     /// <param name="uid">The Tank UID</param>
     /// <param name="tankComponent">The Tank Component</param>
     /// <param name="args">GetVerbsEvent for Verb arguments</param>
-    private void AddExtractAndInsertVerbs(EntityUid uid, PlanktonTankComponent tankComponent, GetVerbsEvent<Verb> args)
+    private void AddNormalVerbs(EntityUid uid, PlanktonTankComponent tankComponent, GetVerbsEvent<Verb> args)
     {
         // Basic checks first, like if we can access or can interact.
         // We also check whether the Tank has a Plankton component,
@@ -284,67 +268,68 @@ public sealed class PlanktonTankSystem : EntitySystem
         if (!args.CanAccess || !args.CanInteract)
             return;
 
-        if (!TryComp<PlanktonComponent>(uid, out var planktonComp))
-            return;
-
         Verb toggleLightVerb = new()
         {
-            Text = Loc.GetString("plankton-tank-toggle-light"),
+            Text = Loc.GetString("plankton-verb-tank-toggle-light"),
             Icon = new SpriteSpecifier.Texture(new ResPath("/Textures/Interface/VerbIcons/light.svg.192dpi.png")),
             Act = () =>
             {
-                _popup.PopupEntity(tankComponent.LightEnabled ? "Toggled light off" : "Toggled light on", uid);
+                _popup.PopupEntity(tankComponent.LightEnabled
+                    ? Loc.GetString("tank-popup-light-off")
+                    : Loc.GetString("tank-popup-light-on"),
+                    uid,
+                    PopupType.Medium);
+
                 tankComponent.LightEnabled = !tankComponent.LightEnabled;
             },
             Priority = 0,
         };
-
         args.Verbs.Add(toggleLightVerb);
+
+
+        if (!TryComp<PlanktonComponent>(uid, out var planktonComp))
+            return;
 
         if (!_container.TryGetContainer(uid, "plankton_container_slot", out var slot)
             || slot.ContainedEntities.Count == 0)
             return;
 
-        // Now we check if the FIRST slot of the container is also a Plankton component.
-        // If it is and species count IS ZERO, we add a verb to EXTRACT species from the tank.
-        // Otherwise, if species is NOT zero, we insert the first one in the container.
-        if (!TryComp<PlanktonComponent>(slot.Owner, out var containerPlankton))
-            return;
-
-        Verb extractVerb = new()
+        if (planktonComp.SpeciesInstances.Count != 0)
         {
-            Text = Loc.GetString("plankton-tank-extract-species"),
-            Icon = new SpriteSpecifier.Texture(new ResPath("/Textures/Interface/VerbIcons/eject.svg.192dpi.png")),
-            Act = () =>
+            Verb extractVerb = new()
             {
-                ExtractSpecies(uid, tankComponent);
-            },
-            Priority = -1
-        };
+                Text = Loc.GetString("tank-verb-extract-species"),
+                Icon = new SpriteSpecifier.Texture(new ResPath("/Textures/Interface/VerbIcons/eject.svg.192dpi.png")),
+                Act = () => ExtractSpecies(uid, tankComponent, planktonComp),
+                Priority = -1
+            };
+            args.Verbs.Add(extractVerb);
+        }
 
-        args.Verbs.Add(extractVerb);
-
-
-        Verb insertVerb = new()
+        if (TryComp<PlanktonComponent>(slot.ContainedEntities[0], out var slotPlankton)
+            && slotPlankton.SpeciesInstances.Count != 0)
         {
-            Text = Loc.GetString("plankton-tank-insert-species"),
-            Icon = new SpriteSpecifier.Texture(new ResPath("/Textures/Interface/VerbIcons/in.svg.192dpi.png")),
-            Act = () =>
+            Verb insertVerb = new()
             {
-                InsertSpecies(uid, tankComponent);
-            },
-            Priority = -2,
-        };
-
-        args.Verbs.Add(insertVerb);
+                Text = Loc.GetString("tank-verb-insert-species"),
+                Icon = new SpriteSpecifier.Texture(new ResPath("/Textures/Interface/VerbIcons/in.svg.192dpi.png")),
+                Act = () =>
+                {
+                    InsertSpecies(uid, tankComponent, planktonComp);
+                },
+                Priority = -2,
+            };
+            args.Verbs.Add(insertVerb);
+        }
     }
 
     /// <summary>
     ///     Verb method for inserting species into the tank.
     /// </summary>
-    /// <param name="tankUid">The Tank UID</param>
-    /// <param name="tankComponent">The Tank Component</param>
-    private void InsertSpecies(EntityUid tankUid, PlanktonTankComponent tankComponent)
+    /// <param name="tankUid">The Tank uid</param>
+    /// <param name="tankComponent">The Tank component</param>
+    /// <param name="planktonComp">The Plankton component</param>
+    private void InsertSpecies(EntityUid tankUid, PlanktonTankComponent tankComponent, PlanktonComponent planktonComp)
     {
         // If we can't add a species because the tank is full, we return early.
         // We also check if the tank can even contain plankton.
@@ -353,9 +338,6 @@ public sealed class PlanktonTankSystem : EntitySystem
             _popup.PopupEntity(Loc.GetString("plankton-tank-full"), tankUid);
             return;
         }
-
-        if (!TryComp<PlanktonComponent>(tankUid, out var tankPlankton))
-            return;
 
         if (!_container.TryGetContainer(tankUid, "plankton_container_slot", out var slot) ||
             slot.ContainedEntities.Count == 0)
@@ -366,51 +348,34 @@ public sealed class PlanktonTankSystem : EntitySystem
             return;
 
 
-        // If we pass those checks, we then get the first species in the container.
-        // We then add it to the tank, and remove it from the container.
+        // If we pass those checks, we then get every species in the container.
+        // We then add them to the tank while removing them from the container.
         // Finally, we display a message at the tank.
         var capturedSpecies = containerPlankton.SpeciesInstances.ToList();
         foreach (var species in capturedSpecies)
         {
-            if (tankPlankton.SpeciesInstances.Count + 1 > tankComponent.MaxSpecies)
+            if (planktonComp.SpeciesInstances.Count + 1 > tankComponent.MaxSpecies)
                 continue;
 
-            tankPlankton.SpeciesInstances.Add(species);
+            planktonComp.SpeciesInstances.Add(species);
             containerPlankton.SpeciesInstances.Remove(species);
         }
 
-        tankPlankton.DeadPlankton = containerPlankton.DeadPlankton;
-        containerPlankton.DeadPlankton = 0;
-
-        RemComp<PointLightComponent>(containerPlankton.Owner);
-        RemComp<ElectrifiedComponent>(containerPlankton.Owner);
-        RemComp<RadiationSourceComponent>(containerPlankton.Owner);
-
+        _audio.PlayPvs(tankComponent.ExtractSound, tankUid);
         _popup.PopupEntity(Loc.GetString("plankton-tank-inserted"), tankUid);
 
-        if (!TryComp<MindContainerComponent>(containerPlankton.Owner, out var mindContainer))
-            return;
-
-        if (mindContainer.Mind == null)
-            return;
-
-        _mind.TransferTo(mindContainer.Mind.Value, tankPlankton.Owner);
-        EnsureComp<SpeechComponent>(tankComponent.Owner);
-        EnsureComp<TypingIndicatorComponent>(tankComponent.Owner);
+        if (TryComp<MindContainerComponent>(containerEntity, out var mindContainer))
+            MoveMind(mindContainer, tankUid, containerEntity);
     }
 
     /// <summary>
     ///     Verb method for extracting species from the tank, and into a container.
     /// </summary>
-    /// <param name="tankUid">The Tank UID</param>
-    /// <param name="tankComponent">The Tank Component</param>
-    private void ExtractSpecies(EntityUid tankUid, PlanktonTankComponent tankComponent)
+    /// <param name="tankUid">The Tank uid</param>
+    /// <param name="tankComponent">The Tank component</param>
+    /// <param name="planktonComp">The Plankton component</param>
+    private void ExtractSpecies(EntityUid tankUid, PlanktonTankComponent tankComponent, PlanktonComponent planktonComp)
     {
-        // Get the tank's plankton component,
-        // and then the container slot and the entity inside of it.
-        if (!TryComp<PlanktonComponent>(tankUid, out var tankPlankton))
-            return;
-
         if (!_container.TryGetContainer(tankUid, "plankton_container_slot", out var slot) ||
             slot.ContainedEntities.Count == 0)
             return;
@@ -423,37 +388,35 @@ public sealed class PlanktonTankSystem : EntitySystem
         // remove it from the tank,
         // and do client-side stuff like audio and a message.
 
-        var capturedSpecies = tankPlankton.SpeciesInstances.ToList();
+        var capturedSpecies = planktonComp.SpeciesInstances.ToList();
         foreach (var species in capturedSpecies)
         {
             containerPlankton.SpeciesInstances.Add(species);
-            tankPlankton.SpeciesInstances.Remove(species);
+            planktonComp.SpeciesInstances.Remove(species);
         }
-
-        containerPlankton.DeadPlankton = tankPlankton.DeadPlankton;
-        tankPlankton.DeadPlankton = 0;
-
-        RemComp<PointLightComponent>(tankUid);
-        RemComp<ElectrifiedComponent>(tankUid);
-        RemComp<RadiationSourceComponent>(tankUid);
 
         _audio.PlayPvs(tankComponent.ExtractSound, tankUid);
         _popup.PopupEntity(Loc.GetString("plankton-tank-extracted"), tankUid);
 
-        if (!TryComp<MindContainerComponent>(tankPlankton.Owner, out var mindContainer))
+        if (TryComp<MindContainerComponent>(tankUid, out var mindContainer))
+            MoveMind(mindContainer, containerEntity, tankUid);
+
+        if (TryComp<ApcPowerReceiverComponent>(tankUid, out var powerReceiver))
+            powerReceiver.Load = tankComponent.IdlePowerConsumption;
+    }
+
+    private void MoveMind(MindContainerComponent mindCont, EntityUid containerEnt, EntityUid movedUid)
+    {
+        if (mindCont.Mind == null)
             return;
 
-        if (mindContainer.Mind == null)
-            return;
+        _mind.TransferTo(mindCont.Mind.Value, containerEnt);
+        EnsureComp<SpeechComponent>(containerEnt);
+        EnsureComp<TypingIndicatorComponent>(containerEnt);
 
-        _mind.TransferTo(mindContainer.Mind.Value, containerPlankton.Owner);
-        EnsureComp<SpeechComponent>(containerPlankton.Owner);
-        EnsureComp<TypingIndicatorComponent>(containerPlankton.Owner);
-
-        if (!TryComp<ApcPowerReceiverComponent>(tankUid, out var powerReceiver))
-            return;
-
-        powerReceiver.Load = tankComponent.IdlePowerConsumption;
+        RemComp<PointLightComponent>(movedUid);
+        RemComp<ElectrifiedComponent>(movedUid);
+        RemComp<RadiationSourceComponent>(movedUid);
     }
 
     /// <summary>
@@ -467,6 +430,9 @@ public sealed class PlanktonTankSystem : EntitySystem
         if (!TryComp<PlanktonComponent>(uid, out var plankton))
             return false;
 
-        return plankton.SpeciesInstances.Count < component.MaxSpecies;
+        var belowMax = plankton.SpeciesInstances.Count < component.MaxSpecies;
+        var belowMaxDead = plankton.DeadPlankton <= 300;
+
+        return belowMax && belowMaxDead;
     }
 }

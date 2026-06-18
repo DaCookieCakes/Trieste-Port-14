@@ -9,7 +9,7 @@ using Content.Shared.Popups;
 using Content.Shared.Radiation.Components;
 using Content.Shared.Speech;
 using Content.Shared.Verbs;
-using Robust.Client.GameObjects;
+using Robust.Server.GameObjects;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Containers;
 using Robust.Shared.Timing;
@@ -17,13 +17,13 @@ using Robust.Shared.Utility;
 
 namespace Content.Server._TP.Plankton;
 
-public sealed class PlanktonSeparatorSystem : EntitySystem
+public sealed partial class PlanktonSeparatorSystem : EntitySystem
 {
-    [Dependency] private readonly SharedAudioSystem _audio = default!;
-    [Dependency] private readonly SharedContainerSystem _container = default!;
-    [Dependency] private readonly SharedMindSystem _mind = default!;
-    [Dependency] private readonly SharedPopupSystem _popup = default!;
-    [Dependency] private readonly IGameTiming _timing = default!;
+    [Dependency] private SharedAudioSystem _audio = default!;
+    [Dependency] private SharedContainerSystem _container = default!;
+    [Dependency] private SharedMindSystem _mind = default!;
+    [Dependency] private SharedPopupSystem _popup = default!;
+    [Dependency] private IGameTiming _timing = default!;
 
     public override void Initialize()
     {
@@ -105,21 +105,21 @@ public sealed class PlanktonSeparatorSystem : EntitySystem
         if (!args.CanAccess || !args.CanInteract)
             return;
 
-        // Separator must have plankton component to hold species
+        // Separator must have a plankton component to hold species.
         if (!TryComp<PlanktonComponent>(separatorUid, out var separatorPlankton))
             return;
 
-        // Must have a container inserted
+        // And it must have a container inserted.
         if (!_container.TryGetContainer(separatorUid, "plankton_container_slot", out var slot)
             || slot.ContainedEntities.Count == 0)
             return;
 
         var containerEntity = slot.ContainedEntities[0];
-
         if (!TryComp<PlanktonComponent>(containerEntity, out var containerPlankton))
             return;
 
-        foreach (var species in containerPlankton.SpeciesInstances.ToList())
+        var capturedList = containerPlankton.SpeciesInstances.ToList();
+        foreach (var species in capturedList)
         {
             if (separatorComp.NextSeparatorTime > _timing.CurTime)
                 continue;
@@ -134,19 +134,10 @@ public sealed class PlanktonSeparatorSystem : EntitySystem
                     separatorPlankton.SpeciesInstances.Add(species);
                     separatorComp.NextSeparatorTime = _timing.CurTime + TimeSpan.FromSeconds(separatorComp.SeparateInterval);
 
-                    if (!TryComp<MindContainerComponent>(containerPlankton.Owner, out var mindContainer))
+                    if (!TryComp<MindContainerComponent>(separatorUid, out var mindContainer))
                         return;
 
-                    if (mindContainer.Mind == null)
-                        return;
-
-                    _mind.TransferTo(mindContainer.Mind.Value, separatorPlankton.Owner);
-                    EnsureComp<SpeechComponent>(separatorPlankton.Owner);
-                    EnsureComp<TypingIndicatorComponent>(separatorPlankton.Owner);
-
-                    RemComp<PointLightComponent>(containerPlankton.Owner);
-                    RemComp<ElectrifiedComponent>(containerPlankton.Owner);
-                    RemComp<RadiationSourceComponent>(containerPlankton.Owner);
+                    MoveMind(mindContainer,  separatorUid, containerEntity);
                 },
                 Priority = -2,
             };
@@ -168,23 +159,28 @@ public sealed class PlanktonSeparatorSystem : EntitySystem
                     _audio.PlayPvs(separatorComp.ExtractSound, separatorUid);
                     _popup.PopupEntity(Loc.GetString("plankton-separator-extracted", ("species", species.SpeciesName)), separatorUid);
 
-                    if (!TryComp<MindContainerComponent>(separatorPlankton.Owner, out var mindContainer))
+                    if (!TryComp<MindContainerComponent>(separatorUid, out var mindContainer))
                         return;
 
-                    if (mindContainer.Mind == null)
-                        return;
-
-                    _mind.TransferTo(mindContainer.Mind.Value, containerPlankton.Owner);
-                    EnsureComp<SpeechComponent>(containerPlankton.Owner);
-                    EnsureComp<TypingIndicatorComponent>(containerPlankton.Owner);
-
-                    RemComp<PointLightComponent>(separatorPlankton.Owner);
-                    RemComp<ElectrifiedComponent>(separatorPlankton.Owner);
-                    RemComp<RadiationSourceComponent>(separatorPlankton.Owner);
+                    MoveMind(mindContainer, containerEntity, separatorUid);
                 },
                 Priority = -1
             };
             args.Verbs.Add(extractVerb);
         }
+    }
+
+    private void MoveMind(MindContainerComponent mindCont, EntityUid containerEnt, EntityUid movedUid)
+    {
+        if (mindCont.Mind == null)
+            return;
+
+        _mind.TransferTo(mindCont.Mind.Value, containerEnt);
+        EnsureComp<SpeechComponent>(containerEnt);
+        EnsureComp<TypingIndicatorComponent>(containerEnt);
+
+        RemComp<PointLightComponent>(movedUid);
+        RemComp<ElectrifiedComponent>(movedUid);
+        RemComp<RadiationSourceComponent>(movedUid);
     }
 }

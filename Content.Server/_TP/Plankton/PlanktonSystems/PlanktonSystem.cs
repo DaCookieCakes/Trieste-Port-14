@@ -90,21 +90,16 @@ public sealed partial class PlanktonSystem : EntitySystem
         {
             if (planktonInstance.CurrentHunger <= 0)
             {
-                planktonInstance.CurrentSize -= 2.5F;
-                component.DeadPlankton += 2.5F;
-
-                if (planktonInstance.CurrentSize <= 0)
-                {
-                    planktonInstance.CurrentSize = 0;
-                    planktonInstance.IsAlive = false;
-                }
+                planktonInstance.CurrentSize = Math.Max(0f, planktonInstance.CurrentSize - 1);
+                component.DeadPlankton += 1;
+                planktonInstance.IsAlive = planktonInstance.CurrentSize > 0;
 
                 Log.Error($"{planktonInstance.SpeciesName} is starving to death.");
             }
             else
             {
                 // Reduce hunger if greater than 0
-                const float hungerLoss = 0.5f;
+                const float hungerLoss = 0.25f;
                 const float hungerIncrease = 0.01f;
                 var hungerExponent = planktonInstance.CurrentSize * hungerIncrease + hungerLoss;
 
@@ -131,7 +126,7 @@ public sealed partial class PlanktonSystem : EntitySystem
             if (!planktonInstance.IsAlive)
                 continue;
 
-            if (planktonInstance is { CurrentSize: >= 200, CurrentHunger: >= 50 })
+            if (planktonInstance is { CurrentSize: >= 200, CurrentHunger: >= 45 })
             {
                 growthRate = 0.01f;
                 Log.Info($"{planktonInstance.SpeciesName} is a class-III plankton");

@@ -8,7 +8,6 @@ using Content.Shared.Damage;
 using Content.Shared.Damage.Systems;
 using Content.Shared.Electrocution;
 using Content.Shared.Mind;
-using Content.Shared.Mind.Components;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Popups;
 using Content.Shared.Power.Components;
@@ -18,23 +17,23 @@ using Robust.Server.GameObjects;
 using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
 using Robust.Shared.Player;
-using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 
 namespace Content.Server._TP.Plankton.PlanktonSystems;
 
 public sealed partial class PlanktonSystem
 {
-    [Dependency] private readonly SharedBatterySystem _battery = default!;
-    [Dependency] private readonly DamageableSystem _damageable = default!;
-    [Dependency] private readonly GhostRoleSystem _ghostRole = default!;
-    [Dependency] private readonly GhostSystem _ghost = default!;
-    [Dependency] private readonly EntityLookupSystem _lookup = default!;
-    [Dependency] private readonly PointLightSystem _pointLight = default!;
-    [Dependency] private readonly SharedPopupSystem _popup = default!;
-    [Dependency] private readonly IRobustRandom _random = default!;
-    [Dependency] private readonly SharedTransformSystem _transform = default!;
-    [Dependency] private readonly SharedMindSystem _mind = default!;
+    [Dependency] private SharedBatterySystem _battery = default!;
+    [Dependency] private DamageableSystem _damageable = default!;
+    [Dependency] private GhostRoleSystem _ghostRole = default!;
+    [Dependency] private GhostSystem _ghost = default!;
+    [Dependency] private EntityLookupSystem _lookup = default!;
+    [Dependency] private PointLightSystem _pointLight = default!;
+    [Dependency] private SharedPopupSystem _popup = default!;
+    [Dependency] private IRobustRandom _random = default!;
+    [Dependency] private SharedTransformSystem _transform = default!;
+    [Dependency] private SharedMapSystem _map = default!;
+    [Dependency] private SharedMindSystem _mind = default!;
 
     private static bool HasCharacteristic(PlanktonComponent.PlanktonSpeciesInstance planktonSpecies, PlanktonComponent.PlanktonCharacteristics characteristics)
     {
@@ -60,10 +59,8 @@ public sealed partial class PlanktonSystem
                 if (!TryComp<ActorComponent>(planktonUid, out _))
                     return;
 
-                // Return them to ghost
+                // Return them to ghost, remove the ghost role and actor comp.
                 _ghost.OnGhostAttempt(mindId, true, mind: mind);
-
-                // Remove ghost role and sentient components
                 RemComp<GhostRoleComponent>(planktonUid);
                 RemComp<ActorComponent>(planktonUid);
 
@@ -152,7 +149,6 @@ public sealed partial class PlanktonSystem
     /// <summary>
     ///     Spreads coral in a 3x3 area
     /// </summary>
-    /// <param name="planktonSpecies">Plankton Instance Species</param>
     /// <param name="planktonUid">Plankton UID</param>
     private void PerformPolypSpread(EntityUid planktonUid)
     {
@@ -169,7 +165,7 @@ public sealed partial class PlanktonSystem
                 var offset = new Vector2i(x, z);
                 var tilePos = position + offset;
 
-                if (!gridComp.TryGetTileRef(tilePos, out _))
+                if (!_map.TryGetTileRef(xForm.GridUid.Value, gridComp, tilePos, out _))
                     continue;
 
                 var checkCoords = new EntityCoordinates(xForm.GridUid.Value, tilePos.X + 0.5f, tilePos.Y + 0.5f);
