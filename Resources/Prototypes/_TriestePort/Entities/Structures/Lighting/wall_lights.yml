@@ -1,0 +1,147 @@
+## WALL LIGHTS ##
+# Basic lights
+- type: entity
+  id: TP14AbstractWallLight
+  abstract: true
+  components:
+  - type: Tag
+    tags:
+    - TP14TagWaterproof
+
+- type: entity
+  id: TP14WallLightAlwaysPowered
+  parent: [ TP14AbstractWallLight, AlwaysPoweredWallLight ]
+  suffix: Trieste, Waterproof, Always Powered
+
+- type: entity
+  id: TP14WallLightEmpty
+  parent: [ TP14AbstractWallLight, PoweredlightEmpty ]
+  suffix: Trieste, Waterproof, Empty
+
+- type: entity
+  id: TP14WallLight
+  parent: [ TP14AbstractWallLight, Poweredlight ]
+  suffix: Trieste, Waterproof
+
+# LED lights
+- type: entity
+  id: TP14WallLightLEDAlwaysPowered
+  parent: [ TP14AbstractWallLight, AlwaysPoweredLightLED ]
+  suffix: Trieste, Waterproof, Always Powered, LED
+
+- type: entity
+  id: TP14WallLightLED
+  parent: [ TP14AbstractWallLight, PoweredlightLED ]
+  suffix: Trieste, Waterproof, LED
+
+# Exterior lights
+- type: entity
+  id: TP14WallLightExteriorAlwaysPowered
+  parent: [ TP14AbstractWallLight, AlwaysPoweredLightExterior ]
+  suffix: Trieste, Waterproof, Always Powered, Exterior
+
+- type: entity
+  id: TP14WallLightExterior
+  parent: [ TP14AbstractWallLight, PoweredlightExterior ]
+  suffix: Trieste, Waterproof, Exterior
+
+# Sodium lights
+- type: entity
+  id: TP14WallLightSodiumAlwaysPowered
+  parent: [ TP14AbstractWallLight, AlwaysPoweredLightSodium ]
+  suffix: Trieste, Waterproof, Always Powered, Sodium
+
+- type: entity
+  id: TP14WallLightSodium
+  parent: [ TP14AbstractWallLight, PoweredlightSodium ]
+  suffix: Trieste, Waterproof, Sodium
+
+
+## COLORED WALL LIGHTS ##
+# Black
+- type: entity
+  id: TP14WallLightBlackAlwaysPowered
+  parent: [ TP14AbstractWallLight, AlwaysPoweredlightBlack ]
+  suffix: Trieste, Waterproof, Always Powered, Black
+
+- type: entity
+  id: TP14WallLightBlack
+  parent: [ TP14AbstractWallLight, PoweredlightBlack ]
+  suffix: Trieste, Waterproof, Black
+
+# Blue
+- type: entity
+  id: TP14WallLightBlueAlwaysPowered
+  parent: [ TP14AbstractWallLight, AlwaysPoweredlightBlue ]
+  suffix: Trieste, Waterproof, Always Powered, Blue
+
+- type: entity
+  id: TP14WallLightBlue
+  parent: [ TP14AbstractWallLight, PoweredlightBlue ]
+  suffix: Trieste, Waterproof, Blue
+
+# Cyan
+- type: entity
+  id: TP14WallLightCyanAlwaysPowered
+  parent: [ TP14AbstractWallLight, AlwaysPoweredlightCyan ]
+  suffix: Trieste, Waterproof, Always Powered, Cyan
+
+- type: entity
+  id: TP14WallLightCyan
+  parent: [ TP14AbstractWallLight, PoweredlightCyan ]
+  suffix: Trieste, Waterproof, Cyan
+
+# Green
+- type: entity
+  id: TP14WallLightGreenAlwaysPowered
+  parent: [ TP14AbstractWallLight, AlwaysPoweredlightGreen ]
+  suffix: Trieste, Waterproof, Always Powered, Green
+
+- type: entity
+  id: TP14WallLightGreen
+  parent: [ TP14AbstractWallLight, PoweredlightGreen ]
+  suffix: Trieste, Waterproof, Green
+
+# Orange
+- type: entity
+  id: TP14WallLightOrangeAlwaysPowered
+  parent: [ TP14AbstractWallLight, AlwaysPoweredlightOrange ]
+  suffix: Trieste, Waterproof, Always Powered, Orange
+
+- type: entity
+  id: TP14WallLightOrange
+  parent: [ TP14AbstractWallLight, PoweredlightOrange ]
+  suffix: Trieste, Waterproof, Orange
+
+# Pink
+- type: entity
+  id: TP14WallLightPinkAlwaysPowered
+  parent: [ TP14AbstractWallLight, AlwaysPoweredlightPink ]
+  suffix: Trieste, Waterproof, Always Powered, Pink
+
+- type: entity
+  id: TP14WallLightPink
+  parent: [ TP14AbstractWallLight, PoweredlightPink ]
+  suffix: Trieste, Waterproof, Pink
+
+# Red
+- type: entity
+  id: TP14WallLightRedAlwaysPowered
+  parent: [ TP14AbstractWallLight, AlwaysPoweredlightRed ]
+  suffix: Trieste, Waterproof, Always Powered, Red
+
+- type: entity
+  id: TP14WallLightRed
+  parent: [ TP14AbstractWallLight, PoweredlightRed ]
+  suffix: Trieste, Waterproof, Red
+
+# Yellow
+- type: entity
+  id: TP14WallLightYellowAlwaysPowered
+  parent: [ TP14AbstractWallLight, AlwaysPoweredlightYellow ]
+  suffix: Trieste, Waterproof, Always Powered, Yellow
+
+- type: entity
+  id: TP14WallLightYellow
+  parent: [ TP14AbstractWallLight, PoweredlightYellow ]
+  suffix: Trieste, Waterproof, Yellow

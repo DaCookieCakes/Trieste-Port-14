@@ -1,0 +1,176 @@
+## CAGE LAMPS ##
+# Basic lamps
+- type: entity
+  name: cage lamp
+  id: TP14AbstractCageLamp
+  abstract: true
+  components:
+  - type: Sprite
+    sprite: _TriestePort/Structures/Wallmounts/Lighting/cage_lamp.rsi
+  - type: Tag
+    tags:
+    - TP14TagWaterproof
+
+- type: entity
+  id: TP14CageLampAlwaysPowered
+  parent: [ TP14AbstractCageLamp, SmallLight ]
+  suffix: Trieste, Always Powered
+  components:
+  - type: Sprite
+    state: base
+
+- type: entity
+  id: TP14CageLampEmpty
+  parent: [ TP14AbstractCageLamp, PoweredSmallLightEmpty ]
+  suffix: Trieste, Empty
+  components:
+  - type: Sprite
+    state: empty
+
+- type: entity
+  id: TP14CageLampLED
+  parent: [ TP14AbstractCageLamp, PoweredLEDSmallLight ]
+  suffix: Trieste, LED
+  components:
+  - type: Sprite
+    state: empty
+
+- type: entity
+  id: TP14CageLampDim
+  parent: [ TP14AbstractCageLamp, PoweredDimSmallLight ]
+  suffix: Trieste, Dim
+  components:
+  - type: Sprite
+    state: empty
+
+- type: entity
+  id: TP14CageLampWarm
+  parent: [ TP14AbstractCageLamp, PoweredWarmSmallLight ]
+  suffix: Trieste, Warm
+  components:
+  - type: Sprite
+    state: empty
+
+- type: entity
+  id: TP14CageLamp
+  parent: [ TP14AbstractCageLamp, PoweredSmallLight ]
+  suffix: Trieste
+  components:
+  - type: Sprite
+    state: empty
+
+
+## COLORED CAGE LAMPS ##
+# I couldn't get "always powered" ones to work for some reason.
+
+# Black
+- type: entity
+  id: TP14CageLampBlack
+  parent: TP14CageLamp
+  suffix: Trieste, Black
+  components:
+  - type: PoweredLight
+    hasLampOnSpawn: LightBulbCrystalBlack
+  - type: PointLight
+    energy: 1.0
+    radius: 6
+    softness: 0.5
+    color: "#363636"
+
+# Blue
+- type: entity
+  id: TP14CageLampBlue
+  parent: TP14CageLamp
+  suffix: Trieste, Blue
+  components:
+  - type: PoweredLight
+    hasLampOnSpawn: LightBulbCrystalBlue
+  - type: PointLight
+    energy: 1.0
+    radius: 6
+    softness: 0.5
+    color: "#363636"
+
+# Cyan
+- type: entity
+  id: TP14CageLampCyan
+  parent: TP14CageLamp
+  suffix: Trieste, Cyan
+  components:
+  - type: PoweredLight
+    hasLampOnSpawn: LightBulbCrystalCyan
+  - type: PointLight
+    energy: 1.0
+    radius: 6
+    softness: 0.5
+    color: "#363636"
+
+# Green
+- type: entity
+  id: TP14CageLampGreen
+  parent: TP14CageLamp
+  suffix: Trieste, Green
+  components:
+  - type: PoweredLight
+    hasLampOnSpawn: LightBulbCrystalGreen
+  - type: PointLight
+    energy: 1.0
+    radius: 6
+    softness: 0.5
+    color: "#363636"
+
+# Orange
+- type: entity
+  id: TP14CageLampOrange
+  parent: TP14CageLamp
+  suffix: Trieste, Orange
+  components:
+  - type: PoweredLight
+    hasLampOnSpawn: LightBulbCrystalOrange
+  - type: PointLight
+    energy: 1.0
+    radius: 6
+    softness: 0.5
+    color: "#363636"
+
+# Pink
+- type: entity
+  id: TP14CageLampPink
+  parent: TP14CageLamp
+  suffix: Trieste, Pink
+  components:
+  - type: PoweredLight
+    hasLampOnSpawn: LightBulbCrystalPink
+  - type: PointLight
+    energy: 1.0
+    radius: 6
+    softness: 0.5
+    color: "#363636"
+
+# Red
+- type: entity
+  id: TP14CageLampRed
+  parent: TP14CageLamp
+  suffix: Trieste, Red
+  components:
+  - type: PoweredLight
+    hasLampOnSpawn: LightBulbCrystalRed
+  - type: PointLight
+    energy: 1.0
+    radius: 6
+    softness: 0.5
+    color: "#363636"
+
+# Yellow
+- type: entity
+  id: TP14CageLampYellow
+  parent: TP14CageLamp
+  suffix: Trieste, Yellow
+  components:
+  - type: PoweredLight
+    hasLampOnSpawn: LightBulbCrystalYellow
+  - type: PointLight
+    energy: 1.0
+    radius: 6
+    softness: 0.5
+    color: "#363636"
