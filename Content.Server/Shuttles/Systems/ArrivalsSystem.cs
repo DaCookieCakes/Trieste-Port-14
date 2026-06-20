@@ -40,6 +40,8 @@ using Robust.Shared.Utility;
 
 namespace Content.Server.Shuttles.Systems;
 
+// !! TRIESTE PORT MODIFIED !! //
+
 /// <summary>
 /// If enabled spawns players on a separate arrivals station before they can transfer to the main station.
 /// </summary>
@@ -528,7 +530,11 @@ public sealed partial class ArrivalsSystem : EntitySystem
         if (!Enabled)
             return;
 
-        SetupArrivalsStation();
+        // TRIESTE - START
+        // We don't need no ARRIVALS
+        // SetupArrivalsStation();
+
+        // TRIESTE - END
     }
 
     private void SetupArrivalsStation()
