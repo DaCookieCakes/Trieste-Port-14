@@ -2,6 +2,13 @@
 # ALSO DOCUMENT WHAT THE HELL THEY DO
 # ALSO, START THEM WITH "TP14Tag" - DO NOT SORT THIS PART!!
 
+## D ##
+- type: Tag
+  id: TP14TagDockBell # Airlocks: TP14AirlockDivingBellDocking, Consoles: TP14DivingBellConsole
+
+- type: Tag
+  id: TP14TagDockTrench # Airlocks: TP14AirlockTrenchBellDocking, Consoles: TP14TrenchBellConsole
+
 ## W ##
 - type: Tag
   id: TP14TagWaterproof # Used by many YML files to mark something as "Waterproof", aka not broken by water.

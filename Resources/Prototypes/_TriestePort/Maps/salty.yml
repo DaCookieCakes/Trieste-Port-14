@@ -1,6 +1,6 @@
 - type: gameMap
   id: TP14MapSalty
-  mapName: 'Salty'
+  mapName: 'Salty Station'
   mapPath: /Maps/_TriestePort/salty.yml
   minPlayers: 0
   maxPlayers: 35
@@ -11,8 +11,7 @@
       components:
         - type: MultiMapManager
           maps:
-            Box Station: Box
-            Relic SS13: Relic
+            Boxy Station: TP14MapBoxy
         - type: StationNameSetup
           mapNameTemplate: '{0} Salty {1}'
           nameGenerator:

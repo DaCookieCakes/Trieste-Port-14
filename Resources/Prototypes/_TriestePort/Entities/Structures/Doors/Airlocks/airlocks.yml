@@ -1,0 +1,49 @@
+# BELLS #
+
+# Diving bell
+- type: entity
+  parent: AirlockShuttle
+  id: TP14AirlockDivingBellDocking
+  suffix: Trieste, Diving Bell, Docking
+  components:
+  - type: PriorityDock
+    tag: TP14TagDockBell
+  - type: ContainerFill
+    containers:
+      board: [ DoorElectronicsExternal ] # Just so new players don't keep dying.
+
+- type: entity
+  parent: TP14AirlockDivingBellDocking
+  id: TP14AirlockDivingBell
+  suffix: Trieste, Diving Bell, Starting Point
+  components:
+  - type: GridFill
+    path: /Maps/_TriestePort/Shuttles/bell_sweetwater.yml
+    addComponents:
+    - type: IFF
+      flags:
+      - HideLabel
+
+# Trench bell
+- type: entity
+  parent: AirlockShuttle
+  id: TP14AirlockTrenchBellDocking
+  suffix: Trieste, Trench Bell, Docking
+  components:
+  - type: PriorityDock
+    tag: TP14TagDockTrench
+  - type: ContainerFill
+    containers:
+      board: [ DoorElectronicsExternal ]
+
+- type: entity
+  parent: TP14AirlockTrenchBellDocking
+  id: TP14AirlockTrenchBell
+  suffix: Trieste, Trench Bell, Starting Point
+  components:
+  - type: GridFill
+    path: /Maps/Shuttles/trenchBell.yml
+    addComponents:
+    - type: IFF
+      flags:
+      - HideLabel

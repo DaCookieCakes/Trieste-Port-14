@@ -1,3 +1,5 @@
+## !! TRIESTE PORT MODIFIED !! ##
+
 - type: entity
   id: BaseStructure
   abstract: true
@@ -26,6 +28,7 @@
   - type: Tag
     tags:
       - Structure
+      - TP14TagWaterproof # Trieste: Added
 
 - type: entity
   # This means that it's not anchored on spawn.
