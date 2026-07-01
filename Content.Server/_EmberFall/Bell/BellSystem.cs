@@ -1,33 +1,22 @@
 using System.Linq;
-using Content.Server.GameTicking;
 using Content.Server.Shuttles.Components;
 using Content.Server.Shuttles.Events;
-using Content.Server.Shuttles.Systems;
-using Content.Server.Station.Systems;
 using Content.Shared._EmberFall.Bell.Components;
 using Content.Shared._EmberFall.Bell.Systems;
-using Content.Shared._TriestePort.Maps;
 using Content.Shared.Shuttles.Components;
 using Content.Shared.Shuttles.Systems;
-using Content.Shared.Tiles;
-using Robust.Shared.EntitySerialization.Systems;
 using Robust.Shared.Map.Components;
-using Robust.Shared.Utility;
 
 namespace Content.Server._EmberFall.Bell;
 
 /// <summary>
 ///     The server-side system handling the Bell.
 ///     Taken from https://github.com/emberfall-14/emberfall/pull/4/files with permission.
-///     Heavily modified by Trieste Port.
+///     Heavily modified by and for Trieste Port.
 /// </summary>
 public sealed partial class BellSystem : SharedBellSystem
 {
     [Dependency] private BellConsoleSystem _console = default!;
-    [Dependency] private SharedMapSystem _map = default!;
-    [Dependency] private MapLoaderSystem _mapLoader = default!;
-    [Dependency] private ShuttleSystem _shuttle = default!;
-    [Dependency] private StationSystem _station = default!;
 
     public override void Initialize()
     {
@@ -54,7 +43,8 @@ public sealed partial class BellSystem : SharedBellSystem
 
     /// <summary>
     ///     Update method for the Bell System.
-    ///     This is messy, but it has forced my hand.
+    ///     Used to be just for the UI, but terrible code has forced my hand
+    ///     so now it's how it detects stations, as well.
     /// </summary>
     /// <param name="frameTime"></param>
     public override void Update(float frameTime)
@@ -65,7 +55,7 @@ public sealed partial class BellSystem : SharedBellSystem
         while (bellQuery.MoveNext(out var uid, out var bell))
         {
             // Refresh the destinations if we're missing any.
-            // Yes this is terrible, but Robust is worse. It's forced my hand.
+            // Yes this is terrible, but Robust is worse.
             var mapQuery = EntityQueryEnumerator<FTLDestinationComponent, MapComponent>();
             while (mapQuery.MoveNext(out var mapUid, out var dest, out var map))
             {
