@@ -1,3 +1,5 @@
+# !! TRIESTE PORT MODIFIED !! #
+
 # TODO: Reagent Args which allow more selective scaling.
 # Currently all Gas metabolisms scale by reagent quantity metabolized, where other Metabolisms are modified by metabolism rate!
 
@@ -21,7 +23,7 @@
       - !type:ModifyLungGas
         conditions:
         - !type:MetabolizerTypeCondition
-          type: [ Vox ]
+          type: [ Vox, TP14MetabolizerTypeJellid ] # TP14: Added Jellids.
           inverted: true
         ratios:
           CarbonDioxide: 1.0

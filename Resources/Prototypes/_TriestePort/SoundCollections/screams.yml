@@ -1,0 +1,5 @@
+- type: soundCollection
+  id: TP14SoundCollectionJellidScreams
+  files:
+  - /Audio/_TriestePort/Voice/Jellid/Scream/jellid_scream1.ogg
+  - /Audio/_TriestePort/Voice/Jellid/Scream/jellid_scream2.ogg

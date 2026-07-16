@@ -1,0 +1,107 @@
+# EFFECTS #
+- type: loadoutEffectGroup
+  id: TP14LoadoutEffectSeaWater
+  effects:
+  - !type:SpeciesLoadoutEffect
+    species:
+    - TP14SpeciesJellid
+
+
+# LOADOUTS #
+# Clown
+- type: loadout
+  id: TP14LoadoutClownSeaWater
+  effects:
+  - !type:GroupLoadoutEffect
+    proto: TP14LoadoutEffectSeaWater
+  storage:
+    back:
+    - TP14BoxHugSeaWater
+
+# Emergency
+- type: loadout
+  id: TP14LoadoutEmergencySeaWater
+  effects:
+  - !type:GroupLoadoutEffect
+    proto: TP14LoadoutEffectSeaWater
+  storage:
+    back:
+    - TP14BoxSurvivalSeaWater
+
+# Extended
+- type: loadout
+  id: TP14LoadoutExtendedSeaWater
+  effects:
+  - !type:GroupLoadoutEffect
+    proto: TP14LoadoutEffectSeaWater
+  storage:
+    back:
+    - TP14BoxSurvivalEngineeringSeaWater
+
+# Medical
+- type: loadout
+  id: TP14LoadoutMedicalSeaWater
+  effects:
+  - !type:GroupLoadoutEffect
+    proto: TP14LoadoutEffectSeaWater
+  storage:
+    back:
+    - TP14BoxSurvivalMedicalSeaWater
+
+# Military
+- type: loadout
+  id: TP14LoadoutMilitaryDoubleSeaWater
+  effects:
+  - !type:GroupLoadoutEffect
+    proto: TP14LoadoutEffectSeaWater
+  equipment:
+    pocket1: TP14BoxSurvivalMilitaryDoubleSeaWater
+  storage:
+    back:
+    - TP14DoubleEmergencyGasTankSeaWater
+
+# Pocket
+- type: loadout
+  id: TP14LoadoutPocketDoubleSeaWater
+  effects:
+  - !type:GroupLoadoutEffect
+    proto: TP14LoadoutEffectSeaWater
+  equipment:
+    pocket1: TP14DoubleEmergencyGasTankSeaWater
+
+# Security
+- type: loadout
+  id: TP14LoadoutSecuritySeaWater
+  effects:
+  - !type:GroupLoadoutEffect
+    proto: TP14LoadoutEffectSeaWater
+  storage:
+    back:
+    - TP14BoxSurvivalSecuritySeaWater
+
+# Syndicate
+- type: loadout
+  id: TP14LoadoutSyndicateSeaWater
+  effects:
+  - !type:GroupLoadoutEffect
+    proto: TP14LoadoutEffectSeaWater
+  storage:
+    back:
+    - TP14BoxSurvivalSyndicateSeaWater
+
+# PRE-EQUIPPED #
+- type: loadout
+  id: TP14LoadoutJellidSeaWater
+  effects:
+  - !type:GroupLoadoutEffect
+    proto: TP14LoadoutEffectSeaWater
+  equipment:
+    suitstorage: TP14GasTankSeaWaterFilled
+
+- type: loadout
+  id: TP14LoadoutEVASeaWater
+  effects:
+  - !type:GroupLoadoutEffect
+    proto: TP14LoadoutEffectSeaWater
+  equipment:
+    suitstorage: TP14GasTankSeaWaterFilled

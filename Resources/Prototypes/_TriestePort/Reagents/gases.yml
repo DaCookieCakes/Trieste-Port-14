@@ -1,0 +1,99 @@
+- type: reagent
+  id: TP14ReagentSeaWater
+  name: reagent-name-sea-water
+  desc: reagent-desc-sea-water
+  evaporationSpeed: 0.3
+  absorbent: true
+  physicalDesc: reagent-physical-desc-salty
+  flavor: salty
+  color: "#75B1F0"
+  recognizable: true
+  boilingPoint: 100.0
+  meltingPoint: 0.0
+  friction: 0.4
+  tileReactions:
+  - !type:ExtinguishTileReaction { }
+  reactiveEffects:
+    Acidic:
+      methods: [ Touch ]
+      effects:
+      - !type:HealthChange
+        ignoreResistances: false
+        damage:
+          types:
+            Cold: 0.05
+      - !type:AdjustTemperature
+        conditions:
+        - !type:TemperatureCondition
+          min: 160.15
+        amount: -30000
+    Extinguish:
+      methods: [ Touch ]
+      effects:
+      - !type:Extinguish
+  metabolisms:
+    Bloodstream:
+      metabolismRate: 0.45
+      effects:
+      - !type:HealthChange
+        conditions:
+        - !type:MetabolizerTypeCondition
+          type: [ TP14MetabolizerTypeJellid ]
+          inverted: true
+        damage:
+          types:
+            Cold: 0.01 # slightly nips directly, other cold damage comes from the temp change
+      - !type:PopupMessage
+        conditions:
+        - !type:ReagentCondition
+          reagent: TP14ReagentSeaWater
+          max: 35
+        type: Local
+        visualType: LargeCaution
+        messages: [ "generic-reagent-effect-nauseous" ]
+        probability: 0.05
+    Digestion:
+      effects:
+      - !type:SatiateThirst
+        factor: -4
+    Respiration:
+      effects:
+      - !type:Oxygenate
+        conditions:
+        - !type:MetabolizerTypeCondition
+          type: [ TP14MetabolizerTypeJellid ]
+      - !type:ModifyLungGas
+        conditions:
+        - !type:MetabolizerTypeCondition
+          type: [ TP14MetabolizerTypeJellid ]
+        ratios:
+          SeaWater: -1.0
+      - !type:HealthChange
+        ignoreResistances: true
+        conditions:
+        - !type:MetabolizerTypeCondition
+          type: [ Slime ]
+        damage:
+          types:
+            Heat: 3
+      - !type:PopupMessage
+        conditions:
+        - !type:MetabolizerTypeCondition
+          type: [ TP14MetabolizerTypeJellid ]
+          inverted: true
+        - !type:ReagentCondition
+          reagent: TP14ReagentSeaWater
+          max: 35
+        type: Local
+        visualType: LargeCaution
+        messages: [ "sea-water-effect-inhaled" ]
+        probability: 0.1
+      - !type:AdjustAlert
+        conditions:
+        - !type:MetabolizerTypeCondition
+          type: [ TP14MetabolizerTypeJellid ]
+          inverted: true
+        alertType: TP14AlertDrowning
+        minScale: 1
+        clear: True
+        time: 5

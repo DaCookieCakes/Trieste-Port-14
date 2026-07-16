@@ -1,3 +1,5 @@
+# !! TRIESTE PORT MODIFIED !! #
+
 - type: entity
   parent: BaseItem
   id: BaseVendingMachineRestock
@@ -478,7 +480,7 @@
   components:
   - type: VendingMachineRestock
     canRestock:
-    - ChemVendInventory
+    - TP14MachineInventoryChem # TP14: 'ChemVendInventory' -> 'TP14MachineInventoryChem'
   - type: Sprite
     layers:
     - state: base

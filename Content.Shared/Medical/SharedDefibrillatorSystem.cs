@@ -1,6 +1,6 @@
+using Content.Shared._TriestePort.Jellids;
 using Content.Shared.Atmos.Rotting;
 using Content.Shared.Chat;
-using Content.Shared.Damage.Components;
 using Content.Shared.Damage.Systems;
 using Content.Shared.DoAfter;
 using Content.Shared.Electrocution;
@@ -18,6 +18,8 @@ using Robust.Shared.Audio.Systems;
 using Robust.Shared.Player;
 
 namespace Content.Shared.Medical;
+
+// !! TRIESTE PORT MODIFIED !! //
 
 /// <summary>
 /// This handles interactions and logic relating to <see cref="DefibrillatorComponent"/>
@@ -39,6 +41,9 @@ public abstract partial class SharedDefibrillatorSystem : EntitySystem
     [Dependency] private SharedMindSystem _mind = default!;
     [Dependency] private UseDelaySystem _useDelay = default!;
     [Dependency] private SharedInteractionSystem _interactionSystem = default!;
+
+    // TRIESTE SPECIFIC
+    [Dependency] private SharedJellidSystem _jellid = default!;
 
     private readonly HashSet<EntityUid> _interacters = new();
 
@@ -191,6 +196,10 @@ public abstract partial class SharedDefibrillatorSystem : EntitySystem
             _useDelay.SetLength((ent.Owner, useDelay), ent.Comp.ZapDelay, id: ent.Comp.DelayId);
             _useDelay.TryResetDelay((ent.Owner, useDelay), id: ent.Comp.DelayId);
         }
+
+        // TRIESTE
+        // Separate system for recharging jellids.
+        _jellid.DefibJellid(target);
 
         var failedRevive = true;
         if (_rotting.IsRotten(target))

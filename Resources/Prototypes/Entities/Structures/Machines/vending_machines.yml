@@ -2196,7 +2196,7 @@
 - type: entity
   parent: VendingMachine
   id: VendingMachineTankDispenserEVA
-  suffix: EVA [O2, N2]
+  suffix: EVA [O2, N2, H2O] # Trieste: Added H2O.
   name: gas tank dispenser
   description: A vendor for dispensing gas tanks.
   components:
@@ -2209,7 +2209,7 @@
 - type: entity
   parent: VendingMachine
   id: VendingMachineTankDispenserEngineering
-  suffix: ENG [O2, Plasma]
+  suffix: ENG [O2, N2, H2O, Plasma] # Trieste: Added N2, H2O.
   name: gas tank dispenser
   description: A vendor for dispensing gas tanks. This one has an engineering livery.
   components:
@@ -2228,7 +2228,7 @@
   description: Probably not the coffee machine.
   components:
   - type: VendingMachine
-    pack: ChemVendInventory
+    pack: TP14MachineInventoryChem # TP14: 'ChemVendInventory' -> 'TP14MachineInventoryChem'
     offState: off
     brokenState: broken
     normalState: normal

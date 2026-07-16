@@ -1,0 +1,18 @@
+- type: entity
+  parent: ClothingHandsBase
+  id: TP14ClothingGlovesJellidProof
+  suffix: Trieste
+  name: jellid-proof gloves
+  description: High-Quality jellid-proof gloves. Protects against their internal charge.
+  components:
+  - type: Sprite
+    sprite: _TriestePort/Clothing/Hands/Gloves/jellid.rsi
+  - type: Clothing
+    sprite: _TriestePort/Clothing/Hands/Gloves/jellid.rsi
+  - type: Fiber
+    fiberMaterial: fibers-rubber
+    fiberColor: fibers-white
+  - type: FingerprintMask
+  - type: Tag
+    tags:
+    - TP14TagJellidProofClothing

@@ -3,6 +3,7 @@
   startingInventory:
     OxygenTankFilled: 10
     NitrogenTankFilled: 10
+    TP14GasTankSeaWaterFilled: 10 # Trieste: Added.
 
 - type: vendingMachineInventory
   id: TankDispenserEngineeringInventory
@@ -10,3 +11,4 @@
     PlasmaTankFilled: 10
     NitrogenTankFilled: 10
     OxygenTankFilled: 10
+    TP14GasTankSeaWaterFilled: 10 # Trieste: Added.

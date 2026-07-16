@@ -1,6 +1,7 @@
 using Robust.Shared.Serialization;
 // ReSharper disable InconsistentNaming
 
+// !! TRIESTE PORT MODIFIED !! //
 namespace Content.Shared.Atmos
 {
     /// <summary>
@@ -95,6 +96,7 @@ namespace Content.Shared.Atmos
         public const float OxygenStandard = 0.21f;
         public const float NitrogenStandard = 0.79f;
 
+
         public const float OxygenMolesStandard = MolesCellStandard * OxygenStandard;
         public const float NitrogenMolesStandard = MolesCellStandard * NitrogenStandard;
 
@@ -103,6 +105,13 @@ namespace Content.Shared.Atmos
 
         public const float OxygenMolesGasMiner = MolesCellGasMiner * OxygenStandard;
         public const float NitrogenMolesGasMiner = MolesCellGasMiner * NitrogenStandard;
+
+        // TRIESTE: Start
+        public const float SeaWaterStandard = 7f;
+        public const float SeaWaterTrench = 20f;
+        public const float SeaWaterMolesStandard = MolesCellStandard * SeaWaterStandard;
+        public const float SeaWaterMolesTrench = MolesCellStandard * SeaWaterTrench;
+        // TRIESTE: End
 
         /// <summary>
         /// Converts Grams to Kilograms.
@@ -222,8 +231,9 @@ namespace Content.Shared.Atmos
 
         /// <summary>
         ///     Total number of gases. Increase this if you want to add more!
+        ///     TRIESTE: 9 -> 10
         /// </summary>
-        public const int TotalNumberOfGases = 9;
+        public const int TotalNumberOfGases = 10;
 
         /// <summary>
         ///     This is the actual length of the gases arrays in mixtures.
@@ -375,6 +385,7 @@ namespace Content.Shared.Atmos
 
     /// <summary>
     ///     Gases to Ids. Keep these updated with the prototypes!
+    ///     TRIESTE: Added SeaWater.
     /// </summary>
     [Serializable, NetSerializable]
     public enum Gas : sbyte
@@ -387,6 +398,7 @@ namespace Content.Shared.Atmos
         WaterVapor = 5,
         Ammonia = 6,
         NitrousOxide = 7,
-        Frezon = 8
+        Frezon = 8,
+        SeaWater = 9
     }
 }

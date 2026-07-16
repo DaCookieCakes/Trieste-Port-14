@@ -1,0 +1,182 @@
+# HANDS #
+# gradients
+- type: marking
+  id: TP14MarkingJellidLeftHandGradient
+  bodyPart: LHand
+  groupWhitelist: [ TP14MarkingsGroupJellid ]
+  sprites:
+  - sprite: _TriestePort/Mobs/Customization/Jellid/arms.rsi
+    state: jellid_gradient_l_hand
+
+- type: marking
+  id: TP14MarkingJellidRightHandGradient
+  bodyPart: RHand
+  groupWhitelist: [ TP14MarkingsGroupJellid ]
+  sprites:
+  - sprite: _TriestePort/Mobs/Customization/Jellid/arms.rsi
+    state: jellid_gradient_r_hand
+
+# spots
+- type: marking
+  id: TP14MarkingJellidLeftHandSpots
+  bodyPart: LHand
+  groupWhitelist: [ TP14MarkingsGroupJellid ]
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: _TriestePort/Mobs/Customization/Jellid/arms.rsi
+    state: jellid_spots_l_hand
+
+- type: marking
+  id: TP14MarkingJellidRightHandSpots
+  bodyPart: RHand
+  groupWhitelist: [ TP14MarkingsGroupJellid ]
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: _TriestePort/Mobs/Customization/Jellid/arms.rsi
+    state: jellid_spots_r_hand
+
+
+# ARMS #
+# gradients
+- type: marking
+  id: TP14MarkingJellidLeftArmGradient
+  bodyPart: LArm
+  groupWhitelist: [ TP14MarkingsGroupJellid ]
+  sprites:
+  - sprite: _TriestePort/Mobs/Customization/Jellid/arms.rsi
+    state: jellid_gradient_l_arm
+
+- type: marking
+  id: TP14MarkingJellidRightArmGradient
+  bodyPart: RArm
+  groupWhitelist: [ TP14MarkingsGroupJellid ]
+  sprites:
+  - sprite: _TriestePort/Mobs/Customization/Jellid/arms.rsi
+    state: jellid_gradient_r_arm
+
+# spots
+- type: marking
+  id: TP14MarkingJellidLeftArmSpots
+  bodyPart: LArm
+  groupWhitelist: [ TP14MarkingsGroupJellid ]
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: _TriestePort/Mobs/Customization/Jellid/arms.rsi
+    state: jellid_spots_l_arm
+
+- type: marking
+  id: TP14MarkingJellidRightArmSpots
+  bodyPart: RArm
+  groupWhitelist: [ TP14MarkingsGroupJellid ]
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: _TriestePort/Mobs/Customization/Jellid/arms.rsi
+    state: jellid_spots_r_arm
+
+
+# FEETS #
+# gradients
+- type: marking
+  id: TP14MarkingJellidLeftFootGradient
+  bodyPart: LFoot
+  groupWhitelist: [ TP14MarkingsGroupJellid ]
+  sprites:
+  - sprite: _TriestePort/Mobs/Customization/Jellid/legs.rsi
+    state: jellid_gradient_l_foot
+
+- type: marking
+  id: TP14MarkingJellidRightFootGradient
+  bodyPart: RFoot
+  groupWhitelist: [ TP14MarkingsGroupJellid ]
+  sprites:
+  - sprite: _TriestePort/Mobs/Customization/Jellid/legs.rsi
+    state: jellid_gradient_r_foot
+
+# spots
+- type: marking
+  id: TP14MarkingJellidLeftFootSpots
+  bodyPart: LFoot
+  groupWhitelist: [ TP14MarkingsGroupJellid ]
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: _TriestePort/Mobs/Customization/Jellid/legs.rsi
+    state: jellid_spots_l_foot
+
+- type: marking
+  id: TP14MarkingJellidRightFootSpots
+  bodyPart: RFoot
+  groupWhitelist: [ TP14MarkingsGroupJellid ]
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: _TriestePort/Mobs/Customization/Jellid/legs.rsi
+    state: jellid_spots_r_foot
+
+
+# LEGS #
+# gradients
+- type: marking
+  id: TP14MarkingJellidLeftLegGradient
+  bodyPart: LLeg
+  groupWhitelist: [ TP14MarkingsGroupJellid ]
+  sprites:
+  - sprite: _TriestePort/Mobs/Customization/Jellid/legs.rsi
+    state: jellid_gradient_l_leg
+
+- type: marking
+  id: TP14MarkingJellidRightLegGradient
+  bodyPart: RLeg
+  groupWhitelist: [ TP14MarkingsGroupJellid ]
+  sprites:
+  - sprite: _TriestePort/Mobs/Customization/Jellid/legs.rsi
+    state: jellid_gradient_r_leg
+
+# spots
+- type: marking
+  id: TP14MarkingJellidLeftLegSpots
+  bodyPart: LLeg
+  groupWhitelist: [ TP14MarkingsGroupJellid ]
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: _TriestePort/Mobs/Customization/Jellid/legs.rsi
+    state: jellid_spots_l_leg
+
+- type: marking
+  id: TP14MarkingJellidRightLegSpots
+  bodyPart: RLeg
+  groupWhitelist: [ TP14MarkingsGroupJellid ]
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: _TriestePort/Mobs/Customization/Jellid/legs.rsi
+    state: jellid_spots_r_leg

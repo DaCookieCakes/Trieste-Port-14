@@ -1,0 +1,13 @@
+- type: soundCollection
+  id: TP14SoundCollectionJellidGasp
+  files:
+  - /Audio/_TriestePort/Effects/Gasp/Jellid/jellid_gasp1.ogg
+  - /Audio/_TriestePort/Effects/Gasp/Jellid/jellid_gasp2.ogg
+  - /Audio/_TriestePort/Effects/Gasp/Jellid/jellid_gasp3.ogg
+
+- type: soundCollection
+  id: TP14SoundCollectionJellidDeathGasp
+  files:
+  - /Audio/_TriestePort/Effects/Gasp/Jellid/jellid_deathgasp1.ogg
+  - /Audio/_TriestePort/Effects/Gasp/Jellid/jellid_deathgasp2.ogg
+  - /Audio/_TriestePort/Effects/Gasp/Jellid/jellid_deathgasp3.ogg

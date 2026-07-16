@@ -1,0 +1,12 @@
+- type: marking
+  id: TP14MarkingJellidSpotsTorso
+  bodyPart: Chest
+  groupWhitelist: [ TP14MarkingsGroupJellid ]
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: _TriestePort/Mobs/Customization/Jellid/chest.rsi
+    state: jellid_spots_torso

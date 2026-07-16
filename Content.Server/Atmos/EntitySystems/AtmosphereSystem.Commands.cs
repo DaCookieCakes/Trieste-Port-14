@@ -10,6 +10,7 @@ using Robust.Shared.Map.Components;
 
 namespace Content.Server.Atmos.EntitySystems;
 
+// !! TRIESTE PORT MODIFIED !! //
 public sealed partial class AtmosphereSystem
 {
     [Dependency] private IConsoleHost _consoleHost = default!;
@@ -69,7 +70,8 @@ public sealed partial class AtmosphereSystem
     /// <remarks>Please be responsible with this method. Used only by tests and fixgridatmos.</remarks>
     public void RebuildGridAtmosphere(Entity<GridAtmosphereComponent, MapGridComponent> ent)
     {
-        var mixtures = new GasMixture[9];
+        // TP14: Changed to 11 due to new gasses.
+        var mixtures = new GasMixture[11];
         for (var i = 0; i < mixtures.Length; i++)
         {
             mixtures[i] = new GasMixture(Atmospherics.CellVolume) { Temperature = Atmospherics.T20C };
@@ -107,6 +109,15 @@ public sealed partial class AtmosphereSystem
         mixtures[8].AdjustMoles(Gas.Oxygen, Atmospherics.OxygenMolesGasMiner);
         mixtures[8].AdjustMoles(Gas.Nitrogen, Atmospherics.NitrogenMolesGasMiner);
 
+        // TRIESTE: Start
+        // 9: SeaWater
+        mixtures[9].AdjustMoles(Gas.SeaWater, Atmospherics.SeaWaterMolesStandard);
+        mixtures[9].Temperature = 40f; // God help us.
+
+        // 10: SeaWater (Trench - VERY high pressure, and is at the bottom of the ocean.)
+        mixtures[10].AdjustMoles(Gas.SeaWater, Atmospherics.SeaWaterMolesTrench);
+        mixtures[10].Temperature = 20f;
+        // TRIESTE: End
 
         // Force Invalidate & update air on all tiles
         Entity<GridAtmosphereComponent, GasTileOverlayComponent, MapGridComponent, TransformComponent> grid =

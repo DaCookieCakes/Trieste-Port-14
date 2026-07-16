@@ -12,6 +12,7 @@
   - SlimePerson
   - Vox
   - Vulpkanin
+  - GuideEntryJellid # Trieste: Added.
 
 - type: guideEntry
   id: Arachnid

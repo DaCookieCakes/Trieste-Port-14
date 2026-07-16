@@ -28,7 +28,7 @@
   - type: Tag
     tags:
       - Structure
-      - TP14TagWaterproof # Trieste: Added
+      - TP14TagWaterproof # TP14: Added
 
 - type: entity
   # This means that it's not anchored on spawn.

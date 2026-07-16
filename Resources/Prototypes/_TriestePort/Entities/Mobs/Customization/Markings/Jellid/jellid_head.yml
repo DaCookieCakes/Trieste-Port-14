@@ -1,0 +1,168 @@
+# MANTLES #
+- type: marking
+  id: TP14MarkingJellidHeadMantle
+  bodyPart: HeadTop
+  groupWhitelist: [ TP14MarkingsGroupJellid ]
+  sprites:
+  - sprite: _TriestePort/Mobs/Customization/Jellid/mantles.rsi
+    state: head_mantle
+
+- type: marking
+  id: TP14MarkingJellidBoxMantle
+  bodyPart: HeadTop
+  groupWhitelist: [ TP14MarkingsGroupJellid ]
+  sprites:
+  - sprite: _TriestePort/Mobs/Customization/Jellid/mantles.rsi
+    state: box_mantle
+
+- type: marking
+  id: TP14MarkingJellidEggMantle
+  bodyPart: HeadTop
+  groupWhitelist: [ TP14MarkingsGroupJellid ]
+  sprites:
+  - sprite: _TriestePort/Mobs/Customization/Jellid/mantles.rsi
+    state: egg_primary
+  - sprite: _TriestePort/Mobs/Customization/Jellid/mantles.rsi
+    state: egg_secondary
+
+- type: marking
+  id: TP14MarkingJellidCombMantle
+  bodyPart: HeadTop
+  groupWhitelist: [ TP14MarkingsGroupJellid ]
+  sprites:
+  - sprite: _TriestePort/Mobs/Customization/Jellid/mantles.rsi
+    state: comb_primary
+  - sprite: _TriestePort/Mobs/Customization/Jellid/mantles.rsi
+    state: comb_secondary
+  - sprite: _TriestePort/Mobs/Customization/Jellid/mantles.rsi
+    state: comb_tertiary
+
+- type: marking
+  id: TP14MarkingJellidCrystalMantle
+  bodyPart: HeadTop
+  groupWhitelist: [ TP14MarkingsGroupJellid ]
+  sprites:
+  - sprite: _TriestePort/Mobs/Customization/Jellid/mantles.rsi
+    state: crystal_mantle
+
+- type: marking
+  id: TP14MarkingJellidManOWarMantle
+  bodyPart: HeadTop
+  groupWhitelist: [ TP14MarkingsGroupJellid ]
+  sprites:
+  - sprite: _TriestePort/Mobs/Customization/Jellid/mantles.rsi
+    state: manowar_primary
+  - sprite: _TriestePort/Mobs/Customization/Jellid/mantles.rsi
+    state: manowar_secondary
+
+- type: marking
+  id: TP14MarkingJellidMoonMantle
+  bodyPart: HeadTop
+  groupWhitelist: [ TP14MarkingsGroupJellid ]
+  sprites:
+  - sprite: _TriestePort/Mobs/Customization/Jellid/mantles.rsi
+    state: moon_mantle
+
+- type: marking
+  id: TP14MarkingJellidPhantomMantle
+  bodyPart: HeadTop
+  groupWhitelist: [ TP14MarkingsGroupJellid ]
+  sprites:
+  - sprite: _TriestePort/Mobs/Customization/Jellid/mantles.rsi
+    state: phantom_primary
+  - sprite: _TriestePort/Mobs/Customization/Jellid/mantles.rsi
+    state: phantom_secondary
+
+- type: marking
+  id: TP14MarkingJellidSpottedMantle
+  bodyPart: HeadTop
+  groupWhitelist: [ TP14MarkingsGroupJellid ]
+  sprites:
+  - sprite: _TriestePort/Mobs/Customization/Jellid/mantles.rsi
+    state: spotted_primary
+  - sprite: _TriestePort/Mobs/Customization/Jellid/mantles.rsi
+    state: spotted_secondary
+
+- type: marking
+  id: TP14MarkingJellidStellaridMantle
+  bodyPart: HeadTop
+  groupWhitelist: [ TP14MarkingsGroupJellid ]
+  sprites:
+  - sprite: _TriestePort/Mobs/Customization/Jellid/mantles.rsi
+    state: stellarid_primary
+  - sprite: _TriestePort/Mobs/Customization/Jellid/mantles.rsi
+    state: stellarid_secondary
+
+
+# CORES #
+- type: marking
+  id: TP14MarkingJellidCore
+  bodyPart: Head
+  groupWhitelist: [ TP14MarkingsGroupJellid ]
+  default:
+    type:
+      !type:EyeColoring
+  sprites:
+  - sprite: _TriestePort/Mobs/Customization/Jellid/eyes.rsi
+    state: jellid
+
+- type: marking
+  id: TP14MarkingJellidCrownCore
+  bodyPart: Head
+  groupWhitelist: [ TP14MarkingsGroupJellid ]
+  coloring:
+    default:
+      type:
+        !type:EyeColoring
+    layers:
+      crown_secondary:
+        type:
+          !type:EyeColoring
+          negative: true
+      crown_tertiary:
+        type:
+          !type:EyeColoring
+          negative: true
+  sprites:
+  - sprite: _TriestePort/Mobs/Customization/Jellid/core.rsi
+    state: crown_primary
+  - sprite: _TriestePort/Mobs/Customization/Jellid/core.rsi
+    state: crown_secondary
+  - sprite: _TriestePort/Mobs/Customization/Jellid/core.rsi
+    state: crown_tertiary
+
+- type: marking
+  id: TP14MarkingJellidTriCore
+  bodyPart: Head
+  groupWhitelist: [ TP14MarkingsGroupJellid ]
+  coloring:
+    default:
+      type:
+        !type:EyeColoring
+    layers:
+      tri_secondary:
+        type:
+          !type:EyeColoring
+          negative: true
+      tri_tertiary:
+        type:
+          !type:EyeColoring
+          negative: true
+  sprites:
+  - sprite: _TriestePort/Mobs/Customization/Jellid/core.rsi
+    state: tri_primary
+  - sprite: _TriestePort/Mobs/Customization/Jellid/core.rsi
+    state: tri_secondary
+  - sprite: _TriestePort/Mobs/Customization/Jellid/core.rsi
+    state: tri_tertiary
+
+- type: marking
+  id: TP14MarkingJellidMultiCore
+  bodyPart: Head
+  groupWhitelist: [ TP14MarkingsGroupJellid ]
+  default:
+    type:
+      !type:EyeColoring
+  sprites:
+  - sprite: _TriestePort/Mobs/Customization/Jellid/core.rsi
+    state: multi_core

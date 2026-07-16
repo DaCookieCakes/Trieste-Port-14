@@ -1,6 +1,6 @@
 # PUT YOUR TAGS IN ALPHABETICAL ORDER
 # ALSO DOCUMENT WHAT THE HELL THEY DO
-# ALSO, START THEM WITH "TP14Tag" - DO NOT SORT THIS PART!!
+# ALSO START THEM WITH "TP14Tag" - DO NOT SORT THIS PART!!
 
 ## D ##
 - type: Tag
@@ -8,6 +8,13 @@
 
 - type: Tag
   id: TP14TagDockTrench # Airlocks: TP14AirlockTrenchBellDocking, Consoles: TP14TrenchBellConsole
+
+## J ##
+- type: Tag
+  id: TP14TagJellidEmotes # Speech Emotes: Buzz
+
+- type: Tag
+  id: TP14TagJellidProofClothing # Jellids:
 
 ## W ##
 - type: Tag

@@ -1,0 +1,125 @@
+# WATER #
+# Normal
+- type: entity
+  parent: GasTankRoundBase
+  id: TP14GasTankSeaWater
+  name: sea-water tank
+  description: A standard cylindrical tank for sea-water. It can hold 5 L.
+  suffix: Trieste
+  components:
+  - type: Sprite
+    sprite: _Trieste/Objects/Tanks/water.rsi
+  - type: Item
+    sprite: _Trieste/Objects/Tanks/water.rsi
+  - type: Clothing
+    sprite: _Trieste/Objects/Tanks/water.rsi
+
+- type: entity
+  id: TP14GasTankSeaWaterFilled
+  parent: TP14GasTankSeaWater
+  suffix: Trieste, Filled
+  components:
+  - type: GasTank
+    releasePressure: 21.3
+    air:
+      # 31 minutes
+      volume: 5
+      moles:
+        SeaWater: 2.051379050
+      temperature: 293.15
+
+# Emergency
+- type: entity
+  parent: EmergencyOxygenTank
+  id: TP14EmergencyGasTankSeaWater
+  suffix: Trieste
+  name: emergency sea-water tank
+  description: An easily portable tank for emergencies. Contains very little water, rated for survival use only. It can hold 0.66 L.
+  components:
+  - type: Sprite
+    sprite: _Trieste/Objects/Tanks/water_emergency.rsi
+  - type: Item
+    sprite: _Trieste/Objects/Tanks/water_emergency.rsi
+    storedSprite:
+      state: storage
+      sprite: _Trieste/Objects/Tanks/water_emergency.rsi
+  - type: Clothing
+    sprite: _Trieste/Objects/Tanks/water_emergency.rsi
+
+- type: entity
+  id: TP14EmergencyGasTankSeaWaterFilled
+  parent: TP14EmergencyGasTankSeaWater
+  suffix: Trieste, Filled
+  components:
+  - type: GasTank
+    releasePressure: 21.3
+    air:
+      # 4 minutes
+      volume: 0.66
+      moles:
+        SeaWater: 0.270782035
+      temperature: 293.15
+
+# Double Emergency
+- type: entity
+  parent: DoubleEmergencyOxygenTank
+  id: TP14DoubleEmergencyGasTankSeaWater
+  suffix: Trieste
+  name: double emergency sea-water tank
+  description: A high-grade dual-tank emergency life support container. It holds a decent amount of sea-water for its small size. It can hold 2.5 L.
+  components:
+  - type: Sprite
+    sprite: _Trieste/Objects/Tanks/water_emergency_double.rsi
+  - type: Item
+    sprite: _Trieste/Objects/Tanks/water_emergency_double.rsi
+    storedSprite:
+      state: storage
+      sprite: _Trieste/Objects/Tanks/water_emergency_double.rsi
+  - type: Clothing
+    sprite: _Trieste/Objects/Tanks/water_emergency_double.rsi
+
+- type: entity
+  id: TP14DoubleEmergencyGasTankSeaWaterFilled
+  parent: TP14DoubleEmergencyGasTankSeaWater
+  suffix: Trieste, Filled
+  components:
+  - type: GasTank
+    releasePressure: 21.3
+    air:
+      # 15 minutes
+      volume: 2.5
+      moles:
+        SeaWater: 1.025689525
+      temperature: 293.15
+
+# Extended
+- type: entity
+  parent: ExtendedEmergencyOxygenTank
+  id: TP14ExtendedEmergencyGasTankSeaWater
+  suffix: Trieste
+  name: extended-capacity emergency water tank
+  description: An emergency tank with extended capacity. Technically rated for prolonged use. It can hold 1.5 L.
+  components:
+  - type: Sprite
+    sprite: _Trieste/Objects/Tanks/water_emergency_extended.rsi
+  - type: Item
+    sprite: _Trieste/Objects/Tanks/water_emergency_extended.rsi
+    storedSprite:
+      state: storage
+      sprite: _Trieste/Objects/Tanks/water_emergency_extended.rsi
+  - type: Clothing
+    sprite: _Trieste/Objects/Tanks/water_emergency_extended.rsi
+
+- type: entity
+  id: TP14ExtendedEmergencyGasTankSeaWaterFilled
+  parent: TP14ExtendedEmergencyGasTankSeaWater
+  suffix: Trieste, Filled
+  components:
+  - type: GasTank
+    releasePressure: 21.3
+    air:
+      # 9 minutes
+      volume: 1.5
+      moles:
+        SeaWater: 0.615413715
+      temperature: 293.15

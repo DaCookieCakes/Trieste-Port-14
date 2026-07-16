@@ -1,0 +1,31 @@
+- type: emoteSounds
+  id: TP14EmoteSoundsJellid
+  params:
+    variation: 0.125
+  sounds:
+    Squish:
+      collection: TP14SoundCollectionJellidLaugh
+    Buzz:
+      path: /Audio/_TriestePort/Voice/Jellid/Buzz/jellid_buzz.ogg
+    Scream:
+      collection: TP14SoundCollectionJellidScreams
+    Laugh:
+      collection: TP14SoundCollectionJellidLaugh
+    Sneeze:
+      path: /Audio/_TriestePort/Voice/Jellid/Buzz/jellid_sneeze.ogg
+    Cough:
+      path: /Audio/_TriestePort/Voice/Jellid/Cough/jellid_cough.ogg
+    MonkeyScreeches:
+      collection: MonkeyScreeches
+    Snore:
+      collection: Snores
+    Honk:
+      collection: CluwneHorn
+    Weh:
+      collection: Weh
+    Hew:
+      collection: Hew
+    Gasp:
+      collection: TP14SoundCollectionJellidGasp
+    DefaultDeathgasp:
+      collection: TP14SoundCollectionJellidDeathGasp

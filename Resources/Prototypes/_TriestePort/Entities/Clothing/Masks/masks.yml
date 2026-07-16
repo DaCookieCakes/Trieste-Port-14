@@ -1,0 +1,13 @@
+- type: entity
+  parent: ClothingMaskBase
+  id: TP14ClothingLungAdaptionApparatus
+  name: lung-adaption apparatus
+  description: A series of tubes that connects from a tank to the wearer's lungs. Allows for more comfortable use.
+  components:
+  - type: Item
+    size: Tiny
+  - type: Sprite
+    sprite: _TriestePort/Clothing/Masks/lung_apparatus.rsi
+  - type: Clothing
+    sprite: _TriestePort/Clothing/Masks/lung_apparatus.rsi
+  - type: BreathMask

@@ -262,6 +262,8 @@
   effects:
   - !type:GroupLoadoutEffect
     proto: EffectSpeciesVox
+  - !type:GroupLoadoutEffect # Trieste: Added.
+    proto: TP14LoadoutEffectSeaWater
   equipment:
     outerClothing: ClothingOuterVestTank
 

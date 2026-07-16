@@ -1,0 +1,4 @@
+- type: guideEntry
+  id: GuideEntryJellid
+  name: species-name-jellid
+  text: "/ServerInfo/Guidebook/_TriestePort/Mobs/Jellid.xml"

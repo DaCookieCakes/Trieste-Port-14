@@ -1,0 +1,12 @@
+- type: species
+  id: TP14SpeciesJellid
+  name: species-name-jellid
+  roundStart: true
+  prototype: TP14MobJellid
+  dollPrototype: TP14AppearanceJellid
+  skinColoration: Hues
+  maleFirstNames: TP14LocalizedDatasetJellidName
+  femaleFirstNames: TP14LocalizedDatasetJellidName
+  naming: First
+  sexes:
+  - Unsexed

@@ -1,0 +1,14 @@
+- type: soundCollection
+  id: TP14SoundCollectionJellidLaugh
+  files:
+  - /Audio/_TriestePort/Voice/Jellid/Laugh/jellid_laugh1.ogg
+  - /Audio/_TriestePort/Voice/Jellid/Laugh/jellid_laugh2.ogg
+  - /Audio/_TriestePort/Voice/Jellid/Laugh/jellid_laugh3.ogg
+
+- type: soundCollection
+  id: TP14SoundCollectionJellidSquish
+  files:
+  - /Audio/_TriestePort/Voice/Jellid/Squish/jellid_squish1.ogg
+  - /Audio/_TriestePort/Voice/Jellid/Squish/jellid_squish2.ogg
+  - /Audio/_TriestePort/Voice/Jellid/Squish/jellid_squish3.ogg
+

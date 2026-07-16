@@ -1,0 +1,142 @@
+- type: entity
+  parent: BoxSurvival
+  id: TP14BoxSurvivalSeaWater
+  suffix: Trieste, Standard H2O
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      storagebase: !type:AllSelector
+        children:
+        - id: TP14ClothingLungAdaptionApparatus
+        - id: TP14ClothingGlovesJellidProof
+        - id: PowerCellSmall
+        - id: TP14EmergencyGasTankSeaWaterFilled
+        - id: EmergencyMedipen
+  - type: Sprite
+    layers:
+    - state: internals
+    - state: seawatertank
+  - type: Label
+    currentLabel: reagent-name-sea-water
+
+- type: entity
+  parent: BoxSurvivalEngineering
+  id: TP14BoxSurvivalEngineeringSeaWater
+  suffix: Trieste, Extended H2O
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      storagebase: !type:AllSelector
+        children:
+        - id: TP14ClothingLungAdaptionApparatus
+        - id: TP14ClothingGlovesJellidProof
+        - id: PowerCellSmall
+        - id: TP14ExtendedEmergencyGasTankSeaWaterFilled
+        - id: EmergencyMedipen
+  - type: Sprite
+    layers:
+    - state: internals
+    - state: seawatertank
+  - type: Label
+    currentLabel: reagent-name-sea-water
+
+- type: entity
+  parent: BoxSurvivalSecurity
+  id: TP14BoxSurvivalSecuritySeaWater
+  suffix: Trieste, Security H2O
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      storagebase: !type:AllSelector
+        children:
+        - id: TP14ClothingLungAdaptionApparatus
+        - id: TP14ClothingGlovesJellidProof
+        - id: PowerCellSmall
+        - id: TP14EmergencyGasTankSeaWaterFilled
+        - id: EmergencyMedipen
+  - type: Sprite
+    layers:
+    - state: internals
+    - state: seawatertank
+  - type: Label
+    currentLabel: reagent-name-sea-water
+
+- type: entity
+  parent: BoxSurvivalMedical
+  id: TP14BoxSurvivalMedicalSeaWater
+  suffix: Trieste, Medical H2O
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      storagebase: !type:AllSelector
+        children:
+        - id: TP14ClothingLungAdaptionApparatus
+        - id: TP14ClothingGlovesJellidProof
+        - id: PowerCellSmall
+        - id: TP14EmergencyGasTankSeaWaterFilled
+        - id: EmergencyMedipen
+  - type: Sprite
+    layers:
+    - state: internals
+    - state: seawatertank
+  - type: Label
+    currentLabel: reagent-name-sea-water
+
+- type: entity
+  parent: BoxHug
+  id: TP14BoxHugSeaWater
+  suffix: Trieste, Emergency H2O
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      storagebase: !type:AllSelector
+        children:
+        - id: TP14ClothingLungAdaptionApparatus
+        - id: TP14ClothingGlovesJellidProof
+        - id: PowerCellSmall
+        - id: TP14EmergencyGasTankSeaWaterFilled
+        - id: EmergencyMedipen
+  - type: Label
+    currentLabel: reagent-name-sea-water
+
+- type: entity
+  parent: BoxSurvivalSyndicate
+  id: TP14BoxSurvivalSyndicateSeaWater
+  suffix: Trieste, Syndicate H2O
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      storagebase: !type:AllSelector
+        children:
+        - id: TP14ClothingLungAdaptionApparatus
+        - id: TP14ClothingGlovesJellidProof
+        - id: PowerCellSmall
+        - id: TP14ExtendedEmergencyGasTankSeaWaterFilled
+        - id: EmergencyMedipen
+  - type: Sprite
+    layers:
+    - state: internals
+    - state: seawatertank
+  - type: Label
+    currentLabel: reagent-name-sea-water
+
+- type: entity
+  parent: BoxSurvivalMilitaryDouble
+  id: TP14BoxSurvivalMilitaryDoubleSeaWater
+  suffix: Trieste, Military H2O
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      storagebase: !type:AllSelector
+        children:
+        - id: TP14ClothingLungAdaptionApparatus
+        - id: TP14ClothingGlovesJellidProof
+        - id: PowerCellSmall
+        - id: TP14DoubleEmergencyGasTankSeaWaterFilled
+        - id: EmergencyMedipen
+  - type: Sprite
+    layers:
+    - state: internals
+    - state: seawatertank
+  - type: Label
+    currentLabel: reagent-name-sea-water

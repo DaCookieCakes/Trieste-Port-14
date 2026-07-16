@@ -1,3 +1,5 @@
+# !! TRIESTE PORT MODIFIED !! #
+
 # vocal emotes
 - type: emote
   id: Scream
@@ -434,11 +436,12 @@
   category: Vocal
   icon: Interface/Emotes/buzz.png
   whitelist:
-    requireAll: true
+  # requireAll: true # TP14: We need Jellids to do this as well.
     components:
     - Vocal
     tags:
     - SiliconEmotes
+    - TP14TagJellidEmotes # TP14: Added.
   chatMessages: ["chat-emote-msg-buzz"]
   chatTriggers:
     - buzzing
