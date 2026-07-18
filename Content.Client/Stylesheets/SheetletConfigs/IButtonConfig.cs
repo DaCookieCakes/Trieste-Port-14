@@ -20,4 +20,7 @@ public interface IButtonConfig : ISheetletConfig
     public ColorPalette ButtonPalette { get; }
     public ColorPalette PositiveButtonPalette { get; }
     public ColorPalette NegativeButtonPalette { get; }
+
+    // TRIESTE - Added.
+    public ResPath BaseButtonIdCardPath { get; }
 }

@@ -19,6 +19,7 @@
   - Medical
   - Quartermaster
   - Salvage
+  - TP14AccessLevelExpeditions # Trieste: Added.
   - Cargo
   - Research
   - Service
@@ -28,6 +29,7 @@
   - Theatre
   - Bar
   - Chemistry
+  - Paramedic # Trieste: Added. (Why?)
   - Kitchen
   - Chapel
   - Hydroponics

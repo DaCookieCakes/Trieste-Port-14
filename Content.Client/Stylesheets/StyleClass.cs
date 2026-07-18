@@ -70,4 +70,7 @@ public static class StyleClass
     public const string TooltipPanel = "TooltipPanel";
     public const string TooltipTitle = "TooltipTitle";
     public const string TooltipDesc = "TooltipDesc";
+
+    // TRIESTE - Added.
+    public const string ButtonIdCard = "ButtonIdCard";
 }

@@ -1,0 +1,60 @@
+- type: department
+  id: TP14DepartmentAll
+  name: department-All-name
+  description: department-All-desc
+  color: "#FFFFFF"
+  primary: false
+  editorHidden: true
+  roles:
+  - AtmosphericTechnician
+  - Bartender
+  - Botanist
+  - Captain
+  - CargoTechnician
+  - Chaplain
+  - ChiefEngineer
+  - ChiefMedicalOfficer
+  - Chef
+  - Chemist
+  - Clown
+  - Detective
+  - HeadOfPersonnel
+  - HeadOfSecurity
+  - Janitor
+  - Lawyer
+  - Librarian
+  - MedicalDoctor
+  - MedicalIntern
+  - Mime
+  - Musician
+  - Paramedic
+  - Passenger
+  - Psychologist
+  - Quartermaster
+  - Reporter
+  - ResearchAssistant
+  - ResearchDirector
+  - SalvageSpecialist
+  - SecurityCadet
+  - SecurityOfficer
+  - ServiceWorker
+  - StationEngineer
+  - TechnicalAssistant
+  - Visitor
+  - Warden
+
+- type: department
+  id: TP14DepartmentExpeditions
+  name: department-Expeditions-name
+  description: department-Expeditions-desc
+  color: "#800080"
+  roles:
+  - SalvageSpecialist
+
+- type: department
+  id: TP14DepartmentPetrochem
+  name: department-Petrochem-name
+  description: department-Petrochem-desc
+  color: "#FFA500"
+  roles:
+  - AtmosphericTechnician

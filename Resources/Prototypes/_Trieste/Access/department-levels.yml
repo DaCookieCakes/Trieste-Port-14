@@ -1,0 +1,229 @@
+# Cargo
+- type: departmentLevels
+  id: TP14DepartmentLevelHarbormaster
+  accessLevel: Quartermaster
+  departments:
+  - TP14DepartmentAll
+  - Command
+  - Cargo
+  - TP14DepartmentExpeditions
+
+- type: departmentLevels
+  id: TP14DepartmentLevelCargo
+  accessLevel: Cargo
+  departments:
+  - Cargo
+
+- type: departmentLevels
+  id: TP14DepartmentLevelExpeditionary
+  accessLevel: TP14AccessLevelExpeditions
+  departments:
+  - TP14DepartmentAll
+  - TP14DepartmentExpeditions
+
+
+# Command
+- type: departmentLevels
+  id: TP14DepartmentLevelCommand
+  accessLevel: Command
+  departments:
+  - TP14DepartmentAll
+  - Command
+
+- type: departmentLevels
+  id: TP14DepartmentLevelOverseer
+  accessLevel: Captain
+  departments:
+  - TP14DepartmentAll
+  - Command
+
+- type: departmentLevels
+  id: TP14DepartmentLevelHeadOfPersonnel
+  accessLevel: HeadOfPersonnel
+  departments:
+  - TP14DepartmentAll
+  - Command
+
+
+# Engineering
+- type: departmentLevels
+  id: TP14DepartmentLevelChiefEngineer
+  accessLevel: ChiefEngineer
+  departments:
+  - TP14DepartmentAll
+  - Command
+  - Engineering
+  - Atmospherics
+  - TP14DepartmentPetrochem
+
+- type: departmentLevels
+  id: TP14DepartmentLevelEngineering
+  accessLevel: Engineering
+  departments:
+  - TP14DepartmentAll
+  - Engineering
+
+- type: departmentLevels
+  id: TP14DepartmentLevelAtmospherics
+  accessLevel: Atmospherics
+  departments:
+  - TP14DepartmentAll
+  - Engineering
+  - TP14DepartmentPetrochem
+
+
+# Medical
+- type: departmentLevels
+  id: TP14DepartmentLevelChiefMedicalOfficer
+  accessLevel: ChiefMedicalOfficer
+  departments:
+  - TP14DepartmentAll
+  - Command
+  - Medical
+
+- type: departmentLevels
+  id: TP14DepartmentLevelMedical
+  accessLevel: Medical
+  departments:
+  - TP14DepartmentAll
+  - Medical
+
+- type: departmentLevels
+  id: TP14DepartmentLevelChemistry
+  accessLevel: Chemistry
+  departments:
+  - TP14DepartmentAll
+  - Medical
+
+- type: departmentLevels
+  id: TP14DepartmentLevelParamedic
+  accessLevel: Paramedic
+  departments:
+  - TP14DepartmentAll
+  - Medical
+
+
+# Research
+- type: departmentLevels
+  id: TP14DepartmentLevelResearchDirector
+  accessLevel: ResearchDirector
+  departments:
+  - TP14DepartmentAll
+  - Command
+  - Science
+
+- type: departmentLevels
+  id: TP14DepartmentLevelResearch
+  accessLevel: Research
+  departments:
+  - TP14DepartmentAll
+  - Science
+
+
+# Security
+- type: departmentLevels
+  id: TP14DepartmentLevelMarshal
+  accessLevel: HeadOfSecurity
+  departments:
+  - TP14DepartmentAll
+  - Security
+
+- type: departmentLevels
+  id: TP14DepartmentLevelSecurity
+  accessLevel: Security
+  departments:
+  - TP14DepartmentAll
+  - Security
+
+- type: departmentLevels
+  id: TP14DepartmentLevelArmory
+  accessLevel: Armory
+  departments:
+  - TP14DepartmentAll
+  - Security
+
+- type: departmentLevels
+  id: TP14DepartmentLevelBrig
+  accessLevel: Brig
+  departments:
+  - TP14DepartmentAll
+  - Security
+
+- type: departmentLevels
+  id: TP14DepartmentLevelDetective
+  accessLevel: Detective
+  departments:
+  - TP14DepartmentAll
+  - Security
+
+- type: departmentLevels
+  id: TP14DepartmentLevelGenpopEnter
+  accessLevel: GenpopEnter
+  departments:
+  - TP14DepartmentAll
+  - Security
+
+- type: departmentLevels
+  id: TP14DepartmentLevelGenpopLeave
+  accessLevel: GenpopLeave
+  departments:
+  - TP14DepartmentAll
+  - Security
+
+
+# Service
+- type: departmentLevels
+  id: TP14DepartmentLevelBar
+  accessLevel: Bar
+  departments:
+  - TP14DepartmentAll
+  - Civilian
+
+- type: departmentLevels
+  id: TP14DepartmentLevelKitchen
+  accessLevel: Kitchen
+  departments:
+  - TP14DepartmentAll
+  - Civilian
+
+- type: departmentLevels
+  id: TP14DepartmentLevelHydroponics
+  accessLevel: Hydroponics
+  departments:
+  - TP14DepartmentAll
+  - Civilian
+
+- type: departmentLevels
+  id: TP14DepartmentLevelService
+  accessLevel: Service
+  departments:
+  - TP14DepartmentAll
+  - Civilian
+
+- type: departmentLevels
+  id: TP14DepartmentLevelJanitor
+  accessLevel: Janitor
+  departments:
+  - TP14DepartmentAll
+  - Civilian
+
+- type: departmentLevels
+  id: TP14DepartmentLevelTheatre
+  accessLevel: Theatre
+  departments:
+  - TP14DepartmentAll
+  - Civilian
+
+- type: departmentLevels
+  id: TP14DepartmentLevelChapel
+  accessLevel: Chapel
+  departments:
+  - TP14DepartmentAll
+  - Civilian
+
+- type: departmentLevels
+  id: TP14DepartmentLevelLawyer
+  accessLevel: Lawyer
+  departments:
+  - TP14DepartmentAll
+  - Civilian
