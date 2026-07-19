@@ -1,0 +1,8 @@
+- type: alert
+  id: TP14AlertDrowning
+  category: Breathing
+  icons:
+  - sprite: /Textures/_Trieste/Interface/Alerts/breathing.rsi
+    state: drowning
+  name: alerts-drowning-name
+  description: alerts-drowning-desc

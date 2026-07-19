@@ -104,6 +104,14 @@ namespace Content.Shared.Atmos
         public const float OxygenMolesGasMiner = MolesCellGasMiner * OxygenStandard;
         public const float NitrogenMolesGasMiner = MolesCellGasMiner * NitrogenStandard;
 
+        // TRIESTE - Start
+        public const float SeaWaterStandard = 7.0f;
+        public const float SeaWaterTrench = 20.0f;
+
+        public const float SeaWaterMolesStandard = MolesCellStandard * SeaWaterStandard;
+        public const float SeaWaterMolesTrench = MolesCellStandard * SeaWaterTrench;
+        // TRIESTE - End
+
         /// <summary>
         /// Converts Grams to Kilograms.
         /// </summary>
@@ -221,9 +229,10 @@ namespace Content.Shared.Atmos
         public const int MonstermosTileLimit = 200;
 
         /// <summary>
+        ///     TRIESTE: '9' -> '10'
         ///     Total number of gases. Increase this if you want to add more!
         /// </summary>
-        public const int TotalNumberOfGases = 9;
+        public const int TotalNumberOfGases = 10;
 
         /// <summary>
         ///     This is the actual length of the gases arrays in mixtures.
@@ -374,6 +383,7 @@ namespace Content.Shared.Atmos
     }
 
     /// <summary>
+    ///     TRIESTE: Added SeaWater.
     ///     Gases to Ids. Keep these updated with the prototypes!
     /// </summary>
     [Serializable, NetSerializable]
@@ -387,6 +397,7 @@ namespace Content.Shared.Atmos
         WaterVapor = 5,
         Ammonia = 6,
         NitrousOxide = 7,
-        Frezon = 8
+        Frezon = 8,
+        SeaWater = 9
     }
 }

@@ -1,0 +1,16 @@
+- type: entity
+  parent: MarkerBase
+  id: TP14AtmosFixSeawaterMarker
+  name: Atmos Fix Seawater Marker
+  description: "SeaWater, at 40f temperature."
+  components:
+  - type: Sprite
+    layers:
+    - sprite: Markers/atmos.rsi
+      state: base
+      shader: unshaded
+    - sprite: Markers/atmos.rsi
+      shader: unshaded
+      state: watervapour
+  - type: AtmosFixMarker
+    mode: 9

@@ -1,0 +1,14 @@
+{
+    "version": 1,
+    "license": "CC-BY-SA-3.0",
+    "copyright": "water (probably) by pixeltheaertist",
+    "size": { "x": 32, "y": 32 },
+    "states": [
+        {
+            "name": "water",
+            "delays": [
+                [ 0.3, 0.3, 0.3, 0.3 ]
+            ]
+        }
+    ]
+}

@@ -1,0 +1,56 @@
+- type: entity
+  parent: GasCanister
+  id: TP14SeaWaterCanister
+  name: sea-water canister
+  description: It's a GAS canister! Who the hell puts water in it?!
+  components:
+  - type: Sprite
+    sprite: _Trieste/Structures/Storage/canisters.rsi
+    layers:
+    - state: water
+    - state: paper
+      visible: false
+      map: [ "enum.PaperLabelVisuals.Layer" ]
+    - state: integrity-unshaded-0
+      map: [ "enum.MaxPressureVisualLayers.BaseUnshaded" ]
+      shader: unshaded
+      visible: false
+    - state: mask-green
+      map: [ "enum.MaxPressureVisualLayers.Base" ]
+      visible: false
+  - type: MaxPressureVisuals
+    integrityMask: mask-green
+  - type: GasCanister
+    air:
+      volume: 1500
+      moles:
+        SeaWater: 2769.36
+      temperature: 293.15
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 300
+      behaviors:
+      - !type:PlaySoundBehavior
+        sound:
+          collection: MetalBreak
+      - !type:SpawnEntitiesBehavior
+        spawn:
+          TritiumCanisterBroken:
+            min: 1
+            max: 1
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+      - !type:DumpCanisterBehavior
+  - type: Lock
+    locked: true
+
+- type: entity
+  parent: GasCanisterBrokenBase
+  id: TP14SeaWaterCanisterBroken
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _Trieste/Structures/Storage/canisters.rsi
+    state: water-1

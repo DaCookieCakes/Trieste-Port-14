@@ -1,0 +1,13 @@
+#Cosplay Helmet
+- type: entity
+  parent: ClothingHeadEVAHelmetBase
+  id: ClothingHeadHelmetCosplay
+  name: Scrappy Helmet
+  description: It's stuffy, hot and hard to see out of.
+  suffix: Trieste
+  components:
+  - type: BreathMask
+  - type: Sprite
+    sprite: _Trieste/Clothing/Head/Helmets/eva_cosplay.rsi
+  - type: Clothing
+    sprite: _Trieste/Clothing/Head/Helmets/eva_cosplay.rsi

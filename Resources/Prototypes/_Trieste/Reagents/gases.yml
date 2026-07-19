@@ -1,0 +1,61 @@
+- type: reagent
+  id: TP14ReagentSeaWater
+  name: reagent-name-seawater
+  desc: reagent-desc-seawater
+  physicalDesc: reagent-physical-desc-odorless
+  flavor: salty
+  color: "#135C4F"
+  boilingPoint: 100.0
+  meltingPoint: 0.0
+  metabolisms:
+    Bloodstream:
+      effects:
+      - !type:HealthChange
+        damage:
+          types:
+            Cold: 0.5
+    Respiration:
+      effects:
+      - !type:Oxygenate
+        conditions:
+        - !type:MetabolizerTypeCondition
+          type: [ TP14MetabolizerTypeJellid ]
+      - !type:ModifyLungGas
+        conditions:
+        - !type:MetabolizerTypeCondition
+          type: [ TP14MetabolizerTypeJellid ]
+        ratios:
+          SeaWater: -1.0
+      - !type:HealthChange
+        conditions:
+        - !type:MetabolizerTypeCondition
+          type: [ TP14MetabolizerTypeJellid ]
+          inverted: true
+        damage:
+          types:
+            Cold: 0.33
+      - !type:AdjustTemperature
+        conditions:
+        - !type:MetabolizerTypeCondition
+          type: [ TP14MetabolizerTypeJellid ]
+          inverted: true
+        - !type:TemperatureCondition
+          min: 10.00
+        amount: -20
+      - !type:PopupMessage
+        conditions:
+        - !type:MetabolizerTypeCondition
+          type: [ TP14MetabolizerTypeJellid ]
+          inverted: true
+        type: Local
+        messages: [ "water-in-lungs" ]
+        probability: 0.7
+      - !type:AdjustAlert
+        conditions:
+        - !type:MetabolizerTypeCondition
+          type: [ TP14MetabolizerTypeJellid ]
+          inverted: true
+        alertType: TP14AlertDrowning
+        minScale: 1
+        clear: True
+        time: 5

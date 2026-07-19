@@ -1,0 +1,87 @@
+- type: entity
+  parent: GeneratorRTG
+  id: TP14TheArtifact
+  suffix: Trieste
+  name: The Artifact
+  description: An ancient power generation device, the lifeblood of Sweetwater and Trieste.
+  components:
+  - type: PowerSupplier
+    supplyRate: 0
+  - type: Sprite
+    sprite: _Trieste/Structures/Power/Generation/artifact.rsi
+    layers:
+    - state: artifact_1
+  - type: PowerMonitoringDevice
+    sprite: Structures/Power/Generation/rtg.rsi
+    state: rtg_damaged
+  - type: TileSpawnAnomaly
+    entries:
+    - settings:
+        spawnOnPulse: false
+        minAmount: 100
+        maxAmount: 200
+        maxRange: 300
+      floor: FloorChromite
+  - type: RadiationSource
+    intensity: 10
+  - type: LightningArcShooter
+    arcDepth: 4
+    maxLightningArc: 5
+    shootMinInterval: 2
+    shootMaxInterval: 4
+    shootRange: 7
+    lightningPrototype: Lightning
+  - type: GravityWell
+    baseRadialAcceleration: 15
+    maxRange: 8
+  - type: Electrified
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-1.5,-1.5,1.5,1.5"
+        density: 50
+        mask:
+        - LargeMobMask
+        layer:
+        - WallLayer
+  - type: PointLight
+    enabled: true
+    radius: 10
+    color: "#4080FF"
+  - type: SingularityDistortion
+    falloffPower: 2
+    intensity: -250
+  - type: ItemSlots
+  - type: ContainerContainer
+    containers:
+      Artifact: !type:ContainerSlot
+  - type: Anchorable
+    delay: 9999
+  - type: Nuke
+    explosionType: Cryo
+    maxIntensity: 100
+    isArtifact: true
+    intensitySlope: 5
+    totalIntensity: 5000000
+    diskSlot:
+      name: nuke-slot-component-slot-name-disk
+      insertSound:
+        path: /Audio/Machines/terminal_insert_disc.ogg
+      ejectSound:
+        path: /Audio/Machines/terminal_insert_disc.ogg
+      whitelist:
+        components:
+        - NukeDisk
+    resonanceSlot:
+      name: nuke-slot-component-slot-name-delaminator
+      insertSound:
+        path: /Audio/Machines/terminal_insert_disc.ogg
+      ejectSound:
+        path: /Audio/Machines/terminal_insert_disc.ogg
+      whitelist:
+        components:
+        - Delaminator
+    alertLevelOnActivate: delta
+    alertLevelOnDeactivate: green
