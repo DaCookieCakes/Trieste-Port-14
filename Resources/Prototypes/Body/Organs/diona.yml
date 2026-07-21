@@ -190,6 +190,7 @@
   - type: Body
     prototype: AnimalNymphStomach
 
+
 - type: entity
   id: OrganDionaNymphLungs
   parent: MobDionaNymphAccent

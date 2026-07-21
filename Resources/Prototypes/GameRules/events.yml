@@ -11,10 +11,13 @@
     - id: CockroachMigration
     - id: GasLeak
     - id: GreytideVirus
+    - id: TP14CloudStormEvent
+    - id: TP14RainClear
     - id: IonStorm # its calm like 90% of the time smh
     - id: KudzuGrowth
     - id: MassHallucinations
     - id: MimicVendorRule
+    - id: TP14FlashStorm
     - id: MouseMigration
     - id: PowerGridCheck
     - id: RandomSentience
@@ -42,9 +45,11 @@
     - id: DragonSpawn
     - id: NinjaSpawn
     - id: ParadoxCloneSpawn
+    - id: RevenantSpawn
     - id: SleeperAgents
     - id: ZombieOutbreak
-    - id: LoneOpsSpawn
+    #- id: LoneOpsSpawn # fuck you loneops
+    - id: DerelictGenericCyborgSpawn
     - id: WizardSpawn
     - !type:NestedSelector
       tableId: DerelictBorgEventTable
@@ -186,13 +191,13 @@
 
 - type: entity
   parent: BaseGameRule
-  id: DragonSpawn
+  id: DragonSpawn # FOUND YOUUUUUU
   components:
   - type: StationEvent
-    weight: 6.5
+    weight: 7.5
     earliestStart: 40
     reoccurrenceDelay: 20
-    minimumPlayers: 20
+    minimumPlayers: 40 # yay
     duration: null
   - type: SpaceSpawnRule
     spawnDistance: 0
@@ -241,6 +246,7 @@
     - spawnerPrototype: SpawnPointGhostSpaceNinja
       min: 1
       max: 1
+      prefRoles: [ SpaceNinja ]
       pickPlayer: false
       startingGear: SpaceNinjaGear
       roleLoadout:
@@ -577,6 +583,7 @@
     - spawnerPrototype: SpawnPointLoneNukeOperative
       min: 1
       max: 1
+      prefRoles: [ Nukeops ]
       pickPlayer: false
       startingGear: SyndicateLoneOperativeGearFull
       roleLoadout:

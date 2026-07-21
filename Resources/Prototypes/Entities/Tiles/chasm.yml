@@ -1,7 +1,7 @@
 ﻿- type: entity
   id: FloorChasmEntity
   name: chasm
-  description: You can't even see the bottom.
+  description: You can't help but feel watched...
   placement:
     mode: SnapgridCenter
     snap:
@@ -57,7 +57,7 @@
     sprite: Tiles/Planet/Chasms/chromite_chasm.rsi
   - type: Icon
     sprite: Tiles/Planet/Chasms/chromite_chasm.rsi
-    
+
 - type: entity
   parent: FloorChasmEntity
   id: FloorDesertChasm
@@ -67,7 +67,7 @@
     sprite: Tiles/Planet/Chasms/desert_chasm.rsi
   - type: Icon
     sprite: Tiles/Planet/Chasms/desert_chasm.rsi
-    
+
 - type: entity
   parent: FloorChasmEntity
   id: FloorSnowChasm
@@ -77,3 +77,15 @@
     sprite: Tiles/Planet/Chasms/snow_chasm.rsi
   - type: Icon
     sprite: Tiles/Planet/Chasms/snow_chasm.rsi
+
+- type: entity
+  parent: FloorChasmEntity
+  id: FloorPlatformEntity
+  suffix: Platform
+  components:
+  - type: Sprite
+    sprite: Tiles/Planet/Chasms/platform_chasm.rsi
+  - type: Icon
+    sprite: Tiles/Planet/Chasms/platform_chasm.rsi
+
+    # Tiles/Planet/Chasms/platform_chasm.rsi

@@ -341,16 +341,16 @@
   - type: Objective
     difficulty: 1
 
-- type: entity
-  parent: BaseThiefStealObjective
-  id: CaptainSwordStealObjective
-  components:
-  - type: NotJobRequirement
-    jobs: [ Captain ]
-  - type: StealCondition
-    stealGroup: CaptainSword
-  - type: Objective
-    difficulty: 1.5
+#- type: entity  TP14, removing Cap objectives.
+#  parent: BaseThiefStealObjective
+#  id: CaptainSwordStealObjective
+#  components:
+#  - type: NotJobRequirement
+#    jobs: [ Captain ]
+#  - type: StealCondition
+#    stealGroup: CaptainSword
+#  - type: Objective
+#    difficulty: 1.5
 
 # Structures
 
@@ -555,7 +555,7 @@
 - type: entity
   parent: [BaseThiefObjective, BaseLivingObjective]
   id: EscapeThiefShuttleObjective
-  name: Escape to centcomm alive and unrestrained.
+  name: Escape to SolGov alive and unrestrained.
   description: You don't want your illegal activities to be discovered by anyone, do you?
   components:
   - type: Objective

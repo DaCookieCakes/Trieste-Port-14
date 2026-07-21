@@ -15,7 +15,6 @@
   - Security
   - Brig
   - Maintenance
-  - Service
   - Detective
   - Cryogenics
   - External
@@ -28,7 +27,7 @@
 - type: startingGear
   id: DetectiveGear
   equipment:
-    eyes: ClothingEyesGlassesSecurity
+    # eyes: ClothingEyesGlassesSecurity # Moffstation - Eyepatches!
     id: DetectivePDA
     ears: ClothingHeadsetSecurity
     belt: ClothingBeltHolsterFilled

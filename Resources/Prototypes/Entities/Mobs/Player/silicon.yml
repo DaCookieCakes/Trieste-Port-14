@@ -36,6 +36,7 @@
     - ActionJumpToCore
     - ActionSurvCameraLights
     - ActionAIViewLaws
+    - ActionChangeLevel
   - type: UserInterface
     interfaces:
       enum.RadarConsoleUiKey.Key:

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.ComponentModel.DataAnnotations;
@@ -46,6 +46,7 @@ namespace Content.Server.Database
         public DbSet<RoleWhitelist> RoleWhitelists { get; set; } = null!;
         public DbSet<BanTemplate> BanTemplate { get; set; } = null!;
         public DbSet<IPIntelCache> IPIntelCache { get; set; } = null!;
+        public DbSet<StarLightModel.StarLightProfile> StarLightProfile { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -56,6 +57,22 @@ namespace Content.Server.Database
             modelBuilder.Entity<Profile>()
                 .HasIndex(p => new {p.Slot, PrefsId = p.PreferenceId})
                 .IsUnique();
+
+            // Starlight - Start
+            modelBuilder.Entity<StarLightModel.StarLightProfile>(entity =>
+            {
+                entity.HasOne(e => e.Profile)
+                    .WithOne(p => p.StarLightProfile)
+                    .HasForeignKey<StarLightModel.StarLightProfile>(e => e.ProfileId)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasIndex(e => e.ProfileId)
+                    .IsUnique();
+
+                entity.Property(e => e.CustomSpecieName)
+                    .HasMaxLength(32);
+            });
+            // Starlight - End
 
             modelBuilder.Entity<Antag>()
                 .HasIndex(p => new {HumanoidProfileId = p.ProfileId, p.AntagName})
@@ -83,13 +100,16 @@ namespace Content.Server.Database
                 .HasForeignKey(e => e.ProfileLoadoutGroupId)
                 .IsRequired();
 
-            modelBuilder.Entity<Job>()
-                .HasIndex(j => j.ProfileId);
+            modelBuilder.Entity<JobPriorityEntry>()
+                .HasIndex(j => j.PreferenceId);
 
-            modelBuilder.Entity<Job>()
-                .HasIndex(j => j.ProfileId, "IX_job_one_high_priority")
+            modelBuilder.Entity<JobPriorityEntry>()
+                .HasIndex(j => j.PreferenceId, "IX_job_one_high_priority")
                 .IsUnique()
                 .HasFilter("priority = 3");
+
+            modelBuilder.Entity<Job>()
+                .HasIndex(j => j.ProfileId);
 
             modelBuilder.Entity<Job>()
                 .HasIndex(j => new { j.ProfileId, j.JobName })
@@ -390,10 +410,10 @@ namespace Content.Server.Database
         // Also I couldn't figure out how to create it on SQLite.
         public int Id { get; set; }
         public Guid UserId { get; set; }
-        public int SelectedCharacterSlot { get; set; }
         public string AdminOOCColor { get; set; } = null!;
         public List<string> ConstructionFavorites { get; set; } = new();
         public List<Profile> Profiles { get; } = new();
+        public List<JobPriorityEntry> JobPriorities { get; set; } = new();
     }
 
     public class Profile
@@ -420,10 +440,12 @@ namespace Content.Server.Database
 
         public List<ProfileRoleLoadout> Loadouts { get; } = new();
 
-        [Column("pref_unavailable")] public DbPreferenceUnavailableMode PreferenceUnavailable { get; set; }
+        public bool Enabled { get; set; }
 
         public int PreferenceId { get; set; }
         public Preference Preference { get; set; } = null!;
+
+        public StarLightModel.StarLightProfile? StarLightProfile { get; set; } // Starlight
     }
 
     public class Job
@@ -431,6 +453,15 @@ namespace Content.Server.Database
         public int Id { get; set; }
         public Profile Profile { get; set; } = null!;
         public int ProfileId { get; set; }
+
+        public string JobName { get; set; } = null!;
+    }
+
+    public class JobPriorityEntry
+    {
+        public int Id { get; set; }
+        public Preference Preference { get; set; } = null!;
+        public int PreferenceId { get; set; }
 
         public string JobName { get; set; } = null!;
         public DbJobPriority Priority { get; set; }
@@ -541,13 +572,6 @@ namespace Content.Server.Database
     }
 
     #endregion
-
-    public enum DbPreferenceUnavailableMode
-    {
-        // These enum values HAVE to match the ones in PreferenceUnavailableMode in Shared.
-        StayInLobby = 0,
-        SpawnAsOverflow,
-    }
 
     public class AssignedUserId
     {

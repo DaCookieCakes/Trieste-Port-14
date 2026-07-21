@@ -1,14 +1,10 @@
 using System.Diagnostics.CodeAnalysis;
-using Content.Server.GameTicking;
-using Content.Server.GameTicking.Rules;
-using Content.Server.GameTicking.Rules.Components;
-using Content.Server.Paper;
-using Content.Server.Traitor.Components;
-using Robust.Shared.Random;
-using Robust.Shared.Utility;
 using System.Linq;
 using Content.Server.Codewords;
+using Content.Server.Traitor.Components;
 using Content.Shared.Paper;
+using Robust.Shared.Random;
+using Robust.Shared.Utility;
 
 namespace Content.Server.Traitor.Systems;
 
@@ -24,53 +20,71 @@ public sealed class TraitorCodePaperSystem : EntitySystem
         SubscribeLocalEvent<TraitorCodePaperComponent, MapInitEvent>(OnMapInit);
     }
 
-    private void OnMapInit(EntityUid uid, TraitorCodePaperComponent component, MapInitEvent args)
+    /// <summary>
+    ///     This method sets everything up when the paper is spawned.
+    /// </summary>
+    /// <param name="codePaperUid">TraitorCodePaper Uid</param>
+    /// <param name="codePaperComp">TraitorCodePaper Comp</param>
+    /// <param name="args">MapInitEvent Arguments</param>
+    private void OnMapInit(EntityUid codePaperUid, TraitorCodePaperComponent codePaperComp, MapInitEvent args)
     {
-        SetupPaper(uid, component);
+        SetupPaper(codePaperUid, codePaperComp);
     }
 
-    private void SetupPaper(EntityUid uid, TraitorCodePaperComponent? component = null)
+    /// <summary>
+    ///     This method sets up the traitor paper contents.
+    /// </summary>
+    /// <param name="codePaperUid"></param>
+    /// <param name="codePaperComp"></param>
+    private void SetupPaper(EntityUid codePaperUid, TraitorCodePaperComponent? codePaperComp = null)
     {
-        if (!Resolve(uid, ref component))
+        if (!Resolve(codePaperUid, ref codePaperComp))
             return;
 
-        if (TryComp(uid, out PaperComponent? paperComp))
+        if (TryComp(codePaperUid, out PaperComponent? paperComp))
         {
-            if (TryGetTraitorCode(out var paperContent, component))
+            if (TryGetTraitorCode(out var paperContent, codePaperComp))
             {
-                _paper.SetContent((uid, paperComp), paperContent);
+                _paper.SetContent((codePaperUid, paperComp), paperContent);
             }
         }
     }
 
-    private bool TryGetTraitorCode([NotNullWhen(true)] out string? traitorCode, TraitorCodePaperComponent component)
+    /// <summary>
+    ///     Try to get the traitor codewords from the game rules.
+    /// </summary>
+    /// <param name="traitorCode">Traitor Code (out)</param>
+    /// <param name="codePaperComp">TraitorCodePaper Component</param>
+    /// <returns></returns>
+    private bool TryGetTraitorCode([NotNullWhen(true)] out string? traitorCode, TraitorCodePaperComponent codePaperComp)
     {
         traitorCode = null;
 
         var codesMessage = new FormattedMessage();
-        var codeList = _codewordSystem.GetCodewords(component.CodewordFaction).ToList();
+        var codeList = _codewordSystem.GetCodewords(codePaperComp.CodewordFaction).ToList();
 
         if (codeList.Count == 0)
         {
-            if (component.FakeCodewords)
-                codeList = _codewordSystem.GenerateCodewords(component.CodewordGenerator).ToList();
-            else
-                codeList = [Loc.GetString("traitor-codes-none")];
+            codeList = codePaperComp.FakeCodewords
+                ? _codewordSystem.GenerateCodewords(codePaperComp.CodewordGenerator).ToList()
+                : [Loc.GetString("traitor-codes-none")];
         }
 
         _random.Shuffle(codeList);
 
-        int i = 0;
+        var i = 0;
         foreach (var code in codeList)
         {
             i++;
-            if (i > component.CodewordAmount && !component.CodewordShowAll)
+            if (i > codePaperComp.CodewordAmount && !codePaperComp.CodewordShowAll)
                 break;
 
             codesMessage.PushNewline();
             codesMessage.AddMarkupOrThrow(code);
         }
 
+        // Finally, we check if the codeword count is one or more,
+        // and based on that we set the paper to be plural or singular.
         if (!codesMessage.IsEmpty)
         {
             if (i == 1)
@@ -78,6 +92,7 @@ public sealed class TraitorCodePaperSystem : EntitySystem
             else
                 traitorCode = Loc.GetString("traitor-codes-message-plural") + codesMessage;
         }
+
         return !codesMessage.IsEmpty;
     }
 }

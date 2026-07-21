@@ -140,6 +140,8 @@ public sealed class ToggleableGhostRoleSystem : EntitySystem
         }
     }
 
+
+
     /// <summary>
     /// If there is a player present, kicks it out.
     /// If not, prevents future ghosts taking it.

@@ -4,6 +4,7 @@ using Content.Server.Body.Components;
 using Content.Server.Chat;
 using Content.Server.Chat.Managers;
 using Content.Server.Ghost;
+using Content.Server.Chemistry.EntitySystems;
 using Content.Server.Ghost.Roles.Components;
 using Content.Server.Humanoid;
 using Content.Server.Inventory;
@@ -13,6 +14,8 @@ using Content.Server.NPC.HTN;
 using Content.Server.NPC.Systems;
 using Content.Server.StationEvents.Components;
 using Content.Server.Speech.Components;
+using Content.Server.Temperature.Components;
+using Content.Shared._TP.Jellids;
 using Content.Shared.Body.Components;
 using Content.Shared.CombatMode;
 using Content.Shared.CombatMode.Pacification;
@@ -141,6 +144,7 @@ public sealed partial class ZombieSystem
         RemComp<ReproductivePartnerComponent>(target);
         RemComp<LegsParalyzedComponent>(target);
         RemComp<ComplexInteractionComponent>(target);
+        RemComp<JellidComponent>(target);
         RemComp<SentienceTargetComponent>(target);
 
         //funny voice

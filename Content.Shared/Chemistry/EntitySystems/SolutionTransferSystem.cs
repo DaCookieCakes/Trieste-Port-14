@@ -8,6 +8,13 @@ using Content.Shared.Interaction;
 using Content.Shared.Popups;
 using Content.Shared.Verbs;
 using Robust.Shared.Serialization;
+using Robust.Shared.Network;
+using Robust.Shared.Player;
+using Content.Shared.Plankton;
+using System.Collections.Generic;
+using Robust.Shared.Random;
+using System.Linq;
+
 
 namespace Content.Shared.Chemistry.EntitySystems;
 
@@ -21,6 +28,8 @@ public sealed class SolutionTransferSystem : EntitySystem
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly SharedSolutionContainerSystem _solution = default!;
     [Dependency] private readonly SharedUserInterfaceSystem _ui = default!;
+    [Dependency] private readonly IEntityManager _entityManager = default!;
+    [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly SharedDoAfterSystem _doAfter = default!;
 
     private EntityQuery<RefillableSolutionComponent> _refillableQuery;

@@ -1,18 +1,4 @@
 # Actions
-- type: entity
-  parent: BaseAction
-  id: ActionJumpToCore
-  name: Jump to core
-  description: Sends your eye back to the core.
-  components:
-  - type: Action
-    priority: -9
-    itemIconStyle: BigAction
-    icon:
-      sprite: Interface/Actions/actions_ai.rsi
-      state: ai_core
-  - type: InstantAction
-    event: !type:JumpToCoreEvent
 
 - type: entity
   parent: BaseAction

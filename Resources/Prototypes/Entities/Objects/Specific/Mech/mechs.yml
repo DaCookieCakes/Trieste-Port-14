@@ -16,6 +16,7 @@
     - Ammonia
     - NitrousOxide
     - Frezon
+    - Water
     #- Helium3 TODO: fusion
     # remove everything except oxygen to maintain oxygen ratio
     overflowGases:
@@ -27,8 +28,10 @@
     - Ammonia
     - NitrousOxide
     - Frezon
-    #- Helium3 TODO: fusion
+    - Water
+    transferRate: 0.9
   - type: AirIntake
+    pumpPower: 2
   # for intake and filter to work
   - type: AtmosDevice
     requireAnchored: false
@@ -106,6 +109,7 @@
         node: start
       - !type:DoActsBehavior
         acts: ["Destruction"]
+  - type: FallSystem
 
 - type: entity
   id: MechRipley

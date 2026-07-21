@@ -1,7 +1,7 @@
 - type: entity
   parent: ClothingUniformSkirtBase
   id: ClothingUniformJumpskirtBartender
-  name: bartender's uniform
+  name: bartender's jumpskirt # TP14 - Was "bartender's uniform"
   description: A nice and tidy uniform. Shame about the bar though.
   components:
   - type: Sprite
@@ -10,10 +10,10 @@
     sprite: Clothing/Uniforms/Jumpskirt/bartender.rsi
 
 - type: entity
-  parent: [ClothingUniformSkirtBase, BaseCommandContraband]
+  parent: [ClothingUniformSkirtBase, BaseNanotrasenContraband] #TP14
   id: ClothingUniformJumpskirtCaptain
   name: captain's jumpskirt
-  description: It's a blue jumpskirt with some gold markings denoting the rank of "Captain".
+  description: It's a blue jumpskirt with some gold markings denoting the rank of "captain".
   components:
   - type: Sprite
     sprite: Clothing/Uniforms/Jumpskirt/captain.rsi
@@ -67,7 +67,7 @@
 - type: entity
   parent: ClothingUniformSkirtBase
   id: ClothingUniformJumpskirtChef
-  name: chef uniform
+  name: chef jumpskirt # TP14 - Was "chef uniform"
   description: Can't cook without this.
   components:
   - type: Sprite
@@ -89,8 +89,8 @@
 - type: entity
   parent: ClothingUniformSkirtBase
   id: ClothingUniformJumpskirtVirology
-  name: virology jumpskirt
-  description: It's made of a special fiber that gives special protection against biohazards. It has a virologist rank stripe on it.
+  name: medical jumpskirt
+  description: It's made of a special fiber that gives special protection against biohazards.
   components:
   - type: Sprite
     sprite: Clothing/Uniforms/Jumpskirt/virology.rsi
@@ -177,7 +177,7 @@
 - type: entity
   parent: [ClothingUniformSkirtBase, BaseCommandContraband]
   id: ClothingUniformJumpskirtHoS
-  name: head of security's jumpskirt
+  name: marshal's jumpskirt # TP
   description: It's bright red and rather crisp, much like security's victims tend to be.
   components:
   - type: Sprite
@@ -202,7 +202,7 @@
 - type: entity
   parent: [ClothingUniformSkirtBase, BaseCommandContraband]
   id: ClothingUniformJumpskirtHoSAlt
-  name: head of security's turtleneck
+  name: marshal's turtleneck # TP
   description: It's a turtleneck worn by those strong and disciplined enough to achieve the position of Head of Security.
   components:
   - type: Sprite
@@ -213,8 +213,8 @@
 - type: entity
   parent: [ClothingUniformSkirtBase, BaseCommandContraband]
   id: ClothingUniformJumpskirtHoSParadeMale
-  name: head of security's parade uniform
-  description: A head of security's luxury-wear, for special occasions.
+  name: marshal's parade uniform # TP
+  description: A marshal's luxury-wear, for special occasions.
   components:
   - type: Sprite
     sprite: Clothing/Uniforms/Jumpskirt/hos_parade.rsi
@@ -341,7 +341,7 @@
 - type: entity
   parent: [ClothingUniformSkirtBase, BaseCommandContraband]
   id: ClothingUniformJumpskirtQM
-  name: quartermaster's jumpskirt
+  name: harbormaster's jumpskirt
   description: 'What can brown do for you?'
   components:
   - type: Sprite
@@ -479,7 +479,7 @@
     sprite: Clothing/Uniforms/Jumpskirt/performer.rsi
 
 - type: entity
-  parent: ClothingUniformSkirtBase
+  parent: [ClothingUniformSkirtBase, BaseNanotrasenContraband]
   id: ClothingUniformJumpskirtCapFormalDress
   name: captain's formal dress
   description: A dress for special occasions.
@@ -503,7 +503,7 @@
 - type: entity
   parent: [ClothingUniformSkirtBase, BaseCommandContraband]
   id: ClothingUniformJumpskirtHosFormal
-  name: hos's formal dress
+  name: marshal's formal dress
   description: A dress for special occasions.
   components:
   - type: Sprite

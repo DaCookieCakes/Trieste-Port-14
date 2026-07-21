@@ -4,21 +4,23 @@
   description: job-description-hop
   playTimeTracker: JobHeadOfPersonnel
   requirements:
+    - !type:OverallPlaytimeRequirement
+      time: 5h # Platform 2nd in command. Some playtime should be required (also they'll get this for sec anyways)
     - !type:DepartmentTimeRequirement
       department: Engineering
-      time: 2.5h
+      time: 1h
     - !type:DepartmentTimeRequirement
       department: Medical
-      time: 2.5h
+      time: 1h
     - !type:DepartmentTimeRequirement
       department: Science
-      time: 2.5h
+      time: 1h
     - !type:DepartmentTimeRequirement
       department: Security
-      time: 2.5h
+      time: 1h
     - !type:DepartmentTimeRequirement
       department: Command
-      time: 2.5h
+      time: 1h
   weight: 20
   startingGear: HoPGear
   icon: "JobIconHeadOfPersonnel"
@@ -66,7 +68,7 @@
     gloves: ClothingHandsGlovesHop
     ears: ClothingHeadsetAltCommand
     belt: BoxFolderClipboardThreePapers
-    eyes: ClothingEyesHudCommand
+  # eyes: ClothingEyesHudCommand # Moffstation - Eyepatches!
   storage:
     back:
     - Flash

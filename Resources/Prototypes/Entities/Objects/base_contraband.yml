@@ -223,3 +223,4 @@
   - type: Contraband
     severity: GrandTheft
     allowedDepartments: [ Command ]
+

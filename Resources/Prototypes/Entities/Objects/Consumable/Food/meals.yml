@@ -275,7 +275,7 @@
         reagents:
         - ReagentId: Nutriment
           Quantity: 40
-        - ReagentId: CarpoToxin
+        - ReagentId: FishOil
           Quantity: 3
         - ReagentId: Vitamin
           Quantity: 5
@@ -595,7 +595,7 @@
         reagents:
         - ReagentId: Nutriment
           Quantity: 6
-        - ReagentId: CarpoToxin
+        - ReagentId: FishOil
           Quantity: 15
   - type: Tag
     tags:
@@ -658,9 +658,9 @@
           Quantity: 15
         - ReagentId: Water
           Quantity: 5
-        - ReagentId: Bicaridine
+        - ReagentId: ActivatedAlgae # placeholder
           Quantity: 5
-        - ReagentId: Kelotane
+        - ReagentId: Lexodine
           Quantity: 5
   - type: Tag
     tags:

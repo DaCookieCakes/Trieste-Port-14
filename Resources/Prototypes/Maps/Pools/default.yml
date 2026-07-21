@@ -1,14 +1,5 @@
 - type: gameMapPool
   id: DefaultMapPool
   maps:
-  - Amber
-  - Bagel
-  - Box
-  - Elkridge
-  - Fland
-  - Marathon
-  - Oasis
-  - Packed
-  - Plasma
-  - Reach
-  - Exo
+  - Trieste
+  #- Train <- return after station anchoring PR is finished and merged

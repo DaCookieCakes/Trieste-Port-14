@@ -2,15 +2,18 @@
 - type: roleLoadout
   id: JobCaptain
   groups:
-  - CaptainHead
-  - CaptainNeck
-  - CaptainJumpsuit
-  - CaptainBackpack
-  - CaptainOuterClothing
+  - OverseerHead #TP14
+  - OverseerNeck #TP14
+  - OverseerJumpsuit #TP14
+  - OverseerBackpack #TP14
+  - OverseerOuterClothing #TP14
+  - CaptainEyewear # Moffstation - Eyepatches!
   - Survival
   - Trinkets
-  - CaptainJobTrinkets
-  - GroupSpeciesBreathTool
+  - OverseerJobTrinkets #TP14
+#  - GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathToolNeck # TP14
 
 - type: roleLoadout
   id: JobHeadOfPersonnel
@@ -21,11 +24,14 @@
   - HoPJumpsuit
   - HoPBackpack
   - HoPOuterClothing
-  - Glasses
+  # - Glasses # Moffstation - Eyepatches!
+  - HopEyewear # Moffstation - Eyepatches!
   - Survival
   - Trinkets
   - HoPJobTrinkets
-  - GroupSpeciesBreathTool
+#  - GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathToolNeck # TP14
 
 # Silicons
 - type: roleLoadout
@@ -42,33 +48,46 @@
 - type: roleLoadout
   id: JobPassenger
   groups:
+  # Required
+  - TP14GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathToolNeck # TP14
   - GroupTankHarness
   - PassengerJumpsuit
-  - CommonBackpack
-  - PassengerNeck
-  - PassengerFace
-  - PassengerGloves
   - PassengerOuterClothing
+  - CommonBackpack
+  - Survival
+  # Optional
+  - TP14GroupCitizenHeadwear # TP14
+  - PassengerFace
+  - PassengerNeck
+  - PassengerGloves
   - PassengerShoes
   - Glasses
-  - Survival
   - Trinkets
   - PassengerJobTrinkets
-  - GroupSpeciesBreathTool
 
-- type: roleLoadout
+- type: roleLoadout # TP14 - This has been overhauled
   id: JobBartender
   groups:
+  # Required
+#  - GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathTool
+  - TP14GroupSpeciesBreathToolNeck # TP14
   - GroupTankHarness
-  - BartenderHead
-  - BartenderJumpsuit
-  - CommonBackpack
-  - BartenderOuterClothing
-  - Glasses
+  - TP14GroupBartenderJumpers
+  - TP14GroupBartenderOuter
+  - TP14GroupBartenderBackpacks
+  - TP14GroupBartenderHeadwear
+  # Optional
+  - TP14GroupBartenderNeckwear
+  - TP14BartenderGloves
+  - TP14GroupBartenderFootwear
+  - TP14GroupBartenderBelts
+  # - Glasses # Moffstation - Eyepatches!
+  - BartenderEyewear # Moffstation - Eyepatches!
   - Survival
   - Trinkets
   - BartenderJobTrinkets
-  - GroupSpeciesBreathTool
 
 - type: roleLoadout
   id: JobServiceWorker
@@ -80,22 +99,29 @@
   - Survival
   - Trinkets
   - ServiceWorkerJobTrinkets
-  - GroupSpeciesBreathTool
+#  - GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathToolNeck # TP14
 
-- type: roleLoadout
+- type: roleLoadout # TP14 - This has been overhauled
   id: JobChef
   groups:
+  # Required
+  - TP14GroupSpeciesBreathTool
+  - TP14GroupSpeciesBreathToolNeck
   - GroupTankHarness
-  - ChefHead
-  - ChefMask
   - ChefJumpsuit
-  - CommonBackpack
   - ChefOuterClothing
+  - CommonBackpack
+  - ChefHead
+  # Optional
+  - ChefMask
+  - GroupChefGloves
+  - GroupChefFootwear
   - Glasses
   - Survival
   - Trinkets
   - ChefJobTrinkets
-  - GroupSpeciesBreathTool
 
 - type: roleLoadout
   id: JobLibrarian
@@ -107,7 +133,9 @@
   - Survival
   - Trinkets
   - LibrarianJobTrinkets
-  - GroupSpeciesBreathTool
+#  - GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathToolNeck # TP14
 
 - type: roleLoadout
   id: JobLawyer
@@ -120,7 +148,9 @@
   - Survival
   - Trinkets
   - LawyerJobTrinkets
-  - GroupSpeciesBreathTool
+#  - GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathToolNeck # TP14
 
 - type: roleLoadout
   id: JobChaplain
@@ -137,7 +167,9 @@
   - Survival
   - Trinkets
   - ChaplainJobTrinkets
-  - GroupSpeciesBreathTool
+#  - GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathToolNeck # TP14
 
 - type: roleLoadout
   id: JobJanitor
@@ -152,7 +184,9 @@
   - Survival
   - Trinkets
   - JanitorJobTrinkets
-  - GroupSpeciesBreathTool
+#  - GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathToolNeck # TP14
 
 - type: roleLoadout
   id: JobBotanist
@@ -166,7 +200,9 @@
   - Survival
   - Trinkets
   - BotanistJobTrinkets
-  - GroupSpeciesBreathTool
+#  - GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathToolNeck # TP14
 
 - type: roleLoadout
   id: JobClown
@@ -177,11 +213,14 @@
   - ClownJumpsuit
   - ClownBackpack
   - ClownOuterClothing
+  - ClownNeck
   - ClownShoes
   - Glasses
   - SurvivalClown
   - Trinkets
   - ClownJobTrinkets
+  - TP14GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathToolNeck # TP14
 
 - type: roleLoadout
   id: JobMime
@@ -192,12 +231,14 @@
   - MimeMask
   - MimeJumpsuit
   - MimeBackpack
-  - MimeOuterClothing
+  #- MimeOuterClothing
   - MimeBelt
   - Glasses
   - SurvivalMime
   - Trinkets
   - MimeJobTrinkets
+  - TP14GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathToolNeck # TP14
 
 - type: roleLoadout
   id: JobMusician
@@ -212,7 +253,9 @@
   - Trinkets
   - MusicianJobTrinkets
   - Instruments
-  - GroupSpeciesBreathTool
+#  - GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathToolNeck # TP14
 
 # Cargo
 - type: roleLoadout
@@ -229,7 +272,9 @@
   - Survival
   - Trinkets
   - QuartermasterJobTrinkets
-  - GroupSpeciesBreathTool
+#  - GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathToolNeck # TP14
 
 - type: roleLoadout
   id: JobCargoTechnician
@@ -245,7 +290,9 @@
   - Survival
   - Trinkets
   - CargoTechnicianJobTrinkets
-  - GroupSpeciesBreathTool
+#  - GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathToolNeck # TP14
 
 - type: roleLoadout
   id: JobSalvageSpecialist
@@ -258,7 +305,9 @@
   - Survival
   - Trinkets
   - SalvageSpecialistJobTrinkets
-  - GroupSpeciesBreathTool
+#  - GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathToolNeck # TP14
 
 # Engineering
 - type: roleLoadout
@@ -271,10 +320,13 @@
   - ChiefEngineerNeck
   - ChiefEngineerOuterClothing
   - ChiefEngineerShoes
+  - EngineeringEyewear # Moffstation - Eyepatches!
   - SurvivalExtended
   - Trinkets
   - ChiefEngineerJobTrinkets
-  - GroupSpeciesBreathTool
+#  - GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathToolNeck # TP14
 
 - type: roleLoadout
   id: JobTechnicalAssistant
@@ -285,7 +337,9 @@
   - SurvivalExtended
   - Trinkets
   - TechnicalAssistantJobTrinkets
-  - GroupSpeciesBreathTool
+#  - GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathToolNeck # TP14
 
 - type: roleLoadout
   id: JobStationEngineer
@@ -296,11 +350,14 @@
   - StationEngineerBackpack
   - StationEngineerOuterClothing
   - StationEngineerShoes
+  - EngineeringEyewear # Moffstation - Eyepatches!
   - StationEngineerID
   - SurvivalExtended
   - Trinkets
   - StationEngineerJobTrinkets
-  - GroupSpeciesBreathTool
+#  - GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathToolNeck # TP14
 
 - type: roleLoadout
   id: JobAtmosphericTechnician
@@ -310,10 +367,13 @@
   - AtmosphericTechnicianBackpack
   - AtmosphericTechnicianOuterClothing
   - AtmosphericTechnicianShoes
+  - EngineeringEyewear # Moffstation - Eyepatches!
   - SurvivalExtended
   - Trinkets
   - AtmosphericTechnicianJobTrinkets
-  - GroupSpeciesBreathTool
+#  - GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathToolNeck # TP14
 
 # Science
 - type: roleLoadout
@@ -327,11 +387,14 @@
   - ResearchDirectorOuterClothing
   - ScientistGloves
   - ResearchDirectorShoes
-  - Glasses
+  # - Glasses # Moffstation - Eyepatches!
+  - ScienceEyewear # Moffstation - Eyepatches!
   - Survival
   - Trinkets
   - ResearchDirectorJobTrinkets
-  - GroupSpeciesBreathTool
+#  - GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathToolNeck # TP14
 
 - type: roleLoadout
   id: JobScientist
@@ -345,11 +408,14 @@
   - ScientistGloves
   - ScientistShoes
   - ScientistPDA
-  - Glasses
+  # - Glasses # Moffstation - Eyepatches!
+  - ScienceEyewear # Moffstation - Eyepatches!
   - Survival
   - Trinkets
   - ScientistJobTrinkets
-  - GroupSpeciesBreathTool
+#  - GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathToolNeck # TP14
 
 - type: roleLoadout
   id: JobResearchAssistant
@@ -361,7 +427,9 @@
   - Survival
   - Trinkets
   - ResearchAssistantJobTrinkets
-  - GroupSpeciesBreathTool
+#  - GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathToolNeck # TP14
 
 # Security
 - type: roleLoadout
@@ -374,10 +442,14 @@
   - SecurityBelt
   - HeadofSecurityOuterClothing
   - SecurityShoes
+  - SecurityEyewear # Moffstation - Eyepatches!
   - SurvivalSecurity
   - Trinkets
   - HeadofSecurityJobTrinkets
   - GroupSpeciesBreathToolSecurity
+#  - GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathToolNeck # TP14
 
 - type: roleLoadout
   id: JobWarden
@@ -388,10 +460,14 @@
   - SecurityBelt
   - WardenOuterClothing
   - SecurityShoes
+  - SecurityEyewear # Moffstation - Eyepatches!
   - SurvivalSecurity
   - Trinkets
   - WardenJobTrinkets
   - GroupSpeciesBreathToolSecurity
+#  - GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathToolNeck # TP14
 
 - type: roleLoadout
   id: JobSecurityOfficer
@@ -403,10 +479,14 @@
   - SecurityShoes
   - SecurityPDA
   - SecurityBelt
+  - SecurityEyewear # Moffstation - Eyepatches!
   - SurvivalSecurity
   - Trinkets
   - SecurityJobTrinkets
   - GroupSpeciesBreathToolSecurity
+#  - GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathToolNeck # TP14
 
 - type: roleLoadout
   id: JobDetective
@@ -417,10 +497,14 @@
   - SecurityBackpack
   - DetectiveOuterClothing
   - SecurityShoes
+  - DetectiveEyewear # Moffstation - Eyepatches!
   - SurvivalSecurity
   - Trinkets
   - DetectiveJobTrinkets
   - GroupSpeciesBreathToolSecurity
+#  - GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathToolNeck # TP14
 
 - type: roleLoadout
   id: JobSecurityCadet
@@ -431,6 +515,9 @@
   - Trinkets
   - SecurityCadetJobTrinkets
   - GroupSpeciesBreathToolSecurity
+#  - GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathToolNeck # TP14
 
 # Medical
 - type: roleLoadout
@@ -445,11 +532,15 @@
   - ChiefMedicalOfficerOuterClothing
   - ChiefMedicalOfficerNeck
   - ChiefMedicalOfficerShoes
-  - MedicalEyewear
+  # - MedicalEyewear
+  - ChemistryEyewear # Moffstation - Eyepatches!
   - SurvivalMedical
   - Trinkets
   - ChiefMedicalOfficerJobTrinkets
   - GroupSpeciesBreathToolMedical
+#  - GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathToolNeck # TP14
 
 - type: roleLoadout
   id: JobMedicalDoctor
@@ -468,6 +559,9 @@
   - Trinkets
   - MedicalDoctorJobTrinkets
   - GroupSpeciesBreathToolMedical
+#  - GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathToolNeck # TP14
 
 - type: roleLoadout
   id: JobMedicalIntern
@@ -480,21 +574,30 @@
   - Trinkets
   - MedicalInternJobTrinkets
   - GroupSpeciesBreathToolMedical
+#  - GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathToolNeck # TP14
 
-- type: roleLoadout
+- type: roleLoadout # TP14 - This has been semi-overhauled
   id: JobChemist
   groups:
+  # Required
+  - TP14GroupSpeciesBreathTool
+  - TP14GroupSpeciesBreathToolNeck
   - GroupTankHarness
-  - MedicalMask
+  - TP14GroupChemistEyewearHuds
   - ChemistJumpsuit
-  - MedicalGloves
-  - ChemistBackpack
   - ChemistOuterClothing
-  - MedicalShoes
+  - ChemistBackpack
   - SurvivalMedical
+  # Optional
+  - MedicalDoctorHead
+  - MedicalMask
+  - MedicalGloves
+  - MedicalShoes
+  - ChemistryEyewear # Moffstation - Eyepatches!
   - Trinkets
   - ChemistJobTrinkets
-  - GroupSpeciesBreathToolMedical
 
 - type: roleLoadout
   id: JobParamedic
@@ -512,6 +615,9 @@
   - Trinkets
   - ParamedicJobTrinkets
   - GroupSpeciesBreathToolMedical
+#  - GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathToolNeck # TP14
 
 # Wildcards
 - type: roleLoadout
@@ -523,31 +629,45 @@
   - Survival
   - Trinkets
   - ZookeeperJobTrinkets
-  - GroupSpeciesBreathTool
+#  - GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathToolNeck # TP14
 
 - type: roleLoadout
   id: JobReporter
   groups:
   - GroupTankHarness
   - ReporterJumpsuit
+  - ReporterHead
+  - ReporterOuterClothing
   - CommonBackpack
   - Glasses
   - Survival
   - Trinkets
   - ReporterJobTrinkets
-  - GroupSpeciesBreathTool
+#  - GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathToolNeck # TP14
 
 - type: roleLoadout
   id: JobPsychologist
   groups:
+  # Required
+  - TP14GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathToolNeck # TP14
   - GroupTankHarness
   - PsychologistJumpsuit
+  - TP14GroupPsychologistOuterwear
+  - TP14GroupPsychologistFootwear
   - MedicalBackpack
-  - Glasses
   - Survival
+  # Optional
+  - PsychologistHead # TP14
+  - TP14GroupPsychologistNeckwear
+  - Glasses
   - Trinkets
   - PsychologistJobTrinkets
-  - GroupSpeciesBreathTool
+
 
 - type: roleLoadout
   id: JobBoxer
@@ -560,7 +680,9 @@
   - Survival
   - Trinkets
   - BoxerJobTrinkets
-  - GroupSpeciesBreathTool
+#  - GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathToolNeck # TP14
 
 # These loadouts are used for non-crew spawns, like off-station antags and event mobs
 # They will be used without player configuration, thus they will only ever apply what is forced by MinLimit
@@ -570,7 +692,7 @@
 - type: roleLoadout
   id: RoleSurvivalVoxSupport
   groups:
-  - GroupSpeciesBreathTool
+  - GroupSpeciesBreathTool # TP14
   - GroupTankHarness
 
 # gives vox a nitrogen breathing tank
@@ -584,7 +706,8 @@
   id: RoleSurvivalStandard
   groups:
   - Survival
-  - GroupSpeciesBreathTool
+#  - GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathTool # TP14
   - GroupTankHarness
 
 - type: roleLoadout
@@ -597,7 +720,9 @@
   id: RoleSurvivalExtended
   groups:
   - SurvivalExtended
-  - GroupSpeciesBreathTool
+#  - GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathToolNeck # TP14
   - GroupTankHarness
 
 - type: roleLoadout
@@ -605,6 +730,9 @@
   groups:
   - SurvivalMedical
   - GroupSpeciesBreathToolMedical
+#  - GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathToolNeck # TP14
   - GroupTankHarness
 
 - type: roleLoadout
@@ -612,20 +740,27 @@
   groups:
   - SurvivalSecurity
   - GroupSpeciesBreathToolSecurity
+#  - GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathToolNeck # TP14
   - GroupTankHarness
 
 - type: roleLoadout
   id: RoleSurvivalSyndicate
   groups:
   - SurvivalSyndicate
-  - GroupSpeciesBreathTool
+#  - GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathToolNeck # TP14
   - GroupTankHarness
 
 - type: roleLoadout
   id: RoleSurvivalNukie
   groups:
   - SurvivalSyndicate
-  - GroupSpeciesBreathTool
+#  - GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathTool # TP14
+  - TP14GroupSpeciesBreathToolNeck # TP14
   - GroupPocketTankDouble
 
 - type: roleLoadout

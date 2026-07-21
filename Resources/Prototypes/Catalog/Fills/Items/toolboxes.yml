@@ -106,10 +106,10 @@
         prob: 0.5
 
 - type: entity
+  parent: ToolboxMechanical
   id: ToolboxMechanicalFilledAllTools
   name: mechanical toolbox
   suffix: Filled, all tools
-  parent: ToolboxMechanical
   components:
   - type: StorageFill
     contents:
@@ -119,6 +119,9 @@
     - id: Wirecutter
     - id: Welder
     - id: Multitool
+    - id: ClothingHandsGlovesCombat
+    - id: ClothingEyesGlassesMeson
+    - id: CableApcStack10
 
 - type: entity
   parent: ToolboxSyndicate

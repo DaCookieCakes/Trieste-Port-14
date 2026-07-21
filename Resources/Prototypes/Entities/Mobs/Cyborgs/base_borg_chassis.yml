@@ -16,6 +16,7 @@
     soundHit:
       collection: MetalThud
   - type: CombatMode
+  - type: WaterBlocker
   - type: NoSlip
   - type: StaticPrice
     price: 1250
@@ -103,7 +104,9 @@
     - Science
   - type: ZombieImmune
   - type: Repairable
-    doAfterDelay: 10
+    damageValue: -10 # 10 seconds to repair from crit
+    doAfterDelay: 1
+    fuelCost: 0.5
     allowSelfRepair: false
   - type: BorgChassis
   - type: LockingWhitelist
@@ -112,7 +115,7 @@
       - BorgChassis
       - RoboticsConsole
   - type: WiresPanel
-    openingTool: Prying
+    # openingTool: Prying # TP14 - Screw this noise
   - type: ActivatableUIRequiresPanel
   - type: NameIdentifier
     group: Silicon
@@ -248,6 +251,13 @@
     damageProtection:
       flatReductions:
         Heat: 10 # capable of touching light bulbs and stoves without feeling pain!
+  - type: InGas # TP
+    gasID: 9 # short-circuits in water
+    damagedByGas: true
+    gasThreshold: 50
+    damage:
+        types:
+            Shock: 5
 
 - type: entity
   abstract: true
@@ -324,7 +334,7 @@
     tags:
     - Borg
   - type: AccessReader
-    access: [["Command"], ["Research"]]
+    access: [["Command"], ["Research"], ["TP14SettlerAccessLevel"]]
   - type: ShowJobIcons
   - type: InteractionPopup
     interactSuccessSound:
@@ -459,8 +469,6 @@
     - Mothership
     - Xenoborg
     - Binary
-  - type: Repairable
-    doAfterDelay: 13 # 25% more HP, so 30% more time to heal
   - type: BorgChassis
     maxModules: 0
     hasMindState: robot_e

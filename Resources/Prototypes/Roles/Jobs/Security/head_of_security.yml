@@ -15,7 +15,9 @@
       time: 5h
     - !type:DepartmentTimeRequirement
       department: Security
-      time: 10h
+      time: 2h
+    - !type:OverallPlaytimeRequirement
+      time: 3h
   weight: 10
   startingGear: HoSGear
   icon: "JobIconHeadOfSecurity"
@@ -28,7 +30,6 @@
   - Security
   - Armory
   - Maintenance
-  - Service
   - External
   - Detective
   - Cryogenics
@@ -42,15 +43,15 @@
 - type: startingGear
   id: HoSGear
   equipment:
-    eyes: ClothingEyesGlassesSecurity
+    # eyes: ClothingEyesGlassesSecurity # Moffstation - Eyepatches!
     id: HoSPDA
     gloves: ClothingHandsGlovesCombat
     ears: ClothingHeadsetAltSecurity
-    pocket1: WeaponPistolMk58
+    pocket1: WeaponRevolverDeckard
   storage:
     back:
     - Flash
-    - MagazinePistol
+    - SpeedLoaderMagnum
 
 - type: chameleonOutfit
   id: HeadOfSecurityChameleonOutfit

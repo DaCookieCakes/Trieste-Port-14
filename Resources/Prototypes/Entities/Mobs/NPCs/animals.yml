@@ -329,7 +329,6 @@
   parent: FoodEgg
   suffix: Fertilized, Chicken
   components:
-  - type: Timer
   - type: TimedSpawner
     prototypes:
     - MobChicken
@@ -760,7 +759,6 @@
   parent: FoodEgg
   suffix: Fertilized, Duck
   components:
-    - type: Timer
     - type: TimedSpawner
       prototypes:
       - MobDuckMallard
@@ -1441,6 +1439,7 @@
       effects:
       - !type:WashCreamPie
   - type: Crawler
+  - type: StatusIcon
 
 
 
@@ -3679,7 +3678,7 @@
     soundsId: Nymph
   - type: Reform
     actionPrototype: DionaReformAction
-    reformTime: 10
+    reformTime: 5
     popupText: diona-reform-attempt
     reformPrototype: MobDionaReformed
 

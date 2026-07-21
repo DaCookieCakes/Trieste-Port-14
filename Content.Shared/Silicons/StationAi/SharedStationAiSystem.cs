@@ -58,8 +58,7 @@ public abstract partial class SharedStationAiSystem : EntitySystem
     [Dependency] private readonly SharedMindSystem _mind = default!;
     [Dependency] private readonly SharedMoverController _mover = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
-    [Dependency] private readonly SharedPowerReceiverSystem PowerReceiver = default!;
-    [Dependency] private readonly SharedTransformSystem _xforms = default!;
+    [Dependency] private readonly SharedPowerReceiverSystem _powerReceiver = default!;
     [Dependency] private readonly SharedUserInterfaceSystem _uiSystem = default!;
     [Dependency] private readonly StationAiVisionSystem _vision = default!;
     [Dependency] private readonly IPrototypeManager _protoManager = default!;
@@ -178,16 +177,11 @@ public abstract partial class SharedStationAiSystem : EntitySystem
 
         args.Result = BoundUserInterfaceRangeResult.Fail;
 
-        // Similar to the inrange check but more optimised so server doesn't die.
         var targetXform = Transform(args.Target);
+        var actorXform = args.Actor.Comp; // This has GridUid cached
 
-        // No cross-grid
-        if (targetXform.GridUid != args.Actor.Comp.GridUid)
-        {
-            return;
-        }
-
-        if (!_broadphaseQuery.TryComp(targetXform.GridUid, out var broadphase) || !_gridQuery.TryComp(targetXform.GridUid, out var grid))
+        if (!_broadphaseQuery.TryComp(targetXform.GridUid, out var broadphase) ||
+            !_gridQuery.TryComp(targetXform.GridUid, out var grid))
         {
             return;
         }
@@ -207,16 +201,12 @@ public abstract partial class SharedStationAiSystem : EntitySystem
     {
         args.Handled = true;
         var targetXform = Transform(args.Target);
-
-        // No cross-grid
-        if (targetXform.GridUid != Transform(args.User).GridUid)
-        {
-            return;
-        }
+        var userXform = Transform(args.User);
 
         // Validate it's in camera range yes this is expensive.
-        // Yes it needs optimising
-        if (!_broadphaseQuery.TryComp(targetXform.GridUid, out var broadphase) || !_gridQuery.TryComp(targetXform.GridUid, out var grid))
+        // Yes it needs optimizing
+        if (!_broadphaseQuery.TryComp(targetXform.GridUid, out var broadphase) ||
+            !_gridQuery.TryComp(targetXform.GridUid, out var grid))
         {
             return;
         }
@@ -626,6 +616,11 @@ public abstract partial class SharedStationAiSystem : EntitySystem
 }
 
 public sealed partial class JumpToCoreEvent : InstantActionEvent
+{
+
+}
+
+public sealed partial class ChangeLevelEvent : InstantActionEvent
 {
 
 }

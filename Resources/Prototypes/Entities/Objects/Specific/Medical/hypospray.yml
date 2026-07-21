@@ -230,7 +230,7 @@
   name: brute auto-injector
   parent: ChemicalMedipen
   id: BruteAutoInjector
-  description: A rapid dose of bicaridine and tranexamic acid, intended for combat applications.
+  description: A rapid dose of reinforcement algae and tranexamic acid, intended for combat applications.
   components:
   - type: Item
     inhandVisuals:
@@ -263,7 +263,7 @@
       pen:
         maxVol: 20
         reagents:
-        - ReagentId: Bicaridine
+        - ReagentId: ReinforcementAlgae
           Quantity: 15
         - ReagentId: TranexamicAcid
           Quantity: 5
@@ -272,7 +272,7 @@
   name: burn auto-injector
   parent: ChemicalMedipen
   id: BurnAutoInjector
-  description: A rapid dose of dermaline and leporazine, intended for combat applications.
+  description: A rapid dose of leparadine and leporazine, intended for combat applications.
   components:
   - type: Item
     inhandVisuals:
@@ -305,7 +305,7 @@
       pen:
         maxVol: 20
         reagents:
-        - ReagentId: Dermaline
+        - ReagentId: Leparadine
           Quantity: 10
         - ReagentId: Leporazine
           Quantity: 10
@@ -314,7 +314,7 @@
   name: rad auto-injector
   parent: ChemicalMedipen
   id: RadAutoInjector
-  description: A rapid dose of anti-radiation. Contains arithrazine and bicaridine.
+  description: A rapid dose of anti-radiation. Contains arithrazine and reinforcement algae.
   components:
   - type: Item
     inhandVisuals:
@@ -349,56 +349,56 @@
         reagents:
         - ReagentId: Arithrazine
           Quantity: 15
-        - ReagentId: Bicaridine
+        - ReagentId: ReinforcementAlgae
           Quantity: 5
 
-- type: entity
-  name: puncturase auto-injector
-  parent: ChemicalMedipen
-  id: PunctAutoInjector
-  description: A rapid dose of puncturase and tranexamic acid, intended for combat applications.
-  components:
-  - type: Item
-    inhandVisuals:
-      left:
-      - state: base-needle-inhand-left
-      - state: base-colorA-inhand-left
-        color: "#c7be5d"
-      - state: base-colorB-inhand-left
-      right:
-      - state: base-needle-inhand-right
-      - state: base-colorA-inhand-right
-        color: "#c7be5d"
-      - state: base-colorB-inhand-right
-  - type: Sprite
-    sprite: Objects/Specific/Medical/medipen.rsi
-    layers:
-    - state: punctpen
-      map: ["enum.SolutionContainerLayers.Fill"]
-  - type: SolutionContainerVisuals
-    maxFillLevels: 1
-    changeColor: false
-    emptySpriteName: punctpen_empty
-  - type: Hypospray
-    solutionName: pen
-    transferAmount: 15
-    onlyAffectsMobs: false
-    injectOnly: true
-  - type: SolutionContainerManager
-    solutions:
-      pen:
-        maxVol: 15
-        reagents:
-        - ReagentId: Puncturase
-          Quantity: 10
-        - ReagentId: TranexamicAcid
-          Quantity: 5
+#- type: entity
+#  name: puncturase auto-injector
+#  parent: ChemicalMedipen
+#  id: PunctAutoInjector
+#  description: A rapid dose of hyper-platelets and tranexamic acid, intended for combat applications.
+#  components:
+#  - type: Item
+#    inhandVisuals:
+#      left:
+#      - state: base-needle-inhand-left
+#      - state: base-colorA-inhand-left
+#        color: "#c7be5d"
+#      - state: base-colorB-inhand-left
+#      right:
+#      - state: base-needle-inhand-right
+#      - state: base-colorA-inhand-right
+#        color: "#c7be5d"
+#      - state: base-colorB-inhand-right
+#  - type: Sprite
+#    sprite: Objects/Specific/Medical/medipen.rsi
+#    layers:
+#    - state: punctpen
+#      map: ["enum.SolutionContainerLayers.Fill"]
+#  - type: SolutionContainerVisuals
+#    maxFillLevels: 1
+#    changeColor: false
+#    emptySpriteName: punctpen_empty
+#  - type: Hypospray
+#    solutionName: pen
+#    transferAmount: 15
+#    onlyAffectsMobs: false
+#    injectOnly: true
+#  - type: SolutionContainerManager
+#    solutions:
+#      pen:
+#        maxVol: 15
+#        reagents:
+#        - ReagentId: HyperPlatelet
+#          Quantity: 10
+#        - ReagentId: TranexamicAcid
+#          Quantity: 5
 
 - type: entity
-  name: pyrazine auto-injector
+  name: regeneration auto-injector
   parent: ChemicalMedipen
-  id: PyraAutoInjector
-  description: A rapid dose of pyrazine and dermaline, intended for combat applications.
+  id:  RegenerationAlgaeAutoInjector
+  description: A rapid dose of regeneration algae, intended for combat applications.
   components:
   - type: Item
     inhandVisuals:
@@ -431,16 +431,14 @@
       pen:
         maxVol: 20
         reagents:
-        - ReagentId: Pyrazine
-          Quantity: 10
-        - ReagentId: Dermaline
-          Quantity: 10
+        - ReagentId:  RegenerationAlgae
+          Quantity: 20
 
 - type: entity
   name: airloss auto-injector
   parent: ChemicalMedipen
   id: AirlossAutoInjector
-  description: A rapid dose of saline and dexalin plus, intended to get someone up quickly.
+  description: A rapid dose of oxygenated saline, intended to get someone up quickly.
   components:
   - type: Item
     inhandVisuals:
@@ -473,10 +471,8 @@
       pen:
         maxVol: 40
         reagents:
-        - ReagentId: Saline
-          Quantity: 20
-        - ReagentId: DexalinPlus
-          Quantity: 20
+        - ReagentId: OxygenatedSaline
+          Quantity: 40
 
 - type: entity
   name: space medipen

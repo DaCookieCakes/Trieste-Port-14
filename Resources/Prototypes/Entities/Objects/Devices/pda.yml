@@ -1,6 +1,6 @@
 - type: entity
   abstract: true
-  parent: [ BaseItem, StorePresetUplink ] #PDA's have uplinks so they have to inherit the data.
+  parent: [ BaseItem, StorePresetUplink] #PDA's have uplinks so they have to inherit the data.
   id: BasePDA
   name: PDA
   description: Personal Data Assistant.
@@ -173,7 +173,7 @@
 - type: entity
   parent: BasePDA
   id: PassengerPDA
-  name: passenger PDA
+  name: civilian PDA # TP
   description: Why isn't it gray?
   components:
   - type: Pda
@@ -457,7 +457,7 @@
     - DoorBumpOpener
 
 - type: entity
-  name: quartermaster PDA
+  name: harbormaster PDA # TP
   parent: BasePDA
   id: QuartermasterPDA
   description: PDA for the guy that orders the guns.
@@ -503,7 +503,7 @@
 - type: entity
   parent: BasePDA
   id: SalvagePDA
-  name: salvage PDA
+  name: expeditioneer PDA # TP
   description: Smells like ash.
   components:
   - type: Pda
@@ -636,7 +636,7 @@
 - type: entity
   parent: BasePDA
   id: CaptainPDA
-  name: captain PDA
+  name: Captain PDA
   description: Surprisingly no different from your PDA.
   components:
   - type: Pda
@@ -704,7 +704,7 @@
 - type: entity
   parent: BasePDA
   id: EngineerPDA
-  name: engineer PDA
+  name: platform engineer PDA # TP
   description: Rugged and well-worn.
   components:
   - type: Pda
@@ -853,7 +853,7 @@
 - type: entity
   parent: BaseSecurityPDA
   id: HoSPDA
-  name: head of security PDA
+  name: marshal PDA # TP
   description: Whosoever bears this PDA is the law.
   components:
   - type: Pda
@@ -948,6 +948,15 @@
       - WantedListCartridge
       - LogProbeCartridge
       - AstroNavCartridge
+
+- type: entity
+  parent: [ CentcomPDA, BaseNanotrasenContraband ]
+  id: NanotrasenPDA
+  name: Nanotrasen PDA
+  description: Light green sign of walking bureaucracy, now including free bulletholes and fire!
+  components:
+  - type: Pda
+    id: CentcomIDCardDeathsquad
 
 - type: entity
   parent: CentcomPDA

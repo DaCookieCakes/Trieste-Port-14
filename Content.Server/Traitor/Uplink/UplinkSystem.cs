@@ -1,4 +1,6 @@
 using System.Linq;
+using Content.Server.Codewords;
+using Content.Server.GameTicking.Rules.Components;
 using Content.Server.Store.Systems;
 using Content.Server.StoreDiscount.Systems;
 using Content.Shared.FixedPoint;
@@ -7,6 +9,7 @@ using Content.Shared.Implants;
 using Content.Shared.Inventory;
 using Content.Shared.Mind;
 using Content.Shared.PDA;
+using Content.Shared.Radio.Components;
 using Content.Shared.Store;
 using Content.Shared.Store.Components;
 using Robust.Shared.Prototypes;
@@ -25,6 +28,9 @@ public sealed class UplinkSystem : EntitySystem
     public static readonly ProtoId<CurrencyPrototype> TelecrystalCurrencyPrototype = "Telecrystal";
     private static readonly EntProtoId FallbackUplinkImplant = "UplinkImplant";
     private static readonly ProtoId<ListingPrototype> FallbackUplinkCatalog = "UplinkUplinkImplanter";
+
+    // TP specific
+    private static readonly EntProtoId FallbackUplinkImplantNT = "UplinkImplantNT";
 
     /// <summary>
     /// Adds an uplink to the target
@@ -99,7 +105,17 @@ public sealed class UplinkSystem : EntitySystem
         else
             balance = balance - cost;
 
-        var implant = _subdermalImplant.AddImplant(user, FallbackUplinkImplant);
+        // This TryComp and ImplantProto are specific to TP14.
+        if (!TryComp<TraitorRuleComponent>(user, out var traitorRule))
+        {
+            return false;
+        }
+
+        var implantProto = traitorRule.GiveUplinkNT
+            ? FallbackUplinkImplantNT
+            : FallbackUplinkImplant;
+
+        var implant = _subdermalImplant.AddImplant(user, implantProto);
 
         if (!HasComp<StoreComponent>(implant))
         {
@@ -124,7 +140,8 @@ public sealed class UplinkSystem : EntitySystem
             {
                 var pdaUid = containerSlot.ContainedEntity;
 
-                if (HasComp<PdaComponent>(pdaUid) && HasComp<StoreComponent>(pdaUid))
+                if (HasComp<PdaComponent>(pdaUid)
+                    && HasComp<StoreComponent>(pdaUid))
                     return pdaUid;
             }
         }

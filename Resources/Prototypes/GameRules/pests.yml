@@ -7,6 +7,7 @@
     - id: SnailMigrationLowPop
     - id: CockroachMigration
     - id: MouseMigration
+    - id: WhaleMigration
 
 - type: entityTable
   id: SpicyPestEventsTable
@@ -14,6 +15,9 @@
     children:
     - id: KingRatMigration
     - id: SnailMigration
+    - id: DrifterMigration
+    - id: MimicMigration
+    # - id: DeathWhaleMigration
 
 # events
 
@@ -126,3 +130,4 @@
       prob: 0.002
     - id: MobSnailInstantDeath
       prob: 0.00001 #  ~ 1:2000 snails
+

@@ -1,4 +1,5 @@
-﻿using Content.Server.Inventory;
+using Content.Server.Atmos.Components;
+using Content.Server.Inventory;
 using Content.Shared.Inventory;
 using Content.Shared.Radio.Components;
 using Content.Shared.Silicons.Borgs;
@@ -33,7 +34,7 @@ public sealed class BorgSwitchableTypeSystem : SharedBorgSwitchableTypeSystem
         {
             _borgSystem.SetTransponderSprite(
                 (ent.Owner, transponder),
-                new SpriteSpecifier.Rsi(new ResPath("Mobs/Silicon/chassis.rsi"), prototype.SpriteBodyState));
+                new SpriteSpecifier.Rsi(prototype.SpriteRsi, prototype.SpriteBodyState));
 
             _borgSystem.SetTransponderName(
                 (ent.Owner, transponder),
@@ -78,5 +79,13 @@ public sealed class BorgSwitchableTypeSystem : SharedBorgSwitchableTypeSystem
         }
 
         base.SelectBorgModule(ent, borgType);
+
+        if (borgType == "mining" || borgType == "engineering")
+        {
+            var inGas = EnsureComp<InGasComponent>(ent);
+            inGas.GasId = 9; // Water
+            inGas.DamagedByGas = false;
+            inGas.GasThreshold = 50;
+        }
     }
 }

@@ -15,10 +15,6 @@
     - BaseStationJobsSpawning
     - BaseStationRecords
     - BaseStationArrivals
-    - BaseStationGateway
-    - BaseStationShuttles
-    - BaseStationCentcomm
-    - BaseStationEvacuation
     - BaseStationAlertLevels
     - BaseStationMagnet
     - BaseStationExpeditions
@@ -49,5 +45,16 @@
   - BaseStationRecords
   - BaseStationNanotrasen
   categories: [ HideSpawnMenu ]
+  components:
+    - type: Transform
+
+- type: entity
+  id: StandardStationEvent
+  parent:
+  - BaseStation
+  - BaseStationJobsSpawning
+  - BaseStationRecords
+  - BaseStationNanotrasen
+  - BaseStationAlertLevels
   components:
     - type: Transform

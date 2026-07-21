@@ -3,10 +3,9 @@
   name: department-Cargo
   description: department-Cargo-description
   color: "#A46106"
-  roles:
+  roles: # TP - Moved Salvage
   - CargoTechnician
   - Quartermaster
-  - SalvageSpecialist
 
 - type: department
   id: Civilian
@@ -131,16 +130,3 @@
   roles:
   - Borg
   - StationAi
-
-- type: department
-  id: Specific
-  name: department-Specific
-  description: department-Specific-description
-  color: "#9FED58"
-  weight: 10
-  roles:
-  - Boxer
-  - Reporter
-  - Zookeeper
-  - Psychologist
-  primary: false

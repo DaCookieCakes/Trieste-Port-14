@@ -1,0 +1,10 @@
+- type: body
+  id: SeaCreature
+  name: "seacreature"
+  root: torso
+  slots:
+    torso:
+      part: TorsoAnimal
+      organs:
+        lungs: TP14OrganWaterLungs
+        stomach: OrganMouseStomach

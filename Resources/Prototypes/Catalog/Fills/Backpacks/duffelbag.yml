@@ -313,9 +313,9 @@
         amount: 4
       - id: CombatMedipen
         amount: 4
-      - id: PunctAutoInjector
-        amount: 4
-      - id: PyraAutoInjector
+      #- id: PunctAutoInjector # TP14 - Removed entity
+      #  amount: 4
+      - id: RegenerationAlgaeAutoInjector
         amount: 4
       - id: AirlossAutoInjector
         amount: 4
@@ -351,6 +351,20 @@
     - id: ClothingHeadHelmetCult
     - id: ClothingShoesCult
     - id: BedsheetCult
+
+- type: entity
+  parent: ClothingBackpackDuffelSyndicateBundle
+  id: ClothingBackpackDuffelNtCburnFilled
+  name: CBURN equipment bundle
+  description: "The label on the strap reads 'Turn and burn, Agent.'"
+  components:
+  - type: Contraband
+    severity: Nanotrasen
+  - type: StorageFill
+    contents:
+      - id: WeaponShotgunDoubleBarreled
+      - id: BoxShotgunIncendiary
+      - id: CombatMedipen
 
 - type: entity
   parent: ClothingBackpackDuffelSyndicateBundle

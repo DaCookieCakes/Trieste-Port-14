@@ -75,6 +75,7 @@
         clownedon: # Not 'creampied' bc I can already see Skyrat complaining about conflicts.
           True: {visible: true}
           False: {visible: false}
+  - type: JumpAbility
   - type: StatusIcon
     bounds: -0.5,-0.5,0.5,0.5
   - type: RotationVisuals
@@ -88,7 +89,7 @@
       60: 0.7
       80: 0.5
   - type: Fixtures
-    fixtures: # TODO: This needs a second fixture just for mob collisions.
+    fixtures:
       fix1:
         shape:
           !type:PhysShapeCircle
@@ -134,6 +135,10 @@
   - type: Body
     prototype: Human
     requiredLegs: 2
+  - type: AutoEmote
+    emotes:
+    - NaturalSneeze
+    - NaturalCough
   - type: Identity
   - type: IdExaminable
   - type: Hands
@@ -190,6 +195,13 @@
   - type: Speech
     speechSounds: Alto
   - type: DamageForceSay
+  - type: InGas
+    gasID: 9 # short-circuits in water
+    damagedByGas: false
+    gasThreshold: 9999
+    damage:
+      types:
+        Shock: 5
   - type: Vocal
     sounds:
       Male: MaleHuman
@@ -252,9 +264,9 @@
         Heat: 1.5 #per second, scales with temperature & other constants
   - type: TemperatureSpeed
     thresholds:
-      293: 0.9
-      280: 0.8
-      260: 0.7
+      293: 1
+      280: 1
+      260: 1
   - type: ThermalRegulator
     metabolismHeat: 800
     radiatedHeat: 100
@@ -344,5 +356,5 @@
     requiredLegs: 2
   - type: UserInterface
     interfaces:
-      enum.HumanoidMarkingModifierKey.Key: # sure, this can go here too
+      enum.HumanoidMarkingModifierKey.Key:
         type: HumanoidMarkingModifierBoundUserInterface

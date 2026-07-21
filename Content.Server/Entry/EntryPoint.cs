@@ -1,3 +1,6 @@
+using Content.Server._NullLink.Core;
+using Content.Server._NullLink.EventBus;
+using Content.Server._NullLink.PlayerData;
 using Content.Server.Acz;
 using Content.Server.Administration;
 using Content.Server.Administration.Logs;
@@ -25,6 +28,7 @@ using Content.Server.Voting.Managers;
 using Content.Shared.CCVar;
 using Content.Shared.Kitchen;
 using Content.Shared.Localizations;
+using Content.Shared.NullLink;
 using Robust.Server;
 using Robust.Server.ServerStatus;
 using Robust.Shared.Configuration;
@@ -165,6 +169,13 @@ namespace Content.Server.Entry
             _connection.PostInit();
             _multiServerKick.Initialize();
             _cvarCtrl.Initialize();
+
+            // NullLink start
+            IoCManager.Resolve<IActorRouter>().Initialize();
+            IoCManager.Resolve<ISharedNullLinkPlayerRolesReqManager>().Initialize();
+            IoCManager.Resolve<INullLinkEventBusManager>().Initialize();
+            IoCManager.Resolve<INullLinkPlayerManager>().Initialize();
+            // NullLink end
         }
 
         public override void Update(ModUpdateLevel level, FrameEventArgs frameEventArgs)
@@ -203,6 +214,13 @@ namespace Content.Server.Entry
             // TODO Should this be awaited?
             _discordLink.Shutdown();
             _discordChatLink.Shutdown();
+
+            // Nullink start
+            IoCManager.Resolve<INullLinkPlayerManager>().Shutdown();
+            IoCManager.Resolve<INullLinkEventBusManager>().Shutdown();
+            IoCManager.Resolve<IActorRouter>().Shutdown();
+            //IoCManager.Resolve<IBugReportManager>().Shutdown(); // Seemingly removed for "not being of quality"
+            // Nullink end
         }
 
         private static void LoadConfigPresets(IConfigurationManager cfg, IResourceManager res, ISawmill sawmill)

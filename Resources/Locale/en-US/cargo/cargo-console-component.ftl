@@ -1,5 +1,5 @@
 ## UI
-cargo-console-menu-title = Cargo request console
+cargo-console-menu-title = Shipment request console
 cargo-console-menu-account-name-label = Account:{" "}
 cargo-console-menu-account-name-none-text = None
 cargo-console-menu-account-name-format = [bold][color={$color}]{$name}[/color][/bold] [font="Monospace"]\[{$code}\][/font]

@@ -9,10 +9,12 @@
       time: 2.5h
     - !type:RoleTimeRequirement
       role: JobStationEngineer
-      time: 5h
+      time: 1h
     - !type:DepartmentTimeRequirement
       department: Engineering
-      time: 10h
+      time: 1h
+    - !type:OverallPlaytimeRequirement
+      time: 2h
   weight: 10
   startingGear: ChiefEngineerGear
   icon: "JobIconChiefEngineer"
@@ -38,7 +40,7 @@
   id: ChiefEngineerGear
   equipment:
     id: CEPDA
-    eyes: ClothingEyesGlassesMeson
+    # eyes: ClothingEyesGlassesMeson # Moffstation - Eyepatches!
     ears: ClothingHeadsetCE
     belt: ClothingBeltUtilityEngineering
   storage:
@@ -51,7 +53,7 @@
   hasMindShield: true
   equipment:
     head: ClothingHeadHatBeretEngineering
-    mask: ClothingMaskBreath
+    mask: TP14ClothingMaskAir #TP14
     neck: ClothingNeckCloakCe
     outerClothing: ClothingOuterWinterCE
     gloves: ClothingHandsGlovesColorYellow

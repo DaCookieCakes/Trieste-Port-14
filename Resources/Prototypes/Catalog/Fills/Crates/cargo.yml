@@ -114,6 +114,9 @@
     - id: WaterVaporCanister
       prob: 0.001
       orGroup: Canister
+    - id: TP14WaterCanister
+      prob: 0.001
+      orGroup: Canister
     #weapons
     - id: WeaponPulseCarbine
       prob: 0.0001
@@ -280,6 +283,9 @@
       prob: 0.01
       orGroup: Swag
     #plushies
+    - id: TP14carbatteryplushie #TP
+      prob: 0.01
+      orGroup: Plushies
     - id: PlushieRGBee
       prob: 0.01
       orGroup: Plushies
@@ -366,6 +372,9 @@
       prob: 0.01
       orGroup: Useful
     #notuseful
+    - id: TP14FoodBoxJonkpocketJonk #TP
+      prob: 0.0001
+      orGroup: NotUseful
     - id: LidSalami
       prob: 0.01
       orGroup: NotUseful

@@ -28,8 +28,10 @@ using Content.Shared.Tiles;
 using Robust.Shared.Collections;
 using Robust.Shared.Configuration;
 using Robust.Shared.Console;
+using Robust.Shared.EntitySerialization;
 using Robust.Shared.EntitySerialization.Systems;
 using Robust.Shared.Map;
+using Robust.Shared.Map.Components;
 using Robust.Shared.Player;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
@@ -48,6 +50,7 @@ public sealed class ArrivalsSystem : EntitySystem
     [Dependency] private readonly IConfigurationManager _cfgManager = default!;
     [Dependency] private readonly IConsoleHost _console = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
+    [Dependency] private readonly IEntityManager _entManager = default!;
     [Dependency] private readonly IPrototypeManager _protoManager = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly ActorSystem _actor = default!;
@@ -72,6 +75,11 @@ public sealed class ArrivalsSystem : EntitySystem
     public bool Enabled { get; private set; }
 
     /// <summary>
+    /// The biome template for the ocean surface.
+    /// </summary>
+    public string BiomeTemplate = "OceanWorld";
+
+    /// <summary>
     /// Flags if all players spawning at the departure terminal have godmode until they leave the terminal.
     /// </summary>
     public bool ArrivalsGodmode { get; private set; }
@@ -83,9 +91,7 @@ public sealed class ArrivalsSystem : EntitySystem
 
     private readonly List<ProtoId<BiomeTemplatePrototype>> _arrivalsBiomeOptions = new()
     {
-        "Grasslands",
-        "LowDesert",
-        "Snow",
+        "OceanWorld"
     };
 
     public override void Initialize()
@@ -113,7 +119,7 @@ public sealed class ArrivalsSystem : EntitySystem
         Enabled = _cfgManager.GetCVar(CCVars.ArrivalsShuttles);
         ArrivalsGodmode = _cfgManager.GetCVar(CCVars.GodmodeArrivals);
 
-        _cfgManager.OnValueChanged(CCVars.ArrivalsShuttles, SetArrivals);
+        _cfgManager.OnValueChanged(CCVars.SweetwaterEnabled, SetArrivals);
         _cfgManager.OnValueChanged(CCVars.GodmodeArrivals, b => ArrivalsGodmode = b);
 
         // Command so admins can set these for funsies
@@ -158,10 +164,10 @@ public sealed class ArrivalsSystem : EntitySystem
         switch (args[0])
         {
             case "enable":
-                _cfgManager.SetCVar(CCVars.ArrivalsShuttles, true);
+                _cfgManager.SetCVar(CCVars.SweetwaterEnabled, true);
                 break;
             case "disable":
-                _cfgManager.SetCVar(CCVars.ArrivalsShuttles, false);
+                _cfgManager.SetCVar(CCVars.SweetwaterEnabled, false);
                 break;
             case "returns":
                 var existing = _cfgManager.GetCVar(CCVars.ArrivalsReturns);
@@ -512,20 +518,22 @@ public sealed class ArrivalsSystem : EntitySystem
 
     private void SetupArrivalsStation()
     {
+        // A check to make sure that Sweetwater and the Ocean don't load FOUR TIMES. -Cookie
+        if (EntityQuery<ArrivalsSourceComponent>().Any())
+            return;
+
+        // Sweetwater
         var path = new ResPath(_cfgManager.GetCVar(CCVars.ArrivalsMap));
         _mapSystem.CreateMap(out var mapId, runMapInit: false);
         var mapUid = _mapSystem.GetMap(mapId);
 
-        if (!_loader.TryLoadGrid(mapId, path, out var grid))
+        if (!_loader.TryLoadMap(path, out var map, out var grids))
             return;
 
-        _metaData.SetEntityName(mapUid, Loc.GetString("map-name-terminal"));
+        _metaData.SetEntityName(mapUid, "SWEETWATER");
+        _mapSystem.InitializeMap((Entity<MapComponent?>) map!, true);
 
-        EnsureComp<ArrivalsSourceComponent>(grid.Value);
-        EnsureComp<ProtectedGridComponent>(grid.Value);
-        EnsureComp<PreventPilotComponent>(grid.Value);
-
-        // Setup planet arrivals if relevant
+        // Setup planet arrivals
         if (_cfgManager.GetCVar(CCVars.ArrivalsPlanet))
         {
             var template = _random.Pick(_arrivalsBiomeOptions);
@@ -537,29 +545,42 @@ public sealed class ArrivalsSystem : EntitySystem
             AddComp(mapUid, restricted);
         }
 
-        _mapSystem.InitializeMap(mapId);
+        // Ocean
+        var path2 = new ResPath(_cfgManager.GetCVar(CCVars.Arrivals2Map));
+        _mapSystem.CreateMap(out var mapId2, runMapInit: false);
+        var mapUid2 = _mapSystem.GetMap(mapId2);
+
+        if (!_loader.TryLoadMap(path2, out var map2, out var grids2))
+            return;
+
+        _metaData.SetEntityName(mapUid2, "OCEAN");
+        _mapSystem.InitializeMap((Entity<MapComponent?>) map2!, true);
 
         // Handle roundstart stations.
         var query = AllEntityQuery<StationArrivalsComponent>();
 
         while (query.MoveNext(out var uid, out var comp))
         {
-            SetupShuttle(uid, comp);
+            //SetupShuttle(uid, comp);
         }
     }
 
     private void SetArrivals(bool obj)
     {
+        if (obj == Enabled)
+            return;
+
         Enabled = obj;
 
         if (Enabled)
         {
-            SetupArrivalsStation();
-            var query = AllEntityQuery<StationArrivalsComponent>();
+            if (!EntityQuery<ArrivalsSourceComponent>().Any())
+                SetupArrivalsStation();
 
+            var query = AllEntityQuery<StationArrivalsComponent>();
             while (query.MoveNext(out var sUid, out var comp))
             {
-                SetupShuttle(sUid, comp);
+                //SetupShuttle(sUid, comp);
             }
         }
         else
@@ -586,7 +607,7 @@ public sealed class ArrivalsSystem : EntitySystem
             return;
 
         // If it's a latespawn station then this will fail but that's okey
-        SetupShuttle(uid, component);
+        //SetupShuttle(uid, component);
     }
 
     private void SetupShuttle(EntityUid uid, StationArrivalsComponent component)
@@ -595,7 +616,7 @@ public sealed class ArrivalsSystem : EntitySystem
             return;
 
         // Spawn arrivals on a dummy map then dock it to the source.
-        var dummpMapEntity = _mapSystem.CreateMap(out var dummyMapId);
+        var dummyMapEntity = _mapSystem.CreateMap(out var dummyMapId);
 
         if (TryGetArrivals(out var arrivals) &&
             _loader.TryLoadGrid(dummyMapId, component.ShuttlePath, out var shuttle))
@@ -610,7 +631,7 @@ public sealed class ArrivalsSystem : EntitySystem
         }
 
         // Don't start the arrivals shuttle immediately docked so power has a time to stabilise?
-        var timer = AddComp<TimedDespawnComponent>(dummpMapEntity);
+        var timer = AddComp<TimedDespawnComponent>(dummyMapEntity);
         timer.Lifetime = 15f;
     }
 }

@@ -18,17 +18,19 @@ using Robust.Server.GameObjects;
 using Robust.Shared.Audio;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Containers;
-using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
-using Robust.Shared.Player;
 using Robust.Shared.Random;
 using Robust.Shared.Utility;
+﻿using Content.Server.Ghost;
+using Content.Shared.Anomaly;
+
 
 namespace Content.Server.Nuke;
 
 public sealed class NukeSystem : EntitySystem
 {
     [Dependency] private readonly AlertLevelSystem _alertLevel = default!;
+    [Dependency] private readonly SharedAnomalySystem _anomaly = default!;
     [Dependency] private readonly ChatSystem _chatSystem = default!;
     [Dependency] private readonly ExplosionSystem _explosions = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
@@ -44,6 +46,10 @@ public sealed class NukeSystem : EntitySystem
     [Dependency] private readonly StationSystem _station = default!;
     [Dependency] private readonly UserInterfaceSystem _ui = default!;
     [Dependency] private readonly AppearanceSystem _appearance = default!;
+    [Dependency] private readonly EntityLookupSystem _lookup = default!;
+    [Dependency] private readonly GhostSystem _ghost = default!;
+    [Dependency] private readonly TileSystem _tile = default!;
+
     [Dependency] private readonly TurfSystem _turf = default!;
 
     /// <summary>
@@ -87,6 +93,7 @@ public sealed class NukeSystem : EntitySystem
     private void OnInit(EntityUid uid, NukeComponent component, ComponentInit args)
     {
         _itemSlots.AddItemSlot(uid, SharedNukeComponent.NukeDiskSlotId, component.DiskSlot);
+        _itemSlots.AddItemSlot(uid, SharedNukeComponent.NukeResonanceSlotId, component.ResonanceSlot);
 
         UpdateStatus(uid, component);
         UpdateUserInterface(uid, component);
@@ -145,14 +152,12 @@ public sealed class NukeSystem : EntitySystem
     private void OnRemove(EntityUid uid, NukeComponent component, ComponentRemove args)
     {
         _itemSlots.RemoveItemSlot(uid, component.DiskSlot);
+        _itemSlots.RemoveItemSlot(uid, component.ResonanceSlot);
     }
 
     private void OnItemSlotChanged(EntityUid uid, NukeComponent component, ContainerModifiedMessage args)
     {
         if (!component.Initialized)
-            return;
-
-        if (args.Container.ID != component.DiskSlot.ID)
             return;
 
         UpdateStatus(uid, component);
@@ -352,11 +357,13 @@ public sealed class NukeSystem : EntitySystem
         switch (component.Status)
         {
             case NukeStatus.AWAIT_DISK:
-                if (component.DiskSlot.HasItem)
-                    component.Status = NukeStatus.AWAIT_CODE;
+                if (component.DiskSlot.HasItem && component.ResonanceSlot.HasItem)
+                    {
+                        ArmBomb(uid, component); //Make it so it needs the transmission disk and the Resonance Delaminator to "arm" the artifact.
+                    }
                 break;
             case NukeStatus.AWAIT_CODE:
-                if (!component.DiskSlot.HasItem)
+                if (!component.DiskSlot.HasItem || !component.ResonanceSlot.HasItem)
                 {
                     component.Status = NukeStatus.AWAIT_DISK;
                     component.EnteredCode = "";
@@ -518,6 +525,35 @@ public sealed class NukeSystem : EntitySystem
         component.Status = NukeStatus.ARMED;
         UpdateUserInterface(uid, component);
         UpdateAppearance(uid, component);
+
+       // if (component.IsArtifact)
+       // {
+            // Artifact meltdown logic
+         //   if (!HasComp<LightningArcShooter>(lightning))
+          //  {
+             //   return;
+         //   }
+         //   lightning.ArcDepth = 0f;
+          //  lightning.MaxLightningArc = 0f;
+          //  lightning.ShootMinInterval = 0f;
+          //  lightning.ShootMaxInterval = 0f;
+          //  lightning.ShootRange = 0f;
+
+         //   if (!HasComp<SingularityDistortion>(distort))
+         //   {
+           //     return;
+         //   }
+          //  distort.FalloffPower = 0f;
+          //  distort.Intensity = 0f;
+
+          //  if (!HasComp<RadiationSource>(radiation))
+          //  {
+          //      return;
+          //  }
+
+          //  radiation.Intensity = 0f;
+      //  }
+
     }
 
     /// <summary>
@@ -563,6 +599,34 @@ public sealed class NukeSystem : EntitySystem
 
         UpdateUserInterface(uid, component);
         UpdateAppearance(uid, component);
+
+       // if (component.IsArtifact)
+       // {
+            // Artifact disarm logic
+       //     if (!HasComp<LightningArcShooter>(lightning))
+       //     {
+        //        return;
+       //     }
+        //    lightning.ArcDepth = 4f;
+        //    lightning.MaxLightningArc = 5f;
+        //    lightning.ShootMinInterval = 2f;
+        //    lightning.ShootMaxInterval = 4f;
+        //    lightning.ShootRange = 7f;
+
+        //    if (!HasComp<SingularityDistortion>(distort))
+        //    {
+        //        return;
+        //    }
+        //    distort.FalloffPower = 2f;
+        //    distort.Intensity = -1000f;
+
+        //    if (!HasComp<RadiationSource>(radiation))
+        //    {
+         //       return;
+         //   }
+
+           // radiation.Intensity = 10f;
+       // }
     }
 
     /// <summary>
@@ -582,7 +646,8 @@ public sealed class NukeSystem : EntitySystem
     /// <summary>
     ///     Force bomb to explode immediately
     /// </summary>
-    public void ActivateBomb(EntityUid uid, NukeComponent? component = null,
+    public void ActivateBomb(EntityUid uid,
+        NukeComponent? component = null,
         TransformComponent? transform = null)
     {
         if (!Resolve(uid, ref component, ref transform))
@@ -591,21 +656,82 @@ public sealed class NukeSystem : EntitySystem
         if (component.Exploded)
             return;
 
-        component.Exploded = true;
+        //  if (component.IsArtifact)
+        //  {
+        // Artifact meltdown logic
+        //     if (!HasComp<LightningArcShooter>(lightning))
+        //     {
+        //         return;
+        //     }
+        //    lightning.ArcDepth = 8f;
+        //     lightning.MaxLightningArc = 12f;
+        //     lightning.ShootMinInterval = 1f;
+        //      lightning.ShootMaxInterval = 2f;
+        //     lightning.ShootRange = 55f;
 
-        _explosions.QueueExplosion(uid,
-            component.ExplosionType,
-            component.TotalIntensity,
-            component.IntensitySlope,
-            component.MaxIntensity);
+        //     if (!HasComp<SingularityDistortion>(distort))
+        //     {
+        //         return;
+        //     }
+        //    distort.FalloffPower = 1f;
+        //     distort.Intensity = 300f;
 
-        RaiseLocalEvent(new NukeExplodedEvent()
+        //   var lights = GetEntityQuery<PoweredLightComponent>();
+        //     foreach (var light in _lookup.GetEntitiesInRange(uid, 100f, LookupFlags.StaticSundries))
+        //     {
+        //         if (!lights.HasComponent(light))
+        //          continue;
+//
+        //         if (!_random.Prob(0.6f))
+        //             continue;
+
+        //           _ghost.DoGhostBooEvent(light);
+        //      }
+
+        //     if (!HasComp<TileSpawnAnomalyComponent>(tileChanger))
+        //      {
+        //          return;
+        //      }
+
+        //   var xform = Transform(anomaly);
+        //    if (!TryComp<MapGridComponent>(xform.GridUid, out var grid))
+        //        return;
+
+        //     foreach (var entry in tileChanger.Entries)
+        //      {
+
+        //        var tiles = _anomaly.GetSpawningPoints(uid, 0f, 100f, entry.Settings, 100f);
+        //        if (tiles == null)
+        //         return;
+
+        //        foreach (var tileref in tiles)
+        //        {
+        //            var tile = (ContentTileDefinition) _tiledef[entry.Floor]; // Rips the Sweetwater tiles into eldritch chromite
+        //           _tile.ReplaceTile(tileref, tile);
+        //      }
+        //    }
+
+        // TODO: Add logic to switch Trieste lightning with Eldrich lightning once merged
+        // }
+        // else
         {
-            OwningStation = transform.GridUid,
-        });
 
-        _sound.StopStationEventMusic(uid, StationEventMusicType.Nuke);
-        Del(uid);
+            component.Exploded = true;
+
+            _explosions.QueueExplosion(uid,
+                component.ExplosionType,
+                component.TotalIntensity,
+                component.IntensitySlope,
+                component.MaxIntensity);
+
+            RaiseLocalEvent(new NukeExplodedEvent()
+            {
+                OwningStation = transform.GridUid,
+            });
+
+            _sound.StopStationEventMusic(uid, StationEventMusicType.Nuke);
+            Del(uid);
+        }
     }
 
     /// <summary>

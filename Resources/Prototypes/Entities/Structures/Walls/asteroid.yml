@@ -284,6 +284,7 @@
     currentOre: OreSilverCrab
 
 # Yes I know it drops steel but we may get smelting at some point
+# This aged well LOL ^^
 - type: entity
   id: AsteroidRockTin
   parent: AsteroidRock
@@ -809,6 +810,9 @@
       state: rock_north
     - map: [ "enum.EdgeLayer.West" ]
       state: rock_west
+  - type: OreVein
+    oreChance: 0.33
+    oreRarityPrototypeId: RandomOreDistributionStandard
 
 # Ore veins
 - type: entity
@@ -1157,6 +1161,9 @@
       state: rock_wall_north
     - map: [ "enum.EdgeLayer.West" ]
       state: rock_wall_west
+  - type: OreVein
+    oreChance: 0.33
+    oreRarityPrototypeId: RandomOreDistributionStandard
 
 - type: entity
   id: WallRockBasaltCoal

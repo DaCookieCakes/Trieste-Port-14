@@ -19,7 +19,7 @@
   id: FillLockerEmergencyStandard
   table: !type:AllSelector
     children:
-    - id: ClothingMaskBreath
+    - id: TP14ClothingMaskAir # TP14
     - id: ClothingOuterSuitEmergency
     - !type:GroupSelector
       children:
@@ -138,7 +138,6 @@
       - id: ClothingUniformJumpsuitOperative
       - id: ClothingUniformJumpskirtOperative
     - id: ClothingBackpackDuffelSyndicate
-    - id: CyberPen
     - id: CigPackSyndicate
     - id: ClothingBackpackDuffelSyndicatePyjamaBundle
     - id: ClothingBeltMilitaryWebbing
@@ -155,6 +154,8 @@
     children:
     - id: StrangePill
       prob: 0.20
+    - id: TP14FoodJonkpocketBanana #TP
+      prob: 0.1
     # Tools
     - !type:NestedSelector
       tableId: MaintToolsTable

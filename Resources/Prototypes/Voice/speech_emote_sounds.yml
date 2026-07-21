@@ -40,6 +40,8 @@
       collection: MaleGasp
     DefaultDeathgasp:
       collection: MaleDeathGasp
+    TP14_HorrificGiggle:
+      collection: CluwneScreams
 
 - type: emoteSounds
   id: FemaleHuman
@@ -82,6 +84,8 @@
       collection: FemaleGasp
     DefaultDeathgasp:
       collection: FemaleDeathGasp
+    TP14_HorrificGiggle:
+      collection: CluwneScreams
 
 - type: emoteSounds
   id: MaleReptilian
@@ -106,6 +110,8 @@
       collection: MaleGasp
     DefaultDeathgasp:
       collection: DeathGasp
+    TP14_HorrificGiggle:
+      collection: CluwneScreams
 
 - type: emoteSounds
   id: FemaleReptilian
@@ -130,6 +136,8 @@
       collection: FemaleGasp
     DefaultDeathgasp:
       collection: FemaleDeathGasp
+    TP14_HorrificGiggle:
+      collection: CluwneScreams
 
 - type: emoteSounds
   id: MaleSlime
@@ -172,6 +180,8 @@
       collection: MaleGasp
     DefaultDeathgasp:
       collection: MaleDeathGasp
+    TP14_HorrificGiggle:
+      collection: CluwneScreams
   params:
     variation: 0.125
 
@@ -216,6 +226,8 @@
       collection: FemaleGasp
     DefaultDeathgasp:
       collection: FemaleDeathGasp
+    TP14_HorrificGiggle:
+      collection: CluwneScreams
   params:
     variation: 0.125
 
@@ -242,6 +254,8 @@
       collection: Weh
     Hew:
       collection: Hew
+    TP14_HorrificGiggle:
+      collection: CluwneScreams
     Gasp:
       path: /Audio/Effects/Gasp/vox_gasp.ogg
     DefaultDeathgasp:
@@ -269,6 +283,8 @@
       collection: MaleGasp
     DefaultDeathgasp:
       collection: DeathGasp
+    TP14_HorrificGiggle:
+      collection: CluwneScreams
   params:
     variation: 0.125
 
@@ -295,6 +311,8 @@
       collection: MaleGasp
     DefaultDeathgasp:
       collection: DeathGasp
+    TP14_HorrificGiggle:
+      collection: CluwneScreams
 
 - type: emoteSounds
   id: UnisexDwarf
@@ -335,6 +353,8 @@
       collection: MaleGasp
     DefaultDeathgasp:
       collection: MaleDeathGasp
+    TP14_HorrificGiggle:
+      collection: CluwneScreams
   params:
     variation: 0.125
     pitch: 0.75
@@ -378,6 +398,8 @@
       collection: FemaleGasp
     DefaultDeathgasp:
       collection: FemaleDeathGasp
+    TP14_HorrificGiggle:
+      collection: CluwneScreams
   params:
     variation: 0.125
     pitch: 0.75
@@ -407,6 +429,8 @@
       collection: MaleGasp
     DefaultDeathgasp:
       collection: MothDeathGasp
+    TP14_HorrificGiggle:
+      collection: CluwneScreams
 
 - type: emoteSounds
   id: UnisexSilicon
@@ -500,10 +524,18 @@
       collection: VulpkaninWhines
     Howl:
       collection: VulpkaninHowls
+    Weh:
+      collection: Weh
+    Hew:
+      collection: Hew
+    Honk:
+      collection: BikeHorn
     Gasp:
       collection: MaleGasp
     DefaultDeathgasp:
       collection: MaleDeathGasp
+    TP14_HorrificGiggle:
+      collection: CluwneScreams
 
 - type: emoteSounds
   id: FemaleVulpkanin
@@ -532,6 +564,12 @@
       collection: VulpkaninWhines
     Howl:
       collection: VulpkaninHowls
+    Weh:
+      collection: Weh
+    Hew:
+      collection: Hew
+    Honk:
+      collection: BikeHorn
     Gasp:
       collection: FemaleGasp
     DefaultDeathgasp:

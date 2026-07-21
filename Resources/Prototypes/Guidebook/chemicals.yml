@@ -5,6 +5,7 @@
   children:
   - Elements
   - Medicine
+  - Algae # TP14
   - Narcotics
   - Pyrotechnic
   - Toxins

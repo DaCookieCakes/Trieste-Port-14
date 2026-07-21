@@ -1,3 +1,5 @@
+# !! FAR HORIZONS MODIFIED !! #
+
 - type: entity
   id: CrateEmergencyExplosive
   parent: CrateSecgear
@@ -46,6 +48,8 @@
         amount: 3
       - id: ClothingMaskBreath
         amount: 3
+      - id: TP14ClothingMaskAir # TP14
+        amount: 3
       - id: OxygenTankFilled
         amount: 3
       - id: NitrogenTankFilled
@@ -64,7 +68,9 @@
         - id: ClothingMaskGas
           amount: 6
         - id: ClothingMaskBreath
-          amount: 6
+          amount: 3
+        - id: TP14ClothingMaskAir # TP14
+          amount: 3
         - id: OxygenTankFilled
           amount: 6
         - id: NitrogenTankFilled
@@ -84,6 +90,8 @@
         amount: 2
       - id: ClothingMaskBreath
         amount: 2
+      - id: TP14ClothingMaskAir # TP14
+        amount: 2
       - id: NitrogenTankFilled
         amount: 4
 
@@ -102,6 +110,7 @@
       - id: DrinkVodkaBottleFull
       - id: DrinkShotGlass
         amount: 2
+      - id: RadiationBlockingProjector # Far Horizons
 
 - type: entity
   id: CrateEmergencyInflatablewall

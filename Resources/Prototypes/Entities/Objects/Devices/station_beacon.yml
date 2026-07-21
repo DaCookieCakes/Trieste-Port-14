@@ -150,7 +150,7 @@
 - type: entity
   parent: DefaultStationBeaconCommand
   id: DefaultStationBeaconCaptainsQuarters
-  suffix: Captain's Quarters
+  suffix: Overseer's Quarters
   components:
   - type: NavMapBeacon
     defaultText: station-beacon-captain
@@ -410,7 +410,7 @@
 - type: entity
   parent: DefaultStationBeaconSupply
   id: DefaultStationBeaconQMRoom
-  suffix: QM's Room
+  suffix: HM's Room
   components:
   - type: NavMapBeacon
     defaultText: station-beacon-qm
@@ -850,6 +850,70 @@
   components:
   - type: NavMapBeacon
     defaultText: station-beacon-vox
+
+- type: entity
+  parent: DefaultStationBeacon
+  id: DefaultStationBeaconTriesteDorms
+  suffix: Trieste Dorms
+  components:
+  - type: NavMapBeacon
+    defaultText: station-beacon-trieste-dorms
+
+- type: entity
+  parent: DefaultStationBeacon
+  id: DefaultStationBeaconSweetwaterDorms
+  suffix: Sweetwater Dorms
+  components:
+  - type: NavMapBeacon
+    defaultText: station-beacon-sweetwater-dorms
+
+- type: entity
+  parent: DefaultStationBeacon
+  id: DefaultStationBeaconTriesteEngineering
+  suffix: Trieste Engineering
+  components:
+  - type: NavMapBeacon
+    defaultText: station-beacon-trieste-engineering
+
+- type: entity
+  parent: DefaultStationBeacon
+  id: DefaultStationBeaconSweetwaterEngineering
+  suffix: Sweetwater Engineering
+  components:
+  - type: NavMapBeacon
+    defaultText: station-beacon-sweetwater-engineering
+
+- type: entity
+  parent: DefaultStationBeacon
+  id: DefaultStationBeaconWastes
+  suffix: Wastes
+  components:
+  - type: NavMapBeacon
+    defaultText: station-beacon-wastes
+
+- type: entity
+  parent: DefaultStationBeacon
+  id: DefaultStationBeaconTrieste
+  suffix: Trieste Platform
+  components:
+  - type: NavMapBeacon
+    defaultText: station-beacon-trieste
+
+- type: entity
+  parent: DefaultStationBeacon
+  id: DefaultStationBeaconSweetwater
+  suffix: Sweetwater
+  components:
+  - type: NavMapBeacon
+    defaultText: station-beacon-sweetwater
+
+- type: entity
+  parent: DefaultStationBeacon
+  id: DefaultStationBeaconSettlers
+  suffix: Settlers
+  components:
+  - type: NavMapBeacon
+    defaultText: station-beacon-settlers
 
 # Ghost Only Beacons
 - type: entity

@@ -641,6 +641,7 @@
     price: 250
   - type: RadiationBlocker
     resistance: 5
+  - type: Rustable
   - type: Fixtures
     fixtures:
       fix1:
@@ -691,6 +692,13 @@
         node: girder
       - !type:DoActsBehavior
         acts: ["Destruction"]
+
+  - type: InGas
+    gasID: 9
+    damagedByGas: true
+    damage:
+        types:
+            Blunt: 5
 
 - type: entity
   parent: WallDiagonalBase
@@ -1052,6 +1060,10 @@
           collection: MetalSlam
       - !type:DoActsBehavior
         acts: ["Destruction"]
+  - type: IconSmooth
+    key: walls
+    base: solid
+  - type: Rustable
 
 - type: entity
   parent: WallSolid
@@ -1091,6 +1103,12 @@
         node: girder
       - !type:DoActsBehavior
         acts: ["Destruction"]
+  - type: InGas
+    gasID: 9
+    damagedByGas: true
+    damage:
+        types:
+            Blunt: 5
 
 - type: entity
   parent: BaseWall
@@ -1405,6 +1423,8 @@
   - type: IconSmooth
     key: walls
     base: mining
+  - type: RadiationBlocker
+    resistance: 5
   - type: RandomIconSmooth
     randomStates:
     - mining
@@ -1423,6 +1443,8 @@
   - type: Icon
     sprite: Structures/Walls/mining_diagonal.rsi
     state: state0
+  - type: RadiationBlocker
+    resistance: 5
   - type: Damageable
     damageContainer: StructuralInorganic
     damageModifierSet: StructuralMetallicStrong

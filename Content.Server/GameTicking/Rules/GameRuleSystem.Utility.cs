@@ -59,7 +59,7 @@ public abstract partial class GameRuleSystem<T> where T: IComponent
         return true;
     }
 
-    protected bool TryFindRandomTile(out Vector2i tile,
+    public bool TryFindRandomTile(out Vector2i tile,
         [NotNullWhen(true)] out EntityUid? targetStation,
         out EntityUid targetGrid,
         out EntityCoordinates targetCoords)

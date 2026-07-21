@@ -1,4 +1,4 @@
-tiles-space = space
+tiles-space = nothing
 tiles-plating = plating
 tiles-lattice = lattice
 tiles-lattice-train = train lattice

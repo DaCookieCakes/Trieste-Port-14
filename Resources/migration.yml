@@ -368,6 +368,61 @@ BookChefGaming: BookHowToCookForFortySpaceman
 #2024-06-29
 IntercomAssesmbly: IntercomAssembly
 
+#2025-10-1
+# Good lord, this is a lot of migrating. You only have to do this once and then never again.
+MobDrifter: TP14MobDrifter
+MobFish: TP14MobFish
+MobFish2: TP14MobFish2
+MobFish3: TP14MobFish3
+MobFishMimic: TP14MobFishMimic
+MobMimic: TP14MobMimic
+HarpoonGun: TP14HarpoonGun
+FloorInvisibleReal: null
+Harpoon: TP14Harpoon
+HarpoonBomb: TP14HarpoonBomb
+PiezoHarpoon: TP14PiezoHarpoon
+WeaponBlaster: TP14WeaponBlaster
+WeaponNtBlaster: TP14WeaponNtBlaster
+WeaponEnergyCarbine: TP14WeaponEnergyCarbine
+LadderDownBase: TP14LadderDown
+LadderUpBase: TP14LadderUp
+TelecomRelay: TP14TelecomRelay
+EncryptionKeyNanotrasen: TP14EncryptionKeyNanotrasen
+WeaponTrident: TP14WeaponTrident
+EnergyBomb: TP14EnergyBomb
+BeachballGrenade: TP14BeachballGrenade
+BluespaceCrystal: TP14BluespaceCrystal
+BaseUplinkRadioNT: TP14BaseUplinkRadioNT
+CrateChemicalLabBundle: TP14CrateChemicalLabBundle
+WaterCanister: TP14WaterCanister
+SpawnMechStepfather: TP14SpawnMechStepfather
+MechStepfather: TP14MechStepfather
+TheArtifact: TP14TheArtifact
+PinpointerPilot: TP14PinpointerPilot
+ResonanceDelaminator: TP14ResonanceDelaminator
+PlanktonScanner: TP14PlanktonScanner
+MagCellDisabler: TP14MagCellDisabler
+BaseMagCell: TP14BaseMagCell
+MagCellAdvanced: TP14MagCellAdvanced
+MagCellExperimental: TP14MagCellExperimental
+WaterTankFilled: TP14WaterTankFilled
+AtmosFixWaterMarker: TP14AtmosFixWaterMarker
+MarkerInside: TP14MarkerInside
+MobJellidPerson: TP14MobJellidPerson
+PaperJellid: Paper
+FallingDestinationMarker: TP14FallingDestinationMarker
+SpawnPointPilot: TP14SpawnPointPilot
+SpawnPointBasinTech: TP14SpawnPointBasinTech
+SeaWreckRoomMarker: TP14SeaWreckRoomMarker
+PiezoCrystalShard: TP14PiezoCrystalShard
+PiezoCrystal: TP14PiezoCrystal
+WallRockIndestructible: TP14WallRockIndestructible
+PolaroidImage: TP14MyFriends
+BlackboxRecorder: TP14BlackboxRecorder
+FoodMeatFish: TP14FoodMeatFish
+ClothingOuterSuitCosplay: TP14ClothingOuterSuitCosplay
+CyberPen: null
+
 # 2024-07-7
 SignScience1: SignScience
 SignScience2: SignScience
@@ -538,6 +593,10 @@ LightTree06: LightTree
 # 2024-12-28
 DrinkIrishCarBomb: DrinkIrishSlammer
 
+SettlerSpawner: null
+HermitSpawner: null
+#TP14SeaWreckRoomMarker: null
+
 # 2025-01-06
 BorgModuleRadiationDetection: null
 BorgModuleGPS: null
@@ -631,9 +690,19 @@ CigaretteMilk: CigaretteHaloperidol
 CigaretteBread: CigaretteBbqSauce
 
 # 2025-05-09
-ClothingOuterHardsuitBasic: ClothingOuterHardsuitEVA
-ClothingHeadHelmetHardsuitBasic: null
+# ClothingOuterHardsuitBasic: ClothingOuterHardsuitEVA
+# ClothingHeadHelmetHardsuitBasic: null
 SuitStorageBasic: SuitStorageEVA
+
+# 2025-05-28
+SyringeBicaridine: SyringeReinforcementAlgae # tp14
+
+# 2025-06-07
+BaseOilDrum: TP14BaseOilDrum
+
+# 2025-07-12
+TP14LadderDownBase: TP14LadderDown
+TP14LadderUpBase: TP14LadderUp
 
 # 2025-05-18
 ClothingNeckCloakMiner: null
@@ -735,6 +804,31 @@ WarpPointBombing: null
 ToyGriffin: ToyFigurineGriffin
 ToyOwlman: ToyFigurineOwlman
 ToySkeleton: ToyFigurineSkeleton
+BasinTechPDA: TP14BasinTechPDA
+BasinTechIDCard: TP14BasinTechIDCard
+PilotPDA: TP14PilotPDA
+PilotIDCard: TP14PilotIDCard
+SettlerIDCard: TP14SettlerIDCard
 
 # 2025-10-28
 DrinkKiraSpecial: DrinkOrangeLimeSodaGlass
+
+# 2025-11-04
+TP14PaperJellid: Paper
+TP14JellidProofPaperBin5: PaperBin5
+TP14JellidProofPaperBin10: PaperBin10
+TP14JellidProofPaperBin20: PaperBin20
+
+FloorPlatformEntity: null
+
+# 2026 01-12
+
+PillCanisterDexalin: PillCanisterOxygenatedSaline
+
+# 2026-02-05
+RandomHumanoidSettler: null
+PlanetarySettler: null
+TP14PlanetarySettlerSpawner: TP14PlanetarySettlerSpawnerHuman
+
+# 2026-06-13
+PoweredMarineSmallLight: TP14PoweredMarineSmallLight

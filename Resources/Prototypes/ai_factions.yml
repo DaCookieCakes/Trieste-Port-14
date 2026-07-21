@@ -1,21 +1,37 @@
 - type: npcFaction
   id: Dragon
   hostile:
-  - NanoTrasen
-  - Syndicate
-  - Xeno
-  - PetsNT
-  - Zombie
-  - Revolutionary
-  - AllHostile
-  - Wizard
+    - NanoTrasen
+    - Syndicate
+    - Xeno
+    - PetsNT
+    - Zombie
+    - Revolutionary
+    - AllHostile
+    - NanoTrasenTraitor
+    - Wizard
 
 - type: npcFaction
   id: NanoTrasen
   hostile:
+  - NanoTrasenTraitor
   - SimpleHostile
   - Syndicate
   - Xeno
+  - Zombie
+  - Revolutionary
+  - Dragon
+  - AllHostile
+  - Wizard
+  - Xenoborg
+
+- type: npcFaction
+  id: NanoTrasenTraitor
+  hostile:
+  - SimpleHostile
+  - Syndicate
+  - Xeno
+  - NanoTrasen
   - Zombie
   - Revolutionary
   - Dragon
@@ -57,6 +73,7 @@
   - Dragon
   - Xeno
   - AllHostile
+  - NanoTrasenTraitor
   - Wizard
   - Xenoborg
 
@@ -73,6 +90,7 @@
   - Zombie
   - Dragon
   - AllHostile
+  - NanoTrasenTraitor
   - Wizard
   - Xenoborg
 
@@ -86,6 +104,7 @@
   - Zombie
   - Revolutionary
   - AllHostile
+  - NanoTrasenTraitor
   - Wizard
   - Dragon
   - Xenoborg
@@ -101,6 +120,7 @@
   - PetsNT
   - Revolutionary
   - AllHostile
+  - NanoTrasenTraitor
   - Wizard
   - Dragon
   - Xenoborg
@@ -130,6 +150,7 @@
   - Xeno
   - Zombie
   - Revolutionary
+  - NanoTrasenTraitor
   - Wizard
   - Xenoborg
 

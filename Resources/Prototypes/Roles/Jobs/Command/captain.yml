@@ -4,21 +4,20 @@
   description: job-description-captain
   playTimeTracker: JobCaptain
   requirements:
-    - !type:DepartmentTimeRequirement
-      department: Engineering
-      time: 4h
-    - !type:DepartmentTimeRequirement
-      department: Medical
-      time: 4h
-    - !type:DepartmentTimeRequirement
-      department: Science
-      time: 4h
+    - !type:OverallPlaytimeRequirement
+      time: 10h
     - !type:DepartmentTimeRequirement
       department: Security
-      time: 4h
+      time: 2h
+    - !type:DepartmentTimeRequirement
+      department: Medical
+      time: 2h
+    - !type:DepartmentTimeRequirement
+      department: Engineering
+      time: 2h
     - !type:DepartmentTimeRequirement
       department: Command
-      time: 4h
+      time: 2h
   weight: 20
   startingGear: CaptainGear
   icon: "JobIconCaptain"
@@ -38,9 +37,9 @@
   id: CaptainGear
   equipment:
     shoes: ClothingShoesBootsLaceup
-    eyes: ClothingEyesGlassesCommand
-    gloves: ClothingHandsGlovesCaptain
-    id: CaptainPDA
+    # eyes: ClothingEyesGlassesCommand  # Moffstation - Eyepatches!
+    gloves: TP14ClothingHandsGlovesOverseer #TP14
+    id: TP14OverseerPDA #TP14
     ears: ClothingHeadsetAltCommand
   storage:
     back:

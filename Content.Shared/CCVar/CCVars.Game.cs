@@ -45,7 +45,7 @@ public sealed partial class CCVars
     ///     The preset for the game to fall back to if the selected preset could not be used, and fallback is enabled.
     /// </summary>
     public static readonly CVarDef<string>
-        GameLobbyFallbackPreset = CVarDef.Create("game.fallbackpreset", "Traitor,Extended", CVar.ARCHIVE);
+        GameLobbyFallbackPreset = CVarDef.Create("game.fallbackpreset", "Traitor,Secret", CVar.ARCHIVE); // TP14 - Changed from Extended to Secret
 
     /// <summary>
     ///     Controls if people can win the game in Suspicion or Deathmatch.
@@ -125,7 +125,7 @@ public sealed partial class CCVars
     ///     If roles should be restricted based on whether or not they are whitelisted.
     /// </summary>
     public static readonly CVarDef<bool>
-        GameRoleWhitelist = CVarDef.Create("game.role_whitelist", true, CVar.SERVER | CVar.REPLICATED);
+        GameRoleWhitelist = CVarDef.Create("game.role_whitelist", false, CVar.SERVER | CVar.REPLICATED);
 
     /// <summary>
     ///     Whether or not disconnecting inside of a cryopod should remove the character or just store them until they reconnect.

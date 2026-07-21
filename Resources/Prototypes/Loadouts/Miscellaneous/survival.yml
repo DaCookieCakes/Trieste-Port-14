@@ -14,7 +14,7 @@
     species:
     - Arachnid
     - Diona
-    - Dwarf
+#    - Dwarf # TP14
     - Human
     - Moth
     - Reptilian
@@ -22,6 +22,13 @@
 
 - type: loadoutEffectGroup
   id: EffectSpeciesVox
+  effects:
+  - !type:SpeciesLoadoutEffect
+    species:
+    - Vox
+
+- type: loadoutEffectGroup
+  id: EffectSpeciesMask
   effects:
   - !type:SpeciesLoadoutEffect
     species:
@@ -73,7 +80,7 @@
     species:
     - Arachnid
     - Diona
-    - Dwarf
+#    - Dwarf #TP14
     - Human
     - Reptilian
     - Vulpkanin
@@ -238,7 +245,7 @@
   id: LoadoutTankHarness
   effects:
   - !type:GroupLoadoutEffect
-    proto: EffectSpeciesVox
+    proto: EffectSpeciesMask
   equipment:
     outerClothing: ClothingOuterVestTank
 
@@ -247,9 +254,17 @@
   id: LoadoutSpeciesBreathTool
   effects:
   - !type:GroupLoadoutEffect
-    proto: EffectSpeciesVox
+    proto: EffectSpeciesMask
   equipment:
     mask: ClothingMaskBreath
+
+- type: loadout
+  id: LoadoutSpeciesGasMask
+  effects:
+  - !type:GroupLoadoutEffect
+    proto: WaterBreather
+  equipment:
+    mask: ClothingMaskGas
 
 - type: loadout
   id: LoadoutSpeciesBreathToolMedical

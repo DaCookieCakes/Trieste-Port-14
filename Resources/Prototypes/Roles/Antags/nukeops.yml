@@ -8,6 +8,7 @@
   - !type:OverallPlaytimeRequirement
     time: 5h
   guides: [ NuclearOperatives ]
+  previewStartingGear: SyndicateOperativeGearFull
 
 - type: antag
   id: NukeopsMedic
@@ -22,6 +23,7 @@
     role: JobChemist
     time: 3h
   guides: [ NuclearOperatives ]
+  previewStartingGear: SyndicateOperativeMedicFull
 
 - type: antag
   id: NukeopsCommander
@@ -37,25 +39,26 @@
     time: 5h
   # should be changed to nukie playtime when thats tracked (wyci)
   guides: [ NuclearOperatives ]
+  previewStartingGear: SyndicateCommanderGearFull
 
 - type: startingGear
   id: SyndicateOperativeGearFullNoUplink
   equipment:
-    jumpsuit: ClothingUniformJumpsuitOperative
-    back: ClothingBackpackDuffelSyndicate
-    mask: ClothingMaskGasSyndicate
+    jumpsuit: ClothingUniformJumpsuitDeathSquad
+    back: ClothingBackpackDuffel
+    mask: ClothingMaskGasERT
     eyes: ClothingEyesHudSyndicate
-    ears: ClothingHeadsetAltSyndicate
+    ears: TP14ClothingHeadsetAltCaskie
     gloves: ClothingHandsGlovesCombat
-    outerClothing: ClothingOuterHardsuitSyndie
+    outerClothing: ClothingOuterHardsuitERTLeader
     shoes: ClothingShoesBootsCombatFilled
-    id: SyndiOperativePDA
-    pocket2: PlushieCarp
+    id: NanotrasenPDA
+    pocket1: DoubleEmergencyOxygenTankFilled
+    pocket2: TP14BaseUplinkRadioNT #TP
     belt: ClothingBeltMilitaryWebbing
   storage:
     back:
-    - WeaponPistolViper
-    - PinpointerSyndicateNuclear
+    - TP14WeaponNtBlaster #TP
     - DeathAcidifierImplanter
 
 #Nuclear Operative Gear
@@ -79,9 +82,7 @@
   id: SyndicateCommanderGearFull
   parent: SyndicateOperativeGearFull
   equipment:
-    id: SyndiCommanderPDA
-    neck: SyndicateWhistle
-    outerClothing: ClothingOuterHardsuitSyndieCommander
+    outerClothing: ClothingOuterHardsuitERTLeader
   inhand:
   - NukeOpsDeclarationOfWar
 
@@ -100,9 +101,9 @@
   parent: SyndicateOperativeGearFull
   equipment:
     eyes: ClothingEyesHudSyndicateAgent
-    outerClothing: ClothingOuterHardsuitSyndieMedic
+    outerClothing: ClothingOuterHardsuitERTMedical
     shoes: ClothingShoesBootsMagSyndie
-    id: SyndiCorpsmanPDA
+    id: NanotrasenPDA
     belt: ClothingBeltMilitaryWebbingMedFilled
   storage:
     back:
@@ -110,8 +111,7 @@
     - SawAdvanced
     - Cautery
     - CombatKnife
-    - WeaponPistolViper
-    - PinpointerSyndicateNuclear
+    - TP14WeaponNtBlaster #TP
     - HandheldHealthAnalyzer
     - CombatMedipen
     - DeathAcidifierImplanter

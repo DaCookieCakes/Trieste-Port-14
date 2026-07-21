@@ -256,6 +256,7 @@
     - type: Tag
       tags:
         - SecBeltEquip
+        - Tourniquet
     - type: Sprite
       state: tourniquet
     - type: Item
@@ -378,35 +379,35 @@
 # Pills
 - type: entity
   name: pill
-  suffix: Dexalin 10u
+  suffix: OxySaline 10u
   parent: Pill
-  id: PillDexalin
+  id: PillOxygenatedSaline
   components:
   - type: Pill
     pillType: 15
   - type: Sprite
     state: pill16
   - type: Label
-    currentLabel: dexalin 10u
+    currentLabel: oxy-saline 10u
   - type: SolutionContainerManager
     solutions:
       food:
         maxVol: 20
         reagents:
-        - ReagentId: Dexalin
+        - ReagentId: OxygenatedSaline
           Quantity: 10
 
 - type: entity
   name: pill canister
   parent: PillCanister
-  id: PillCanisterDexalin
-  suffix: Dexalin 10u, 7
+  id: PillCanisterOxygenatedSaline
+  suffix: OxySaline 10u, 7
   components:
   - type: Label
-    currentLabel: dexalin 10u
+    currentLabel: oxy-saline 10u
   - type: StorageFill
     contents:
-    - id: PillDexalin
+    - id: PillOxygenatedSaline
       amount: 7
 
 - type: entity
@@ -576,68 +577,68 @@
 
 - type: entity
   name: pill
-  suffix: Kelotane 10u
+  suffix: Lexodine 10u
   parent: Pill
-  id: PillKelotane
+  id: PillLexodine
   components:
   - type: Pill
     pillType: 3
   - type: Sprite
     state: pill4
   - type: Label
-    currentLabel: kelotane 10u
+    currentLabel: lexodine 10u
   - type: SolutionContainerManager
     solutions:
       food:
         maxVol: 20
         reagents:
-        - ReagentId: Kelotane
+        - ReagentId: Lexodine
           Quantity: 10
 
 - type: entity
   name: pill canister
   parent: PillCanister
-  id: PillCanisterKelotane
-  suffix: Kelotane 10u, 5
+  id: PillCanisterLexodine
+  suffix: Lexodine 10u, 5
   components:
   - type: Label
-    currentLabel: kelotane 10u
+    currentLabel: lexodine 10u
   - type: StorageFill
     contents:
-    - id: PillKelotane
+    - id: PillLexodine
       amount: 5
 
 - type: entity
   name: pill
-  suffix: Dermaline 10u
+  suffix: Regeneration Algae 10u
   parent: Pill
-  id: PillDermaline
+  id: PillRegenerationAlgae
   components:
   - type: Pill
     pillType: 7
   - type: Sprite
     state: pill8
   - type: Label
-    currentLabel: dermaline 10u
+    currentLabel: Regeneration Algae 10u
   - type: SolutionContainerManager
     solutions:
       food:
         maxVol: 20
         reagents:
-        - ReagentId: Dermaline
+        - ReagentId: RegenerationAlgae
           Quantity: 10
 
 - type: entity
   name: pill canister
   parent: PillCanister
-  id: PillCanisterDermaline
-  suffix: Dermaline 10u, 5
+  id: PillCanisterRegenerationAlgae
+  suffix: Regeneration Algae 10u, 5 # TP14, was Dermaline
   components:
   - type: Label
-    currentLabel: dermaline 10u
+    currentLabel: RegenerationAlgae 10u
   - type: StorageFill
     contents:
-    - id: PillDermaline
+    - id: PillRegenerationAlgae
       amount: 5
 
 - type: entity
@@ -688,35 +689,35 @@
 
 - type: entity
   name: pill
-  suffix: Bicaridine 10u
+  suffix: Reinforcement Algae 10u
   parent: Pill
-  id: PillBicaridine
+  id: PillReinforcementAlgae
   components:
   - type: Pill
     pillType: 4
   - type: Sprite
     state: pill5
   - type: Label
-    currentLabel: bicaridine 10u
+    currentLabel: Reinforcement Algae 10u
   - type: SolutionContainerManager
     solutions:
       food:
         maxVol: 20
         reagents:
-        - ReagentId: Bicaridine
+        - ReagentId: ReinforcementAlgae
           Quantity: 10
 
 - type: entity
   name: pill canister
   parent: PillCanister
-  id: PillCanisterBicaridine
-  suffix: Bicaridine 10u, 5
+  id: PillCanisterReinforcementAlgae
+  suffix: Reinforcement Algae 10u, 5
   components:
   - type: Label
-    currentLabel: bicaridine 10u
+    currentLabel: Reinforcement Algae 10u
   - type: StorageFill
     contents:
-    - id: PillBicaridine
+    - id: PillReinforcementAlgae
       amount: 5
 
 - type: entity
@@ -802,7 +803,7 @@
   components:
   - type: StorageFill
     contents:
-    - id: PillDexalin
+    - id: PillOxygenatedSaline
       prob: 0.10
       maxAmount: 7
       orGroup: RandomPill
@@ -826,11 +827,11 @@
       prob: 0.10
       maxAmount: 7
       orGroup: RandomPill
-    - id: PillKelotane
+    - id: PillLexodine
       prob: 0.10
       maxAmount: 7
       orGroup: RandomPill
-    - id: PillDermaline
+    - id: PillRegenerationAlgae
       prob: 0.10
       maxAmount: 7
       orGroup: RandomPill
@@ -838,7 +839,7 @@
       prob: 0.10
       maxAmount: 7
       orGroup: RandomPill
-    - id: PillBicaridine
+    - id: PillReinforcementAlgae
       prob: 0.10
       maxAmount: 7
       orGroup: RandomPill
@@ -910,33 +911,33 @@
           Quantity: 15
 
 - type: entity
-  suffix: bicaridine
+  suffix: Reinforcement Algae
   parent: PrefilledSyringe
-  id: SyringeBicaridine
+  id: SyringeReinforcementAlgae
   components:
   - type: Label
-    currentLabel: reagent-name-bicaridine
+    currentLabel: reagent-name-reinforcement-algae
   - type: SolutionContainerManager
     solutions:
       injector:
         maxVol: 15
         reagents:
-        - ReagentId: Bicaridine
+        - ReagentId: ReinforcementAlgae
           Quantity: 15
 
 - type: entity
-  suffix: dermaline
+  suffix: Regeneration Algae
   parent: PrefilledSyringe
-  id: SyringeDermaline
+  id: SyringeRegenerationAlgae
   components:
   - type: Label
-    currentLabel: reagent-name-dermaline
+    currentLabel: reagent-name-regeneration-algae
   - type: SolutionContainerManager
     solutions:
       injector:
         maxVol: 15
         reagents:
-        - ReagentId: Dermaline
+        - ReagentId: RegenerationAlgae
           Quantity: 15
 
 - type: entity
@@ -1080,15 +1081,15 @@
   id: RandomSafePillTable
   table: !type:GroupSelector
     children:
-    - id: PillBicaridine
+    - id: PillReinforcementAlgae
     - id: PillCharcoal
     - id: PillCopper
-    - id: PillDermaline
-    - id: PillDexalin
+    - id: PillRegenerationAlgae
+    - id: PillOxygenatedSaline
     - id: PillDylovene
     - id: PillHyronalin
     - id: PillIron
-    - id: PillKelotane
+    - id: PillLexodine
     - id: PillPotassiumIodide
     - id: PillTricordrazine
     - id: StrangePill
@@ -1097,8 +1098,8 @@
   id: RandomSafeSyringeTable
   table: !type:GroupSelector
     children:
-    - id: SyringeBicaridine
-    - id: SyringeDermaline
+    - id: SyringeReinforcementAlgae
+    - id: SyringeRegenerationAlgae
     - id: SyringeEphedrine
     - id: SyringeEthylredoxrazine
     - id: SyringeHyronalin

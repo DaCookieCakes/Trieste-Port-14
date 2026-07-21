@@ -2,6 +2,7 @@ using Content.Shared.DisplacementMap;
 using Content.Shared.Humanoid.Markings;
 using Content.Shared.Humanoid.Prototypes;
 using Content.Shared.Inventory;
+using Content.Shared.Preferences;
 using Robust.Shared.Enums;
 using Robust.Shared.GameStates;
 using Robust.Shared.Prototypes;
@@ -31,6 +32,10 @@ public sealed partial class HumanoidAppearanceComponent : Component
 
     [DataField, AutoNetworkedField]
     public int Age = 18;
+
+    // Starlight
+    [DataField, AutoNetworkedField]
+    public string CustomSpecieName = "";
 
     /// <summary>
     ///     Any custom base layers this humanoid might have. See:
@@ -106,6 +111,12 @@ public sealed partial class HumanoidAppearanceComponent : Component
     /// </summary>
     [DataField]
     public Dictionary<HumanoidVisualLayers, DisplacementData> MarkingsDisplacement = new();
+
+    /// <summary>
+    /// The profile that this entity was originally spawned with.
+    /// If null, the entity was not spawned with a profile.
+    /// </summary>
+    public HumanoidCharacterProfile? BaseProfile;
 }
 
 [DataDefinition]

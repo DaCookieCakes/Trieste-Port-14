@@ -48,6 +48,9 @@ public sealed partial class GunComponent : Component
     [DataField, AutoNetworkedField]
     public float CameraRecoilScalar = 1f;
 
+    [DataField]
+    public bool Waterproof = false;
+
     /// <summary>
     /// A scalar value applied to the vector governing camera recoil.
     /// If 0, there will be no camera recoil.
@@ -212,7 +215,7 @@ public sealed partial class GunComponent : Component
     /// The base value for how fast the projectile moves.
     /// </summary>
     [DataField]
-    public float ProjectileSpeed = 25f;
+    public float ProjectileSpeed = 35f;
 
     /// <summary>
     /// How fast the projectile moves.

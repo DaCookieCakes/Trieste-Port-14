@@ -32,7 +32,8 @@
   # Duplicate guide entries are currently not supported
   # TODO GUIDEBOOK Maybe allow duplicate entries?
   - Botanicals
-  - AdvancedBrute
+  - AlgalStrains #TP14 
+  #- AdvancedBrute #TP14
 
 - type: guideEntry
   id: Medicine
@@ -46,7 +47,7 @@
   text: "/ServerInfo/Guidebook/Medical/Botanicals.xml"
   filterEnabled: True
 
-- type: guideEntry
-  id: AdvancedBrute
-  name: guide-entry-brute
-  text: "/ServerInfo/Guidebook/Medical/AdvancedBrute.xml"
+#- type: guideEntry # Trieste
+#  id: AdvancedBrute # Trieste
+#  name: guide-entry-brute # Trieste
+#  text: "/ServerInfo/Guidebook/Medical/AdvancedBrute.xml" # Trieste

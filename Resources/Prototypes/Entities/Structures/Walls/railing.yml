@@ -43,7 +43,13 @@
         mask:
         - TableMask
         layer:
-        - TableLayer
+        #- MidImpassable
+        - LowImpassable
+  - type: InteractionOutline
+  - type: Repairable
+  - type: Damageable
+    damageContainer: Inorganic
+    damageModifierSet: FlimsyMetallic
   - type: Destructible
     thresholds:
     - trigger:
@@ -70,6 +76,10 @@
         acts: [ "Destruction" ]
   - type: Construction
     node: railing
+  - type: RCDDeconstructable
+    cost: 2
+    delay: 2
+    fx: EffectRCDDeconstruct2
 
 - type: entity
   parent: BaseRailing
@@ -89,7 +99,7 @@
         mask:
         - TableMask
         layer:
-        - TableLayer
+        - LowImpassable
       fix2:
         shape:
           !type:PhysShapeAabb
@@ -125,6 +135,10 @@
         acts: [ "Destruction" ]
   - type: Construction
     node: railingCorner
+  - type: RCDDeconstructable
+    cost: 2
+    delay: 2
+    fx: EffectRCDDeconstruct2
 
 - type: entity
   parent: BaseRailing
@@ -144,7 +158,12 @@
         mask:
         - TableMask
         layer:
-        - TableLayer
+        - LowImpassable
+  - type: InteractionOutline
+  - type: Repairable
+  - type: Damageable
+    damageContainer: Inorganic
+    damageModifierSet: FlimsyMetallic
   - type: Destructible
     thresholds:
     - trigger:
@@ -171,6 +190,10 @@
         acts: [ "Destruction" ]
   - type: Construction
     node: railingCornerSmall
+  - type: RCDDeconstructable
+    cost: 2
+    delay: 2
+    fx: EffectRCDDeconstruct2
 
 - type: entity
   parent: BaseRailing
@@ -190,7 +213,7 @@
         mask:
           - TableMask
         layer:
-          - TableLayer
+          - LowImpassable
       fix2:
         shape:
           !type:PhysShapeAabb
@@ -208,7 +231,12 @@
         mask:
           - TableMask
         layer:
-          - TableLayer
+          - LowImpassable
+  - type: InteractionOutline
+  - type: Repairable
+  - type: Damageable
+    damageContainer: Inorganic
+    damageModifierSet: FlimsyMetallic
   - type: Destructible
     thresholds:
     - trigger:
@@ -235,3 +263,7 @@
         acts: [ "Destruction" ]
   - type: Construction
     node: railingRound
+  - type: RCDDeconstructable
+    cost: 2
+    delay: 2
+    fx: EffectRCDDeconstruct2

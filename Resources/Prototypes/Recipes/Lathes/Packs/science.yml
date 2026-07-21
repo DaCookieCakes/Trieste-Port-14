@@ -111,6 +111,8 @@
   recipes:
   - ShuttleConsoleCircuitboard
   - RadarConsoleCircuitboard
+  - TP14AtmosphericThrusterMachineCircuitboardRecipe # TP
+  - TP14LargePropellerMachineCircuitboardRecipe # TP
   - ThrusterMachineCircuitboard
   - GyroscopeMachineCircuitboard
   - MiniGravityGeneratorCircuitboard

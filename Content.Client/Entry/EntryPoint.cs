@@ -1,3 +1,4 @@
+using Content.Client._NullLink;
 using Content.Client.Administration.Managers;
 using Content.Client.Changelog;
 using Content.Client.Chat.Managers;
@@ -26,6 +27,7 @@ using Content.Client.Voting;
 using Content.Shared.Ame.Components;
 using Content.Shared.Gravity;
 using Content.Shared.Localizations;
+using Content.Shared.NullLink;
 using Robust.Client;
 using Robust.Client.Graphics;
 using Robust.Client.Input;
@@ -76,6 +78,8 @@ namespace Content.Client.Entry
         [Dependency] private readonly TitleWindowManager _titleWindowManager = default!;
         [Dependency] private readonly IEntitySystemManager _entitySystemManager = default!;
         [Dependency] private readonly ClientsidePlaytimeTrackingManager _clientsidePlaytimeManager = default!;
+        [Dependency] private readonly INullLinkPlayerRolesManager _nullLinkPlayerRolesManager = default!; //NullLink
+        [Dependency] private readonly ISharedNullLinkPlayerRolesReqManager _sharedNullLinkPlayer = default!; //NullLink
 
         public override void PreInit()
         {
@@ -112,7 +116,6 @@ namespace Content.Client.Entry
             _prototypeManager.RegisterIgnore("htnPrimitive");
             _prototypeManager.RegisterIgnore("gameMap");
             _prototypeManager.RegisterIgnore("gameMapPool");
-            _prototypeManager.RegisterIgnore("lobbyBackground");
             _prototypeManager.RegisterIgnore("gamePreset");
             _prototypeManager.RegisterIgnore("noiseChannel");
             _prototypeManager.RegisterIgnore("playerConnectionWhitelist");
@@ -180,6 +183,11 @@ namespace Content.Client.Entry
                                          args.OldLevel == ClientRunLevel.InGame);
                 }
             };
+
+            // NullLink start
+            _nullLinkPlayerRolesManager.Initialize();
+            _sharedNullLinkPlayer.Initialize();
+            // NullLink end
 
             // Disable engine-default viewport since we use our own custom viewport control.
             _userInterfaceManager.MainViewport.Visible = false;

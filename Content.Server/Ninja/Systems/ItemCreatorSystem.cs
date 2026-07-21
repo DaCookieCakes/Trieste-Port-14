@@ -4,6 +4,10 @@ using Content.Shared.Hands.EntitySystems;
 using Content.Shared.Ninja.Components;
 using Content.Shared.Ninja.Systems;
 using Content.Shared.Popups;
+using Content.Server.Power.Components;
+using Content.Shared.Actions;
+using Content.Shared.Ninja.Components;
+using Content.Shared.Power.Components;
 
 namespace Content.Server.Ninja.Systems;
 
@@ -12,6 +16,7 @@ public sealed class ItemCreatorSystem : SharedItemCreatorSystem
     [Dependency] private readonly BatterySystem _battery = default!;
     [Dependency] private readonly SharedHandsSystem _hands = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
+    [Dependency] private readonly ActionContainerSystem _actionContainer = default!;
 
     public override void Initialize()
     {
@@ -19,6 +24,17 @@ public sealed class ItemCreatorSystem : SharedItemCreatorSystem
 
         SubscribeLocalEvent<ItemCreatorComponent, CreateItemEvent>(OnCreateItem);
         SubscribeLocalEvent<ItemCreatorComponent, NinjaBatteryChangedEvent>(OnBatteryChanged);
+        SubscribeLocalEvent<ItemCreatorComponent, ComponentInit>(OnCompInit);
+    }
+
+
+    private void OnCompInit(EntityUid uid, ItemCreatorComponent component, ComponentInit args)
+    {
+        if (TryComp<BatteryComponent>(uid, out var playerBattery))
+        {
+            component.Battery = uid;
+            _actionContainer.EnsureAction(uid, ref component.ActionEntity, component.Action);
+        }
     }
 
     private void OnCreateItem(Entity<ItemCreatorComponent> ent, ref CreateItemEvent args)

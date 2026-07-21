@@ -256,6 +256,17 @@
 
 - type: entity
   parent: BaseAction
+  id: ActionShootWater
+  name: Spray water!
+  description: Spray water towards your enemies.
+  components:
+  - type: Action
+    icon: { sprite: Clothing/Neck/Misc/pins.rsi, state: flower }
+  - type: InstantAction
+    event: !type:SprayLiquidEvent
+
+- type: entity
+  parent: BaseAction
   id: ActionVendingThrow
   name: Dispense Item
   description: Randomly dispense an item from your stock.
@@ -419,7 +430,7 @@
   parent: BaseAction
   id: ActionGravityJump
   name: Jump
-  description: Activating the advanced propulsion system, you propel yourself a short distance in the direction of your gaze.
+  description: You take a leap forward.
   components:
   - type: Action
     useDelay: 8

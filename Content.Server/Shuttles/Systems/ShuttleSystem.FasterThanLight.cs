@@ -35,12 +35,22 @@ public sealed partial class ShuttleSystem
      * This is a way to move a shuttle from one location to another, via an intermediate map for fanciness.
      */
 
-    private readonly SoundSpecifier _startupSound = new SoundPathSpecifier("/Audio/Effects/Shuttle/hyperspace_begin.ogg")
+    private readonly SoundSpecifier _startupSound = new SoundPathSpecifier("/Audio/_TP/Effects/Shuttle/hyperspace_begin.ogg")
+    {
+        Params = AudioParams.Default.WithVolume(-10f),
+    };
+
+     private readonly SoundSpecifier _startupSoundShuttle = new SoundPathSpecifier("/Audio/Effects/Shuttle/hyperspace_begin_shuttle.ogg")
     {
         Params = AudioParams.Default.WithVolume(-5f),
     };
 
-    private readonly SoundSpecifier _arrivalSound = new SoundPathSpecifier("/Audio/Effects/Shuttle/hyperspace_end.ogg")
+    private readonly SoundSpecifier _arrivalSound = new SoundPathSpecifier("/Audio/_TP/Effects/Shuttle/hyperspace_end.ogg")
+    {
+        Params = AudioParams.Default.WithVolume(-10f),
+    };
+
+     private readonly SoundSpecifier _arrivalSoundShuttle = new SoundPathSpecifier("/Audio/Effects/Shuttle/hyperspace_end_shuttle.ogg")
     {
         Params = AudioParams.Default.WithVolume(-5f),
     };
@@ -133,6 +143,7 @@ public sealed partial class ShuttleSystem
         Log.Debug($"Setup hyperspace map at {mapUid}");
         DebugTools.Assert(!_mapSystem.IsPaused(mapId));
         var parallax = EnsureComp<ParallaxComponent>(mapUid);
+        ftlMap.Parallax = "Sea";
         parallax.Parallax = ftlMap.Parallax;
 
         return mapUid;
@@ -354,9 +365,18 @@ public sealed partial class ShuttleSystem
 
         component = AddComp<FTLComponent>(uid);
         component.State = FTLState.Starting;
-        var audio = _audio.PlayPvs(_startupSound, uid);
-        _audio.SetGridAudio(audio);
-        component.StartupStream = audio?.Entity;
+    if (HasComp<DivingBellComponent>(uid))
+        {
+            var audio = _audio.PlayPvs(_startupSound, uid);
+            _audio.SetGridAudio(audio);
+             component.StartupStream = audio?.Entity;
+        }
+        else
+        {
+             var audio = _audio.PlayPvs(_startupSoundShuttle, uid);
+             _audio.SetGridAudio(audio);
+             component.StartupStream = audio?.Entity;
+        }
 
         // Make sure the map is setup before we leave to avoid pop-in (e.g. parallax).
         EnsureFTLMap();
@@ -533,8 +553,16 @@ public sealed partial class ShuttleSystem
         _thruster.DisableLinearThrusters(entity.Comp2);
 
         comp.TravelStream = _audio.Stop(comp.TravelStream);
-        var audio = _audio.PlayPvs(_arrivalSound, uid);
-        _audio.SetGridAudio(audio);
+     if (HasComp<DivingBellComponent>(uid))
+        {
+            var audio = _audio.PlayPvs(_arrivalSound, uid);
+             _audio.SetGridAudio(audio);
+        }
+        else
+        {
+             var audio = _audio.PlayPvs(_arrivalSoundShuttle, uid);
+              _audio.SetGridAudio(audio);
+        }
 
         if (TryComp<FTLDestinationComponent>(uid, out var dest))
         {
