@@ -2,7 +2,7 @@
   parent: Clothing
   id: IDCardStandard
   name: identification card
-  description: A card necessary to access various areas aboard the platform.
+  description: A card necessary to access various areas across Trieste and Sweetwater.
   abstract: true
   components:
   - type: Sprite
@@ -31,7 +31,7 @@
 - type: entity
   parent: IDCardStandard
   id: PassengerIDCard
-  name: citizen ID card
+  name: citizen ID card # Trieste: 'passenger'
   components:
   - type: Sprite
     layers:
@@ -47,7 +47,7 @@
 - type: entity
   parent: [IDCardStandard, BaseGrandTheftContraband]
   id: CaptainIDCard
-  name: overseer ID card
+  name: overseer ID card # Trieste: 'captain'
   components:
   - type: Sprite
     layers:
@@ -155,7 +155,7 @@
 - type: entity
   parent: IDCardStandard
   id: HoSIDCard
-  name: marshal ID card # TP14 - Was "head of security"
+  name: marshal ID card # Trieste: 'head of security'
   components:
   - type: Sprite
     layers:
@@ -923,23 +923,14 @@
 #Antags
 
 - type: entity
-  name: passenger ID card
-  parent: [IDCardStandard, BaseChameleon]
+  parent: [PassengerIDCard, BaseChameleon]
   id: AgentIDCard
   suffix: Agent
   components:
-  - type: PresetIdCard
-    job: Passenger
   - type: Access
     tags:
     - Maintenance
     - SyndicateAgent
-  - type: Sprite
-    layers:
-    - state: default
-    - sprite: *icon-rsi
-      offset: *icon-offset
-      state: Passenger
   - type: AgentIDCard
   - type: UIRequiresLock
   - type: ActivatableUI
@@ -960,7 +951,6 @@
         type: ChameleonBoundUserInterface
 
 - type: entity
-  name: citizen ID card
   parent: AgentIDCard
   id: NukieAgentIDCard
   suffix: Nukie

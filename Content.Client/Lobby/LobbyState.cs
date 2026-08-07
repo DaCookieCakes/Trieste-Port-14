@@ -303,9 +303,9 @@ namespace Content.Client.Lobby
             else
             {
                 Lobby!.Background.Texture = null;
+
                 Lobby!.LobbyBackground.SetMarkup(Loc.GetString("lobby-state-background-no-background-text"));
             }
-
         }
 
         private void SetReady(bool newReady)
