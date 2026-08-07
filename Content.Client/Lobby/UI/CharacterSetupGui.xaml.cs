@@ -22,7 +22,7 @@ namespace Content.Client.Lobby.UI
     public sealed partial class CharacterSetupGui : Control
     {
         [Dependency] private readonly IClientPreferencesManager _preferencesManager = default!;
-        [Dependency] private readonly IPrototypeManager _protoManager = default!;
+        [Dependency] private readonly IPrototypeManager _protomanager = default!;
         [Dependency] private readonly IResourceCache _resourceCache = default!;
         [Dependency] private readonly IConfigurationManager _cfg = default!;
         [Dependency] private readonly ISharedPlayerManager _playerManager = default!;
@@ -136,9 +136,8 @@ namespace Content.Client.Lobby.UI
                     continue;
                 var isSelected = !selectJobPriorities &&  (SelectedCharacterSlot.HasValue ? slot == SelectedCharacterSlot : first);
                 numberOfFullSlots++;
-                var characterPickerButton = new CharacterPickerButton(
+                var characterPickerButton = new CharacterPickerButton(_protomanager,
                     _preferencesManager,
-                    _protoManager,
                     _playerManager,
                     characterButtonsGroup,
                     humanoid,

@@ -1,6 +1,3 @@
-# !! FAR HORIZONS MODIFIED !! #
-# !! TRIESTE PORT MODIFIED !! #
-
 # Traitor
 - type: weightedRandom
   id: TraitorObjectiveGroups
@@ -86,10 +83,9 @@
     ClothingOuterHardsuitVoidParamedStealObjective: 1   #med
     MedicalTechFabCircuitboardStealObjective: 1
     FireAxeStealObjective: 1                            #eng
-    #AmePartFlatpackStealObjective: 1 # TP14
-    #ExpeditionsCircuitboardStealObjective: 1 # TP14           #sup
-    #CargoShuttleCircuitboardStealObjective: 1 # TP14
-    ClothingEyesHudBeerStealObjective: 0.5              #srv, beer goggles less common cause its so easy
+ #  AmePartFlatpackStealObjective: 1
+ #  ExpeditionsCircuitboardStealObjective: 1            #sup
+ #  CargoShuttleCircuitboardStealObjective: 1
     BibleStealObjective: 1
     ClothingNeckGoldmedalStealObjective: 1              #other
     ClothingNeckClownmedalStealObjective: 0.5

@@ -176,7 +176,6 @@ loadout-group-security-cadet-jumpsuit = Security cadet uniforms
 loadout-group-security-star = Security Star
 
 # Medical
-loadout-group-medical-gloves = Medical gloves
 loadout-group-medical-mask = Medical mask
 
 loadout-group-chief-medical-officer-head = Chief Medical Officer headwear
@@ -203,8 +202,6 @@ loadout-group-paramedic-head = Paramedic headwear
 loadout-group-paramedic-jumpsuit = Paramedic uniforms
 loadout-group-paramedic-outerclothing = Paramedic outer clothing
 loadout-group-paramedic-shoes = Paramedic shoes
-
-loadout-group-medical-glasses = Medical glasses
 
 # Wildcards
 loadout-group-reporter-jumpsuit = Journalist uniforms

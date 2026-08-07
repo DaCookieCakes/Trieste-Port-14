@@ -22,11 +22,8 @@
     shoes: ClothingShoesColorWhite
     id: MedicalInternPDA
     ears: ClothingHeadsetMedical
-    belt: TP14ClothingBeltStorageMedicalPouchFilled
+    belt: TP14ClothingBeltStorageMedicalPouchFilled # Trieste: Added.
     pocket2: BookMedicalReferenceBook
-  #storage:
-    #back:
-    #- Stuff
 
 - type: chameleonOutfit
   id: MedicalInternChameleonOutfit
