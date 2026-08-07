@@ -71,14 +71,14 @@ public sealed partial class ProfilePreviewSpriteView : SpriteView
     /// <param name="jobOverride">If null, attempt to find the character's preferred job, otherwise use this value</param>
     /// <param name="showClothes">If false, render the dummy without clothes</param>
     /// <exception cref="ArgumentException">Throws if something other than <see cref="HumanoidCharacterProfile"/> is passed in</exception>
-    public void LoadPreview(ICharacterProfile profile, JobPrototype? jobOverride = null, bool showClothes = true)
+    public void LoadPreview(HumanoidCharacterProfile profile, JobPrototype? jobOverride = null, bool showClothes = true)
     {
         EntMan.DeleteEntity(PreviewDummy);
         PreviewDummy = EntityUid.Invalid;
 
         switch (profile)
         {
-            case HumanoidCharacterProfile humanoid:
+            case { } humanoid:
                 LoadHumanoidEntity(humanoid, jobOverride, showClothes);
                 break;
             default:
@@ -98,11 +98,11 @@ public sealed partial class ProfilePreviewSpriteView : SpriteView
     /// </summary>
     /// <param name="profile"></param>
     /// <exception cref="ArgumentException"></exception>
-    public void ReloadProfilePreview(ICharacterProfile profile)
+    public void ReloadProfilePreview(HumanoidCharacterProfile profile)
     {
         switch (profile)
         {
-            case HumanoidCharacterProfile humanoid:
+            case { } humanoid:
                 ReloadHumanoidEntity(humanoid);
                 break;
             default:

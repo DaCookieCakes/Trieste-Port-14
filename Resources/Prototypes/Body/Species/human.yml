@@ -8,6 +8,9 @@
     enum.HumanoidVisualLayers.FacialHair:
       limit: 1
       required: false
+    enum.HumanoidVisualLayers.HeadTop: # Trieste: Added.
+      limit: 1
+      required: false
     enum.HumanoidVisualLayers.Chest:
       limit: 2
       required: false
@@ -39,7 +42,7 @@
       limit: 1
       required: false
     enum.HumanoidVisualLayers.Tail:
-      limit: 0
+      limit: 1 # Triest: '0'
       required: false
     enum.HumanoidVisualLayers.Special:
       limit: 0

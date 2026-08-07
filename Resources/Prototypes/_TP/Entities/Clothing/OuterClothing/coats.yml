@@ -51,6 +51,13 @@
     sprite: _TP/Clothing/OuterClothing/Coats/medical_greencoat.rsi
 
 - type: entity
+  parent: ClothingOuterCoatLabViro
+  id: TP14ClothingOuterCoatLabMedical
+  suffix: Trieste
+  name: medical lab coat
+  description: A suit that protects against bacteria. Has an green stripe on the shoulder.
+
+- type: entity
   parent: ClothingOuterStorageFoldableBase
   id: TP14ClothingOuterCoatLieutenant
   suffix: Trieste, Coat, Security

@@ -61,7 +61,7 @@
 - type: loadout
   id: TP14LoadoutCoatVirology
   equipment:
-    outerClothing: ClothingOuterCoatLabViro
+    outerClothing: TP14ClothingOuterCoatLabMedical
 
 - type: loadout
   id: TP14LoadoutCoatParamedWindBreaker

@@ -49,13 +49,6 @@ public sealed partial class GunComponent : Component
     public float CameraRecoilScalar = 1f;
 
     /// <summary>
-    ///     TRIESTE SPECIFIC
-    ///     Whether it can be fired while underwater.
-    /// </summary>
-    [DataField]
-    public bool Waterproof = false;
-
-    /// <summary>
     /// A scalar value applied to the vector governing camera recoil.
     /// If 0, there will be no camera recoil.
     /// <seealso cref="GunRefreshModifiersEvent"/>
