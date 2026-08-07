@@ -10,22 +10,22 @@
   </PropertyGroup>
   <Import Project="../MSBuild/Content.props" />
   <ItemGroup>
-      <PackageReference Include="JetBrains.Annotations" PrivateAssets="All" />
-      <PackageReference Include="NetCord" />
-      <PackageReference Include="prometheus-net" />
-      <PackageReference Include="Microsoft.Extensions.ObjectPool" />
-      <!-- Trieste additions -->
-      <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
-        <PrivateAssets>all</PrivateAssets>
-        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      </PackageReference>
-      <PackageReference Include="Microsoft.Orleans.Client" />
-      <PackageReference Include="Microsoft.Orleans.Clustering.Redis" />
-      <PackageReference Include="Microsoft.Orleans.Sdk" OutputItemType="Analyzer" PrivateAssets="all" />
-      <PackageReference Include="Serilog.Sinks.Loki" />
-      <PackageReference Include="SS14.Starlight.NullLink" />
-      <PackageReference Include="System.Runtime.Handles" />
-      <PackageReference Include="System.Text.Encoding.Extensions" />
+    <PackageReference Include="JetBrains.Annotations" PrivateAssets="All" />
+    <PackageReference Include="NetCord" />
+    <PackageReference Include="prometheus-net" />
+    <PackageReference Include="Microsoft.Extensions.ObjectPool" />
+    <!-- Trieste additions -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Orleans.Client" />
+    <PackageReference Include="Microsoft.Orleans.Clustering.Redis" />
+    <PackageReference Include="Microsoft.Orleans.Sdk" OutputItemType="Analyzer" PrivateAssets="all" />
+    <PackageReference Include="Serilog.Sinks.Loki" />
+    <PackageReference Include="SS14.Starlight.NullLink" />
+    <PackageReference Include="System.Runtime.Handles" />
+    <PackageReference Include="System.Text.Encoding.Extensions" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Content.Packaging\Content.Packaging.csproj" />

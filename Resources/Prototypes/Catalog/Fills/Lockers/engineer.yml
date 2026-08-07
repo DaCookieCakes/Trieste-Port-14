@@ -1,5 +1,3 @@
-# !! FAR HORIZONS MODIFIED !! #
-
 - type: entity
   id: ClosetToolFilled
   parent: ClosetTool
@@ -168,7 +166,7 @@
     children:
     - id: ClothingOuterHardsuitAtmos
     - id: OxygenTankFilled
-    - id: TP14ClothingMaskAir # TP14
+    - id: TP14ClothingMaskAir # Trieste: 'ClothingMaskBreath'
 
 - type: entity
   id: LockerEngineerFilledHardsuit
@@ -213,7 +211,7 @@
     - id: ClothingOuterHardsuitEngineering
     - id: OxygenTankFilled
     - id: ClothingShoesBootsMag
-    - id: TP14ClothingMaskAir # TP14
+    - id: TP14ClothingMaskAir # Trieste: 'ClothingMaskBreath'
 
 - type: entity
   id: ClosetRadiationSuitFilled
@@ -230,16 +228,11 @@
   table: !type:AllSelector
     children:
     - id: ClothingOuterSuitRad
-      amount: !type:ConstantNumberSelector
-        value: 2
+      amount: 2
     - id: GeigerCounter
-      amount: !type:ConstantNumberSelector
-        value: 2
-    # Far Horizons / Nuclear Reactor Port Start
+      amount: 2
     - id: PillCanisterPotassiumIodide
-      amount: !type:ConstantNumberSelector
-        value: 2
-    # Far Horizons / Nuclear Reactor Port End
+      amount: 2 # Trieste: 'prob: 0.75'
 
 - type: entity
   parent: LockerEvacRepair

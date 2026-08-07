@@ -48,6 +48,10 @@ public sealed partial class GunComponent : Component
     [DataField, AutoNetworkedField]
     public float CameraRecoilScalar = 1f;
 
+    /// <summary>
+    ///     TRIESTE SPECIFIC
+    ///     Whether it can be fired while underwater.
+    /// </summary>
     [DataField]
     public bool Waterproof = false;
 
@@ -215,7 +219,7 @@ public sealed partial class GunComponent : Component
     /// The base value for how fast the projectile moves.
     /// </summary>
     [DataField]
-    public float ProjectileSpeed = 35f;
+    public float ProjectileSpeed = SharedGunSystem.ProjectileSpeed;
 
     /// <summary>
     /// How fast the projectile moves.

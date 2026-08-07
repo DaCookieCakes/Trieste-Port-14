@@ -21,9 +21,9 @@ using Robust.Shared.Containers;
 using Robust.Shared.Map.Components;
 using Robust.Shared.Random;
 using Robust.Shared.Utility;
-﻿using Content.Server.Ghost;
+using Robust.Shared.Timing;
+using Content.Server.Ghost;
 using Content.Shared.Anomaly;
-
 
 namespace Content.Server.Nuke;
 
@@ -51,6 +51,7 @@ public sealed class NukeSystem : EntitySystem
     [Dependency] private readonly TileSystem _tile = default!;
 
     [Dependency] private readonly TurfSystem _turf = default!;
+    [Dependency] private readonly IGameTiming _timing = default!;
 
     /// <summary>
     ///     Used to calculate when the nuke song should start playing for maximum kino with the nuke sfx
@@ -236,6 +237,12 @@ public sealed class NukeSystem : EntitySystem
     {
         if (component.Status != NukeStatus.AWAIT_CODE)
             return;
+
+        var curTime = _timing.CurTime;
+        if (curTime < component.LastCodeEnteredAt + SharedNukeComponent.EnterCodeCooldown)
+            return; // Validate that they are not entering codes faster than the cooldown.
+
+        component.LastCodeEnteredAt = curTime;
 
         UpdateStatus(uid, component);
         UpdateUserInterface(uid, component);
@@ -525,35 +532,6 @@ public sealed class NukeSystem : EntitySystem
         component.Status = NukeStatus.ARMED;
         UpdateUserInterface(uid, component);
         UpdateAppearance(uid, component);
-
-       // if (component.IsArtifact)
-       // {
-            // Artifact meltdown logic
-         //   if (!HasComp<LightningArcShooter>(lightning))
-          //  {
-             //   return;
-         //   }
-         //   lightning.ArcDepth = 0f;
-          //  lightning.MaxLightningArc = 0f;
-          //  lightning.ShootMinInterval = 0f;
-          //  lightning.ShootMaxInterval = 0f;
-          //  lightning.ShootRange = 0f;
-
-         //   if (!HasComp<SingularityDistortion>(distort))
-         //   {
-           //     return;
-         //   }
-          //  distort.FalloffPower = 0f;
-          //  distort.Intensity = 0f;
-
-          //  if (!HasComp<RadiationSource>(radiation))
-          //  {
-          //      return;
-          //  }
-
-          //  radiation.Intensity = 0f;
-      //  }
-
     }
 
     /// <summary>
@@ -599,34 +577,6 @@ public sealed class NukeSystem : EntitySystem
 
         UpdateUserInterface(uid, component);
         UpdateAppearance(uid, component);
-
-       // if (component.IsArtifact)
-       // {
-            // Artifact disarm logic
-       //     if (!HasComp<LightningArcShooter>(lightning))
-       //     {
-        //        return;
-       //     }
-        //    lightning.ArcDepth = 4f;
-        //    lightning.MaxLightningArc = 5f;
-        //    lightning.ShootMinInterval = 2f;
-        //    lightning.ShootMaxInterval = 4f;
-        //    lightning.ShootRange = 7f;
-
-        //    if (!HasComp<SingularityDistortion>(distort))
-        //    {
-        //        return;
-        //    }
-        //    distort.FalloffPower = 2f;
-        //    distort.Intensity = -1000f;
-
-        //    if (!HasComp<RadiationSource>(radiation))
-        //    {
-         //       return;
-         //   }
-
-           // radiation.Intensity = 10f;
-       // }
     }
 
     /// <summary>
@@ -646,8 +596,7 @@ public sealed class NukeSystem : EntitySystem
     /// <summary>
     ///     Force bomb to explode immediately
     /// </summary>
-    public void ActivateBomb(EntityUid uid,
-        NukeComponent? component = null,
+    public void ActivateBomb(EntityUid uid, NukeComponent? component = null,
         TransformComponent? transform = null)
     {
         if (!Resolve(uid, ref component, ref transform))
@@ -656,82 +605,21 @@ public sealed class NukeSystem : EntitySystem
         if (component.Exploded)
             return;
 
-        //  if (component.IsArtifact)
-        //  {
-        // Artifact meltdown logic
-        //     if (!HasComp<LightningArcShooter>(lightning))
-        //     {
-        //         return;
-        //     }
-        //    lightning.ArcDepth = 8f;
-        //     lightning.MaxLightningArc = 12f;
-        //     lightning.ShootMinInterval = 1f;
-        //      lightning.ShootMaxInterval = 2f;
-        //     lightning.ShootRange = 55f;
+        component.Exploded = true;
 
-        //     if (!HasComp<SingularityDistortion>(distort))
-        //     {
-        //         return;
-        //     }
-        //    distort.FalloffPower = 1f;
-        //     distort.Intensity = 300f;
+        _explosions.QueueExplosion(uid,
+            component.ExplosionType,
+            component.TotalIntensity,
+            component.IntensitySlope,
+            component.MaxIntensity);
 
-        //   var lights = GetEntityQuery<PoweredLightComponent>();
-        //     foreach (var light in _lookup.GetEntitiesInRange(uid, 100f, LookupFlags.StaticSundries))
-        //     {
-        //         if (!lights.HasComponent(light))
-        //          continue;
-//
-        //         if (!_random.Prob(0.6f))
-        //             continue;
-
-        //           _ghost.DoGhostBooEvent(light);
-        //      }
-
-        //     if (!HasComp<TileSpawnAnomalyComponent>(tileChanger))
-        //      {
-        //          return;
-        //      }
-
-        //   var xform = Transform(anomaly);
-        //    if (!TryComp<MapGridComponent>(xform.GridUid, out var grid))
-        //        return;
-
-        //     foreach (var entry in tileChanger.Entries)
-        //      {
-
-        //        var tiles = _anomaly.GetSpawningPoints(uid, 0f, 100f, entry.Settings, 100f);
-        //        if (tiles == null)
-        //         return;
-
-        //        foreach (var tileref in tiles)
-        //        {
-        //            var tile = (ContentTileDefinition) _tiledef[entry.Floor]; // Rips the Sweetwater tiles into eldritch chromite
-        //           _tile.ReplaceTile(tileref, tile);
-        //      }
-        //    }
-
-        // TODO: Add logic to switch Trieste lightning with Eldrich lightning once merged
-        // }
-        // else
+        RaiseLocalEvent(new NukeExplodedEvent()
         {
+            OwningStation = transform.GridUid,
+        });
 
-            component.Exploded = true;
-
-            _explosions.QueueExplosion(uid,
-                component.ExplosionType,
-                component.TotalIntensity,
-                component.IntensitySlope,
-                component.MaxIntensity);
-
-            RaiseLocalEvent(new NukeExplodedEvent()
-            {
-                OwningStation = transform.GridUid,
-            });
-
-            _sound.StopStationEventMusic(uid, StationEventMusicType.Nuke);
-            Del(uid);
-        }
+        _sound.StopStationEventMusic(uid, StationEventMusicType.Nuke);
+        Del(uid);
     }
 
     /// <summary>
