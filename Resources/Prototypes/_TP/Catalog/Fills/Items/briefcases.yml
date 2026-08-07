@@ -1,0 +1,12 @@
+- type: entity
+  id: BriefcaseNTBribingBundleFilled
+  parent: BriefcaseSyndie
+  suffix: Trieste, NanoTraitor
+  components:
+  - type: StorageFill
+    contents:
+    - id: ClothingEyesGlassesSunglasses
+    - id: SpaceCash20000
+      amount: 1
+    - id: ClothingOuterCoatJensen
+    - id: ClothingHandsGlovesColorBlack

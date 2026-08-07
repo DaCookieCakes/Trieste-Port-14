@@ -26,7 +26,7 @@ namespace Content.Server._TP.Jellids;
 ///     The JellidComponent system handling everything related to power.
 ///     Such as charging, draining, and alerts.
 /// </summary>
-public sealed partial class JellidSystem : EntitySystem
+public sealed partial class SharedJellidSystem : EntitySystem
 {
     [Dependency] private AlertsSystem _alerts = default!;
     [Dependency] private SharedAudioSystem _audio = default!;
@@ -263,5 +263,18 @@ public sealed partial class JellidSystem : EntitySystem
             _alerts.ClearAlert(uid, comp.BatteryAlert);
             _alerts.ShowAlert(uid, comp.NoBatteryAlert);
         }
+    }
+
+    public void DefibJellid(EntityUid target)
+    {
+        if (!TryComp<BatteryComponent>(target, out var battery))
+            return;
+
+        // If the target has a battery (Jellids), restores some of their internal energy.
+        // This will heal Jellids and prevent instantly dying again.
+        const float batteryAdd = 200f;
+        var newCharge = battery.CurrentCharge + batteryAdd;
+
+        _battery.SetCharge(target, newCharge);
     }
 }
