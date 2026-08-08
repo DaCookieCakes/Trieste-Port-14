@@ -1,28 +1,10 @@
 #When adding new hardsuits, please try to keep the organization consistent with hardsuit.yml (if possible.)
 
-#For now, since locational damage is not a thing, all "combat" hardsuits (except the DeathSquad hardsuit) have the equivalent of a helmet in terms of armor.
+#For now, since locational damage is not a thing, all "combat" hardsuits (with the exception of the deathsquad hardsuit) have the equvilent of a helmet in terms of armor.
 #This is so people don't need to wear both regular, on-station helmets and hardsuits to get full protection.
-#Generally, unless you're adding something like caustic damage, you should probably avoid messing with armor here outside the above scenario.
+#Generally, unless you're adding something like caustic damage, you should probably avoid messing with armor here outside of the above scenario.
 
 #CREW HARDSUITS
-#Standard Hardsuit
-- type: entity
-  parent: ClothingHeadHardsuitBase
-  id: ClothingHeadHelmetHardsuitBasic
-  name: basic pressure suit
-  description: A basic-looking pressure suit helmet that provides minor protection against the nightmares of the sea.
-  components:
-  - type: Sprite
-    sprite: Clothing/Head/Hardsuits/basic.rsi
-  - type: Clothing
-    sprite: Clothing/Head/Hardsuits/basic.rsi
-  - type: HideLayerClothing
-    slots:
-    - Hair
-    - Snout
-    - HeadTop
-    - HeadSide
-
 #Atmospherics Hardsuit
 - type: entity
   parent: [ ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase ]
@@ -222,7 +204,7 @@
   - type: Clothing
     sprite: Clothing/Head/Hardsuits/salvage.rsi
   - type: PressureProtection
-    highPressureMultiplier: 0.3
+    highPressureMultiplier: 0.525
     lowPressureMultiplier: 1000
   - type: PointLight
     radius: 7
@@ -297,7 +279,7 @@
   - type: Clothing
     sprite: Clothing/Head/Hardsuits/maxim.rsi
   - type: PressureProtection
-    highPressureMultiplier: 0.3
+    highPressureMultiplier: 0.3 # Trieste: '0.08'
     lowPressureMultiplier: 1000
   - type: Armor
     modifiers:
@@ -321,7 +303,7 @@
   - type: PointLight
     color: "#ffeead"
   - type: PressureProtection
-    highPressureMultiplier: 0.3
+    highPressureMultiplier: 0.525
     lowPressureMultiplier: 1000
   - type: Armor
     modifiers:
@@ -357,7 +339,7 @@
         Radiation: 0.90
         Caustic: 0.90
   - type: PressureProtection
-    highPressureMultiplier: 0.3
+    highPressureMultiplier: 0.6
     lowPressureMultiplier: 1000
 
 #Warden's Hardsuit
@@ -374,7 +356,7 @@
   - type: PointLight
     color: "#ffeead"
   - type: PressureProtection
-    highPressureMultiplier: 0.3
+    highPressureMultiplier: 0.525
     lowPressureMultiplier: 1000
   - type: Armor
     modifiers:
@@ -457,7 +439,7 @@
   - type: PointLight
     color: "#daffad"
   - type: PressureProtection
-    highPressureMultiplier: 0.3
+    highPressureMultiplier: 0.3 # Trieste: '0.08'
     lowPressureMultiplier: 1000
   - type: FireProtection
     reduction: 0.2
@@ -479,7 +461,7 @@
   - type: PointLight
     color: "#adf1ff"
   - type: PressureProtection
-    highPressureMultiplier: 0.3
+    highPressureMultiplier: 0.6
     lowPressureMultiplier: 1000
   - type: Tag
     tags:
@@ -499,7 +481,7 @@
   - type: PointLight
     color: "#d6adff"
   - type: PressureProtection
-    highPressureMultiplier: 0.3
+    highPressureMultiplier: 0.60
     lowPressureMultiplier: 1000
   - type: Tag
     tags:
@@ -519,7 +501,7 @@
   - type: PointLight
     color: "#ffeead"
   - type: PressureProtection
-    highPressureMultiplier: 0.3
+    highPressureMultiplier: 0.45
     lowPressureMultiplier: 1000
   - type: Armor
     modifiers:
@@ -542,7 +524,7 @@
   - type: Clothing
     sprite: Clothing/Head/Hardsuits/luxury.rsi
   - type: PressureProtection
-    highPressureMultiplier: 0.3
+    highPressureMultiplier: 0.525
     lowPressureMultiplier: 1000
   - type: PointLight
     radius: 7
@@ -563,7 +545,7 @@
   - type: PointLight
     color: green
   - type: PressureProtection
-    highPressureMultiplier: 0.3
+    highPressureMultiplier: 0.3 # TRIESTE: '0.08'
     lowPressureMultiplier: 1000
   - type: Armor
     modifiers:
@@ -590,7 +572,7 @@
   - type: PointLight
     color: green
   - type: PressureProtection
-    highPressureMultiplier: 0.3
+    highPressureMultiplier: 0.3 # TRIESTE: '0.08'
     lowPressureMultiplier: 1000
   - type: Armor
     modifiers:
@@ -614,7 +596,7 @@
   - type: PointLight
     color: red
   - type: PressureProtection
-    highPressureMultiplier: 0.3
+    highPressureMultiplier: 0.3 # TRIESTE: '0.08'
     lowPressureMultiplier: 1000
   - type: TemperatureProtection
     heatingCoefficient: 0.005
@@ -646,7 +628,7 @@
   - type: PointLight
     color: green
   - type: PressureProtection
-    highPressureMultiplier: 0.3
+    highPressureMultiplier: 0.3 # TRIESTE: '0.08'
     lowPressureMultiplier: 1000
   - type: Armor
     modifiers:
@@ -698,7 +680,7 @@
   - type: PointLight
     color: "#ffadfb"
   - type: PressureProtection
-    highPressureMultiplier: 0.27
+    highPressureMultiplier: 0.3 # TRIESTE: '0.27'
     lowPressureMultiplier: 1000
   - type: Armor
     modifiers:

@@ -1,4 +1,3 @@
-using Content.Server.Atmos.Components;
 using Content.Shared.Atmos;
 using Content.Shared.Atmos.Components;
 using Content.Shared.Mobs.Components;
@@ -173,9 +172,8 @@ namespace Content.Server.Atmos.EntitySystems
             if (tile.Air.GetMoles(9) <= 150) // Make sure water is involved in the space wind
             {
 
-                // Used by ExperiencePressureDifference to correct push/throw directions from tile-relative to physics world.
-                var gridWorldRotation = _transformSystem.GetWorldRotation(gridAtmosphere);
-                Log.Info("Water is involved in the pressure changes! WOWZERS!");
+            // Used by ExperiencePressureDifference to correct push/throw directions from tile-relative to physics world.
+            var gridWorldRotation = XformSystem.GetWorldRotation(gridAtmosphere);
 
                 // If we're using monstermos, smooth out the yeet direction to follow the flow
                 if (MonstermosEqualization)
@@ -304,7 +302,7 @@ namespace Content.Server.Atmos.EntitySystems
                     // TODO: Technically these directions won't be correct but uhh I'm just here for optimisations buddy not to fix my old bugs.
                     if (throwTarget != EntityCoordinates.Invalid)
                     {
-                        var pos = ((_transformSystem.ToMapCoordinates(throwTarget).Position - _transformSystem.GetWorldPosition(xform)).Normalized() + dirVec).Normalized();
+                        var pos = ((XformSystem.ToMapCoordinates(throwTarget).Position - XformSystem.GetWorldPosition(xform)).Normalized() + dirVec).Normalized();
                         _physics.ApplyLinearImpulse(uid, pos * moveForce, body: physics);
                     }
                     else
