@@ -6,6 +6,7 @@ using Content.Shared.Cargo.Components;
 using Content.Shared.Cargo.Events;
 using Content.Shared.Cargo.Prototypes;
 using Content.Shared.CCVar;
+using Content.Shared.HijackBeacon;
 using Robust.Shared.Audio;
 using Robust.Shared.Prototypes;
 using Content.Shared.Salvage.Fulton;
@@ -14,11 +15,12 @@ using Robust.Shared.Timing;
 
 namespace Content.Server.Cargo.Systems;
 
-/// <summary>
-///     Handles cargo shuttle and trade mechanics.
-/// </summary>
 public sealed partial class CargoSystem
 {
+    /*
+     * Handles automated trade station / trade mechanics.
+     */
+
     private static readonly SoundPathSpecifier ApproveSound = new("/Audio/Effects/Cargo/ping.ogg");
     private bool _lockboxCutEnabled;
 
@@ -56,12 +58,13 @@ public sealed partial class CargoSystem
     }
 
     /// <summary>
-    ///     Ok, so this is just the same thing as opening the UI; it's a refresh button.
-    ///     I know this would probably feel better if it were like predicted and dynamic as pallet contents change.
-    ///     However.
-    ///     I don't want it to explode if cargo uses a conveyor to move 8000 pineapple slices or whatever, they are
-    ///     known for their entity spam - I wouldn't put it past them
+    /// Ok so this is just the same thing as opening the UI, its a refresh button.
+    /// I know this would probably feel better if it were like predicted and dynamic as pallet contents change
+    /// However.
+    /// I dont want it to explode if cargo uses a conveyor to move 8000 pineapple slices or whatever, they are
+    /// known for their entity spam i wouldnt put it past them
     /// </summary>
+
     private void OnPalletAppraise(EntityUid uid, CargoPalletConsoleComponent component, CargoPalletAppraiseMessage args)
     {
         UpdatePalletConsoleInterface(uid);
@@ -71,7 +74,7 @@ public sealed partial class CargoSystem
 
     private void OnTradeSplit(EntityUid uid, TradeStationComponent component, ref GridSplitEvent args)
     {
-        // If the trade station gets bombed, it's still a trade station.
+        // If the trade station gets bombed it's still a trade station.
         foreach (var gridUid in args.NewGrids)
         {
             EnsureComp<TradeStationComponent>(gridUid);
@@ -142,7 +145,6 @@ public sealed partial class CargoSystem
         var ev = new EntitySoldEvent(toSell, station);
         RaiseLocalEvent(ref ev);
 
-
         // TRIESTE EDITS!!
         // This will allow items being sold to "launch" into the air,
         // waiting to be intercepted by trade vessels or whatnot
@@ -160,7 +162,7 @@ public sealed partial class CargoSystem
             {
                 foreach (var ent in toSell)
                 {
-                    if (!EntityManager.EntityExists(ent))
+                    if (!Exists(ent))
                         continue;
 
                     // Delete contained entities (aka crates/closets)
@@ -171,7 +173,7 @@ public sealed partial class CargoSystem
                             var containedEntities = container.ContainedEntities.ToList();
                             foreach (var containedEnt in containedEntities)
                             {
-                                if (EntityManager.EntityExists(containedEnt))
+                                if (Exists(containedEnt))
                                     Del(containedEnt);
                             }
                         }
@@ -201,10 +203,10 @@ public sealed partial class CargoSystem
 
             foreach (var ent in _setEnts)
             {
-                // Don't sell:
+                // Dont sell:
                 // - anything already being sold
-                // - anything anchored (e.g., light fixtures)
-                // - anything blacklisted (e.g., players).
+                // - anything anchored (e.g. light fixtures)
+                // - anything blacklisted (e.g. players).
                 if (toSell.Contains(ent) ||
                     _xformQuery.TryGetComponent(ent, out var xform) &&
                     (xform.Anchored || !CanSell(ent, xform)))

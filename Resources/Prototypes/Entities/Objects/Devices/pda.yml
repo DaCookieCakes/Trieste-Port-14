@@ -1,6 +1,6 @@
 - type: entity
   abstract: true
-  parent: [ BaseItem, StorePresetUplink] #PDA's have uplinks so they have to inherit the data.
+  parent: [ BaseItem ]
   id: BasePDA
   name: PDA
   description: Personal Data Assistant.
@@ -107,6 +107,7 @@
         type: InstrumentBoundUserInterface
       enum.HealthAnalyzerUiKey.Key:
         type: HealthAnalyzerBoundUserInterface
+  - type: RemoteStore # PDAs can access uplinks so they need this component.
   - type: Tag
     tags:
     - DoorBumpOpener
@@ -173,7 +174,7 @@
 - type: entity
   parent: BasePDA
   id: PassengerPDA
-  name: civilian PDA # TP
+  name: civilian PDA # TRIESTE: 'passenger'
   description: Why isn't it gray?
   components:
   - type: Pda
@@ -458,7 +459,7 @@
     - DoorBumpOpener
 
 - type: entity
-  name: harbormaster PDA # TP
+  name: harbormaster PDA # TRIESTE: 'Quartermaster'
   parent: BasePDA
   id: QuartermasterPDA
   description: PDA for the guy that orders the guns.
@@ -504,7 +505,7 @@
 - type: entity
   parent: BasePDA
   id: SalvagePDA
-  name: expeditioneer PDA # TP
+  name: expeditionary PDA # TRIESTE: 'salvage'
   description: Smells like ash.
   components:
   - type: Pda
@@ -637,7 +638,7 @@
 - type: entity
   parent: BasePDA
   id: CaptainPDA
-  name: Captain PDA
+  name: captain PDA
   description: Surprisingly no different from your PDA.
   components:
   - type: Pda
@@ -705,7 +706,7 @@
 - type: entity
   parent: BasePDA
   id: EngineerPDA
-  name: platform engineer PDA # TP
+  name: platform engineer PDA # TRIESTE: 'engineer'
   description: Rugged and well-worn.
   components:
   - type: Pda
@@ -854,7 +855,7 @@
 - type: entity
   parent: BaseSecurityPDA
   id: HoSPDA
-  name: marshal PDA # TP
+  name: marshal PDA # TRIESTE: 'head of security'
   description: Whosoever bears this PDA is the law.
   components:
   - type: Pda
@@ -949,15 +950,6 @@
       - WantedListCartridge
       - LogProbeCartridge
       - AstroNavCartridge
-
-- type: entity
-  parent: [ CentcomPDA, BaseNanotrasenContraband ]
-  id: NanotrasenPDA
-  name: Nanotrasen PDA
-  description: Light green sign of walking bureaucracy, now including free bulletholes and fire!
-  components:
-  - type: Pda
-    id: CentcomIDCardDeathsquad
 
 - type: entity
   parent: CentcomPDA

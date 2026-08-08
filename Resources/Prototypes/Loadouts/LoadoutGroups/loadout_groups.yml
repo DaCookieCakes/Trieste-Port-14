@@ -69,7 +69,7 @@
   hidden: true
   loadouts:
   - LoadoutTankHarness
-  - TP14LoadoutTankHarness
+  - TP14LoadoutTankHarness # TRIESTE: Added.
 
 - type: loadoutGroup
   id: Survival
@@ -79,9 +79,9 @@
   loadouts:
   - EmergencyNitrogen
   - EmergencyOxygen
-  - EmergencyWater
+  - EmergencyWater # TRIESTE: Added.
   - LoadoutSpeciesVoxNitrogen
-  - LoadoutSpeciesJellidWater # TP
+  - LoadoutSpeciesJellidWater # TRIESTE: Added.
 
 # nitrogen or oxygen tank, depending on what your species needs
 - type: loadoutGroup
@@ -91,7 +91,7 @@
   loadouts:
   - LoadoutSpeciesEVANitrogen
   - LoadoutSpeciesEVAOxygen
-  - LoadoutSpeciesJellidWater # TP
+  - LoadoutSpeciesJellidWater # TRIESTE: Added.
 
 # vox get a nitrogen tank, other species get nothing
 - type: loadoutGroup
@@ -108,7 +108,7 @@
   loadouts:
   - LoadoutSpeciesPocketDoubleNitrogen
   - LoadoutSpeciesPocketDoubleOxygen
-  - LoadoutSpeciesJellidWater # TP
+  - LoadoutSpeciesJellidWater # TRIESTE: Added.
 
 # Command
 #~~~~~~~ TP14
