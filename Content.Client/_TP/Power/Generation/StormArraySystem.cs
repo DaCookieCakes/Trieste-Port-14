@@ -10,7 +10,7 @@ namespace Content.Client._TP.Power.Generation;
 ///     This is essentially a carbon-copy of the TEG Circulator system.
 ///     Created by Cookie (Father Cheese) for Trieste Port 14.
 /// </summary>
-public sealed class StormArraySystem : EntitySystem
+public sealed partial class StormArraySystem : EntitySystem
 {
     private static readonly EntProtoId ArrowPrototype = "TP14StormArrayCirculatorArrow";
 
