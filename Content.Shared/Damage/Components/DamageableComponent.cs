@@ -58,7 +58,7 @@ public sealed partial class DamageableComponent : Component
     ///     The sum of all damages in the DamageableComponent.
     /// </summary>
     [ViewVariables]
-    [Access(typeof(DamageableSystem), Other = AccessPermissions.None)]
+    [Access(typeof(DamageableSystem), Other = AccessPermissions.Read)]
     public FixedPoint2 TotalDamage;
 
     [DataField("radiationDamageTypes")]

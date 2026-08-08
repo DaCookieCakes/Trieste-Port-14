@@ -1,0 +1,10 @@
+- type: entity
+  id: StandardStationEvent
+  parent:
+  - BaseStation
+  - BaseStationJobsSpawning
+  - BaseStationRecords
+  - BaseStationNanotrasen
+  - BaseStationAlertLevels
+  components:
+  - type: Transform
