@@ -7,11 +7,11 @@ loadout-group-jobtrinkets = Job trinkets
 loadout-group-glasses = Glasses
 loadout-group-backpack = Backpack
 loadout-group-instruments = Instruments
-loadout-group-survival-basic = Survival Box
-loadout-group-survival-extended = Extended Survival Box
-loadout-group-survival-clown = Clown Survival Box
-loadout-group-survival-medical = Medical Survival Box
-loadout-group-survival-security = Security Survival Box
+loadout-group-survival-basic = Survival box
+loadout-group-survival-extended = Extended survival box
+loadout-group-survival-clown = Clown survival box
+loadout-group-survival-medical = Medical survival box
+loadout-group-survival-security = Security survival box
 loadout-group-survival-syndicate = Github is forcing me to write text that is literally twice-impossible for the player to ever see, send help
 loadout-group-survival-military = See line 14, no one will ever see this so :3
 loadout-group-breath-tool = Species-dependent breath tools
@@ -19,7 +19,7 @@ loadout-group-tank-harness = Species-specific survival equipment
 loadout-group-EVA-tank = Species-specific gas tank
 loadout-group-vox-tank = Vox-specific gas tank
 loadout-group-pocket-tank-double = Species-specific double emergency tank in pocket
-loadout-group-survival-mime = Mime Survival Box
+loadout-group-survival-mime = Mime survival box
 
 # Command
 loadout-group-captain-head = Overseer headwear
@@ -87,7 +87,7 @@ loadout-group-mime-mask = Mime mask
 loadout-group-mime-jumpsuit = Mime uniforms
 loadout-group-mime-backpack = Mime bags
 loadout-group-mime-outerclothing = Mime outer clothing
-loadout-group-mime-belt = Mime belt
+loadout-group-mime-belt = Mime belts
 
 loadout-group-musician-jumpsuit = Musician uniforms
 loadout-group-musician-outerclothing = Musician outer clothing
@@ -104,7 +104,7 @@ loadout-group-cargo-technician-jumpsuit = Cargo Technician uniforms
 loadout-group-cargo-technician-backpack = Cargo Technician bags
 loadout-group-cargo-technician-outerclothing = Cargo Technician outer clothing
 loadout-group-cargo-technician-shoes = Cargo Technician shoes
-loadout-group-cargo-technician-id = Cargo Technician ID
+loadout-group-cargo-technician-id = Cargo Technician PDAs
 
 loadout-group-salvage-specialist-backpack = Salvage Specialist bags
 loadout-group-salvage-specialist-outerclothing = Salvage Specialist outer clothing
@@ -124,7 +124,7 @@ loadout-group-station-engineer-jumpsuit = Station Engineer uniforms
 loadout-group-station-engineer-backpack = Station Engineer bags
 loadout-group-station-engineer-outerclothing = Station Engineer outer clothing
 loadout-group-station-engineer-shoes = Station Engineer shoes
-loadout-group-station-engineer-id = Station Engineer ID
+loadout-group-station-engineer-id = Station Engineer PDAs
 
 loadout-group-atmospheric-technician-jumpsuit = Atmospheric Technician uniforms
 loadout-group-atmospheric-technician-backpack = Atmospheric Technician bags
@@ -145,7 +145,7 @@ loadout-group-scientist-backpack = Scientist bags
 loadout-group-scientist-outerclothing = Scientist outer clothing
 loadout-group-scientist-gloves = Scientist gloves
 loadout-group-scientist-shoes = Scientist shoes
-loadout-group-scientist-id = Scientist ID
+loadout-group-scientist-id = Scientist PDAs
 
 loadout-group-research-assistant-jumpsuit = Research Assistant uniforms
 
@@ -162,10 +162,10 @@ loadout-group-warden-outerclothing = Warden outer clothing
 loadout-group-security-head = Security headwear
 loadout-group-security-jumpsuit = Security uniforms
 loadout-group-security-backpack = Security bags
-loadout-group-security-belt = Security Belt
+loadout-group-security-belt = Security belts
 loadout-group-security-outerclothing = Security outer clothing
 loadout-group-security-shoes = Security shoes
-loadout-group-security-id = Security ID
+loadout-group-security-id = Security PDAs
 
 loadout-group-detective-head = Detective headwear
 loadout-group-detective-neck = Detective neckwear
@@ -189,7 +189,7 @@ loadout-group-medical-doctor-jumpsuit = Medical Doctor uniforms
 loadout-group-medical-doctor-outerclothing = Medical Doctor outer clothing
 loadout-group-medical-doctor-backpack = Medical Doctor bags
 loadout-group-medical-doctor-shoes = Medical Doctor shoes
-loadout-group-medical-doctor-id = Medical Doctor ID
+loadout-group-medical-doctor-id = Medical Doctor PDAs
 
 loadout-group-medical-intern-jumpsuit = Medical intern uniforms
 

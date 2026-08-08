@@ -27,31 +27,29 @@ using Content.Shared.Anomaly;
 
 namespace Content.Server.Nuke;
 
-public sealed class NukeSystem : EntitySystem
+public sealed partial class NukeSystem : EntitySystem
 {
-    [Dependency] private readonly AlertLevelSystem _alertLevel = default!;
-    [Dependency] private readonly SharedAnomalySystem _anomaly = default!;
-    [Dependency] private readonly ChatSystem _chatSystem = default!;
-    [Dependency] private readonly ExplosionSystem _explosions = default!;
-    [Dependency] private readonly IRobustRandom _random = default!;
-    [Dependency] private readonly ItemSlotsSystem _itemSlots = default!;
-    [Dependency] private readonly NavMapSystem _navMap = default!;
-    [Dependency] private readonly PointLightSystem _pointLight = default!;
-    [Dependency] private readonly PopupSystem _popups = default!;
-    [Dependency] private readonly ServerGlobalSoundSystem _sound = default!;
-    [Dependency] private readonly SharedAudioSystem _audio = default!;
-    [Dependency] private readonly SharedDoAfterSystem _doAfter = default!;
-    [Dependency] private readonly SharedTransformSystem _transform = default!;
-    [Dependency] private readonly SharedMapSystem _map = default!;
-    [Dependency] private readonly StationSystem _station = default!;
-    [Dependency] private readonly UserInterfaceSystem _ui = default!;
-    [Dependency] private readonly AppearanceSystem _appearance = default!;
-    [Dependency] private readonly EntityLookupSystem _lookup = default!;
-    [Dependency] private readonly GhostSystem _ghost = default!;
-    [Dependency] private readonly TileSystem _tile = default!;
+    [Dependency] private AlertLevelSystem _alertLevel = default!;
+    [Dependency] private ChatSystem _chatSystem = default!;
+    [Dependency] private ExplosionSystem _explosions = default!;
+    [Dependency] private IRobustRandom _random = default!;
+    [Dependency] private ItemSlotsSystem _itemSlots = default!;
+    [Dependency] private NavMapSystem _navMap = default!;
+    [Dependency] private PointLightSystem _pointLight = default!;
+    [Dependency] private PopupSystem _popups = default!;
+    [Dependency] private ServerGlobalSoundSystem _sound = default!;
+    [Dependency] private SharedAudioSystem _audio = default!;
+    [Dependency] private SharedDoAfterSystem _doAfter = default!;
+    [Dependency] private SharedTransformSystem _transform = default!;
+    [Dependency] private SharedMapSystem _map = default!;
+    [Dependency] private StationSystem _station = default!;
+    [Dependency] private UserInterfaceSystem _ui = default!;
+    [Dependency] private AppearanceSystem _appearance = default!;
+    [Dependency] private TurfSystem _turf = default!;
+    [Dependency] private IGameTiming _timing = default!;
 
-    [Dependency] private readonly TurfSystem _turf = default!;
-    [Dependency] private readonly IGameTiming _timing = default!;
+    // TRIESTE DEPENDENCIES.
+    [Dependency] private GhostSystem _ghost = default!;
 
     /// <summary>
     ///     Used to calculate when the nuke song should start playing for maximum kino with the nuke sfx
@@ -94,6 +92,8 @@ public sealed class NukeSystem : EntitySystem
     private void OnInit(EntityUid uid, NukeComponent component, ComponentInit args)
     {
         _itemSlots.AddItemSlot(uid, SharedNukeComponent.NukeDiskSlotId, component.DiskSlot);
+
+        // TRIESTE: Added.
         _itemSlots.AddItemSlot(uid, SharedNukeComponent.NukeResonanceSlotId, component.ResonanceSlot);
 
         UpdateStatus(uid, component);
@@ -153,12 +153,18 @@ public sealed class NukeSystem : EntitySystem
     private void OnRemove(EntityUid uid, NukeComponent component, ComponentRemove args)
     {
         _itemSlots.RemoveItemSlot(uid, component.DiskSlot);
+
+        // TRIESTE: Added.
         _itemSlots.RemoveItemSlot(uid, component.ResonanceSlot);
     }
 
     private void OnItemSlotChanged(EntityUid uid, NukeComponent component, ContainerModifiedMessage args)
     {
         if (!component.Initialized)
+            return;
+
+        // TRIESTE: Added Resonance slot.
+        if (args.Container.ID != component.DiskSlot.ID || args.Container.ID != component.ResonanceSlot.ID)
             return;
 
         UpdateStatus(uid, component);

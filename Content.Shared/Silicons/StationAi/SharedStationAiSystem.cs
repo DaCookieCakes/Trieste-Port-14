@@ -38,31 +38,32 @@ namespace Content.Shared.Silicons.StationAi;
 
 public abstract partial class SharedStationAiSystem : EntitySystem
 {
-    [Dependency] private readonly ISharedAdminManager _admin = default!;
-    [Dependency] private readonly IGameTiming _timing = default!;
-    [Dependency] private readonly INetManager _net = default!;
-    [Dependency] private readonly ItemSlotsSystem _slots = default!;
-    [Dependency] private readonly ItemToggleSystem _toggles = default!;
-    [Dependency] private readonly AccessReaderSystem _access = default!;
-    [Dependency] private readonly ActionBlockerSystem _blocker = default!;
-    [Dependency] private readonly MetaDataSystem _metadata = default!;
-    [Dependency] private readonly SharedAirlockSystem _airlocks = default!;
-    [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
-    [Dependency] private readonly SharedAudioSystem _audio = default!;
-    [Dependency] private readonly SharedContainerSystem _containers = default!;
-    [Dependency] private readonly SharedDoorSystem _doors = default!;
-    [Dependency] private readonly SharedDoAfterSystem _doAfter = default!;
-    [Dependency] private readonly SharedElectrocutionSystem _electrify = default!;
-    [Dependency] private readonly SharedEyeSystem _eye = default!;
-    [Dependency] protected readonly SharedMapSystem Maps = default!;
-    [Dependency] private readonly SharedMindSystem _mind = default!;
-    [Dependency] private readonly SharedMoverController _mover = default!;
-    [Dependency] private readonly SharedPopupSystem _popup = default!;
-    [Dependency] private readonly SharedPowerReceiverSystem _powerReceiver = default!;
-    [Dependency] private readonly SharedUserInterfaceSystem _uiSystem = default!;
-    [Dependency] private readonly StationAiVisionSystem _vision = default!;
-    [Dependency] private readonly IPrototypeManager _protoManager = default!;
-    [Dependency] private readonly MobStateSystem _mobState = default!;
+    [Dependency] private ISharedAdminManager _admin = default!;
+    [Dependency] private IGameTiming _timing = default!;
+    [Dependency] private INetManager _net = default!;
+    [Dependency] private ItemSlotsSystem _slots = default!;
+    [Dependency] private ItemToggleSystem _toggles = default!;
+    [Dependency] private AccessReaderSystem _access = default!;
+    [Dependency] private ActionBlockerSystem _blocker = default!;
+    [Dependency] private MetaDataSystem _metadata = default!;
+    [Dependency] private SharedAirlockSystem _airlocks = default!;
+    [Dependency] private SharedAppearanceSystem _appearance = default!;
+    [Dependency] private SharedAudioSystem _audio = default!;
+    [Dependency] private SharedContainerSystem _containers = default!;
+    [Dependency] private SharedDoorSystem _doors = default!;
+    [Dependency] private SharedDoAfterSystem _doAfter = default!;
+    [Dependency] private SharedElectrocutionSystem _electrify = default!;
+    [Dependency] private SharedEyeSystem _eye = default!;
+    [Dependency] protected SharedMapSystem Maps = default!;
+    [Dependency] private SharedMindSystem _mind = default!;
+    [Dependency] private SharedMoverController _mover = default!;
+    [Dependency] private SharedPopupSystem _popup = default!;
+    [Dependency] private SharedPowerReceiverSystem PowerReceiver = default!;
+    [Dependency] private SharedTransformSystem _xforms = default!;
+    [Dependency] private SharedUserInterfaceSystem _uiSystem = default!;
+    [Dependency] private StationAiVisionSystem _vision = default!;
+    [Dependency] private IPrototypeManager _protoManager = default!;
+    [Dependency] private MobStateSystem _mobState = default!;
 
     // StationAiHeld is added to anything inside of an AI core.
     // StationAiHolder indicates it can hold an AI positronic brain (e.g. holocard / core).
@@ -71,8 +72,8 @@ public abstract partial class SharedStationAiSystem : EntitySystem
     // StationAiOverlay handles the static overlay. It also handles interaction blocking on client and server
     // for anything under it.
 
-    [Dependency] private readonly EntityQuery<BroadphaseComponent> _broadphaseQuery = default!;
-    [Dependency] private readonly EntityQuery<MapGridComponent> _gridQuery = default!;
+    [Dependency] private EntityQuery<BroadphaseComponent> _broadphaseQuery = default!;
+    [Dependency] private EntityQuery<MapGridComponent> _gridQuery = default!;
 
     private static readonly EntProtoId DefaultAi = "StationAiBrain";
     private readonly ProtoId<ChatNotificationPrototype> _downloadChatNotificationPrototype = "IntellicardDownload";
@@ -174,11 +175,16 @@ public abstract partial class SharedStationAiSystem : EntitySystem
 
         args.Result = BoundUserInterfaceRangeResult.Fail;
 
+        // Similar to the inrange check but more optimised so server doesn't die.
         var targetXform = Transform(args.Target);
-        var actorXform = args.Actor.Comp; // This has GridUid cached
 
-        if (!_broadphaseQuery.TryComp(targetXform.GridUid, out var broadphase) ||
-            !_gridQuery.TryComp(targetXform.GridUid, out var grid))
+        // No cross-grid
+        if (targetXform.GridUid != args.Actor.Comp.GridUid)
+        {
+            return;
+        }
+
+        if (!_broadphaseQuery.TryComp(targetXform.GridUid, out var broadphase) || !_gridQuery.TryComp(targetXform.GridUid, out var grid))
         {
             return;
         }
@@ -198,12 +204,16 @@ public abstract partial class SharedStationAiSystem : EntitySystem
     {
         args.Handled = true;
         var targetXform = Transform(args.Target);
-        var userXform = Transform(args.User);
+
+        // No cross-grid
+        if (targetXform.GridUid != Transform(args.User).GridUid)
+        {
+            return;
+        }
 
         // Validate it's in camera range yes this is expensive.
-        // Yes it needs optimizing
-        if (!_broadphaseQuery.TryComp(targetXform.GridUid, out var broadphase) ||
-            !_gridQuery.TryComp(targetXform.GridUid, out var grid))
+        // Yes it needs optimising
+        if (!_broadphaseQuery.TryComp(targetXform.GridUid, out var broadphase) || !_gridQuery.TryComp(targetXform.GridUid, out var grid))
         {
             return;
         }
@@ -636,11 +646,6 @@ public abstract partial class SharedStationAiSystem : EntitySystem
 }
 
 public sealed partial class JumpToCoreEvent : InstantActionEvent
-{
-
-}
-
-public sealed partial class ChangeLevelEvent : InstantActionEvent
 {
 
 }

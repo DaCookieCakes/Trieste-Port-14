@@ -11,13 +11,12 @@ using Robust.Shared.Prototypes;
 
 namespace Content.Server.CartridgeLoader.Cartridges;
 
-// !! TRIESTE MODIFIED !! //
-public sealed class CrewManifestCartridgeSystem : EntitySystem
+public sealed partial class CrewManifestCartridgeSystem : EntitySystem
 {
-    [Dependency] private readonly CartridgeLoaderSystem _cartridgeLoader = default!;
-    [Dependency] private readonly IConfigurationManager _configManager = default!;
-    [Dependency] private readonly CrewManifestSystem _crewManifest = default!;
-    [Dependency] private readonly StationSystem _stationSystem = default!;
+    [Dependency] private CartridgeLoaderSystem _cartridgeLoader = default!;
+    [Dependency] private IConfigurationManager _configManager = default!;
+    [Dependency] private CrewManifestSystem _crewManifest = default!;
+    [Dependency] private StationSystem _stationSystem = default!;
 
     private static readonly EntProtoId CartridgePrototypeName = "CrewManifestCartridge";
 
@@ -40,7 +39,7 @@ public sealed class CrewManifestCartridgeSystem : EntitySystem
     /// The ui messages received here get wrapped by a CartridgeMessageEvent and are relayed from the <see cref="CartridgeLoaderSystem"/>
     /// </summary>
     /// <remarks>
-    /// The cartridge-specific ui message event needs to inherit from the CartridgeMessageEvent
+    /// The cartridge specific ui message event needs to inherit from the CartridgeMessageEvent
     /// </remarks>
     private void OnUiMessage(EntityUid uid, CrewManifestCartridgeComponent component, CartridgeMessageEvent args)
     {
