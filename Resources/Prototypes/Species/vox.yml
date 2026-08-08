@@ -4,7 +4,7 @@
   roundStart: true
   prototype: MobVox
   dollPrototype: AppearanceVox
-  skinColoration: VoxFeathers
+  skinColoration: Hue # TRIESTE: 'VoxFeathers'
   defaultSkinTone: "#6c741d"
   maleFirstNames: NamesVox
   femaleFirstNames: NamesVox
