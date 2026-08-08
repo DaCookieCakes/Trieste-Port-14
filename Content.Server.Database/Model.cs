@@ -367,6 +367,9 @@ namespace Content.Server.Database
         public List<Antag> Antags { get; } = new();
         public List<Trait> Traits { get; } = new();
 
+        // Starlight
+        public string CustomSpeciesName { get; set; } = null!;
+
         public List<ProfileRoleLoadout> Loadouts { get; } = new();
 
         [Column("pref_unavailable")] public DbPreferenceUnavailableMode PreferenceUnavailable { get; set; }

@@ -44,10 +44,10 @@ public sealed partial class ModernChemMasterWindow : FancyWindow
         ("10",  ChemMasterReagentAmount.U10),
         ("15",  ChemMasterReagentAmount.U15),
         ("20",  ChemMasterReagentAmount.U20),
-        ("25",  ChemMasterReagentAmount.U25),
         ("30",  ChemMasterReagentAmount.U30),
-        ("50",  ChemMasterReagentAmount.U50),
-        ("100", ChemMasterReagentAmount.U100),
+        ("40",  ChemMasterReagentAmount.U40),
+        ("60",  ChemMasterReagentAmount.U60),
+        ("120", ChemMasterReagentAmount.U120),
         (Loc.GetString("chem-master-window-buffer-all-amount"), ChemMasterReagentAmount.All),
     };
 
@@ -214,10 +214,10 @@ public sealed partial class ModernChemMasterWindow : FancyWindow
             ("10",  ChemMasterReagentAmount.U10,  StyleClass.ButtonOpenBoth),
             ("15",  ChemMasterReagentAmount.U15,  StyleClass.ButtonOpenBoth),
             ("20",  ChemMasterReagentAmount.U20,  StyleClass.ButtonOpenBoth),
-            ("25",  ChemMasterReagentAmount.U25,  StyleClass.ButtonOpenBoth),
             ("30",  ChemMasterReagentAmount.U30,  StyleClass.ButtonOpenBoth),
-            ("50",  ChemMasterReagentAmount.U50,  StyleClass.ButtonOpenBoth),
-            ("100", ChemMasterReagentAmount.U100, StyleClass.ButtonOpenBoth),
+            ("40",  ChemMasterReagentAmount.U40,  StyleClass.ButtonOpenBoth),
+            ("60",  ChemMasterReagentAmount.U60,  StyleClass.ButtonOpenBoth),
+            ("120", ChemMasterReagentAmount.U120, StyleClass.ButtonOpenBoth),
             (Loc.GetString("chem-master-window-buffer-all-amount"), ChemMasterReagentAmount.All, StyleClass.ButtonOpenLeft),
         };
 

@@ -1,28 +1,24 @@
-using Content.Shared.Inventory;
 using Content.Shared.Inventory.Events;
+using Content.Shared.Overlays;
 using Robust.Client.Graphics;
 using Robust.Client.Player;
+using Robust.Shared.Enums;
 using Robust.Shared.Player;
 using Robust.Shared.Prototypes;
-using Content.Shared.Overlays;
-using Robust.Shared.Timing;
-using Robust.Client.Graphics;
-using Robust.Shared.Enums;
-using Content.Shared.Clothing;
 
-namespace Content.Client.Overlays
+namespace Content.Client._TP.Overlays;
+
+public sealed partial class StaticViewerHudSystem : EntitySystem
 {
-    public sealed class StaticViewerHudSystem : EntitySystem
-{
-    [Dependency] private readonly IOverlayManager _overlayMan = default!;
-    [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
-    [Dependency] private readonly IPlayerManager _player = default!;
-    [Dependency] private readonly IEntityManager _entityManager = default!;
-    [Dependency] private readonly IGameTiming _timing = default!;
+    [Dependency] private IOverlayManager _overlayMan = default!;
+    [Dependency] private IPrototypeManager _prototypeManager = default!;
+    [Dependency] private IPlayerManager _player = default!;
+    [Dependency] private IEntityManager _entityManager = default!;
 
     private ShaderInstance _staticViewerShader = null!;
-private StaticViewerOverlay _staticViewerOverlay = null!;
+    private StaticViewerOverlay _staticViewerOverlay = null!;
 
+    private static readonly ProtoId<ShaderPrototype> GrainyShader = "Grainy";
 
     public StaticViewerHudSystem()
     {
@@ -31,7 +27,8 @@ private StaticViewerOverlay _staticViewerOverlay = null!;
 
     public override void Initialize()
     {
-        _staticViewerShader = _prototypeManager.Index<ShaderPrototype>("Grainy").Instance();
+
+        _staticViewerShader = _prototypeManager.Index(GrainyShader).Instance();
 
         _staticViewerOverlay = new StaticViewerOverlay(_staticViewerShader, _entityManager, _player);
 
@@ -45,12 +42,12 @@ private StaticViewerOverlay _staticViewerOverlay = null!;
 
     private void OnEquipped(Entity<StaticViewerComponent> ent, ref GotEquippedEvent args)
     {
-        EnsureComp<StaticViewerComponent>(args.Equipee);
+        EnsureComp<StaticViewerComponent>(args.EquipTarget);
     }
 
     private void OnUnequipped(Entity<StaticViewerComponent> ent, ref GotUnequippedEvent args)
     {
-        _entityManager.RemoveComponent<StaticViewerComponent>(args.Equipee);
+        _entityManager.RemoveComponent<StaticViewerComponent>(args.EquipTarget);
     }
 
     private void OnPlayerAttached(Entity<StaticViewerComponent> ent, ref LocalPlayerAttachedEvent args)
@@ -80,7 +77,7 @@ private StaticViewerOverlay _staticViewerOverlay = null!;
     }
 }
 
-   public sealed class StaticViewerOverlay : Overlay
+public sealed class StaticViewerOverlay : Overlay
 {
     private readonly ShaderInstance _shaderInstance;
     private readonly IEntityManager _entityManager;
@@ -130,5 +127,3 @@ private StaticViewerOverlay _staticViewerOverlay = null!;
         handle.UseShader(null);
     }
 }
-}
-

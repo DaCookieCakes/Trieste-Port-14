@@ -180,6 +180,7 @@ namespace Content.Server.Preferences.Managers
                 profile.CharacterName,
                 profile.FlavorText,
                 species,
+                profile.CustomSpeciesName, // Starlight
                 profile.Age,
                 sex,
                 voice,

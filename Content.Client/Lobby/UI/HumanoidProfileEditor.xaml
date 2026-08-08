@@ -1,6 +1,7 @@
 <BoxContainer xmlns="https://spacestation14.io"
          xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
          xmlns:humanoid="clr-namespace:Content.Client.Humanoid"
+         xmlns:cc="clr-namespace:Content.Client.Administration.UI.CustomControls"
          xmlns:ui="clr-namespace:Content.Client.Lobby.UI"
          xmlns:profile="clr-namespace:Content.Client.Lobby.UI.ProfileEditorControls"
          HorizontalExpand="True">
@@ -67,22 +68,13 @@
                         <BoxContainer Orientation="Vertical">
                             <BoxContainer Margin="10" Orientation="Vertical" HorizontalExpand="True">
                                 <!-- Species -->
-                                <BoxContainer Orientation="Vertical" HorizontalExpand="True">
-                                    <!-- Species selector row -->
-                                    <BoxContainer HorizontalExpand="True">
-                                        <Label Text="{Loc 'humanoid-profile-editor-species-label'}" />
-                                        <Control HorizontalExpand="True"/>
-                                        <TextureButton Name="SpeciesInfoButton" Scale="0.3 0.3"
-                                                       VerticalAlignment="Center"
-                                                       ToolTip="{Loc 'humanoid-profile-editor-guidebook-button-tooltip'}"/>
-                                        <OptionButton Name="SpeciesButton" HorizontalAlignment="Right" />
-                                    </BoxContainer>
-                                    <!-- Custom species name row // Starlight -->
-                                    <BoxContainer Name="CCustomSpecieName" HorizontalExpand="True">
-                                        <Label Text="{Loc 'humanoid-profile-editor-customspeciename-label'}" />
-                                        <Control HorizontalExpand="True"/>
-                                        <LineEdit Name="CCustomSpecieNameEdit" MinSize="270 0" HorizontalAlignment="Right" />
-                                    </BoxContainer>
+                                <BoxContainer HorizontalExpand="True">
+                                    <Label Text="{Loc 'humanoid-profile-editor-species-label'}" />
+                                    <Control HorizontalExpand="True"/>
+                                    <TextureButton Name="SpeciesInfoButton" Scale="0.3 0.3"
+                                                   VerticalAlignment="Center"
+                                                   ToolTip="{Loc 'humanoid-profile-editor-guidebook-button-tooltip'}"/>
+                                    <OptionButton Name="SpeciesButton" HorizontalAlignment="Right" />
                                 </BoxContainer>
                                 <!-- Age -->
                                 <BoxContainer HorizontalExpand="True">
@@ -137,6 +129,7 @@
                 </BoxContainer>
                 <BoxContainer Orientation="Vertical">
                     <!-- Jobs -->
+                    <OptionButton Name="PreferenceUnavailableButton" />
                     <ScrollContainer VerticalExpand="True">
                         <BoxContainer Name="JobList" Orientation="Vertical" />
                     </ScrollContainer>

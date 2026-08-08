@@ -1,7 +1,8 @@
 using Content.Shared.Alert;
+using Content.Shared.Whitelist;
 using Robust.Shared.Prototypes;
 
-namespace Content.Shared._TP;
+namespace Content.Shared._TP.Mechs.Components;
 
 [RegisterComponent]
 public sealed partial class StepfatherComponent : Component
@@ -20,4 +21,7 @@ public sealed partial class StepfatherComponent : Component
 
     [DataField]
     public float DrainAccumulator;
+
+    [DataField]
+    public EntityWhitelist? PilotWhitelist;
 }

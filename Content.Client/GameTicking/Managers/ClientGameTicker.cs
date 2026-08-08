@@ -12,7 +12,6 @@ using Robust.Client.State;
 using Robust.Client.UserInterface;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Audio;
-using Content.Shared.GameTicking.Prototypes;
 
 namespace Content.Client.GameTicking.Managers
 {

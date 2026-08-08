@@ -15,7 +15,7 @@ namespace Content.Shared.Maps;
 /// </remarks>
 ///
             // how about no.
-[Prototype("gameMap"), PublicAPI]
+[Prototype, PublicAPI]
 [DebuggerDisplay("GameMapPrototype [{ID} - {MapName}]")]
 public sealed partial class GameMapPrototype : IPrototype
 {

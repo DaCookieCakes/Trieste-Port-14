@@ -48,7 +48,7 @@ namespace Content.Server.Administration.Systems
         private static partial Regex DiscordRegex();
 
         private string _webhookUrl = string.Empty;
-        private WebhookData? _webhookData;
+        private WebhookData? _webhookData = null;
 
         private string _onCallUrl = string.Empty;
         private WebhookData? _onCallData;

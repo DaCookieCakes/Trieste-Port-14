@@ -4,7 +4,6 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Content.Server._NullLink.Core;
-using Content.Server._NullLink.Core;
 using Content.Server._NullLink.Helpers;
 using Content.Server.Database;
 using Content.Shared.CCVar;

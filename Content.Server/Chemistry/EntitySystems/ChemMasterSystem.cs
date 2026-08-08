@@ -20,7 +20,6 @@ using Robust.Shared.Containers;
 using Robust.Shared.Prototypes;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using Content.Shared.DragDrop;
 
 namespace Content.Server.Chemistry.EntitySystems
 {

@@ -1,15 +1,16 @@
-using Robust.Shared.Random;
 using System.Linq;
-using Content.Shared.Verbs;
+using Content.Shared.Plankton;
 using Content.Shared.Radiation.Events;
+using Content.Shared.Verbs;
+using Robust.Shared.Random;
 using Robust.Shared.Utility;
 
-namespace Content.Shared.Plankton
+namespace Content.Shared._TP.Plankton
 {
-    public sealed class PlanktonSystem : EntitySystem
+    public sealed partial class PlanktonSystem : EntitySystem
     {
-        [Dependency] private readonly IRobustRandom _random = default!;
-        [Dependency] private readonly IEntityManager _entityManager = default!;
+        [Dependency] private IRobustRandom _random = default!;
+        [Dependency] private IEntityManager _entityManager = default!;
     //  [Dependency] private readonly SharedSolutionContainerSystem _solutionContainerSystem = default;
 
         private const float UpdateInterval = 1f; // Interval in seconds
@@ -36,7 +37,7 @@ namespace Content.Shared.Plankton
 
             if (_updateTimer >= UpdateInterval)
             {
-                foreach (var entity in EntityManager.EntityQuery<PlanktonComponent>())
+                foreach (var entity in EntityQuery<PlanktonComponent>())
                 {
                     EntityUid uid = entity.Owner;  // entity.Owner is the EntityUid
                     PlanktonInteraction(uid);
@@ -46,7 +47,7 @@ namespace Content.Shared.Plankton
 
             if (_hungerTimer >= HungerInterval)
             {
-                foreach (var entity in EntityManager.EntityQuery<PlanktonComponent>())
+                foreach (var entity in EntityQuery<PlanktonComponent>())
                 {
                      PlanktonHunger(entity);
                      PlanktonGrowth(entity);
@@ -328,7 +329,7 @@ namespace Content.Shared.Plankton
 
     var planktonToRemove = new List<PlanktonComponent.PlanktonSpeciesInstance>();
 
-    foreach (var planktonEntity in EntityManager.EntityQuery<PlanktonComponent>())
+    foreach (var planktonEntity in EntityQuery<PlanktonComponent>())
     {
         var aggressivePlanktonInstances = component.SpeciesInstances
             .Where(inst => (inst.Characteristics & PlanktonComponent.PlanktonCharacteristics.Aggressive) != 0)
@@ -372,7 +373,7 @@ namespace Content.Shared.Plankton
 {
     var planktonToRemoveCarnivore = new List<PlanktonComponent.PlanktonSpeciesInstance>();
 
-    foreach (var planktonEntity in EntityManager.EntityQuery<PlanktonComponent>())
+    foreach (var planktonEntity in EntityQuery<PlanktonComponent>())
     {
 
         var carnivorousPlanktonInstances = component.SpeciesInstances

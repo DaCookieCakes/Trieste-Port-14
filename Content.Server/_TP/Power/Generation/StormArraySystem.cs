@@ -7,6 +7,7 @@ using Content.Server.Radio.EntitySystems;
 using Content.Server.Temperature.Components;
 using Content.Shared._TP.Power.Generation;
 using Content.Shared.Atmos;
+using Content.Shared.Atmos.Components;
 using Content.Shared.DoAfter;
 using Content.Shared.Electrocution;
 using Content.Shared.Examine;
@@ -223,6 +224,9 @@ public sealed partial class StormArraySystem : EntitySystem
         if (!TryComp<TemperatureComponent>(ent, out var temp))
             return;
 
+        if (!TryComp<TemperatureDamageComponent>(ent, out var tempDmg))
+            return;
+
         if (!_nodeContainerQuery.TryGetComponent(ent, out var nodeContainer))
             return;
 
@@ -285,7 +289,7 @@ public sealed partial class StormArraySystem : EntitySystem
         heatTransferred *= comp.CoolingEfficiency;
 
         // Cool the entity
-        var entityHeatCapacity = temp.HeatDamageThreshold;
+        var entityHeatCapacity = tempDmg.HeatDamageThreshold;
         var entityTempChange = heatTransferred / entityHeatCapacity;
         temp.CurrentTemperature -= entityTempChange;
 

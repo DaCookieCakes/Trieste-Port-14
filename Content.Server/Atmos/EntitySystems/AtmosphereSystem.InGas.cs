@@ -1,35 +1,30 @@
-﻿using Content.Server.Administration.Logs;
-using Content.Server.Atmos.Components;
+﻿using Content.Server.Atmos.Components;
 using Content.Shared._TP.WaterInteractions;
 using Content.Shared.Alert;
 using Content.Shared.Atmos;
+using Content.Shared.Atmos.Components;
 using Content.Shared.Damage.Components;
-using Content.Shared.Damage.Systems;
 using Content.Shared.Database;
 using Content.Shared.FixedPoint;
 using Content.Shared.Fluids.Components;
-using Robust.Shared.Timing;
 
 namespace Content.Server.Atmos.EntitySystems;
 
 /// <summary>
 /// Handles detecting whether an entity is in a given gas and applying effects if so.
 /// </summary>
-public sealed class InGasSystem : EntitySystem
+public sealed partial class AtmosphereSystem
 {
     private const float UpdateTimer = 1f;
-    private float _timer = 0f;
-    [Dependency] private readonly IAdminLogManager _adminLog = default!;
-    [Dependency] private readonly AtmosphereSystem _atmosphere = default!;
-    [Dependency] private readonly AlertsSystem _alerts = default!;
-    [Dependency] private readonly DamageableSystem _damageable = default!;
-    [Dependency] private readonly IGameTiming _timing = default!;
-    [Dependency] private readonly SharedTransformSystem _transform = default!;
+    private float _timer;
+    [Dependency] private AtmosphereSystem _atmosphere = default!;
+    [Dependency] private AlertsSystem _alerts = default!;
+    [Dependency] private SharedTransformSystem _transform = default!;
 
     public bool InGas(EntityUid uid, int? gasId = null, float? gasThreshold = null)
     {
         var mixture = _atmosphere.GetContainingMixture(uid);
-        var inGas = EntityManager.GetComponent<InGasComponent>(uid);
+        TryComp<InGasComponent>(uid, out var inGas);
         //Use provided data if no component present
         if (inGas == null)
         {
@@ -93,7 +88,7 @@ public sealed class InGasSystem : EntitySystem
     private Dictionary<EntityUid, TimeSpan> _timeInWater = new();
     private Dictionary<EntityUid, TimeSpan> _timeLeftWater = new();
 
-    public override void Update(float frameTime)
+    public void UpdateInGas(float frameTime)
     {
         _timer += frameTime;
 
@@ -102,7 +97,7 @@ public sealed class InGasSystem : EntitySystem
 
         _timer -= UpdateTimer;
 
-        var currTime = _timing.CurTime;
+        var currTime = _gameTiming.CurTime;
 
         // Two lists of entities we want to process
         // One is a list of entities that we should process for damage,
@@ -196,7 +191,7 @@ public sealed class InGasSystem : EntitySystem
                 continue;
             }
 
-            _damageable.TryChangeDamage(uid, inGas.Damage, true);
+            _damage.TryChangeDamage(uid, inGas.Damage, true);
             if (!inGas.TakingDamage)
             {
                 inGas.TakingDamage = true;

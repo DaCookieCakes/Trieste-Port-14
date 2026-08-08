@@ -1,33 +1,34 @@
 using System.Linq;
+using Content.Server.Planktonics;
 using Content.Server.Popups;
+using Content.Shared._TP.Plankton;
 using Content.Shared.Examine;
 using Content.Shared.Interaction;
 using Content.Shared.Paper;
-using Content.Shared.Plankton;
 using Content.Shared.Timing;
 using Content.Shared.Verbs;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Utility;
 
-namespace Content.Server.Planktonics;
+namespace Content.Server._TP.Planktonics;
 
-public sealed class PlanktonScannerSystem : EntitySystem
+public sealed partial class PlanktonScannerSystem : EntitySystem
 {
-    [Dependency] private readonly UseDelaySystem _useDelay = default!;
-    [Dependency] private readonly PopupSystem _popupSystem = default!;
-    [Dependency] private readonly PaperSystem _paper = default!;
-    [Dependency] private readonly MetaDataSystem _metaSystem = default!;
-    [Dependency] private readonly SharedAudioSystem _audioSystem = default!;
+    [Dependency] private UseDelaySystem _useDelay = default!;
+    [Dependency] private PopupSystem _popupSystem = default!;
+    [Dependency] private PaperSystem _paper = default!;
+    [Dependency] private MetaDataSystem _metaSystem = default!;
+    [Dependency] private SharedAudioSystem _audioSystem = default!;
 
     public override void Initialize()
     {
-        SubscribeLocalEvent<Planktonics.PlanktonScannerComponent, BeforeRangedInteractEvent>(OnBeforeRangedInteract);
-        SubscribeLocalEvent<Planktonics.PlanktonScannerComponent, GetVerbsEvent<UtilityVerb>>(AddScanVerb);
-        SubscribeLocalEvent<Planktonics.PlanktonScannerComponent, GetVerbsEvent<ActivationVerb>>(AddToggleAnalysisVerb);
-        SubscribeLocalEvent<Planktonics.PlanktonScannerComponent, ExaminedEvent>(OnExamine);
+        SubscribeLocalEvent<PlanktonScannerComponent, BeforeRangedInteractEvent>(OnBeforeRangedInteract);
+        SubscribeLocalEvent<PlanktonScannerComponent, GetVerbsEvent<UtilityVerb>>(AddScanVerb);
+        SubscribeLocalEvent<PlanktonScannerComponent, GetVerbsEvent<ActivationVerb>>(AddToggleAnalysisVerb);
+        SubscribeLocalEvent<PlanktonScannerComponent, ExaminedEvent>(OnExamine);
     }
 
-    private void OnBeforeRangedInteract(EntityUid uid, Planktonics.PlanktonScannerComponent component, BeforeRangedInteractEvent args)
+    private void OnBeforeRangedInteract(EntityUid uid, PlanktonScannerComponent component, BeforeRangedInteractEvent args)
 {
     if (args.Handled || !args.CanReach || !args.Target.HasValue)
         return;
@@ -42,7 +43,7 @@ public sealed class PlanktonScannerSystem : EntitySystem
 }
 
 
-    private void AddScanVerb(EntityUid uid, Planktonics.PlanktonScannerComponent component, GetVerbsEvent<UtilityVerb> args)
+    private void AddScanVerb(EntityUid uid, PlanktonScannerComponent component, GetVerbsEvent<UtilityVerb> args)
     {
         if (!args.CanAccess)
             return;
@@ -50,7 +51,7 @@ public sealed class PlanktonScannerSystem : EntitySystem
         if (!TryComp<PlanktonComponent>(args.Target, out var plankton))
             return;
 
-        var verb = new UtilityVerb()
+        var verb = new UtilityVerb
         {
             Act = () =>
             {
@@ -62,7 +63,7 @@ public sealed class PlanktonScannerSystem : EntitySystem
         args.Verbs.Add(verb);
     }
 
-    private void AddToggleAnalysisVerb(EntityUid uid, Planktonics.PlanktonScannerComponent component, GetVerbsEvent<ActivationVerb> args)
+    private void AddToggleAnalysisVerb(EntityUid uid, Server.Planktonics.PlanktonScannerComponent component, GetVerbsEvent<ActivationVerb> args)
     {
         if (!args.CanAccess || !args.CanInteract)
             return;
@@ -79,14 +80,14 @@ public sealed class PlanktonScannerSystem : EntitySystem
     }
 
 
-    private void TryToggleAnalysis((EntityUid, Planktonics.PlanktonScannerComponent) data, EntityUid user)
+    private void TryToggleAnalysis((EntityUid, PlanktonScannerComponent) data, EntityUid user)
 {
     var (uid, component) = data;
     component.AnalysisMode = !component.AnalysisMode;
 }
 
 
-    private void CreatePopup(EntityUid uid, EntityUid target, PlanktonComponent component, Planktonics.PlanktonScannerComponent scanner)
+    private void CreatePopup(EntityUid uid, EntityUid target, PlanktonComponent component, PlanktonScannerComponent scanner)
     {
         if (TryComp(uid, out UseDelayComponent? useDelay)
             && !_useDelay.TryResetDelay((uid, useDelay), true))
@@ -145,14 +146,14 @@ public sealed class PlanktonScannerSystem : EntitySystem
             _popupSystem.PopupEntity(messagePopup, target);
 
             var report = Spawn(scanner.PlanktonReportEntityId, Transform(uid).Coordinates);
-            _metaSystem.SetEntityName(report, Loc.GetString("plankton-analysis-report-title", ("id", $"Plankton Scan Report")));
+            _metaSystem.SetEntityName(report, Loc.GetString("plankton-analysis-report-title", ("id", "Plankton Scan Report")));
             _audioSystem.PlayPvs(scanner.PrintSound, uid);
 
-   //         _paper.SetContent(report, message);
+            _paper.SetContent(report, message);
         }
     }
 
-    private void OnExamine(EntityUid uid, Planktonics.PlanktonScannerComponent component, ExaminedEvent args)
+    private void OnExamine(EntityUid uid, PlanktonScannerComponent component, ExaminedEvent args)
     {
         if (!args.IsInDetailsRange)
             return;

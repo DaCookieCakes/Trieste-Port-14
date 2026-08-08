@@ -1,4 +1,5 @@
 ﻿using Content.Shared.Alert;
+using Content.Shared.Atmos;
 using Content.Shared.Damage;
 using Content.Shared.FixedPoint;
 using Robust.Shared.Prototypes;
@@ -17,8 +18,8 @@ public sealed partial class InGasComponent : Component
     /// <summary>
     ///     ID of gas to check for as an int. Defaults to water.
     /// </summary>
-    [DataField("gasID"), ViewVariables(VVAccess.ReadWrite)]
-    public int GasId = 9;
+    [DataField, ViewVariables(VVAccess.ReadWrite)]
+    public Gas GasId = Gas.Water;
 
     ///  <summary>
     ///     Sound to rumble underwater.

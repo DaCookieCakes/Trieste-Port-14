@@ -1,28 +1,27 @@
 using Content.Server.Power.EntitySystems;
 using Content.Shared._TP.HandCrank;
-using Content.Shared.Weapons.Ranged.Components;
-using Robust.Shared.Audio.Systems;
 using Content.Shared.Audio;
 using Content.Shared.DoAfter;
 using Content.Shared.Popups;
 using Content.Shared.Power.Components;
-using Content.Shared.Weapons.Ranged.Systems;
+using Content.Shared.Weapons.Ranged.Components;
+using Robust.Shared.Audio.Systems;
 using Robust.Shared.Random;
 
-namespace Content.Server.Weapons.Ranged.Systems;
+namespace Content.Server._TP.Weapons.Ranged.Systems;
 
 /// <summary>
 ///     A system that lets you crank the crank on the crank to charge the battery with charge.
 ///     Muy cool.
 ///     In the station, straight up "crankin' it", and by it? let's jusr say... my rifle.
 /// </summary>
-public sealed class HandCrankRechargerSystem : SharedHandCrankRechargerSystem
+public sealed partial class HandCrankRechargerSystem : SharedHandCrankRechargerSystem
 {
-    [Dependency] private readonly SharedAudioSystem _audio = default!;
-    [Dependency] private readonly IRobustRandom _random = default!;
-    [Dependency] private readonly BatterySystem _battery = default!;
-    [Dependency] private readonly SharedDoAfterSystem _doAfter = default!;
-    [Dependency] private readonly SharedPopupSystem _popup = default!;
+    [Dependency] private SharedAudioSystem _audio = default!;
+    [Dependency] private IRobustRandom _random = default!;
+    [Dependency] private BatterySystem _battery = default!;
+    [Dependency] private SharedDoAfterSystem _doAfter = default!;
+    [Dependency] private SharedPopupSystem _popup = default!;
 
     public override void Initialize()
     {
@@ -64,7 +63,7 @@ public sealed class HandCrankRechargerSystem : SharedHandCrankRechargerSystem
         _audio.PlayPvs(ent.Comp.CrankSound, ent, AudioHelpers.WithVariation(0.125f, _random).WithVolume(1f)); // play crank sound
 
         // Set the battery charge to the max of either the battery or the hand crank max.
-        var chargeAmount = Math.Clamp(gunBattery.CurrentCharge + ent.Comp.AmountRechargedPerCrank, 0f, GetChargeMax(ent.Comp, gunBattery));
+        var chargeAmount = Math.Clamp(gunBattery.LastCharge + ent.Comp.AmountRechargedPerCrank, 0f, GetChargeMax(ent.Comp, gunBattery));
         _battery.SetCharge(ent.Owner, chargeAmount);
 
         // Repeat if the gun isn't fully charged. If there is a maximum charge by crank, use that. Otherwise, charge up to the max of the battery!\
@@ -74,7 +73,7 @@ public sealed class HandCrankRechargerSystem : SharedHandCrankRechargerSystem
 
     private bool ShouldCharge(EntityUid gun, HandCrankRechargerComponent crank, BatteryComponent battery)
     {
-        return !(_battery.IsFull(gun) || battery.CurrentCharge >= GetChargeMax(crank, battery));
+        return !(_battery.IsFull(gun) || battery.LastCharge >= GetChargeMax(crank, battery));
     }
 
     private float GetChargeMax(HandCrankRechargerComponent crank, BatteryComponent battery)

@@ -72,12 +72,12 @@ public sealed partial class WaterViewerHudSystem : EntitySystem
 
     private void OnEquipped(Entity<WaterBlockerComponent> ent, ref GotEquippedEvent args)
     {
-        EnsureComp<WaterBlockerComponent>(args.Equipee);
+        EnsureComp<WaterBlockerComponent>(args.EquipTarget);
     }
 
     private void OnUnequipped(Entity<WaterBlockerComponent> ent, ref GotUnequippedEvent args)
     {
-        _entityManager.RemoveComponent<WaterBlockerComponent>(args.Equipee);
+        _entityManager.RemoveComponent<WaterBlockerComponent>(args.EquipTarget);
     }
 
     private void OnShutdown(Entity<WaterViewerComponent> ent, ref ComponentShutdown args)

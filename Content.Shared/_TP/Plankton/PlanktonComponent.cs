@@ -1,9 +1,9 @@
 using Content.Shared.Chemistry.Reagent;
 
-namespace Content.Shared.Plankton;
+namespace Content.Shared._TP.Plankton;
 
 [RegisterComponent]
-public partial class PlanktonComponent : Component
+public sealed partial class PlanktonComponent : Component
 {
     [DataField("reagentId")]
     public ReagentId ReagentId { get; set; } = new ReagentId();
@@ -14,7 +14,7 @@ public partial class PlanktonComponent : Component
     public List<PlanktonSpeciesInstance> SpeciesInstances { get; set; } = new();
 
     // Define a class that represents each plankton species
-    public class PlanktonSpeciesInstance
+    public sealed class PlanktonSpeciesInstance
     {
         public PlanktonName SpeciesName { get; set; }
         public PlanktonDiet Diet { get; set; }
@@ -93,7 +93,7 @@ public partial class PlanktonComponent : Component
         "Mesorhizobium", "Navicula", "Nitzschia", "Oscillatoria", "Phaeodactylum",
         "Phacus", "Platymonas", "Protoperidinium", "Pyramimonas", "Spirulina",
         "Synedra", "Tetradontia", "Trachelomonas", "Volvox", "Vorticella", "Bill",
-        "Ratilus", "Betamios", "Noctliuca", "Terminidia", "Democracia", "Kharaa", 
+        "Ratilus", "Betamios", "Noctliuca", "Terminidia", "Democracia", "Kharaa",
         "Meridia", "Malevalon", "ERROR", "Kerbalius", "Raptura"
     };
 
@@ -105,12 +105,12 @@ public partial class PlanktonComponent : Component
         "tuberculata", "subtilis", "hyalina", "cephalopodiformis", "corymbosa",
         "unobtania", "tri-tachia", "xenofila", "macrospora", "apogeelia",
         "lucida", "triesta", "rounyens", "tcarotenoides", "ectoplasmica",
-        "thingius", "cordycepsia", "krabby", "jones", "4546B", "rottia", "hearthiata", 
+        "thingius", "cordycepsia", "krabby", "jones", "4546B", "rottia", "hearthiata",
         "nomaia", "exadv1ia", "florania", "hylotlia", "thargoidis", "celesteia", "brackenis"
     };
 
     // Class to combine the first and second name for plankton species
-    public class PlanktonName
+    public sealed class PlanktonName
     {
         public string FirstName { get; set; }
         public string SecondName { get; set; }

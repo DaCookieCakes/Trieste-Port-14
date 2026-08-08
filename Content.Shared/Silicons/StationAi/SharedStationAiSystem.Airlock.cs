@@ -23,7 +23,7 @@ public abstract partial class SharedStationAiSystem
     /// </summary>
     private void OnAirlockBolt(EntityUid ent, DoorBoltComponent component, StationAiBoltEvent args)
     {
-        if (component.BoltWireCut || !_powerReceiver.IsPowered(ent))
+        if (component.BoltWireCut || !PowerReceiver.IsPowered(ent))
         {
             ShowDeviceNotRespondingPopup(args.User);
             _adminLogger.Add(LogType.Action,
@@ -57,7 +57,7 @@ public abstract partial class SharedStationAiSystem
     /// </summary>
     private void OnAirlockEmergencyAccess(EntityUid ent, AirlockComponent component, StationAiEmergencyAccessEvent args)
     {
-        if (!_powerReceiver.IsPowered(ent))
+        if (!PowerReceiver.IsPowered(ent))
         {
             ShowDeviceNotRespondingPopup(args.User);
             _adminLogger.Add(LogType.Action,
@@ -82,7 +82,7 @@ public abstract partial class SharedStationAiSystem
     /// </summary>
     private void OnElectrified(EntityUid ent, ElectrifiedComponent component, StationAiElectrifiedEvent args)
     {
-        if (component.IsWireCut || !_powerReceiver.IsPowered(ent))
+        if (component.IsWireCut || !PowerReceiver.IsPowered(ent))
         {
             ShowDeviceNotRespondingPopup(args.User);
             _adminLogger.Add(LogType.Action,

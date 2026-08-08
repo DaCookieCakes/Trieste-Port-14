@@ -204,7 +204,6 @@ public sealed partial class IdCardConsoleSystem : SharedIdCardConsoleSystem
 
         _idCard.TryChangeFullName(targetId, newFullName, player: player);
         _idCard.TryChangeJobTitle(targetId, newJobTitle, player: player);
-        JobPrototype? job = null;
 
         if (ProtoMan.TryIndex(newJobProto, out var job)
             && ProtoMan.Resolve(job.Icon, out var jobIcon))

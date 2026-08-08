@@ -127,19 +127,19 @@ namespace Content.Shared.Chemistry.Reagent
 
 
     // List of plankton components this reagent can contain
-    public List<PlanktonComponent> PlanktonComponents { get; set; } = new List<PlanktonComponent>();
+    public List<_TP.Plankton.PlanktonComponent> PlanktonComponents { get; set; } = new List<_TP.Plankton.PlanktonComponent>();
 
     // Method to check if the reagent contains plankton
     public bool HasPlankton => PlanktonComponents.Any();
 
     // Method to add plankton to the reagent (to be added in a solution later)
-    public void AddPlankton(PlanktonComponent plankton)
+    public void AddPlankton(_TP.Plankton.PlanktonComponent plankton)
     {
         PlanktonComponents.Add(plankton);
     }
 
     // Method to remove plankton from the reagent
-    public void RemovePlankton(PlanktonComponent plankton)
+    public void RemovePlankton(_TP.Plankton.PlanktonComponent plankton)
     {
         PlanktonComponents.Remove(plankton);
     }
