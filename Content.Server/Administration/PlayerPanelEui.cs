@@ -10,6 +10,7 @@ using Content.Shared.Administration.Systems;
 using Content.Shared.Database;
 using Content.Shared.Eui;
 using Content.Shared.Follower;
+using Content.Shared.Players;
 using Robust.Server.Player;
 using Robust.Shared.Player;
 
@@ -37,6 +38,8 @@ public sealed partial class PlayerPanelEui : BaseEui
     private bool _frozen;
     private bool _canFreeze;
     private bool _canAhelp;
+    private float _trustScore;
+    private DateTime? _accountCreationDate;
     private FollowerSystem _follower;
 
     public PlayerPanelEui(LocatedPlayerData player)
@@ -70,7 +73,9 @@ public sealed partial class PlayerPanelEui : BaseEui
             _whitelisted,
             _canFreeze,
             _frozen,
-            _canAhelp);
+            _canAhelp,
+            _trustScore,
+            _accountCreationDate);
     }
 
     private void OnPermsChanged(AdminPermsChangedEventArgs args)
@@ -206,6 +211,10 @@ public sealed partial class PlayerPanelEui : BaseEui
         {
             _canFreeze = session.AttachedEntity != null;
             _frozen = _entity.HasComponent<AdminFrozenComponent>(session.AttachedEntity);
+
+            var userData = session.Channel.UserData;
+            _trustScore = userData.Trust;
+            _accountCreationDate = userData.CreatedTime;
         }
         else
         {

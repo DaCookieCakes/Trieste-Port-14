@@ -9,4 +9,11 @@
   maleFirstNames: names_vulpkanin_male
   femaleFirstNames: names_vulpkanin_female
   lastNames: names_vulpkanin_last
+  defaultSoundsBySex:
+  - MaleVulpkanin
+  - FemaleVulpkanin
+  - MaleVulpkanin
+  voices:
+  - MaleVulpkanin
+  - FemaleVulpkanin
   customName: true # TP14

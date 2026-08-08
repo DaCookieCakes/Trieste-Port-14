@@ -49,6 +49,10 @@ namespace Content.Server.Database
         public DbSet<RoleWhitelist> RoleWhitelists { get; set; } = null!;
         public DbSet<BanTemplate> BanTemplate { get; set; } = null!;
         public DbSet<IPIntelCache> IPIntelCache { get; set; } = null!;
+        public DbSet<CustomVoteLog> CustomVoteLog { get; set; } = null!;
+        public DbSet<CustomVoteLogOption> CustomVoteLogOption { get; set; } = null!;
+
+        // STARLIGHT
         public DbSet<StarLightModel.StarLightProfile> StarLightProfile { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -72,7 +76,7 @@ namespace Content.Server.Database
                 entity.HasIndex(e => e.ProfileId)
                     .IsUnique();
 
-                entity.Property(e => e.CustomSpecieName)
+                entity.Property(e => e.CustomSpeciesName)
                     .HasMaxLength(32);
             });
             // Starlight - End
@@ -103,16 +107,13 @@ namespace Content.Server.Database
                 .HasForeignKey(e => e.ProfileLoadoutGroupId)
                 .IsRequired();
 
-            modelBuilder.Entity<JobPriorityEntry>()
-                .HasIndex(j => j.PreferenceId);
-
-            modelBuilder.Entity<JobPriorityEntry>()
-                .HasIndex(j => j.PreferenceId, "IX_job_one_high_priority")
-                .IsUnique()
-                .HasFilter("priority = 3");
-
             modelBuilder.Entity<Job>()
                 .HasIndex(j => j.ProfileId);
+
+            modelBuilder.Entity<Job>()
+                .HasIndex(j => j.ProfileId, "IX_job_one_high_priority")
+                .IsUnique()
+                .HasFilter("priority = 3");
 
             modelBuilder.Entity<Job>()
                 .HasIndex(j => new { j.ProfileId, j.JobName })
@@ -316,6 +317,7 @@ namespace Content.Server.Database
                 .HasDefaultValue(HwidType.Legacy);
 
             ModelBan.OnModelCreating(modelBuilder);
+            ModelCustomVoteLog.OnModelCreating(modelBuilder);
         }
 
         public virtual IQueryable<AdminLog> SearchLogs(IQueryable<AdminLog> query, string searchText)
@@ -335,10 +337,10 @@ namespace Content.Server.Database
         // Also I couldn't figure out how to create it on SQLite.
         public int Id { get; set; }
         public Guid UserId { get; set; }
+        public int SelectedCharacterSlot { get; set; }
         public string AdminOOCColor { get; set; } = null!;
         public List<string> ConstructionFavorites { get; set; } = new();
         public List<Profile> Profiles { get; } = new();
-        public List<JobPriorityEntry> JobPriorities { get; set; } = new();
     }
 
     public class Profile
@@ -349,6 +351,7 @@ namespace Content.Server.Database
         public string FlavorText { get; set; } = null!;
         public int Age { get; set; }
         public string Sex { get; set; } = null!;
+        public string? Voice { get; set; } = null!; // If null, the voice gets defaulted to the sex associated value
         public string Gender { get; set; } = null!;
         public string Species { get; set; } = null!;
         [Column(TypeName = "jsonb")] public JsonDocument? OrganMarkings { get; set; } = null!;
@@ -366,7 +369,7 @@ namespace Content.Server.Database
 
         public List<ProfileRoleLoadout> Loadouts { get; } = new();
 
-        public bool Enabled { get; set; }
+        [Column("pref_unavailable")] public DbPreferenceUnavailableMode PreferenceUnavailable { get; set; }
 
         public int PreferenceId { get; set; }
         public Preference Preference { get; set; } = null!;
@@ -379,15 +382,6 @@ namespace Content.Server.Database
         public int Id { get; set; }
         public Profile Profile { get; set; } = null!;
         public int ProfileId { get; set; }
-
-        public string JobName { get; set; } = null!;
-    }
-
-    public class JobPriorityEntry
-    {
-        public int Id { get; set; }
-        public Preference Preference { get; set; } = null!;
-        public int PreferenceId { get; set; }
 
         public string JobName { get; set; } = null!;
         public DbJobPriority Priority { get; set; }
@@ -498,6 +492,13 @@ namespace Content.Server.Database
     }
 
     #endregion
+
+    public enum DbPreferenceUnavailableMode
+    {
+        // These enum values HAVE to match the ones in PreferenceUnavailableMode in Shared.
+        StayInLobby = 0,
+        SpawnAsOverflow,
+    }
 
     public class AssignedUserId
     {
@@ -618,6 +619,8 @@ namespace Content.Server.Database
         public List<Player> Players { get; set; } = default!;
 
         public List<AdminLog> AdminLogs { get; set; } = default!;
+
+        public List<CustomVoteLog> CustomVoteLogs { get; set; } = default!;
 
         [ForeignKey("Server")] public int ServerId { get; set; }
         public Server Server { get; set; } = default!;
