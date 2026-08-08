@@ -86,3 +86,6 @@ TP14PlanetarySettlerSpawner: TP14PlanetarySettlerSpawnerHuman
 
 # 2026-06-13
 PoweredMarineSmallLight: TP14PoweredMarineSmallLight
+
+# 2026-08-07
+FloorDrainPlatform: null

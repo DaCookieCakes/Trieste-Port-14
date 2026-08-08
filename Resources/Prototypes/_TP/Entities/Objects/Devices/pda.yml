@@ -54,9 +54,14 @@
     size: Small
     heldPrefix: overseer
 
-
-
-
+- type: entity
+  parent: [ CentcomPDA, BaseNanotrasenContraband ]
+  id: NanotrasenPDA
+  name: NanoTrasen PDA
+  description: Light green sign of walking bureaucracy, now including free bulletholes and fire!
+  components:
+  - type: Pda
+    id: CentcomIDCardDeathsquad
 
 - type: entity
   parent: BasePDA
