@@ -8,6 +8,7 @@
   - OverseerBackpack #TP14
   - OverseerOuterClothing #TP14
   - CaptainEyewear # Moffstation - Eyepatches!
+  - AssistiveItems
   - Survival
   - Trinkets
   - OverseerJobTrinkets #TP14
@@ -26,6 +27,7 @@
   - HoPOuterClothing
   # - Glasses # Moffstation - Eyepatches!
   - HopEyewear # Moffstation - Eyepatches!
+  - AssistiveItems
   - Survival
   - Trinkets
   - HoPJobTrinkets
@@ -63,6 +65,8 @@
   - PassengerGloves
   - PassengerShoes
   - Glasses
+  - AssistiveItems
+  - Survival
   - Trinkets
   - PassengerJobTrinkets
 
@@ -85,6 +89,7 @@
   - TP14GroupBartenderBelts
   # - Glasses # Moffstation - Eyepatches!
   - BartenderEyewear # Moffstation - Eyepatches!
+  - AssistiveItems
   - Survival
   - Trinkets
   - BartenderJobTrinkets
@@ -96,6 +101,7 @@
   - BartenderJumpsuit
   - CommonBackpack
   - Glasses
+  - AssistiveItems
   - Survival
   - Trinkets
   - ServiceWorkerJobTrinkets
@@ -119,6 +125,7 @@
   - GroupChefGloves
   - GroupChefFootwear
   - Glasses
+  - AssistiveItems
   - Survival
   - Trinkets
   - ChefJobTrinkets
@@ -130,6 +137,7 @@
   - LibrarianJumpsuit
   - CommonBackpack
   - Glasses
+  - AssistiveItems
   - Survival
   - Trinkets
   - LibrarianJobTrinkets
@@ -145,6 +153,7 @@
   - LawyerJumpsuit
   - CommonBackpack
   - Glasses
+  - AssistiveItems
   - Survival
   - Trinkets
   - LawyerJobTrinkets
@@ -165,6 +174,7 @@
   - ChaplainOuterClothing
   - ChaplainBible
   - Glasses
+  - AssistiveItems
   - Survival
   - Trinkets
   - ChaplainJobTrinkets
@@ -182,6 +192,7 @@
   - CommonBackpack
   - JanitorOuterClothing
   - Glasses
+  - AssistiveItems
   - Survival
   - Trinkets
   - JanitorJobTrinkets
@@ -198,6 +209,7 @@
   - BotanistBackpack
   - BotanistOuterClothing
   - Glasses
+  - AssistiveItems
   - Survival
   - Trinkets
   - BotanistJobTrinkets
@@ -217,6 +229,7 @@
   - ClownNeck
   - ClownShoes
   - Glasses
+  - AssistiveItems
   - SurvivalClown
   - Trinkets
   - ClownJobTrinkets
@@ -235,7 +248,8 @@
   #- MimeOuterClothing
   - MimeBelt
   - Glasses
-  - SurvivalMime
+  - AssistiveItems
+  - Survival
   - Trinkets
   - MimeJobTrinkets
   - TP14GroupSpeciesBreathTool # TP14
@@ -249,7 +263,9 @@
   - MusicianJumpsuit
   - CommonBackpack
   - MusicianOuterClothing
+  - Instruments
   - Glasses
+  - AssistiveItems
   - Survival
   - Trinkets
   - MusicianJobTrinkets
@@ -270,6 +286,7 @@
   - QuartermasterOuterClothing
   - QuartermasterShoes
   - Glasses
+  - AssistiveItems
   - Survival
   - Trinkets
   - QuartermasterJobTrinkets
@@ -288,6 +305,7 @@
   - CargoTechnicianShoes
   - CargoTechnicianID
   - Glasses
+  - AssistiveItems
   - Survival
   - Trinkets
   - CargoTechnicianJobTrinkets
@@ -303,6 +321,7 @@
   - SalvageSpecialistOuterClothing
   - SalvageSpecialistShoes
   - Glasses
+  - AssistiveItems
   - Survival
   - Trinkets
   - SalvageSpecialistJobTrinkets
@@ -323,6 +342,7 @@
   - ChiefEngineerShoes
   - EngineeringEyewear # Moffstation - Eyepatches!
   - SurvivalExtended
+  - AssistiveItems
   - Trinkets
   - ChiefEngineerJobTrinkets
 #  - GroupSpeciesBreathTool # TP14
@@ -335,6 +355,7 @@
   - GroupTankHarness
   - TechnicalAssistantJumpsuit
   - StationEngineerBackpack
+  - AssistiveItems
   - SurvivalExtended
   - Trinkets
   - TechnicalAssistantJobTrinkets
@@ -353,6 +374,7 @@
   - StationEngineerShoes
   - EngineeringEyewear # Moffstation - Eyepatches!
   - StationEngineerID
+  - AssistiveItems
   - SurvivalExtended
   - Trinkets
   - StationEngineerJobTrinkets
@@ -369,6 +391,7 @@
   - AtmosphericTechnicianOuterClothing
   - AtmosphericTechnicianShoes
   - EngineeringEyewear # Moffstation - Eyepatches!
+  - AssistiveItems
   - SurvivalExtended
   - Trinkets
   - AtmosphericTechnicianJobTrinkets
@@ -390,6 +413,7 @@
   - ResearchDirectorShoes
   # - Glasses # Moffstation - Eyepatches!
   - ScienceEyewear # Moffstation - Eyepatches!
+  - AssistiveItems
   - Survival
   - Trinkets
   - ResearchDirectorJobTrinkets
@@ -411,6 +435,7 @@
   - ScientistPDA
   # - Glasses # Moffstation - Eyepatches!
   - ScienceEyewear # Moffstation - Eyepatches!
+  - AssistiveItems
   - Survival
   - Trinkets
   - ScientistJobTrinkets
@@ -425,6 +450,7 @@
   - ResearchAssistantJumpsuit
   - ScientistBackpack
   - Glasses
+  - AssistiveItems
   - Survival
   - Trinkets
   - ResearchAssistantJobTrinkets
@@ -444,6 +470,7 @@
   - HeadofSecurityOuterClothing
   - SecurityShoes
   - SecurityEyewear # Moffstation - Eyepatches!
+  - AssistiveItems
   - SurvivalSecurity
   - Trinkets
   - HeadofSecurityJobTrinkets
@@ -462,6 +489,7 @@
   - WardenOuterClothing
   - SecurityShoes
   - SecurityEyewear # Moffstation - Eyepatches!
+  - AssistiveItems
   - SurvivalSecurity
   - Trinkets
   - WardenJobTrinkets
@@ -481,6 +509,7 @@
   - SecurityPDA
   - SecurityBelt
   - SecurityEyewear # Moffstation - Eyepatches!
+  - AssistiveItems
   - SurvivalSecurity
   - Trinkets
   - SecurityJobTrinkets
@@ -499,6 +528,7 @@
   - DetectiveOuterClothing
   - SecurityShoes
   - DetectiveEyewear # Moffstation - Eyepatches!
+  - AssistiveItems
   - SurvivalSecurity
   - Trinkets
   - DetectiveJobTrinkets
@@ -512,6 +542,7 @@
   groups:
   - SecurityCadetJumpsuit
   - SecurityBackpack
+  - AssistiveItems
   - SurvivalSecurity
   - Trinkets
   - SecurityCadetJobTrinkets
@@ -530,6 +561,7 @@
   - ReporterOuterClothing
   - CommonBackpack
   - Glasses
+  - AssistiveItems
   - Survival
   - Trinkets
   - ReporterJobTrinkets
@@ -548,6 +580,7 @@
   - TP14GroupPsychologistOuterwear
   - TP14GroupPsychologistFootwear
   - MedicalBackpack
+  - AssistiveItems
   - Survival
   # Optional
   - PsychologistHead # TP14
@@ -599,6 +632,13 @@
   - GroupTankHarness
 
 - type: roleLoadout
+  id: RoleSurvivalExtendedAntag # Used by antagonists that spawn off-station (e.g wizards)
+  groups:
+  - SurvivalExtendedAntag
+  - GroupSpeciesBreathTool
+  - GroupTankHarness
+
+- type: roleLoadout
   id: RoleSurvivalMedical
   groups:
   - SurvivalMedical
@@ -646,6 +686,12 @@
   groups:
   - GroupEVATank
   - SurvivalExtended
+
+- type: roleLoadout
+  id: RoleSurvivalEVAAntag # Used by antagonists that spawn off-station AND in space (e.g ninjas)
+  groups:
+  - GroupEVATank
+  - SurvivalExtendedAntag
 
 - type: roleLoadout
   id: RoleSurvivalSpaceNinja

@@ -25,6 +25,8 @@
     - PreventAccessLogging
     - AllowBiomeLoading
     - NotGhostnadoWarpable
+    - AllowPortalTraversal
+    - PreventPortalCollision
   - type: Input
     context: "aghost"
   - type: Ghost
@@ -122,6 +124,8 @@
   - type: BypassInteractionChecks
   - type: ExplosionResistance
     damageCoefficient: 0
+  - type: GluedImmune
+  - type: LubedImmune
 
 - type: entity
   abstract: true

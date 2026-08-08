@@ -1,6 +1,6 @@
 station-event-ion-storm-start-announcement = Solar activity detected. Ionized particles may cause AI-controlled equipment to experience errors.
-
-ion-storm-law-scrambled-number = [font="Monospace"][scramble rate=250 length={$length} chars="@@###$$&%!01"/][/font]
+# Characters are randomly selected from the total list, meaning duplicates increase the odds that specific character is seen.
+ion-storm-law-scrambled-number = [font="Monospace"][scramble rate=250 length={$length} chars="!!@@###$$%^&*-_=+0011"/][/font]
 
 ion-storm-you = YOU
 ion-storm-the-station = THE PLATFORM
