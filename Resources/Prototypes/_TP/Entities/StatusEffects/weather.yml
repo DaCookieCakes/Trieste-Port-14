@@ -26,3 +26,17 @@
       params:
         loop: true
         volume: -5
+
+- type: entity
+  parent: WeatherBase
+  id: WeatherCloudStorm
+  components:
+  - type: WeatherStatusEffect
+    sprite:
+      sprite: /Textures/Effects/atmospherics.rsi
+      state: nitryl
+    sound:
+      path: /Audio/Effects/Weather/snowstorm.ogg
+      params:
+        loop: true
+        volume: -4
