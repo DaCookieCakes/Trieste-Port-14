@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Content.Server._NullLink.Core;
 using Content.Server._NullLink.EventBus;
 using Content.Server._NullLink.PlayerData;
@@ -218,8 +219,8 @@ namespace Content.Server.Entry
 
             _serverApi.Shutdown();
 
-            // TODO Should this be awaited?
-            _discordLink.Shutdown();
+            // We don't care when or how this finishes, just spin the task off into the void.
+            _ = _discordLink.Shutdown();
             _discordChatLink.Shutdown();
 
             // Nullink start

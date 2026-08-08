@@ -121,7 +121,7 @@
   flavor: rum
   color: "#664300"
   metamorphicSprite:
-    sprite: _TP/Objects/Consumable/Drinks/deadrumglass.rsi
+    sprite: _TP/Objects/Consumable/Drinks/deadrumglass.rsi # Trieste: 'Objects/Consumable/Drinks/rumglass.rsi'
     state: icon_empty
   metamorphicMaxFillLevels: 4
   metamorphicFillBaseName: fill-
@@ -167,7 +167,7 @@
         damage:
           types:
             Poison: 0.02
-      - !type:HealthChange
+      - !type:EvenHealthChange
         conditions:
         - !type:ReagentCondition
           reagent: Ethanol
@@ -175,9 +175,8 @@
         - !type:MetabolizerTypeCondition
           type: [ Dwarf ]
         damage:
-          groups:
-            Brute: -1.0 # TP14 - Changed from 0.1 (WTF?)
-            Burn: -1.0 # TP14
+          Brute: -0.1
+          Burn: -0.1 # Trieste: Added.
       - !type:Vomit
         probability: 0.04
         conditions:
@@ -357,7 +356,6 @@
 
 - type: reagent
   id: Vodka
-  group: DrinksHardMix
   name: reagent-name-vodka
   parent: BaseAlcohol
   desc: reagent-desc-vodka
@@ -470,7 +468,6 @@
 
 - type: reagent
   id: AlliesCocktail
-  group: DrinksHardMix
   name: reagent-name-allies-cocktail
   parent: BaseAlcohol
   desc: reagent-desc-allies-cocktail
@@ -501,7 +498,6 @@
 
 - type: reagent
   id: Amasec
-  group: DrinksHardMix
   name: reagent-name-amasec
   parent: BaseAlcohol
   desc: reagent-desc-amasec
@@ -517,7 +513,6 @@
 
 - type: reagent
   id: Andalusia
-  group: DrinksHardMix
   name: reagent-name-andalusia
   parent: BaseAlcohol
   desc: reagent-desc-andalusia
@@ -594,7 +589,6 @@
 
 - type: reagent
   id: BahamaMama
-  group: DrinksHardMix
   name: reagent-name-bahama-mama
   parent: BaseAlcohol
   desc: reagent-desc-bahama-mama
@@ -640,7 +634,6 @@
 
 - type: reagent
   id: BeepskySmash
-  group: DrinksHardMix
   name: reagent-name-beepsky-smash
   parent: BaseAlcohol
   desc: reagent-desc-beepsky-smash
@@ -680,7 +673,6 @@
 
 - type: reagent
   id: BloodyMary
-  group: DrinksHardMix
   name: reagent-name-bloody-mary
   parent: BaseAlcohol
   desc: reagent-desc-bloody-mary
@@ -730,7 +722,6 @@
 
 - type: reagent
   id: Bronx
-  group: DrinksHardMix
   name: reagent-name-bronx
   parent: BaseAlcohol
   desc: reagent-desc-bronx
@@ -834,7 +825,6 @@
 
 - type: reagent
   id: DemonsBlood
-  group: DrinksHardMix
   name: reagent-name-demons-blood
   parent: BaseAlcohol
   desc: reagent-desc-demons-blood
@@ -851,7 +841,6 @@
 
 - type: reagent
   id: DevilsKiss
-  group: DrinksHardMix
   name: reagent-name-devils-kiss
   parent: BaseAlcohol
   desc: reagent-desc-devils-kiss
@@ -867,7 +856,6 @@
 
 - type: reagent
   id: DoctorsDelight
-  group: DrinksSoftMix
   name: reagent-name-doctors-delight
   parent: BaseDrink
   desc: reagent-desc-doctors-delight
@@ -889,17 +877,15 @@
         factor: 2
       - !type:SatiateHunger
         factor: -2
-      - !type:HealthChange
+      - !type:EvenHealthChange
         damage:
-          groups:
-            Burn: -1
-            Brute: -1
-            Airloss: -1
-            Toxin: -1
+          Burn: -1
+          Brute: -1
+          Airloss: -1
+          Toxin: -1
 
 - type: reagent
   id: DriestMartini
-  group: DrinksHardMix
   name: reagent-name-driest-martini
   parent: BaseAlcohol
   desc: reagent-desc-driest-martini
@@ -919,7 +905,6 @@
 
 - type: reagent
   id: Eggnog
-  group: DrinksHardMix
   name: reagent-name-eggnog
   parent: BaseAlcohol
   desc: reagent-desc-eggnog
@@ -935,7 +920,6 @@
 
 - type: reagent
   id: ElectricShark
-  group: DrinksHardMix
   name: reagent-name-electric-shark
   parent: BaseAlcohol
   desc: reagent-desc-electric-shark
@@ -951,7 +935,6 @@
 
 - type: reagent
   id: ErikaSurprise
-  group: DrinksHardMix
   name: reagent-name-erika-surprise
   parent: BaseAlcohol
   desc: reagent-desc-erika-surprise
@@ -968,7 +951,6 @@
 
 - type: reagent
   id: GargleBlaster
-  group: DrinksHardMix
   name: reagent-name-gargle-blaster
   parent: BaseAlcohol
   desc: reagent-desc-gargle-blaster
@@ -1028,7 +1010,6 @@
 
 - type: reagent
   id: Gildlager
-  group: DrinksHardMix
   name: reagent-name-gildlager
   parent: BaseAlcohol
   desc: reagent-desc-gildlager
@@ -1141,7 +1122,6 @@
 
 - type: reagent
   id: IrishCoffee
-  group: DrinksHardMix
   name: reagent-name-irish-coffee
   parent: BaseAlcohol
   desc: reagent-desc-irish-coffee
@@ -1161,7 +1141,6 @@
 
 - type: reagent
   id: JackRose
-  group: DrinksHardMix
   name: reagent-name-jack-rose
   parent: BaseAlcohol
   desc: reagent-desc-jack-rose
@@ -1177,7 +1156,6 @@
 
 - type: reagent
   id: JungleBird
-  group: DrinksHardMix
   name: reagent-name-jungle-bird
   parent: BaseAlcohol
   desc: reagent-desc-jungle-bird
@@ -1208,7 +1186,6 @@
 
 - type: reagent
   id: LongIslandIcedTea
-  group: DrinksHardMix
   name: reagent-name-long-island-iced-tea
   parent: BaseAlcohol
   desc: reagent-desc-long-island-iced-tea
@@ -1228,7 +1205,6 @@
 
 - type: reagent
   id: Manhattan
-  group: DrinksHardMix
   name: reagent-name-manhattan
   parent: BaseAlcohol
   desc: reagent-desc-manhattan
@@ -1290,7 +1266,6 @@
 
 - type: reagent
   id: Martini
-  group: DrinksHardMix
   name: reagent-name-martini
   parent: BaseAlcohol
   desc: reagent-desc-martini
@@ -1326,7 +1301,6 @@
 
 - type: reagent
   id: Mojito
-  group: DrinksHardMix
   name: reagent-name-mojito
   parent: BaseAlcohol
   desc: reagent-desc-mojito
@@ -1343,7 +1317,6 @@
 
 - type: reagent
   id: MonkeyBusiness
-  group: DrinksHardMix
   name: reagent-name-monkey-business
   parent: BaseAlcohol
   desc: reagent-desc-monkey-business
@@ -1404,7 +1377,6 @@
 
 - type: reagent
   id: Painkiller
-  group: DrinksHardMix
   name: reagent-name-painkiller
   parent: BaseAlcohol
   desc: reagent-desc-painkiller
@@ -1424,7 +1396,6 @@
 
 - type: reagent
   id: Patron
-  group: DrinksHardMix
   name: reagent-name-patron
   parent: BaseAlcohol
   desc: reagent-desc-patron
@@ -1512,7 +1483,6 @@
 
 - type: reagent
   id: ScrewdriverCocktail
-  group: DrinksHardMix
   name: reagent-name-screwdriver-cocktail
   parent: BaseAlcohol
   desc: reagent-desc-screwdriver-cocktail
@@ -1698,7 +1668,6 @@
 
 - type: reagent
   id: ToxinsSpecial
-  group: DrinksHardMix
   name: reagent-name-toxins-special
   parent: BaseAlcohol
   desc: reagent-desc-toxins-special
@@ -1714,7 +1683,6 @@
 
 - type: reagent
   id: Vampiro
-  group: DrinksHardMix
   name: reagent-name-vampiro
   parent: BaseAlcohol
   desc: reagent-desc-vampiro
@@ -1730,7 +1698,6 @@
 
 - type: reagent
   id: VodkaMartini
-  group: DrinksHardMix
   name: reagent-name-vodka-martini
   parent: BaseAlcohol
   desc: reagent-desc-vodka-martini
@@ -1809,9 +1776,9 @@
   fizziness: 0.4
 
 - type: reagent
+  parent: BaseAlcohol
   id: WhiteGilgamesh
   name: reagent-name-white-gilgamesh
-  parent: BaseDrink
   desc: reagent-desc-white-gilgamesh
   physicalDesc: reagent-physical-desc-creamy
   flavor: white-gilgamesh
@@ -2011,7 +1978,6 @@
 
 - type: reagent
   id: BlueHawaiian
-  group: DrinksHardMix
   name: reagent-name-blue-hawaiian
   parent: BaseAlcohol
   desc: reagent-desc-blue-hawaiian
@@ -2031,7 +1997,6 @@
 
 - type: reagent
   id: Caipirinha
-  group: DrinksHardMix
   name: reagent-name-caipirinha
   parent: BaseAlcohol
   desc: reagent-desc-caipirinha
@@ -2051,7 +2016,6 @@
 
 - type: reagent
   id: MoscowMule
-  group: DrinksHardMix
   name: reagent-name-moscow-mule
   parent: BaseAlcohol
   desc: reagent-desc-moscow-mule
@@ -2167,7 +2131,6 @@
 
 - type: reagent
   id: Empress75
-  group: DrinksHardMix
   name: reagent-name-empress-75
   parent: BaseAlcohol
   desc: reagent-desc-empress-75
@@ -2187,7 +2150,6 @@
 
 - type: reagent
   id: EspressoMartini
-  group: DrinksHardMix
   name: reagent-name-espresso-martini
   parent: BaseAlcohol
   desc: reagent-desc-espresso-martini
@@ -2207,7 +2169,6 @@
 
 - type: reagent
   id: Daiquiri
-  group: DrinksHardMix
   name: reagent-name-daiquiri
   parent: BaseAlcohol
   desc: reagent-desc-daiquiri
@@ -2246,7 +2207,6 @@
 
 - type: reagent
   id: WhiskeySour
-  group: DrinksHardMix
   name: reagent-name-whiskey-sour
   parent: BaseAlcohol
   desc: reagent-desc-whiskey-sour

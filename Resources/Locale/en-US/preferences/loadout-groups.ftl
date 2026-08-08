@@ -205,7 +205,7 @@ loadout-group-paramedic-shoes = Paramedic shoes
 
 # Wildcards
 loadout-group-reporter-jumpsuit = Journalist uniforms
-loadout-group-reporter-head = Journalist hat
-loadout-group-reporter-outerclothing = Journalist vest
+loadout-group-reporter-head = Journalist headwear
+loadout-group-reporter-outerclothing = Journalist outer clothing
 
 loadout-group-psychologist-jumpsuit = Psychologist uniforms

@@ -26,15 +26,22 @@ public sealed class OutfitSystem : EntitySystem
 
     public bool SetOutfit(EntityUid target, string gear, Action<EntityUid, EntityUid>? onEquipped = null, bool unremovable = false)
     {
-        if (!EntityManager.TryGetComponent(target, out InventoryComponent? inventoryComponent))
+        if (!TryComp(target, out InventoryComponent? inventoryComponent))
             return false;
 
         if (!_prototypeManager.TryIndex<StartingGearPrototype>(gear, out var startingGear))
             return false;
 
-        // Check if the entity was spawned in with a player's character profile to respect loadouts
-        var appearanceSystem = EntityManager.System<SharedHumanoidAppearanceSystem>();
-        var profile = appearanceSystem.GetBaseProfile(target);
+        HumanoidCharacterProfile? profile = null;
+        ICommonSession? session = null;
+        // Check if we are setting the outfit of a player to respect the preferences
+        if (TryComp(target, out ActorComponent? actorComponent))
+        {
+            session = actorComponent.PlayerSession;
+            var userId = actorComponent.PlayerSession.UserId;
+            var prefs = _preferenceManager.GetPreferences(userId);
+            profile = prefs.SelectedCharacter as HumanoidCharacterProfile;
+        }
 
         if (_invSystem.TryGetSlots(target, out var slots))
         {
@@ -45,12 +52,12 @@ public sealed class OutfitSystem : EntitySystem
                 if (gearStr == string.Empty)
                     continue;
 
-                var equipmentEntity = EntityManager.SpawnEntity(gearStr, EntityManager.GetComponent<TransformComponent>(target).Coordinates);
+                var equipmentEntity = Spawn(gearStr, Comp<TransformComponent>(target).Coordinates);
                 if (slot.Name == "id" &&
-                    EntityManager.TryGetComponent(equipmentEntity, out PdaComponent? pdaComponent) &&
-                    EntityManager.TryGetComponent<IdCardComponent>(pdaComponent.ContainedId, out var id))
+                    TryComp(equipmentEntity, out PdaComponent? pdaComponent) &&
+                    TryComp<IdCardComponent>(pdaComponent.ContainedId, out var id))
                 {
-                    id.FullName = EntityManager.GetComponent<MetaDataComponent>(target).EntityName;
+                    id.FullName = Comp<MetaDataComponent>(target).EntityName;
                 }
 
                 _invSystem.TryEquip(target, equipmentEntity, slot.Name, silent: true, force: true, inventory: inventoryComponent);
@@ -61,12 +68,12 @@ public sealed class OutfitSystem : EntitySystem
             }
         }
 
-        if (EntityManager.TryGetComponent(target, out HandsComponent? handsComponent))
+        if (TryComp(target, out HandsComponent? handsComponent))
         {
-            var coords = EntityManager.GetComponent<TransformComponent>(target).Coordinates;
+            var coords = Comp<TransformComponent>(target).Coordinates;
             foreach (var prototype in startingGear.Inhand)
             {
-                var inhandEntity = EntityManager.SpawnEntity(prototype, coords);
+                var inhandEntity = Spawn(prototype, coords);
                 _handSystem.TryPickup(target, inhandEntity, checkActionBlocker: false, handsComp: handsComponent);
             }
         }
@@ -83,7 +90,7 @@ public sealed class OutfitSystem : EntitySystem
                 break;
 
             // Don't require a player, so this works on Urists
-            profile ??= EntityManager.TryGetComponent<HumanoidProfileComponent>(target, out var comp)
+            profile ??= TryComp<HumanoidProfileComponent>(target, out var comp)
                 ? HumanoidCharacterProfile.DefaultWithSpecies(comp.Species, comp.Sex)
                 : new HumanoidCharacterProfile();
             // Try to get the user's existing loadout for the role
@@ -91,11 +98,6 @@ public sealed class OutfitSystem : EntitySystem
 
             if (roleLoadout == null)
             {
-                // This session is required when making a default loadout to check requirements for loadout items
-                ICommonSession? session = null;
-                if (EntityManager.TryGetComponent(target, out ActorComponent? actorComponent))
-                    session = actorComponent.PlayerSession;
-
                 // If they don't have a loadout for the role, make a default one
                 roleLoadout = new RoleLoadout(jobProtoId);
                 roleLoadout.SetDefault(profile, session, _prototypeManager);

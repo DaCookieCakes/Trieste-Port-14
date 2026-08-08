@@ -1405,6 +1405,7 @@
   minLimit: 0
   loadouts:
   - ReporterPressFedora
+  - Fez
 
 - type: loadoutGroup
   id: ReporterOuterClothing
@@ -1413,19 +1414,11 @@
   loadouts:
   - ReporterPressVest
 
-- type: loadoutGroup
-  id: ReporterJobTrinkets
-  name: loadout-group-jobtrinkets
-  minLimit: 0
-  loadouts:
-  - LizardPlushieReporter
-
-- type: loadoutGroup # - TP14
-  id: PsychologistHead # - TP14
-  name: tp14-loadout-group-psychologist-head # - TP14
-  minLimit: 0 # - TP14
-  loadouts: # - TP14
-  - Fez # - TP14
+#- type: loadoutGroup
+#  id: ReporterJobTrinkets
+#  name: loadout-group-jobtrinkets
+#  minLimit: 0
+#  loadouts:
 
 - type: loadoutGroup
   id: PsychologistJumpsuit

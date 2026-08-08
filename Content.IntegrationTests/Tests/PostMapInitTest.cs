@@ -105,7 +105,8 @@ namespace Content.IntegrationTests.Tests
             "Relic",
             "dm01-entryway",
             "Exo",
-            "Snowball",
+	          "Snowball",
+            "Serpentcrest",
             "trieste", // TP
             "Misc/terminal", // TP
             "Misc/ocean", // TP

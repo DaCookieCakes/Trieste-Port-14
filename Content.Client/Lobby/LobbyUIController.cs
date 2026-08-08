@@ -3,7 +3,6 @@ using Content.Client.Humanoid;
 using Content.Client.Inventory;
 using Content.Client.Lobby.UI;
 using Content.Client.Players.PlayTimeTracking;
-using Content.Client.Station;
 using Content.Shared.CCVar;
 using Content.Shared.Humanoid.Markings;
 using Content.Shared.Humanoid.Prototypes;
@@ -33,8 +32,6 @@ public sealed class LobbyUIController : UIController, IOnStateEntered<LobbyState
     [Dependency] private readonly IStateManager _stateManager = default!;
     [Dependency] private readonly JobRequirementsManager _requirements = default!;
     [Dependency] private readonly MarkingManager _markings = default!;
-    [UISystemDependency] private readonly ClientInventorySystem _inventory = default!;
-    [UISystemDependency] private readonly StationSpawningSystem _spawn = default!;
     [UISystemDependency] private readonly GuidebookSystem _guide = default!;
 
     private CharacterSetupGui? _characterSetup;

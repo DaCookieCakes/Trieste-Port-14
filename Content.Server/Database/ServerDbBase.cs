@@ -9,19 +9,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using Content.Server.Administration.Logs;
 using Content.Shared.Administration.Logs;
-using Content.Shared.Body;
 using Content.Shared.Construction.Prototypes;
 using Content.Shared.Database;
-using Content.Shared.GameTicking;
 using Content.Shared.Humanoid;
-using Content.Shared.Humanoid.Markings;
 using Content.Shared.Preferences;
-using Content.Shared.Preferences.Loadouts;
 using Content.Shared.Roles;
-using Content.Shared.Traits;
 using Microsoft.EntityFrameworkCore;
-using Robust.Shared.Asynchronous;
-using Robust.Shared.Enums;
 using Robust.Shared.Network;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization.Manager;
@@ -33,58 +26,66 @@ namespace Content.Server.Database
     {
         private readonly ISawmill _opsLog;
         public event Action<DatabaseNotification>? OnNotificationReceived;
-        private readonly ITaskManager _task;
         private readonly ISerializationManager _serialization;
 
         /// <param name="opsLog">Sawmill to trace log database operations to.</param>
-        public ServerDbBase(ISawmill opsLog, ITaskManager taskManager, ISerializationManager serialization)
+        public ServerDbBase(ISawmill opsLog, ISerializationManager serialization)
         {
-            _task = taskManager;
             _serialization = serialization;
             _opsLog = opsLog;
         }
 
         #region Preferences
-        public async Task<PlayerPreferences?> GetPlayerPreferencesAsync(
+        public async Task<Preference?> GetPlayerPreferencesAsync(
             NetUserId userId,
             CancellationToken cancel = default)
         {
             await using var db = await GetDb(cancel);
 
-            var prefs = await db.DbContext
+            return await db.DbContext
                 .Preference
                 .Include(p => p.Profiles).ThenInclude(h => h.Jobs)
                 .Include(p => p.Profiles).ThenInclude(h => h.Antags)
                 .Include(p => p.Profiles).ThenInclude(h => h.Traits)
-                .Include(p => p.Profiles) // Starlight
-                    .ThenInclude(h => h.StarLightProfile) // Starlight
                 .Include(p => p.Profiles)
                     .ThenInclude(h => h.Loadouts)
                     .ThenInclude(l => l.Groups)
                     .ThenInclude(group => group.Loadouts)
-                .Include(p => p.JobPriorities)
                 .AsSplitQuery()
                 .SingleOrDefaultAsync(p => p.UserId == userId.UserId, cancel);
+        }
 
-            if (prefs is null)
-                return null;
+        public async Task SaveSelectedCharacterIndexAsync(NetUserId userId, int index)
+        {
+            await using var db = await GetDb();
 
-            var maxSlot = prefs.Profiles.Max(p => p.Slot) + 1;
-            var profiles = new Dictionary<int, HumanoidCharacterProfile>(maxSlot);
-            foreach (var profile in prefs.Profiles)
-            {
-                profiles[profile.Slot] = await ConvertProfiles(profile);
-            }
+            await SetSelectedCharacterSlotAsync(userId, index, db.DbContext);
 
-            var constructionFavorites = new List<ProtoId<ConstructionPrototype>>(prefs.ConstructionFavorites.Count);
-            foreach (var favorite in prefs.ConstructionFavorites)
-            {
-                constructionFavorites.Add(new ProtoId<ConstructionPrototype>(favorite));
-            }
+            await db.DbContext.SaveChangesAsync();
+        }
 
-            var jobPriorities = prefs.JobPriorities.ToDictionary(j => new ProtoId<JobPrototype>(j.JobName), j => (JobPriority) j.Priority);
+        /// <summary>
+        /// Only intended for use in unit tests - drops the organ marking data from a profile in the given slot
+        /// </summary>
+        /// <param name="userId">The user whose profile to modify</param>
+        /// <param name="slot">The slot index to modify</param>
+        public async Task MakeCharacterSlotLegacyAsync(NetUserId userId, int slot)
+        {
+            await using var db = await GetDb();
 
-            return new PlayerPreferences(profiles, Color.FromHex(prefs.AdminOOCColor), constructionFavorites, jobPriorities);
+            var oldProfile = await db.DbContext.Profile
+                .Include(p => p.Preference)
+                .Where(p => p.Preference.UserId == userId.UserId)
+                .AsSplitQuery()
+                .SingleOrDefaultAsync(h => h.Slot == slot);
+
+            if (oldProfile == null)
+                return;
+
+            oldProfile.OrganMarkings = null;
+            oldProfile.Markings = JsonSerializer.SerializeToDocument(new List<string>());
+
+            await db.DbContext.SaveChangesAsync();
         }
 
         public async Task SaveCharacterSlotAsync(NetUserId userId, HumanoidCharacterProfile? humanoid, int slot)
@@ -99,7 +100,6 @@ namespace Content.Server.Database
             }
 
             var oldProfile = db.DbContext.Profile
-                .Include(p => p.StarLightProfile) // Starlight
                 .Include(p => p.Preference)
                 .Where(p => p.Preference.UserId == userId.UserId)
                 .Include(p => p.Jobs)
@@ -125,29 +125,6 @@ namespace Content.Server.Database
             await db.DbContext.SaveChangesAsync();
         }
 
-        public async Task SaveJobPrioritiesAsync(NetUserId userId, Dictionary<ProtoId<JobPrototype>, JobPriority> newJobPriorities)
-        {
-            await using var db = await GetDb();
-
-            var playerPreference = db.DbContext.Preference
-                .Include(p => p.JobPriorities)
-                .Single(p => p.UserId == userId.UserId);
-
-            var newPrios = new List<JobPriorityEntry>();
-            foreach (var (job, priority) in newJobPriorities)
-            {
-                var newPrio = new JobPriorityEntry
-                {
-                    JobName = job,
-                    Priority = (DbJobPriority)priority,
-                };
-                newPrios.Add(newPrio);
-            }
-            playerPreference.JobPriorities = newPrios;
-
-            await db.DbContext.SaveChangesAsync();
-        }
-
         private static async Task DeleteCharacterSlot(ServerDbContext db, NetUserId userId, int slot)
         {
             var profile = await db.Profile.Include(p => p.Preference)
@@ -162,25 +139,17 @@ namespace Content.Server.Database
             db.Profile.Remove(profile);
         }
 
-        public async Task<PlayerPreferences> InitPrefsAsync(NetUserId userId, HumanoidCharacterProfile defaultProfile)
+        public async Task<Preference> InitPrefsAsync(NetUserId userId, HumanoidCharacterProfile defaultProfile)
         {
             await using var db = await GetDb();
-
-            var priorities = new Dictionary<ProtoId<JobPrototype>, JobPriority>
-                { { SharedGameTicker.FallbackOverflowJob, JobPriority.High } };
-
-            var dbPriorities = priorities
-                .Where(j => j.Value != JobPriority.Never)
-                .Select(j => new JobPriorityEntry { JobName = j.Key, Priority = (DbJobPriority)j.Value })
-                .ToList();
 
             var profile = ConvertProfiles((HumanoidCharacterProfile) defaultProfile, 0);
             var prefs = new Preference
             {
                 UserId = userId.UserId,
+                SelectedCharacterSlot = 0,
                 AdminOOCColor = Color.Red.ToHex(),
                 ConstructionFavorites = [],
-                JobPriorities = dbPriorities,
             };
 
             prefs.Profiles.Add(profile);
@@ -189,12 +158,17 @@ namespace Content.Server.Database
 
             await db.DbContext.SaveChangesAsync();
 
-            return new PlayerPreferences(
-                new[] {new KeyValuePair<int, HumanoidCharacterProfile>(0, defaultProfile)},
-                Color.FromHex(prefs.AdminOOCColor),
-                [],
-                priorities
-            );
+            return prefs;
+        }
+
+        public async Task DeleteSlotAndSetSelectedIndex(NetUserId userId, int deleteSlot, int newSlot)
+        {
+            await using var db = await GetDb();
+
+            await DeleteCharacterSlot(db.DbContext, userId, deleteSlot);
+            await SetSelectedCharacterSlotAsync(userId, newSlot, db.DbContext);
+
+            await db.DbContext.SaveChangesAsync();
         }
 
         public async Task SaveAdminOOCColorAsync(NetUserId userId, Color color)
@@ -207,6 +181,7 @@ namespace Content.Server.Database
             prefs.AdminOOCColor = color.ToHex();
 
             await db.DbContext.SaveChangesAsync();
+
         }
 
         public async Task SaveConstructionFavoritesAsync(NetUserId userId, List<ProtoId<ConstructionPrototype>> constructionFavorites)
@@ -216,124 +191,16 @@ namespace Content.Server.Database
 
             var favorites = new List<string>(constructionFavorites.Count);
             foreach (var favorite in constructionFavorites)
-            {
                 favorites.Add(favorite.Id);
-            }
             prefs.ConstructionFavorites = favorites;
 
             await db.DbContext.SaveChangesAsync();
         }
 
-        private static HumanoidCharacterProfile ConvertProfiles(Profile profile)
+        private static async Task SetSelectedCharacterSlotAsync(NetUserId userId, int newSlot, ServerDbContext db)
         {
-            var jobs = profile.Jobs.Select(j => new ProtoId<JobPrototype>(j.JobName)).ToHashSet();
-            var antags = profile.Antags.Select(a => new ProtoId<AntagPrototype>(a.AntagName));
-            var traits = profile.Traits.Select(t => new ProtoId<TraitPrototype>(t.TraitName));
-
-            var sex = Sex.Male;
-            if (Enum.TryParse<Sex>(profile.Sex, true, out var sexVal))
-                sex = sexVal;
-
-            var spawnPriority = (SpawnPriorityPreference) profile.SpawnPriority;
-
-            var gender = sex == Sex.Male ? Gender.Male : Gender.Female;
-            if (Enum.TryParse<Gender>(profile.Gender, true, out var genderVal))
-                gender = genderVal;
-
-
-            var markings =
-                new Dictionary<ProtoId<OrganCategoryPrototype>, Dictionary<HumanoidVisualLayers, List<Marking>>>();
-
-            if (profile.OrganMarkings?.RootElement is { } element)
-            {
-                var data = element.ToDataNode();
-                markings = _serialization
-                    .Read<Dictionary<ProtoId<OrganCategoryPrototype>, Dictionary<HumanoidVisualLayers, List<Marking>>>>(
-                        data,
-                        notNullableOverride: true);
-            }
-            else if (profile.Markings is { } profileMarkings && TryDeserialize<List<string>>(profileMarkings) is { } markingsRaw)
-            {
-                List<Marking> markingsList = new();
-
-                foreach (var marking in markingsRaw)
-                {
-                    var parsed = Marking.ParseFromDbString(marking);
-
-                    if (parsed is null) continue;
-
-                    markingsList.Add(parsed);
-                }
-
-                if (Marking.ParseFromDbString($"{profile.HairName}@{profile.HairColor}") is { } facialMarking)
-                    markingsList.Add(facialMarking);
-
-                if (Marking.ParseFromDbString($"{profile.HairName}@{profile.HairColor}") is { } hairMarking)
-                    markingsList.Add(hairMarking);
-
-                var completion = new TaskCompletionSource();
-                _task.RunOnMainThread(() =>
-                {
-                    var markingManager = IoCManager.Resolve<MarkingManager>();
-
-                    try
-                    {
-                        markings = markingManager.ConvertMarkings(markingsList, profile.Species);
-                        completion.SetResult();
-                    }
-                    catch (Exception ex)
-                    {
-                        completion.TrySetException(ex);
-                    }
-                });
-                await completion.Task;
-            }
-
-            var loadouts = new Dictionary<string, RoleLoadout>();
-
-            foreach (var role in profile.Loadouts)
-            {
-                var loadout = new RoleLoadout(role.RoleName)
-                {
-                    EntityName = role.EntityName,
-                };
-
-                foreach (var group in role.Groups)
-                {
-                    var groupLoadouts = loadout.SelectedLoadouts.GetOrNew(group.GroupName);
-                    foreach (var profLoadout in group.Loadouts)
-                    {
-                        groupLoadouts.Add(new Loadout()
-                        {
-                            Prototype = profLoadout.LoadoutName,
-                        });
-                    }
-                }
-
-                loadouts[role.RoleName] = loadout;
-            }
-
-            return new HumanoidCharacterProfile(
-                profile.CharacterName,
-                profile.FlavorText,
-                profile.Species,
-                profile.StarLightProfile?.CustomSpecieName ?? "", // Starlight
-                profile.Age,
-                sex,
-                gender,
-                new HumanoidCharacterAppearance
-                (
-                    Color.FromHex(profile.EyeColor),
-                    Color.FromHex(profile.SkinColor),
-                    markings
-                ),
-                spawnPriority,
-                jobs,
-                antags.ToHashSet(),
-                traits.ToHashSet(),
-                loadouts,
-                profile.Enabled
-            );
+            var prefs = await db.Preference.SingleAsync(p => p.UserId == userId.UserId);
+            prefs.SelectedCharacterSlot = newSlot;
         }
 
         private Profile ConvertProfiles(HumanoidCharacterProfile humanoid, int slot, Profile? profile = null)
@@ -345,8 +212,6 @@ namespace Content.Server.Database
             profile.CharacterName = humanoid.Name;
             profile.FlavorText = humanoid.FlavorText;
             profile.Species = humanoid.Species;
-            profile.StarLightProfile ??= new StarLightModel.StarLightProfile(); // Starlight
-            profile.StarLightProfile.CustomSpecieName = humanoid.CustomSpeciesName; // Starlight
             profile.Age = humanoid.Age;
             profile.Sex = humanoid.Sex.ToString();
             profile.Gender = humanoid.Gender.ToString();
@@ -359,7 +224,7 @@ namespace Content.Server.Database
             var legacyMarkings = appearance.Markings
                 .SelectMany(organ => organ.Value.Values)
                 .SelectMany(i => i)
-                .Select(marking => marking.ToString())
+                .Select(marking => marking.ToLegacyDbString())
                 .ToList();
             var flattenedMarkings = appearance.Markings.SelectMany(it => it.Value)
                 .ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
@@ -373,12 +238,13 @@ namespace Content.Server.Database
             profile.FacialHairColor = (facialHairMarking?.MarkingColors[0] ?? Color.Black).ToHex();
 
             profile.Slot = slot;
-            profile.Enabled = humanoid.Enabled;
+            profile.PreferenceUnavailable = (DbPreferenceUnavailableMode) humanoid.PreferenceUnavailable;
 
             profile.Jobs.Clear();
             profile.Jobs.AddRange(
-                humanoid.JobPreferences
-                    .Select(j => new Job {JobName = j})
+                humanoid.JobPriorities
+                    .Where(j => j.Value != JobPriority.Never)
+                    .Select(j => new Job {JobName = j.Key, Priority = (DbJobPriority) j.Value})
             );
 
             profile.Antags.Clear();
