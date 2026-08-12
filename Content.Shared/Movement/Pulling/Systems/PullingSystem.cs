@@ -78,7 +78,6 @@ public sealed partial class PullingSystem : EntitySystem
         SubscribeLocalEvent<PullerComponent, RefreshMovementSpeedModifiersEvent>(OnRefreshMovespeed);
         SubscribeLocalEvent<PullerComponent, DropHandItemsEvent>(OnDropHandItems);
         SubscribeLocalEvent<PullerComponent, StopPullingAlertEvent>(OnStopPullingAlert);
-        SubscribeLocalEvent<PullableComponent, GetInteractingEntitiesEvent>(OnGetInteractingEntities);
 
         SubscribeLocalEvent<HandsComponent, PullStartedMessage>(HandlePullStarted);
         SubscribeLocalEvent<HandsComponent, PullStoppedMessage>(HandlePullStopped);

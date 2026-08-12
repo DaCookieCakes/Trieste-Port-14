@@ -33,9 +33,7 @@
   - type: ShowElectrocutionHUD
   - type: ActionGrant
     actions:
-    - ActionJumpToCore
     - ActionAIViewLaws
-    - ActionChangeLevel
   - type: UserInterface
     interfaces:
       enum.RadarConsoleUiKey.Key:

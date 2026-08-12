@@ -945,7 +945,7 @@
     shape:
     - 0,0,3,1
     heldPrefix: energy
-  - type: ProjectileBatteryAmmoProvider
+  - type: BatteryAmmoProvider
     proto: BulletLaser
     fireCost: 100
   - type: HandCrankRecharger

@@ -1,0 +1,58 @@
+- type: entity
+  id: OrganSeaCreatureMetabolizer
+  abstract: true
+  components:
+  - type: Metabolizer
+    metabolizerTypes: [ TP14WaterBreather ]
+
+- type: entity
+  id: OrganSeaLandCreatureMetabolizer
+  abstract: true
+  components:
+  - type: Metabolizer
+    metabolizerTypes: [ TP14WaterBreather, Animal ]
+
+- type: entity
+  parent: OrganBaseOrganic
+  id: OrganSeaCreature
+  abstract: true
+  suffix: Animal
+
+- type: entity
+  parent: OrganSeaCreature
+  id: OrganSeaCreatureInternal
+  abstract: true
+  components:
+  - type: Sprite
+    sprite: Mobs/Species/Human/organs.rsi
+
+- type: entity
+  parent: OrganSeaCreature
+  id: OrganSeaLandCreatureInternal
+  abstract: true
+  components:
+  - type: Sprite
+    sprite: Mobs/Species/Human/organs.rsi
+
+- type: entity
+  parent: [ OrganBaseLungs, OrganSeaCreatureInternal, OrganSeaCreatureMetabolizer ]
+  id: OrganSeaCreatureLungs
+  suffix: Trieste
+  name: gills
+
+- type: entity
+  parent: [ OrganBaseLungs, OrganSeaCreatureInternal, OrganSeaLandCreatureMetabolizer ]
+  id: OrganSeaLandCreatureLungs
+  suffix: Trieste
+  name: gills
+
+- type: entity
+  id: OrganTumor
+  parent: [ OrganBloodsucker, OrganAnimalStomach ]
+  suffix: Trieste
+  name: festering tumor
+  description: What... what is this?
+  components:
+  - type: Nymph
+    transferMind: true
+    entityPrototype: TP14MobMimic

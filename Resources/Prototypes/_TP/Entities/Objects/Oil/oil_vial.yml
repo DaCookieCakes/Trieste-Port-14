@@ -2,7 +2,7 @@
   id: CrudeOilVial
   name: crude oil sample
   description: A vial containing a sample of crude oil.
-  parent: BaseChemistryEmptyVial
+  parent: ChemistryEmptyVial
   suffix: Trieste, Petrochem, Full
   components:
     - type: SolutionContainerManager

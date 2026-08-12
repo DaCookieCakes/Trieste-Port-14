@@ -10,7 +10,7 @@
     layers:
     - state: water
   - type: GasCanister
-    gasMixture:
+    air:
       volume: 1500
       moles:
         Water: 2769.36
@@ -63,7 +63,7 @@
     layers:
     - state: engi
   - type: GasCanister
-    gasMixture:
+    air:
       volume: 1500
       temperature: 293.15
   - type: Destructible

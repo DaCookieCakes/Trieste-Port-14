@@ -17,12 +17,14 @@
     enum.HumanoidVisualLayers.Chest:
       limit: 4 # Moffstation: Increase markings
       required: false
-      enum.HumanoidVisualLayers.Head:
-        limit: 1
-        default: [ ArachnidEyesDefault ]
+    enum.HumanoidVisualLayers.Head:
+      limit: 1
+      default: [ ArachnidEyesDefault ]
+      required: true
     # Moffstation - End
     enum.HumanoidVisualLayers.HeadTop: # Trieste: Added.
       limit: 1
+      required: false
     enum.HumanoidVisualLayers.HeadSide:
       limit: 1
       required: true

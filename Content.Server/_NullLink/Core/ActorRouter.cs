@@ -99,6 +99,6 @@ public sealed partial class ActorRouter : IActorRouter, IDisposable
 
     public void Dispose()
     {
-        OrleansClientHolder.Shutdown().AsTask().Wait();
+        _ = OrleansClientHolder.Shutdown();
     }
 }

@@ -13,16 +13,6 @@
 
 ## DECEPTIONS ##
 - type: listing
-  id: UplinkCyberpen
-  name: uplink-cyberpen-name
-  description: uplink-cyberpen-desc
-  productEntity: CyberPen
-  cost:
-    Telecrystal: 1
-  categories:
-  - UplinkDeception
-
-- type: listing
   id: UplinkUltrabrightLantern
   name: uplink-ultrabright-lantern-name
   description: uplink-ultrabright-lantern-desc
@@ -32,20 +22,6 @@
     Telecrystal: 1
   cost:
     Telecrystal: 2
-  categories:
-  - UplinkDeception
-
-- type: listing
-  id: UplinkDecoyKit
-  name: uplink-decoy-kit-name
-  description: uplink-decoy-kit-desc
-  icon: { sprite: /Textures/Objects/Tools/Decoys/operative_decoy.rsi, state: folded }
-  productEntity: ClothingBackpackDuffelSyndicateDecoyKitFilled
-  discountCategory: usualDiscounts
-  discountDownTo:
-    Telecrystal: 3
-  cost:
-    Telecrystal: 6
   categories:
   - UplinkDeception
 

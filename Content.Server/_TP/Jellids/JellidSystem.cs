@@ -1,24 +1,25 @@
 using Content.Server.Atmos.EntitySystems;
-using Content.Server.Chemistry.Components;
-using Content.Server.DoAfter;
-using Content.Server.Power.EntitySystems;
 using Content.Shared._TP.Jellids;
 using Content.Shared.Alert;
 using Content.Shared.Atmos.Components;
-using Content.Shared.Chemistry.Components.SolutionManager;
+using Content.Shared.Chemistry.Components;
 using Content.Shared.Chemistry.EntitySystems;
 using Content.Shared.Damage;
 using Content.Shared.Damage.Systems;
 using Content.Shared.DoAfter;
 using Content.Shared.Electrocution;
-using Content.Shared.Hands.Components;
 using Content.Shared.Hands.EntitySystems;
 using Content.Shared.Interaction.Events;
 using Content.Shared.Inventory;
-using Content.Shared.Placeable;
+using Content.Shared.Medical;
 using Content.Shared.Popups;
+using Content.Shared.Power;
 using Content.Shared.Power.Components;
+using Content.Shared.Power.EntitySystems;
+using Content.Shared.Smoking;
 using Content.Shared.Tag;
+using Content.Shared.Temperature.Components;
+using Content.Shared.Temperature.Systems;
 using Robust.Shared.Audio;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Prototypes;
@@ -26,41 +27,101 @@ using Robust.Shared.Timing;
 
 namespace Content.Server._TP.Jellids;
 
-/// <summary>
-///     The JellidComponent system handling everything related to power.
-///     Such as charging, draining, and alerts.
-/// </summary>
 public sealed partial class JellidSystem : EntitySystem
 {
     [Dependency] private AlertsSystem _alerts = default!;
     [Dependency] private SharedAudioSystem _audio = default!;
-    [Dependency] private BatterySystem _battery = default!;
+    [Dependency] private SharedBatterySystem _battery = default!;
     [Dependency] private DamageableSystem _damageable = default!;
-    [Dependency] private DoAfterSystem _doAfter = default!;
-    [Dependency] private FlammableSystem _flammable = default!;
+    [Dependency] private SharedDoAfterSystem _doAfter = default!;
+    [Dependency] private SharedPopupSystem _popup = default!;
     [Dependency] private SharedHandsSystem _hands = default!;
     [Dependency] private InventorySystem _inventory = default!;
-    [Dependency] private SharedPopupSystem _popup = default!;
     [Dependency] private SharedSolutionContainerSystem _solutionContainer = default!;
     [Dependency] private TagSystem _tag = default!;
     [Dependency] private IGameTiming _timing = default!;
-
-    // The jellid-proof gloves tag proto ID.
-    private static readonly ProtoId<TagPrototype> FireproofTag = "PreventsFire";
-
-    // Track the previous charge to detect if this Jellid is charging.
-    private readonly Dictionary<EntityUid, float> _previousCharges = new();
+    [Dependency] private FlammableSystem _flammable = default!;
+    [Dependency] private SharedTemperatureSystem _temperature = default!;
 
     public override void Initialize()
     {
         base.Initialize();
 
-        SubscribeLocalEvent<JellidComponent, ComponentShutdown>(OnShutdown);
-        SubscribeLocalEvent<JellidComponent, ElectrocutedEvent>(OnElectrocution);
-
         // Proper charging.
         SubscribeLocalEvent<BatteryComponent, UseInHandEvent>(OnUseBatteryInHand);
         SubscribeLocalEvent<JellidComponent, JellidBatteryDoAfterEvent>(OnJellidDoAfter);
+        SubscribeLocalEvent<JellidComponent, ChargeChangedEvent>(OnChargeChanged);
+
+        // Electrocution events.
+        SubscribeLocalEvent<JellidComponent, ElectrocutedEvent>(OnElectrocution);
+        SubscribeLocalEvent<JellidComponent, TargetBeforeDefibrillatorZapsEvent>(OnBeforeZapped);
+    }
+
+    private void OnChargeChanged(Entity<JellidComponent> ent, ref ChargeChangedEvent args)
+    {
+        if (!TryComp<BatteryComponent>(ent.Owner, out var batteryComp))
+            return;
+
+        var currentCharge = _battery.GetCharge((ent.Owner, batteryComp));
+        var chargeLevel = (short)MathF.Round(_battery.GetChargeLevel((ent.Owner, batteryComp)) * 10f);
+
+        // Battery alert stuff.
+        if (currentCharge > batteryComp.MaxCharge * 0.1)
+        {
+            _alerts.ClearAlert(ent.Owner, ent.Comp.NoBatteryAlert);
+            _alerts.ShowAlert(ent.Owner, ent.Comp.BatteryAlert, chargeLevel);
+        }
+        else
+        {
+            _alerts.ClearAlert(ent.Owner, ent.Comp.BatteryAlert);
+            _alerts.ShowAlert(ent.Owner, ent.Comp.NoBatteryAlert);
+        }
+
+        // Damage jellids bellow the damage start value.
+        if (currentCharge <= batteryComp.MaxCharge * 0.1)
+        {
+            var isCharging = currentCharge > batteryComp.LastCharge;
+            if (isCharging)
+                return;
+
+            var damage = new DamageSpecifier
+            {
+                DamageDict = { ["Slash"] = 2f }
+            };
+            _damageable.TryChangeDamage(ent.Owner, damage, origin: ent.Owner);
+        }
+    }
+
+    /// <summary>
+    ///     A raised-event method that will charge jellids upon being defibbed.
+    /// </summary>
+    /// <param name="ent">Jellid entity</param>
+    /// <param name="args">TargetBeforeDefibrillatorZapsEvent arguments</param>
+    private void OnBeforeZapped(Entity<JellidComponent> ent, ref TargetBeforeDefibrillatorZapsEvent args)
+    {
+        if (args.DefibTarget != ent.Owner)
+            return;
+
+        // If the target has a battery (Jellids), restores some of their internal energy.
+        // This will heal Jellids and prevent instantly dying again.
+        if (!HasComp<BatteryComponent>(ent.Owner))
+            return;
+
+        _battery.ChangeCharge(ent.Owner, ent.Comp.ZapCharge);
+    }
+
+    /// <summary>
+    /// A raised-event method that will charge jellids upon being electrocuted.
+    /// </summary>
+    /// <param name="ent">Jellid entity</param>
+    /// <param name="args">ElectrocutedEvent args</param>
+    private void OnElectrocution(Entity<JellidComponent> ent, ref ElectrocutedEvent args)
+    {
+        if (!HasComp<BatteryComponent>(ent.Owner))
+            return;
+
+        // This *should* be scaled to the power level, with a max of 200. (or 1.0)
+        _battery.ChangeCharge(ent.Owner, ent.Comp.ZapCharge * args.SiemensCoefficient);
     }
 
     /// <summary>
@@ -79,17 +140,18 @@ public sealed partial class JellidSystem : EntitySystem
         if (!TryComp<BatteryComponent>(args.Used, out var batteryComp))
             return;
 
-        if (!TryComp<JellidComponent>(args.User, out var jellidComp))
+        if (!TryComp<BatteryComponent>(args.User, out var jellidBatteryComp))
             return;
 
-        if (!TryComp<BatteryComponent>(args.User, out var jellidBatteryComp))
+        if (!TryComp<JellidComponent>(args.User, out var jellidComp))
             return;
 
         // Now get the battery's max charge and multiply it by the JellidComponent drain percent.
         // If the battery's current charge is less than the drain, return with a popup.
         // Otherwise, drain the battery and add the charge to the Jellid's battery.
         var drain = batteryComp.MaxCharge * jellidComp.DrainPercent;
-        if (batteryComp.LastCharge < drain)
+        var currCharge = _battery.GetCharge((ent.Owner, jellidBatteryComp));
+        if (currCharge < drain)
         {
             _popup.PopupEntity(Loc.GetString("jellid-used-failed"), args.User, args.User);
             args.Repeat = false;
@@ -97,19 +159,19 @@ public sealed partial class JellidSystem : EntitySystem
             return;
         }
 
-        if (jellidBatteryComp.LastCharge + drain >= jellidBatteryComp.MaxCharge)
+        if (currCharge + drain >= jellidBatteryComp.MaxCharge)
         {
             args.Repeat = false;
             return;
         }
 
-        _battery.SetCharge(args.Used.Value, batteryComp.LastCharge - drain);
-        _battery.SetCharge(args.User, jellidBatteryComp.LastCharge + drain);
+        _battery.ChangeCharge(args.Used.Value, -drain);
+        _battery.SetCharge(args.User, drain);
 
         _audio.PlayPvs(jellidComp.BatteryUseSound, ent.Owner, AudioParams.Default.WithLoop(false).WithVolume(-3));
         _popup.PopupEntity(Loc.GetString("jellid-used-success"), args.User, args.User);
 
-        args.Repeat = batteryComp.LastCharge >= drain;
+        args.Repeat = currCharge + drain <= jellidBatteryComp.MaxCharge;
         args.Handled = true;
     }
 
@@ -132,19 +194,8 @@ public sealed partial class JellidSystem : EntitySystem
         _doAfter.TryStartDoAfter(doAfter);
     }
 
-    private void OnElectrocution(Entity<JellidComponent> ent, ref ElectrocutedEvent args)
-    {
-        if (!TryComp<BatteryComponent>(ent.Owner, out var battery))
-            return;
-
-        var chargeGain = 100f * args.SiemensCoefficient;
-        _battery.SetCharge(ent.Owner, Math.Min(battery.LastCharge + chargeGain, battery.MaxCharge));
-    }
-
-    private void OnShutdown(Entity<JellidComponent> ent, ref ComponentShutdown args)
-    {
-        _previousCharges.Remove(ent);
-    }
+    // The jellid-proof gloves tag proto ID.
+    private static readonly ProtoId<TagPrototype> FireproofTag = "PreventsFire";
 
     public override void Update(float frameTime)
     {
@@ -159,14 +210,6 @@ public sealed partial class JellidSystem : EntitySystem
 
             comp.NextPowerDrain = _timing.CurTime + TimeSpan.FromSeconds(1f);
 
-            if (!TryComp<BatteryComponent>(uid, out var jellidBattery))
-                continue;
-
-            // Alert check!
-            // If the internal battery is below 300, display an empty battery alert.
-            // Otherwise, display a battery alert with the charge percentage.
-            UpdateAlerts(uid, comp, jellidBattery);
-
             // Held item check!
             // If the user DOES NOT have gloves on and a battery is held, it will slowly drain into the Jellid.
             // Also check if the user has BURNABLE ITEMS in their hands. If so, burn it to ash.
@@ -175,34 +218,35 @@ public sealed partial class JellidSystem : EntitySystem
 
             if (!hasFireproofGloves)
             {
-                UpdateHeldBatteries(uid, jellidBattery);
+                UpdateHeldBatteries(uid, comp);
                 UpdateHeldBurnables(uid);
-                UpdateHeldHeatables(uid, frameTime);
+                UpdateHeldThermals(uid, comp, frameTime);
             }
-
-            // Damage check!
-            // If the internal battery is below 20, damage the Jellid and add it to a previous charge dict.
-            // We only damage the Jellid if it's NOT charging. we deal 1 slash damage.
-            UpdatePowerDamage(uid, jellidBattery);
         }
     }
 
-    private void UpdateHeldHeatables(EntityUid uid, float frameTime)
+    /// <summary>
+    ///     Helper method to heat-up solutions being held.
+    /// </summary>
+    /// <param name="uid">Jellid uid</param>
+    /// <param name="jellidComp">Jellid component</param>
+    /// <param name="frameTime">FrameTime</param>
+    private void UpdateHeldThermals(EntityUid uid, JellidComponent jellidComp, float frameTime)
     {
-        var query = EntityQueryEnumerator<ActiveSolutionHeaterComponent, SolutionHeaterComponent, ItemPlacerComponent>();
-        while (query.MoveNext(out _, out _, out var heater, out var placer))
+        if (_hands.GetActiveItem(uid) is not { } heldItem)
+            return;
+
+        var energy = jellidComp.HeatTransfer * frameTime;
+        if (HasComp<SolutionComponent>(heldItem))
         {
-            if (_hands.GetActiveItem(uid) is not { } heldItem)
-                continue;
-
-            var energy = 0f;
-            energy = 30f * frameTime; // God, forgive me for my hardcodedness
-
-            foreach (var (_, soln) in _solutionContainer.EnumerateSolutions(heldItem))
+            foreach (var (_, solutionEnt) in _solutionContainer.EnumerateSolutions(heldItem))
             {
-                _solutionContainer.AddThermalEnergy(soln, energy);
+                _solutionContainer.AddThermalEnergy(solutionEnt, energy);
             }
         }
+
+        if (TryComp<TemperatureComponent>(heldItem, out var heldTempComp))
+            _temperature.ChangeHeat(heldItem, energy, false, heldTempComp);
     }
 
     private void UpdateHeldBurnables(EntityUid uid)
@@ -213,47 +257,28 @@ public sealed partial class JellidSystem : EntitySystem
         if (!TryComp<FlammableComponent>(heldItem, out var flammable))
             return;
 
+        if (HasComp<BurningComponent>(heldItem))
+            return;
+
         _flammable.AdjustFireStacks(heldItem, flammable.FireStacks, flammable);
         if (flammable.FireStacks >= 0)
             _flammable.Ignite(heldItem, heldItem, flammable, uid);
     }
 
-    /// <summary>
-    ///     Helper method to damage the player if their charge is below 100.
-    ///     NOTE: Needs testing if 100 is too high!
-    /// </summary>
-    /// <param name="uid">Jellid's UID</param>
-    /// <param name="jellidBattery">Jellid's BatteryComponent</param>
-    private void UpdatePowerDamage(EntityUid uid, BatteryComponent jellidBattery)
-    {
-        const float damageCharge = 100f;
-        if (jellidBattery.LastCharge >= damageCharge)
-        {
-            _previousCharges[uid] = jellidBattery.LastCharge;
-            return;
-        }
-
-        var isCharging = _previousCharges.TryGetValue(uid, out var prevCharge) && jellidBattery.LastCharge > prevCharge;
-        if (isCharging)
-            return;
-
-        var damage = new DamageSpecifier
-        {
-            DamageDict = { ["Slash"] = 1f }
-        };
-        _damageable.TryChangeDamage(uid, damage, origin: uid);
-    }
 
     /// <summary>
     ///     Helper method to drain HELD batteries passively into the player.
     ///     This is separate from 'eating' power, but it still feeds them.
     /// </summary>
     /// <param name="uid">Jellid's UID</param>
-    /// <param name="jellidBattery">Jellid's BatteryComponent</param>
-    private void UpdateHeldBatteries(EntityUid uid, BatteryComponent jellidBattery)
+    /// <param name="jellidComp"></param>
+    private void UpdateHeldBatteries(EntityUid uid, JellidComponent jellidComp)
     {
         foreach (var hand in _hands.EnumerateHands(uid))
         {
+            if (!HasComp<BatteryComponent>(uid))
+                continue;
+
             if (!_hands.TryGetHeldItem(uid, hand, out var heldItem))
                 continue;
 
@@ -261,44 +286,8 @@ public sealed partial class JellidSystem : EntitySystem
                 continue;
 
             // Drain at a rate of a constant 2.5 power.
-            _battery.SetCharge(heldItem.Value, batteryComp.LastCharge - 2.5f);
-            _battery.SetCharge(uid, jellidBattery.LastCharge + 2.5f);
+            _battery.ChangeCharge(heldItem.Value, -jellidComp.HeldPassiveDrain);
+            _battery.ChangeCharge(uid, jellidComp.HeldPassiveDrain);
         }
-    }
-
-    /// <summary>
-    ///     Helper method to update the Jellid's battery alerts.
-    ///     If below 300, an empty battery is displayed. Otherwise, display a numbered 10-0 battery.
-    /// </summary>
-    /// <param name="uid">Jellid's UID</param>
-    /// <param name="comp">Jellid's JellidComponent</param>
-    /// <param name="jellidBattery">Jellid's BatteryComponent</param>
-    private void UpdateAlerts(EntityUid uid, JellidComponent comp, BatteryComponent jellidBattery)
-    {
-        const float alertChange = 300f;
-        var chargePercent = (short) MathF.Round(jellidBattery.LastCharge / jellidBattery.MaxCharge * 10f);
-        if (jellidBattery.LastCharge > alertChange)
-        {
-            _alerts.ClearAlert(uid, comp.NoBatteryAlert);
-            _alerts.ShowAlert(uid, comp.BatteryAlert, chargePercent);
-        }
-        else
-        {
-            _alerts.ClearAlert(uid, comp.BatteryAlert);
-            _alerts.ShowAlert(uid, comp.NoBatteryAlert);
-        }
-    }
-
-    public void DefibJellid(EntityUid target)
-    {
-        if (!TryComp<BatteryComponent>(target, out var battery))
-            return;
-
-        // If the target has a battery (Jellids), restores some of their internal energy.
-        // This will heal Jellids and prevent instantly dying again.
-        const float batteryAdd = 200f;
-        var newCharge = battery.LastCharge + batteryAdd;
-
-        _battery.SetCharge(target, newCharge);
     }
 }

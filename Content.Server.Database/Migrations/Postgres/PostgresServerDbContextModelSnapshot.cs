@@ -957,6 +957,10 @@ namespace Content.Server.Database.Migrations.Postgres
                         .HasColumnType("text")
                         .HasColumnName("job_name");
 
+                    b.Property<int>("Priority")
+                        .HasColumnType("integer")
+                        .HasColumnName("priority");
+
                     b.Property<int>("ProfileId")
                         .HasColumnType("integer")
                         .HasColumnName("profile_id");
@@ -969,41 +973,11 @@ namespace Content.Server.Database.Migrations.Postgres
                     b.HasIndex("ProfileId", "JobName")
                         .IsUnique();
 
-                    b.ToTable("job", (string)null);
-                });
-
-            modelBuilder.Entity("Content.Server.Database.JobPriorityEntry", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("job_priority_entry_id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("JobName")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("job_name");
-
-                    b.Property<int>("PreferenceId")
-                        .HasColumnType("integer")
-                        .HasColumnName("preference_id");
-
-                    b.Property<int>("Priority")
-                        .HasColumnType("integer")
-                        .HasColumnName("priority");
-
-                    b.HasKey("Id")
-                        .HasName("PK_job_priority_entry");
-
-                    b.HasIndex("PreferenceId");
-
-                    b.HasIndex(new[] { "PreferenceId" }, "IX_job_one_high_priority")
+                    b.HasIndex(new[] { "ProfileId" }, "IX_job_one_high_priority")
                         .IsUnique()
                         .HasFilter("priority = 3");
 
-                    b.ToTable("job_priority_entry", (string)null);
+                    b.ToTable("job", (string)null);
                 });
 
             modelBuilder.Entity("Content.Server.Database.PlayTime", b =>
@@ -1108,6 +1082,10 @@ namespace Content.Server.Database.Migrations.Postgres
                         .HasColumnType("text[]")
                         .HasColumnName("construction_favorites");
 
+                    b.Property<int>("SelectedCharacterSlot")
+                        .HasColumnType("integer")
+                        .HasColumnName("selected_character_slot");
+
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid")
                         .HasColumnName("user_id");
@@ -1139,9 +1117,10 @@ namespace Content.Server.Database.Migrations.Postgres
                         .HasColumnType("text")
                         .HasColumnName("char_name");
 
-                    b.Property<bool>("Enabled")
-                        .HasColumnType("boolean")
-                        .HasColumnName("enabled");
+                    b.Property<string>("CustomSpeciesName")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("custom_species_name");
 
                     b.Property<string>("EyeColor")
                         .IsRequired()
@@ -1189,6 +1168,10 @@ namespace Content.Server.Database.Migrations.Postgres
                     b.Property<int>("PreferenceId")
                         .HasColumnType("integer")
                         .HasColumnName("preference_id");
+
+                    b.Property<int>("PreferenceUnavailable")
+                        .HasColumnType("integer")
+                        .HasColumnName("pref_unavailable");
 
                     b.Property<string>("Sex")
                         .IsRequired()
@@ -1425,6 +1408,33 @@ namespace Content.Server.Database.Migrations.Postgres
                     b.ToTable("server_ban_hit", (string)null);
                 });
 
+            modelBuilder.Entity("Content.Server.Database.StarLightModel+StarLightProfile", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("star_light_profile_id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CustomSpeciesName")
+                        .HasMaxLength(32)
+                        .HasColumnType("character varying(32)")
+                        .HasColumnName("custom_species_name");
+
+                    b.Property<int>("ProfileId")
+                        .HasColumnType("integer")
+                        .HasColumnName("profile_id");
+
+                    b.HasKey("Id")
+                        .HasName("PK_star_light_profile");
+
+                    b.HasIndex("ProfileId")
+                        .IsUnique();
+
+                    b.ToTable("star_light_profile", (string)null);
+                });
+
             modelBuilder.Entity("Content.Server.Database.Trait", b =>
                 {
                     b.Property<int>("Id")
@@ -1480,60 +1490,6 @@ namespace Content.Server.Database.Migrations.Postgres
                         .IsUnique();
 
                     b.ToTable("unban", (string)null);
-                });
-
-            modelBuilder.Entity("Content.Server.Database.StarLightModel+StarLightProfile", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("star_light_profile_id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("CustomSpecieName")
-                        .HasMaxLength(32)
-                        .HasColumnType("character varying(32)")
-                        .HasColumnName("custom_specie_name");
-
-                    b.Property<int>("ProfileId")
-                        .HasColumnType("integer")
-                        .HasColumnName("profile_id");
-
-                    b.HasKey("Id")
-                        .HasName("PK_star_light_profile");
-
-                    b.HasIndex("ProfileId")
-                        .IsUnique();
-
-                    b.ToTable("star_light_profile", (string)null);
-                });
-
-            modelBuilder.Entity("Content.Server.Database.Trait", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("trait_id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("ProfileId")
-                        .HasColumnType("integer")
-                        .HasColumnName("profile_id");
-
-                    b.Property<string>("TraitName")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("trait_name");
-
-                    b.HasKey("Id")
-                        .HasName("PK_trait");
-
-                    b.HasIndex("ProfileId", "TraitName")
-                        .IsUnique();
-
-                    b.ToTable("trait", (string)null);
                 });
 
             modelBuilder.Entity("Content.Server.Database.UploadedResourceLog", b =>
@@ -2022,18 +1978,6 @@ namespace Content.Server.Database.Migrations.Postgres
                     b.Navigation("Profile");
                 });
 
-            modelBuilder.Entity("Content.Server.Database.JobPriorityEntry", b =>
-                {
-                    b.HasOne("Content.Server.Database.Preference", "Preference")
-                        .WithMany("JobPriorities")
-                        .HasForeignKey("PreferenceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("FK_job_priority_entry_preference_preference_id");
-
-                    b.Navigation("Preference");
-                });
-
             modelBuilder.Entity("Content.Server.Database.Player", b =>
                 {
                     b.OwnsOne("Content.Server.Database.TypedHwid", "LastSeenHWId", b1 =>
@@ -2157,86 +2101,6 @@ namespace Content.Server.Database.Migrations.Postgres
                     b.Navigation("Ban");
 
                     b.Navigation("Connection");
-                });
-
-            modelBuilder.Entity("Content.Server.Database.ServerRoleBan", b =>
-                {
-                    b.HasOne("Content.Server.Database.Player", "CreatedBy")
-                        .WithMany("AdminServerRoleBansCreated")
-                        .HasForeignKey("BanningAdmin")
-                        .HasPrincipalKey("UserId")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .HasConstraintName("FK_server_role_ban_player_banning_admin");
-
-                    b.HasOne("Content.Server.Database.Player", "LastEditedBy")
-                        .WithMany("AdminServerRoleBansLastEdited")
-                        .HasForeignKey("LastEditedById")
-                        .HasPrincipalKey("UserId")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .HasConstraintName("FK_server_role_ban_player_last_edited_by_id");
-
-                    b.HasOne("Content.Server.Database.Round", "Round")
-                        .WithMany()
-                        .HasForeignKey("RoundId")
-                        .HasConstraintName("FK_server_role_ban_round_round_id");
-
-                    b.OwnsOne("Content.Server.Database.TypedHwid", "HWId", b1 =>
-                        {
-                            b1.Property<int>("ServerRoleBanId")
-                                .HasColumnType("integer")
-                                .HasColumnName("server_role_ban_id");
-
-                            b1.Property<byte[]>("Hwid")
-                                .IsRequired()
-                                .HasColumnType("bytea")
-                                .HasColumnName("hwid");
-
-                            b1.Property<int>("Type")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("integer")
-                                .HasDefaultValue(0)
-                                .HasColumnName("hwid_type");
-
-                            b1.HasKey("ServerRoleBanId");
-
-                            b1.ToTable("server_role_ban");
-
-                            b1.WithOwner()
-                                .HasForeignKey("ServerRoleBanId")
-                                .HasConstraintName("FK_server_role_ban_server_role_ban_server_role_ban_id");
-                        });
-
-                    b.Navigation("CreatedBy");
-
-                    b.Navigation("HWId");
-
-                    b.Navigation("LastEditedBy");
-
-                    b.Navigation("Round");
-                });
-
-            modelBuilder.Entity("Content.Server.Database.ServerRoleUnban", b =>
-                {
-                    b.HasOne("Content.Server.Database.ServerRoleBan", "Ban")
-                        .WithOne("Unban")
-                        .HasForeignKey("Content.Server.Database.ServerRoleUnban", "BanId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("FK_server_role_unban_server_role_ban_ban_id");
-
-                    b.Navigation("Ban");
-                });
-
-            modelBuilder.Entity("Content.Server.Database.ServerUnban", b =>
-                {
-                    b.HasOne("Content.Server.Database.ServerBan", "Ban")
-                        .WithOne("Unban")
-                        .HasForeignKey("Content.Server.Database.ServerUnban", "BanId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("FK_server_unban_server_ban_ban_id");
-
-                    b.Navigation("Ban");
                 });
 
             modelBuilder.Entity("Content.Server.Database.StarLightModel+StarLightProfile", b =>
@@ -2373,8 +2237,6 @@ namespace Content.Server.Database.Migrations.Postgres
 
             modelBuilder.Entity("Content.Server.Database.Preference", b =>
                 {
-                    b.Navigation("JobPriorities");
-
                     b.Navigation("Profiles");
                 });
 

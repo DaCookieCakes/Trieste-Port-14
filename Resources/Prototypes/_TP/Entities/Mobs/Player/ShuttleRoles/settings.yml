@@ -38,9 +38,6 @@
     stomachStorageWhitelist:
       components:
       - MobState
-  - type: ActionGun
-    action: ActionThingySpit
-    gunProto: ThingyAcidSpit # Blinds targets temporarily. Not enough to permanently blind them unless mixed with something else.
   - type: Hunger
     baseDecayRate: 0.5
     starvingSlowdownModifier: 2 # Getting desperate for prey, over-exerting it's host
@@ -113,7 +110,8 @@
     checkCanAccess: false
     range: 0
   - type: WorldTargetAction
-    event: !type:ActionGunShootEvent
+    event: !type:ProjectileSpellEvent
+      prototype: ThingyAcidSpit
 
 - type: entity
   id: ActionCreateThingySpine

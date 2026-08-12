@@ -2,7 +2,6 @@
 - type: marking
   id: HumanHairGatheredlow
   bodyPart: Hair
-  markingCategory: Hair
   sprites:
   - sprite: _CD/Mobs/Customization/Generic/hair.rsi
     state: gatheredlow
@@ -10,7 +9,6 @@
 - type: marking
   id: HumanHairLowpigtails
   bodyPart: Hair
-  markingCategory: Hair
   sprites:
   - sprite: _CD/Mobs/Customization/Generic/hair.rsi
     state: lowpigtails
@@ -18,8 +16,7 @@
 - type: marking
   id: MessyPonytail
   bodyPart: Hair
-  markingCategory: Hair
-  speciesRestriction: [ Human, SlimePerson ] #TP14
+  groupWhitelist: [ Human, Slime ] #TP14
   sprites:
   - sprite: _CD/Mobs/Customization/Generic/hair.rsi
     state: messyponytail
@@ -28,8 +25,7 @@
 - type: marking
   id: VitiligoHeadL
   bodyPart: Head
-  markingCategory: Head
-  speciesRestriction: [ Human ] #TP14
+  groupWhitelist: [ Human ] #TP14
   forcedColoring: false #TP14
   coloring:
     default:
@@ -43,8 +39,7 @@
 - type: marking
   id: VitiligoHeadR
   bodyPart: Head
-  markingCategory: Head
-  speciesRestriction: [ Human ] #TP14
+  groupWhitelist: [ Human ] #TP14
   forcedColoring: false #TP14
   coloring:
     default:
@@ -58,8 +53,7 @@
 - type: marking
   id: VitiligoHeadJaw
   bodyPart: Head
-  markingCategory: Head
-  speciesRestriction: [ Human ] #TP14
+  groupWhitelist: [ Human ] #TP14
   forcedColoring: false #TP14
   coloring:
     default:
@@ -73,8 +67,7 @@
 - type: marking
   id: HumanoidEyebags
   bodyPart: Head
-  markingCategory: Head
-  speciesRestriction: [ Human, SlimePerson, Reptilian, ] #TP14
+  groupWhitelist: [ Human, Slime, Reptilian, ] #TP14
   sprites:
   - sprite: _CD/Mobs/Customization/Generic/head.rsi
     state: eyebags
@@ -82,8 +75,7 @@
 - type: marking
   id: EyebrowsBig
   bodyPart: Head
-  markingCategory: Head
-  speciesRestriction: [ Human ] #TP14
+  groupWhitelist: [ Human ] #TP14
   sprites:
   - sprite: _CD/Mobs/Customization/Generic/head.rsi
     state: eyebrowsthick
@@ -91,8 +83,7 @@
 - type: marking
   id: EyebrowsBigger
   bodyPart: Head
-  markingCategory: Head
-  speciesRestriction: [ Human ] #TP14
+  groupWhitelist: [ Human ] #TP14
   sprites:
   - sprite: _CD/Mobs/Customization/Generic/head.rsi
     state: eyebrowsultra
@@ -100,8 +91,7 @@
 - type: marking
   id: EyebrowsUnibrow
   bodyPart: Head
-  markingCategory: Head
-  speciesRestriction: [ Human ] #TP14
+  groupWhitelist: [ Human ] #TP14
   sprites:
   - sprite: _CD/Mobs/Customization/Generic/head.rsi
     state: eyebrowsunibrow
@@ -109,8 +99,7 @@
 - type: marking
   id: SmileScars
   bodyPart: Head
-  markingCategory: Head
-  speciesRestriction: [Human, Reptilian, SlimePerson] #TP14
+  groupWhitelist: [Human, Reptilian, Slime] #TP14
   followSkinColor: false
   sprites:
   - sprite: _CD/Mobs/Customization/Generic/head.rsi
@@ -119,8 +108,7 @@
 - type: marking
   id: HeadTwisting
   bodyPart: Head
-  markingCategory: Head
-  speciesRestriction: [Human, Reptilian, SlimePerson] #TP14
+  groupWhitelist: [Human, Reptilian, Slime] #TP14
   followSkinColor: false
   sprites:
   - sprite: _CD/Mobs/Customization/Generic/head.rsi
@@ -129,8 +117,7 @@
 - type: marking
   id: HeadTwistingFlipped
   bodyPart: Head
-  markingCategory: Head
-  speciesRestriction: [Human, Dwarf, SlimePerson]
+  groupWhitelist: [Human, Dwarf, Slime]
   followSkinColor: false
   sprites:
   - sprite: _CD/Mobs/Customization/Generic/head.rsi
@@ -139,8 +126,7 @@
 - type: marking
   id: HeadHeavyTattoos
   bodyPart: Head
-  markingCategory: Head
-  speciesRestriction: [Human, Arachnid, SlimePerson, Reptilian] #TP14
+  groupWhitelist: [Human, Arachnid, Slime, Reptilian] #TP14
   coloring:
     default:
       type:
@@ -156,8 +142,7 @@
 - type: marking
   id: HeadEarrings
   bodyPart: HeadTop
-  markingCategory: HeadTop
-  speciesRestriction: [Human, Arachnid, SlimePerson, Reptilian] #TP14
+  groupWhitelist: [Human, Arachnid, Slime, Reptilian] #TP14
   forcedColoring: false
   followSkinColor: false
   coloring:
@@ -174,8 +159,7 @@
 - type: marking
   id: HeadEarringsDrop
   bodyPart: HeadTop
-  markingCategory: HeadTop
-  speciesRestriction: [Human, Arachnid, SlimePerson, Reptilian] #TP14
+  groupWhitelist: [Human, Arachnid, Slime, Reptilian] #TP14
   forcedColoring: false
   followSkinColor: false
   coloring:
@@ -192,8 +176,7 @@
 - type: marking
   id: HeadEarringsWeights
   bodyPart: HeadTop
-  markingCategory: HeadTop
-  speciesRestriction: [Human, Arachnid, SlimePerson, Reptilian] #TP14
+  groupWhitelist: [Human, Arachnid, Slime, Reptilian] #TP14
   forcedColoring: false
   followSkinColor: false
   coloring:
@@ -211,8 +194,7 @@
 - type: marking
   id: HeadSeptum
   bodyPart: Snout
-  markingCategory: Snout
-  speciesRestriction: [Human, SlimePerson, Reptilian] #TP14
+  groupWhitelist: [Human, Slime, Reptilian] #TP14
   forcedColoring: false
   followSkinColor: false
   coloring:
@@ -228,8 +210,7 @@
 - type: marking
   id: BodyhairHumanMale
   bodyPart: Chest
-  markingCategory: Chest
-  speciesRestriction: [ Human ] #TP14
+  groupWhitelist: [ Human ] #TP14
   sexRestriction: [ Male ]
   sprites:
   - sprite: _CD/Mobs/Customization/Generic/chest.rsi
@@ -238,8 +219,7 @@
 - type: marking
   id: BodyhairHumanFemale
   bodyPart: Chest
-  markingCategory: Chest
-  speciesRestriction: [ Human ] #TP14
+  groupWhitelist: [ Human ] #TP14
   sexRestriction: [ Female ]
   sprites:
   - sprite: _CD/Mobs/Customization/Generic/chest.rsi
@@ -249,8 +229,7 @@
 - type: marking
   id: BodyhairHumanUnsexed
   bodyPart: Chest
-  markingCategory: Chest
-  speciesRestriction: [ Human ] #TP14
+  groupWhitelist: [ Human ] #TP14
   sexRestriction: [ Unsexed ]
   sprites:
   - sprite: _CD/Mobs/Customization/Generic/chest.rsi
@@ -259,8 +238,7 @@
 - type: marking
   id: TorsoIncision
   bodyPart: Chest
-  markingCategory: Chest
-  speciesRestriction: [Human, Arachnid, SlimePerson, Reptilian] #TP14
+  groupWhitelist: [Human, Arachnid, Slime, Reptilian] #TP14
   followSkinColor: false
   sprites:
   - sprite: _CD/Mobs/Customization/Generic/chest.rsi
@@ -269,8 +247,7 @@
 - type: marking
   id: ChestCutHere
   bodyPart: Chest
-  markingCategory: Chest
-  speciesRestriction: [Human, Arachnid, SlimePerson, Reptilian] #TP14
+  groupWhitelist: [Human, Arachnid, Slime, Reptilian] #TP14
   coloring:
     default:
       type:
@@ -283,8 +260,7 @@
 - type: marking
   id: ChestNecklace
   bodyPart: Chest
-  markingCategory: Chest
-  speciesRestriction: [Human, Arachnid, SlimePerson, Reptilian] #TP14
+  groupWhitelist: [Human, Arachnid, Slime, Reptilian] #TP14
   forcedColoring: false
   followSkinColor: false
   coloring:
@@ -299,8 +275,7 @@
 - type: marking
   id: VitiligoChestF
   bodyPart: Chest
-  markingCategory: Chest
-  speciesRestriction: [Human] #TP14
+  groupWhitelist: [Human] #TP14
   forcedColoring: false
   coloring:
     default:
@@ -314,8 +289,7 @@
 - type: marking
   id: VitiligoChestSpots
   bodyPart: Chest
-  markingCategory: Chest
-  speciesRestriction: [ Human ] #TP14
+  groupWhitelist: [ Human ] #TP14
   forcedColoring: false
   coloring:
     default:
@@ -329,8 +303,7 @@
 - type: marking
   id: HumanoidAbs
   bodyPart: Chest
-  markingCategory: Chest
-  speciesRestriction: [Human, Arachnid, SlimePerson, Reptilian] #TP14
+  groupWhitelist: [Human, Arachnid, Slime, Reptilian] #TP14
   followSkinColor: true
   sprites:
   - sprite: _CD/Mobs/Customization/Generic/chest.rsi
@@ -339,8 +312,7 @@
 - type: marking
   id: ChestBackstabbed
   bodyPart: Chest
-  markingCategory: Chest
-  speciesRestriction: [Human, Arachnid, SlimePerson, Reptilian] #TP14
+  groupWhitelist: [Human, Arachnid, Slime, Reptilian] #TP14
   followSkinColor: false
   sprites:
   - sprite: _CD/Mobs/Customization/Generic/chest.rsi
@@ -349,8 +321,7 @@
 - type: marking
   id: ChestTwistingLeft
   bodyPart: Chest
-  markingCategory: Chest
-  speciesRestriction: [Human, Arachnid, SlimePerson, Reptilian] #TP14
+  groupWhitelist: [Human, Arachnid, Slime, Reptilian] #TP14
   followSkinColor: false
   sprites:
   - sprite: _CD/Mobs/Customization/Generic/chest.rsi
@@ -359,8 +330,7 @@
 - type: marking
   id: ChestTwistingRight
   bodyPart: Chest
-  markingCategory: Chest
-  speciesRestriction: [Human, Arachnid, SlimePerson, Reptilian] #TP14
+  groupWhitelist: [Human, Arachnid, Slime, Reptilian] #TP14
   followSkinColor: false
   sprites:
   - sprite: _CD/Mobs/Customization/Generic/chest.rsi
@@ -369,8 +339,7 @@
 - type: marking
   id: ChestStar
   bodyPart: Chest
-  markingCategory: Chest
-  speciesRestriction: [Human, Arachnid, SlimePerson, Reptilian] #TP14
+  groupWhitelist: [Human, Arachnid, Slime, Reptilian] #TP14
   followSkinColor: false
   sprites:
   - sprite: _CD/Mobs/Customization/Generic/chest.rsi
@@ -379,8 +348,7 @@
 - type: marking
   id: ChestHeavyTattoos
   bodyPart: Chest
-  markingCategory: Chest
-  speciesRestriction: [Human, Arachnid, SlimePerson, Reptilian] #TP14
+  groupWhitelist: [Human, Arachnid, Slime, Reptilian] #TP14
   coloring:
     default:
       type:
@@ -398,8 +366,7 @@
 - type: marking
   id: HandBraceletLeft
   bodyPart: LHand
-  markingCategory: Arms
-  speciesRestriction: [Human, Arachnid, SlimePerson, Reptilian] #TP14
+  groupWhitelist: [Human, Arachnid, Slime, Reptilian] #TP14
   forcedColoring: false
   followSkinColor: false
   coloring:
@@ -414,8 +381,7 @@
 - type: marking
   id: HandBraceletRight
   bodyPart: RHand
-  markingCategory: Arms
-  speciesRestriction: [Human, Arachnid, SlimePerson, Reptilian] #TP14
+  groupWhitelist: [Human, Arachnid, Slime, Reptilian] #TP14
   forcedColoring: false
   followSkinColor: false
   coloring:
@@ -430,8 +396,7 @@
 - type: marking
   id: HandRingsLeft
   bodyPart: LHand
-  markingCategory: Arms
-  speciesRestriction: [Human, Arachnid, SlimePerson, Reptilian] #TP14
+  groupWhitelist: [Human, Arachnid, Slime, Reptilian] #TP14
   forcedColoring: false
   followSkinColor: false
   coloring:
@@ -448,8 +413,7 @@
 - type: marking
   id: HandRingsRight
   bodyPart: RHand
-  markingCategory: Arms
-  speciesRestriction: [Human, Arachnid, SlimePerson, Reptilian] #TP14
+  groupWhitelist: [Human, Arachnid, Slime, Reptilian] #TP14
   forcedColoring: false
   followSkinColor: false
   coloring:
@@ -466,8 +430,7 @@
 - type: marking
   id: VitiligoArmR
   bodyPart: RArm
-  markingCategory: Arms
-  speciesRestriction: [ Human ] #TP14
+  groupWhitelist: [ Human ] #TP14
   forcedColoring: false #TP14
   coloring:
     default:
@@ -481,8 +444,7 @@
 - type: marking
   id: VitiligoArmL
   bodyPart: LArm
-  markingCategory: Arms
-  speciesRestriction: [ Human ] #TP14
+  groupWhitelist: [ Human ] #TP14
   forcedColoring: false #TP14
   coloring:
     default:
@@ -496,8 +458,7 @@
 - type: marking
   id: VitiligoHandR
   bodyPart: RHand
-  markingCategory: Arms
-  speciesRestriction: [ Human ] #TP14
+  groupWhitelist: [ Human ] #TP14
   forcedColoring: false #TP14
   coloring:
     default:
@@ -511,8 +472,7 @@
 - type: marking
   id: VitiligoHandL
   bodyPart: LHand
-  markingCategory: Arms
-  speciesRestriction: [ Human ] #TP14
+  groupWhitelist: [ Human ] #TP14
   forcedColoring: false #TP14
   coloring:
     default:
@@ -526,8 +486,7 @@
 - type: marking
   id: ArmProstheticLeft
   bodyPart: LArm
-  markingCategory: Arms
-  speciesRestriction: [Human, Arachnid, SlimePerson, Reptilian] #TP14
+  groupWhitelist: [Human, Arachnid, Slime, Reptilian] #TP14
   followSkinColor: false
   coloring:
     default:
@@ -541,8 +500,7 @@
 - type: marking
   id: ArmTwistingLeft
   bodyPart: LArm
-  markingCategory: Arms
-  speciesRestriction: [Human, Arachnid, SlimePerson, Reptilian] #TP14
+  groupWhitelist: [Human, Arachnid, Slime, Reptilian] #TP14
   followSkinColor: false
   sprites:
   - sprite: _CD/Mobs/Customization/Generic/arms.rsi
@@ -551,8 +509,7 @@
 - type: marking
   id: ArmProstheticRight
   bodyPart: RArm
-  markingCategory: Arms
-  speciesRestriction: [Human, Arachnid, SlimePerson, Reptilian] #TP14
+  groupWhitelist: [Human, Arachnid, Slime, Reptilian] #TP14
   followSkinColor: false
   coloring:
     default:
@@ -566,8 +523,7 @@
 - type: marking
   id: ArmTwistingRight
   bodyPart: RArm
-  markingCategory: Arms
-  speciesRestriction: [Human, Arachnid, SlimePerson, Reptilian] #TP14
+  groupWhitelist: [Human, Arachnid, Slime, Reptilian] #TP14
   followSkinColor: false
   sprites:
   - sprite: _CD/Mobs/Customization/Generic/arms.rsi
@@ -576,8 +532,7 @@
 - type: marking
   id: HandProstheticLeft
   bodyPart: LHand
-  markingCategory: Arms
-  speciesRestriction: [Human, Arachnid, SlimePerson, Reptilian] #TP14
+  groupWhitelist: [Human, Arachnid, Slime, Reptilian] #TP14
   followSkinColor: false
   coloring:
     default:
@@ -591,8 +546,7 @@
 - type: marking
   id: HandTwistingLeft
   bodyPart: LHand
-  markingCategory: Arms
-  speciesRestriction: [Human, Arachnid, SlimePerson, Reptilian] #TP14
+  groupWhitelist: [Human, Arachnid, Slime, Reptilian] #TP14
   followSkinColor: false
   sprites:
   - sprite: _CD/Mobs/Customization/Generic/arms.rsi
@@ -601,8 +555,7 @@
 - type: marking
   id: HandProstheticRight
   bodyPart: RHand
-  markingCategory: Arms
-  speciesRestriction: [Human, Arachnid, SlimePerson, Reptilian] #TP14
+  groupWhitelist: [Human, Arachnid, Slime, Reptilian] #TP14
   followSkinColor: false
   coloring:
     default:
@@ -616,8 +569,7 @@
 - type: marking
   id: HandTwistingRight
   bodyPart: RHand
-  markingCategory: Arms
-  speciesRestriction: [Human, Arachnid, SlimePerson, Reptilian] #TP14
+  groupWhitelist: [Human, Arachnid, Slime, Reptilian] #TP14
   followSkinColor: false
   sprites:
   - sprite: _CD/Mobs/Customization/Generic/arms.rsi
@@ -626,8 +578,7 @@
 - type: marking
   id: ArmDollJointsTattooLeft
   bodyPart: LArm
-  markingCategory: Arms
-  speciesRestriction: [Human, Arachnid, SlimePerson, Reptilian] #TP14
+  groupWhitelist: [Human, Arachnid, Slime, Reptilian] #TP14
   coloring:
     default:
       type:
@@ -640,8 +591,7 @@
 - type: marking
   id: ArmDollJointsTattooRight
   bodyPart: RArm
-  markingCategory: Arms
-  speciesRestriction: [Human, Arachnid, SlimePerson, Reptilian] #TP14
+  groupWhitelist: [Human, Arachnid, Slime, Reptilian] #TP14
   coloring:
     default:
       type:
@@ -654,8 +604,7 @@
 - type: marking
   id: HandDollJointsTattooLeft
   bodyPart: LHand
-  markingCategory: Arms
-  speciesRestriction: [Human, Arachnid, SlimePerson, Reptilian] #TP14
+  groupWhitelist: [Human, Arachnid, Slime, Reptilian] #TP14
   coloring:
     default:
       type:
@@ -668,8 +617,7 @@
 - type: marking
   id: HandDollJointsTattooRight
   bodyPart: RHand
-  markingCategory: Arms
-  speciesRestriction: [Human, Arachnid, SlimePerson, Reptilian] #TP14
+  groupWhitelist: [Human, Arachnid, Slime, Reptilian] #TP14
   coloring:
     default:
       type:
@@ -682,8 +630,7 @@
 - type: marking
   id: ArmHeavyTattoosLeft
   bodyPart: LArm
-  markingCategory: Arms
-  speciesRestriction: [Human, Arachnid, SlimePerson, Reptilian] #TP14
+  groupWhitelist: [Human, Arachnid, Slime, Reptilian] #TP14
   coloring:
     default:
       type:
@@ -698,8 +645,7 @@
 - type: marking
   id: ArmHeavyTattoosRight
   bodyPart: RArm
-  markingCategory: Arms
-  speciesRestriction: [Human, Arachnid, SlimePerson, Reptilian] #TP14
+  groupWhitelist: [Human, Arachnid, Slime, Reptilian] #TP14
   coloring:
     default:
       type:
@@ -714,8 +660,7 @@
 - type: marking
   id: HandHeavyTattoosLeft
   bodyPart: LHand
-  markingCategory: Arms
-  speciesRestriction: [Human, Arachnid, SlimePerson, Reptilian] #TP14
+  groupWhitelist: [Human, Arachnid, Slime, Reptilian] #TP14
   coloring:
     default:
       type:
@@ -730,8 +675,7 @@
 - type: marking
   id: HandHeavyTattoosRight
   bodyPart: RHand
-  markingCategory: Arms
-  speciesRestriction: [Human, Arachnid, SlimePerson, Reptilian] #TP14
+  groupWhitelist: [Human, Arachnid, Slime, Reptilian] #TP14
   coloring:
     default:
       type:
@@ -747,8 +691,7 @@
 - type: marking
   id: VitiligoLegR
   bodyPart: RLeg
-  markingCategory: Legs
-  speciesRestriction: [ Human ] #TP14
+  groupWhitelist: [ Human ] #TP14
   forcedColoring: false #TP14
   coloring:
     default:
@@ -762,8 +705,7 @@
 - type: marking
   id: VitiligoLegL
   bodyPart: LLeg
-  markingCategory: Legs
-  speciesRestriction: [ Human ] #TP14
+  groupWhitelist: [ Human ] #TP14
   forcedColoring: false #TP14
   coloring:
     default:
@@ -777,8 +719,7 @@
 - type: marking
   id: FootProstheticLeft
   bodyPart: LFoot
-  markingCategory: Legs
-  speciesRestriction: [Human, Arachnid, SlimePerson, Reptilian] #TP14
+  groupWhitelist: [Human, Arachnid, Slime, Reptilian] #TP14
   followSkinColor: false
   coloring:
     default:
@@ -792,8 +733,7 @@
 - type: marking
   id: FootProstheticRight
   bodyPart: RFoot
-  markingCategory: Legs
-  speciesRestriction: [Human, Arachnid, SlimePerson, Reptilian] #TP14
+  groupWhitelist: [Human, Arachnid, Slime, Reptilian] #TP14
   followSkinColor: false
   coloring:
     default:
@@ -807,8 +747,7 @@
 - type: marking
   id: LegProstheticLeft
   bodyPart: LLeg
-  markingCategory: Legs
-  speciesRestriction: [Human, Arachnid, SlimePerson, Reptilian] #TP14
+  groupWhitelist: [Human, Arachnid, Slime, Reptilian] #TP14
   followSkinColor: false
   coloring:
     default:
@@ -822,8 +761,7 @@
 - type: marking
   id: LegTwistingLeft
   bodyPart: LLeg
-  markingCategory: Legs
-  speciesRestriction: [Human, Arachnid, SlimePerson, Reptilian] #TP14
+  groupWhitelist: [Human, Arachnid, Slime, Reptilian] #TP14
   followSkinColor: false
   sprites:
   - sprite: _CD/Mobs/Customization/Generic/legs.rsi
@@ -832,8 +770,7 @@
 - type: marking
   id: LegProstheticRight
   bodyPart: RLeg
-  markingCategory: Legs
-  speciesRestriction: [Human, Arachnid, SlimePerson, Reptilian] #TP14
+  groupWhitelist: [Human, Arachnid, Slime, Reptilian] #TP14
   followSkinColor: false
   coloring:
     default:
@@ -847,8 +784,7 @@
 - type: marking
   id: LegTwistingRight
   bodyPart: RLeg
-  markingCategory: Legs
-  speciesRestriction: [Human, Arachnid, SlimePerson, Reptilian] #TP14
+  groupWhitelist: [Human, Arachnid, Slime, Reptilian] #TP14
   followSkinColor: false
   sprites:
   - sprite: _CD/Mobs/Customization/Generic/legs.rsi
@@ -857,8 +793,7 @@
 - type: marking
   id: LegDollJointsTattooLeft
   bodyPart: LLeg
-  markingCategory: Legs
-  speciesRestriction: [Human, Arachnid, SlimePerson, Reptilian] #TP14
+  groupWhitelist: [Human, Arachnid, Slime, Reptilian] #TP14
   coloring:
     default:
       type:
@@ -871,8 +806,7 @@
 - type: marking
   id: LegDollJointsTattooRight
   bodyPart: RLeg
-  markingCategory: Legs
-  speciesRestriction: [Human, Arachnid, SlimePerson, Reptilian] #TP14
+  groupWhitelist: [Human, Arachnid, Slime, Reptilian] #TP14
   coloring:
     default:
       type:
@@ -885,8 +819,7 @@
 - type: marking
   id: FootDollJointsTattooLeft
   bodyPart: LFoot
-  markingCategory: Legs
-  speciesRestriction: [Human, Arachnid, SlimePerson, Reptilian] #TP14
+  groupWhitelist: [Human, Arachnid, Slime, Reptilian] #TP14
   coloring:
     default:
       type:
@@ -899,8 +832,7 @@
 - type: marking
   id: FootDollJointsTattooRight
   bodyPart: RFoot
-  markingCategory: Legs
-  speciesRestriction: [Human, Arachnid, SlimePerson, Reptilian] #TP14
+  groupWhitelist: [Human, Arachnid, Slime, Reptilian] #TP14
   coloring:
     default:
       type:
@@ -913,8 +845,7 @@
 - type: marking
   id: LegHeavyTattoosLeft
   bodyPart: LLeg
-  markingCategory: Legs
-  speciesRestriction: [Human, Arachnid, SlimePerson, Reptilian] #TP14
+  groupWhitelist: [Human, Arachnid, Slime, Reptilian] #TP14
   coloring:
     default:
       type:
@@ -929,8 +860,7 @@
 - type: marking
   id: LegHeavyTattoosRight
   bodyPart: RLeg
-  markingCategory: Legs
-  speciesRestriction: [Human, Arachnid, SlimePerson, Reptilian] #TP14
+  groupWhitelist: [Human, Arachnid, Slime, Reptilian] #TP14
   coloring:
     default:
       type:
@@ -945,8 +875,7 @@
 - type: marking
   id: FootHeavyTattoosLeft
   bodyPart: LFoot
-  markingCategory: Legs
-  speciesRestriction: [Human, Arachnid, SlimePerson, Reptilian] #TP14
+  groupWhitelist: [Human, Arachnid, Slime, Reptilian] #TP14
   coloring:
     default:
       type:
@@ -961,8 +890,7 @@
 - type: marking
   id: FootHeavyTattoosRight
   bodyPart: RFoot
-  markingCategory: Legs
-  speciesRestriction: [Human, Arachnid, SlimePerson, Reptilian] #TP14
+  groupWhitelist: [Human, Arachnid, Slime, Reptilian] #TP14
   coloring:
     default:
       type:

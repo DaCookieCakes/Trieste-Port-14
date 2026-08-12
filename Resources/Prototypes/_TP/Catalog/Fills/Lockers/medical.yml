@@ -13,7 +13,7 @@
 
 # TODO: Check these for replaced chems!
 - type: entityTable
-  id: AllMedicineReagentBottlesTable
+  id: TP14EntityTableAllMedicineReagentBottles
   table: !type:GroupSelector
     children:
     - id: ChemistryBottleAloxadone

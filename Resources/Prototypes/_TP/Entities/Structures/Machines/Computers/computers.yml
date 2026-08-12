@@ -65,8 +65,6 @@
       state: generic_keys
     - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
       state: generic_panel_open
-  - type: WorldLoader
-    radius: 256
   - type: BellConsole
   - type: ActivatableUI
     key: enum.BellUiKey.Key
