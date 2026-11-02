@@ -1,11 +1,11 @@
 using System.Linq;
-using Content.Shared.Plankton;
+using Content.Shared._TP.Research.Planktology.Components;
 using Content.Shared.Radiation.Events;
 using Content.Shared.Verbs;
 using Robust.Shared.Random;
 using Robust.Shared.Utility;
 
-namespace Content.Shared._TP.Plankton
+namespace Content.Shared._TP.Research.Planktology.EntitySystems
 {
     public sealed partial class PlanktonSystem : EntitySystem
     {

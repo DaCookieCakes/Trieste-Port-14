@@ -1,6 +1,6 @@
 using Content.Shared.Chemistry.Reagent;
 
-namespace Content.Shared._TP.Plankton;
+namespace Content.Shared._TP.Research.Planktology.Components;
 
 [RegisterComponent]
 public sealed partial class PlanktonComponent : Component

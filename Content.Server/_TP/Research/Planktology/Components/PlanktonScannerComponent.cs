@@ -1,7 +1,7 @@
 ﻿using Robust.Shared.Audio;
 using Robust.Shared.Prototypes;
 
-namespace Content.Server._TP.Planktonics;
+namespace Content.Server._TP.Research.Planktology.Components;
 
 [RegisterComponent]
 public sealed partial class PlanktonScannerComponent : Component

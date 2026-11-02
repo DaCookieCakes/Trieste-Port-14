@@ -1,6 +1,7 @@
 using System.Linq;
 using Content.Server.Popups;
-using Content.Shared._TP.Plankton;
+using Content.Server._TP.Research.Planktology.Components;
+using Content.Shared._TP.Research.Planktology.Components;
 using Content.Shared.Examine;
 using Content.Shared.Interaction;
 using Content.Shared.Paper;
@@ -10,7 +11,7 @@ using Content.Shared.Verbs;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Utility;
 
-namespace Content.Server._TP.Planktonics;
+namespace Content.Server._TP.Research.Planktology.EntitySystems;
 
 public sealed partial class PlanktonScannerSystem : EntitySystem
 {
