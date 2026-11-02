@@ -1,0 +1,112 @@
+Science now has a random open slot due to the removal of the chemistry lab. We gotta replace it with somethin'.
+
+I'm thinking an ocean based research, similar to ss13 virology in a way. Collecting plankton and microorganisms from the water and doing research on them for science points. Their food, temperature, effects/behaviors and name are randomized. You get research points from growing them into larger cultures, by feeding them their preferred food and giving them optimal temperature before putting them in some kind of analyzer to get research points and log the species. They can also have unique effects of some kind, although i'm not sure what.
+
+
+# code stuff
+
+Randomly generate a species based off the pre-set modifiers, including body shape and diet. **DONE**
+
+Species needs to be able to be placed in plankton tanks and transferred with special containers
+
+Plankton size is a factor, as in culture size. It exponentially increases as it eats and stays alive. **DONE**
+
+Aggressive plankton reduce the size of other species as long as they are in the same solution. **DONE**
+
+Infested component for animals that are being parasitized. The component will hold the type of infestation as well, like parasitic, symbiotic, controlling, etc.
+
+Different attributes will have different total point values. Something simple like bioluminescence isn't worth much, but Radiophage or mimicry is worth much more.
+
+A machine that separates cultures somehow, IDing plankton inside and separating the instances from each other.
+
+**Food Sources**
+
+Carnivore: This species eats other plankton, meaning you need to feed them samples of other cultures to keep them satiated and healthy. **DONE** Maybe a random mutation can make them macroscopic and aggressive towards researchers.
+
+Photosynthetic: Uses photosynthesis from bright lights to feed
+
+Radiophage: Consumes radiation for food.
+
+Saguinophage: Eats blood, strangely. Parasite?
+
+Electrophage: Uses electricity from lightning bolts to satiate themselves.
+
+Symbiotroph: This species thrives in tanks with other plankton, living off their byproduct symbiotically.
+
+Chemophage: This species likes a specific or category of chemicals for food.
+
+Decomposer: Eats the corpses of dead cultures. Useful for cleaning out dishes that failed to grow. **DONE**
+
+Violent Symbiote: Infests and controls other plankton and potentially larger creatures with the right mutation. Controlled plankton's behaviors change to be calm and disinterested in food until death.
+
+Cryophilic: Loves cold environments
+
+Pyrophilic: Loves hot environments
+
+Parasite: Feeds on the hunger level of adjacent plankton. Plankton nearby better fed = parasite better fed.
+
+Scavenger: Eats waste and other various trash objects. Can be bred and given to janitors to dispose of trash more effectively.
+
+**Behaviors**
+
+Aggressive: Kills other plankton in the same enclosure as itself **DONE**
+
+Bioluminescent: Glows brightly
+
+Parasitic: Touching a living being infests them with the species, causing bleed damage and draining hunger.
+
+Radioactive: Spits out small doses of radiation
+
+Charged: Handling their enclosure requires insulated gloves
+
+Pyrotechnic: When put in a tank with other plankton, they explode as a self-defense mechanism.
+
+Mimicry: Disguises very effectively as a defense. Harder to analyze, dish may even appear empty. Also makes it difficult to separate out from other species if they disguise as the other culture.
+
+Chemical Production: This species has a byproduct of a specific chemical, useful for production if you get lucky.
+
+Magnetic field: Interferes with electronic equipment nearby and Jellids.
+
+Hallucinogenic: This species has a WILD high if consumed.
+
+Pheromone glands: Alters the behavior of other species in its tank, either positively or negatively. Can be used to control certain unruly or dangerous species.
+
+Polyp colony: Grows coral around itself at a rapid rate upon reproduction. Can quickly get out of hand if not contained properly.
+
+Aerosol spores: Releases spores into a 3x3 grid around it. Anything not wearing internals will be infested with some sort of growth or cellular damage.
+
+Hyper-exotic species: Species that have extremely unorthodox and strange mutations. Very hard to work with, worth a LOT of points if handled properly.
+
+Sentience: A single organism gathered that exhibits behavior of an intelligent being. He wants the crabby patty formula.
+
+
+# Objects
+
+**Machines**
+
+Plankton Harvester: Needs to be used in water and tries to gather 2-3 species of plankton with a cooldown.
+
+Plankton scanner: Lists species and the name, the size, and if they are alive and dead. Also the amount of dead plankton in the sample. **DONE**
+
+Microanalyzer: Insert a culture of plankton to get a readout on different species, and obviously visible behaviors or shapes. Prints out a paper with information and leaves unknown features blank. Used for gathering extra information somehow.
+Also, once a culture is grown and analyzed, it will convert them into research points for the RD server.
+
+**Production**
+
+Analysis ideas:
+
+Certain things are triggered and marked down as discovered when they happen, more discoveries = more points
+
+Guesswork: You must interact with the species in a variety of manners, putting guesses on their attributes and behaviors. If you get them all right upon final analysis, full points. Otherwise, the culture is not accepted to be analyzed again due to already being logged in the database (incorrectly).
+
+
+**Other technologies (planktonics branch)**
+
+Better research equipment:
+- Genetic isolator: Allows for easier identification and separation of species
+- Mutagenic stimulation apparatus: Forces mutations in the species with a lower chance of killing them
+- Micro-vault: Allows for preserved storage of samples without needing food or other conditions.
+- Microseekers: Small robots that can be deployed in containment units to locate, kill, separate, or identify specific mutations or body types.
+
+Plankton can be put in a bioreactor for power. Random, but funny. Works for other animals maybe?
+

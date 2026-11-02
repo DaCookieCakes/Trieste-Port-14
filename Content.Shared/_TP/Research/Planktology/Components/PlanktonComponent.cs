@@ -1,130 +1,116 @@
-using Content.Shared.Chemistry.Reagent;
+using Content.Shared.Dataset;
+using Robust.Shared.GameStates;
+using Robust.Shared.Prototypes;
+using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom;
 
 namespace Content.Shared._TP.Research.Planktology.Components;
 
-[RegisterComponent]
+/// <summary>
+/// A sample of water holding one or more plankton species that eat, grow, fight and die over time.
+/// </summary>
+[RegisterComponent, NetworkedComponent, AutoGenerateComponentState, AutoGenerateComponentPause]
 public sealed partial class PlanktonComponent : Component
 {
-    [DataField("reagentId")]
-    public ReagentId ReagentId { get; set; } = new ReagentId();
+    [DataField, AutoNetworkedField]
+    public List<PlanktonSpecies> Species = new();
 
-     [DataField("deadPlankton")]
-    public float DeadPlankton { get; set; } = 0f;
+    /// <summary>
+    ///     The amount of dead plankton matter in the sample.
+    ///     It can be food for decomposers.
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public float DeadPlankton;
 
-    public List<PlanktonSpeciesInstance> SpeciesInstances { get; set; } = new();
+    /// <summary>
+    ///     How many random species to generate when the sample spawns.
+    /// </summary>
+    [DataField]
+    public int InitialSpecies;
 
-    // Define a class that represents each plankton species
-    public sealed class PlanktonSpeciesInstance
-    {
-        public PlanktonName SpeciesName { get; set; }
-        public PlanktonDiet Diet { get; set; }
-        public PlanktonCharacteristics Characteristics { get; set; }
-        public float CurrentSize { get; set; }
-        public float CurrentHunger { get; set; }
-        public bool IsAlive { get; set; }
+    [DataField]
+    public ProtoId<DatasetPrototype> FirstNames = "TP14PlanktonFirstNames";
 
-        public PlanktonSpeciesInstance(PlanktonName speciesName, PlanktonDiet diet, PlanktonCharacteristics characteristics, float currentSize, float CurrentHunger, bool IsAlive)
-        {
-            SpeciesName = speciesName;
-            Diet = diet;
-            Characteristics = characteristics;
-            CurrentSize = currentSize;
-            CurrentHunger = 100f;
-            IsAlive = true;
-        }
-    }
+    [DataField]
+    public ProtoId<DatasetPrototype> SecondNames = "TP14PlanktonSecondNames";
 
-    // Define a Diet Type Enum
-    public enum PlanktonDiet
-    {
-        Carnivore,
-        Photosynthetic,
-        Radiophage,
-        Saguinophage,
-        Electrophage,
-        Symbiotroph,
-        Chemophage,
-        Decomposer,
-        Scavenger
-    }
+    #region Timing
 
-    // Define Characteristics Enum (bitwise flags)
-    [Flags]
-    public enum PlanktonCharacteristics
-    {
-        Aggressive = 1 << 0,
-        Bioluminescent = 1 << 1,
-        Parasitic = 1 << 2,
-        Radioactive = 1 << 3,
-        Charged = 1 << 4,
-        Pyrotechnic = 1 << 5,
-        Mimicry = 1 << 6,
-        ChemicalProduction = 1 << 7,
-        MagneticField = 1 << 8,
-        Hallucinogenic = 1 << 9,
-        PheromoneGlands = 1 << 10,
-        PolypColony = 1 << 11,
-        AerosolSpores = 1 << 12,
-        HyperExoticSpecies = 1 << 13,
-        Sentience = 1 << 14,
-        Pyrophilic = 1 << 15,
-        Cryophilic = 1 << 16
-    }
+    /// <summary>
+    ///     How often species interact with each other and feed.
+    /// </summary>
+    [DataField]
+    public TimeSpan InteractionInterval = TimeSpan.FromSeconds(1);
 
-    // These hold the random generated values for the plankton
-    [DataField("diet"), ViewVariables(VVAccess.ReadWrite)]
-    public PlanktonDiet Diet { get; set; }
+    /// <summary>
+    ///     How often species get hungry and/or grow.
+    /// </summary>
+    [DataField]
+    public TimeSpan MetabolismInterval = TimeSpan.FromSeconds(5);
 
-    [DataField("characteristics"), ViewVariables(VVAccess.ReadWrite)]
-    public PlanktonCharacteristics Characteristics { get; set; }
+    [DataField(customTypeSerializer: typeof(TimeOffsetSerializer)), AutoPausedField]
+    public TimeSpan NextInteraction;
 
-    // Additional properties
-    [DataField("temperatureToleranceLow"), ViewVariables(VVAccess.ReadWrite)]
-    public float TemperatureToleranceLow { get; set; } = 0.0f; // Min temperature tolerance
+    [DataField(customTypeSerializer: typeof(TimeOffsetSerializer)), AutoPausedField]
+    public TimeSpan NextMetabolism;
 
-    [DataField("temperatureToleranceHigh"), ViewVariables(VVAccess.ReadWrite)]
-    public float TemperatureToleranceHigh { get; set; } = 40.0f; // Max temperature tolerance
+    #endregion
 
-    public static readonly string[] PlanktonFirstNames =
-    {
-        "Acanthocystis", "Actinophrys", "Amphora", "Apistosporus", "Aulacodiscus",
-        "Brachionus", "Cladocera", "Coscinodiscus", "Didinium", "Diatoma",
-        "Entomorpha", "Euglena", "Gloeocapsa", "Leptocylindrus", "Mastigophora",
-        "Mesorhizobium", "Navicula", "Nitzschia", "Oscillatoria", "Phaeodactylum",
-        "Phacus", "Platymonas", "Protoperidinium", "Pyramimonas", "Spirulina",
-        "Synedra", "Tetradontia", "Trachelomonas", "Volvox", "Vorticella", "Bill",
-        "Ratilus", "Betamios", "Noctliuca", "Terminidia", "Democracia", "Kharaa",
-        "Meridia", "Malevalon", "ERROR", "Kerbalius", "Raptura"
-    };
+    #region Tuning
 
-    public static readonly string[] PlanktonSecondNames =
-    {
-        "longispina", "latifolia", "quadricaudata", "gracilis", "deloriana",
-        "radiata", "honkliens", "cystiformis", "fimbriata", "planctonica",
-        "viridis", "globosa", "aurelia", "pulchra", "reducta",
-        "tuberculata", "subtilis", "hyalina", "cephalopodiformis", "corymbosa",
-        "unobtania", "tri-tachia", "xenofila", "macrospora", "apogeelia",
-        "lucida", "triesta", "rounyens", "tcarotenoides", "ectoplasmica",
-        "thingius", "cordycepsia", "krabby", "jones", "4546B", "rottia", "hearthiata",
-        "nomaia", "exadv1ia", "florania", "hylotlia", "thargoidis", "celesteia", "brackenis"
-    };
+    [DataField]
+    public float MaxHunger = 50f;
 
-    // Class to combine the first and second name for plankton species
-    public sealed class PlanktonName
-    {
-        public string FirstName { get; set; }
-        public string SecondName { get; set; }
+    /// <summary>
+    ///     Flat hunger lost every metabolism tick.
+    /// </summary>
+    [DataField]
+    public float HungerLoss = 0.5f;
 
-        public PlanktonName(string firstName, string secondName)
-        {
-            FirstName = firstName;
-            SecondName = secondName;
-        }
+    /// <summary>
+    ///     Extra hunger lost per point of size every metabolism tick.
+    ///     Bigger cultures eat more.
+    /// </summary>
+    [DataField]
+    public float HungerLossPerSize = 0.01f;
 
-        // Overriding ToString to provide a formatted name
-        public override string ToString()
-        {
-            return $"{FirstName} {SecondName}";
-        }
-    }
+    /// <summary>
+    ///     The size that an aggressive species knocks off of other species in an interaction tick.
+    /// </summary>
+    [DataField]
+    public float AggressionDamage = 0.1f;
+
+    /// <summary>
+    ///     The base size a carnivore eats from other species in an interaction tick.
+    /// </summary>
+    [DataField]
+    public float CarnivoreDamage = 0.1f;
+
+    /// <summary>
+    ///     The extra size a carnivore eats per point of its own size.
+    /// </summary>
+    [DataField]
+    public float CarnivoreDamagePerSize = 0.005f;
+
+    /// <summary>
+    ///     How many dead plankton a decomposer eats per interaction tick.
+    /// </summary>
+    [DataField]
+    public float DecomposeRate = 0.2f;
+
+    [DataField]
+    public float PhotosynthesisRate = 0.001f;
+
+    /// <summary>
+    ///     The food a radiophage gets per rad absorbed.
+    /// </summary>
+    [DataField]
+    public float RadiationFood = 0.5f;
+
+    /// <summary>
+    ///     The size every other species loses per rad absorbed.
+    /// </summary>
+    [DataField]
+    public float RadiationDamage = 0.5f;
+
+    #endregion
 }
