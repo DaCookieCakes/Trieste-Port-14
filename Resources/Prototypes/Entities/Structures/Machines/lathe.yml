@@ -201,6 +201,7 @@
     staticPacks:
     - ChemistryStatic
     - SurgeryStatic
+    - TP14PlanktologyStatic # TP14
     dynamicPacks:
     - AdvancedTools
     - ScienceEquipment
@@ -258,6 +259,7 @@
     runningState: building
     staticPacks:
     - ScienceBoardsStatic
+    - TP14PlanktologyBoardsStatic # TP14
     - ServiceBoardsStatic
     - CargoBoardsStatic
     - MedicalBoardsStatic

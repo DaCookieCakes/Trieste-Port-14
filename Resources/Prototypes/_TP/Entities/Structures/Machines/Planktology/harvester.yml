@@ -1,0 +1,57 @@
+- type: entity
+  parent: [ BaseMachinePowered, ConstructibleMachine ]
+  id: TP14PlanktonHarvester
+  name: plankton harvester
+  description: Draws sea water and filters out plankton colonies.
+  suffix: Trieste, Science
+  placement:
+    mode: SnapgridCenter
+  components:
+  - type: Sprite
+    sprite: Structures/Piping/Atmospherics/thermomachine.rsi # TODO: placeholder sprite
+    snapCardinals: true
+    granularLayersRendering: true
+    layers:
+    - state: freezerOff
+      map: [ "enum.PowerDeviceVisualLayers.Powered" ]
+    - state: pipe
+      map: [ "enum.PipeVisualLayers.Pipe" ]
+      renderingStrategy: Default
+  - type: Appearance
+  - type: GenericVisualizer
+    visuals:
+      enum.PowerDeviceVisuals.Powered:
+        enum.PowerDeviceVisualLayers.Powered:
+          True: { state: freezerOn }
+          False: { state: freezerOff }
+  - type: PipeColorVisuals
+  - type: AtmosPipeColor
+  - type: Rotatable
+  - type: Transform
+    noRot: false
+  - type: AtmosDevice
+  - type: NodeContainer
+    nodes:
+      pipe:
+        !type:PipeNode
+        nodeGroupID: Pipe
+        pipeDirection: South
+  - type: PipeRestrictOverlap
+  - type: ApcPowerReceiver
+    powerLoad: 1000
+    powerDisabled: true # starts off
+  - type: PowerSwitch
+  - type: PlanktonHarvester
+  - type: ContainerContainer
+    containers:
+      container: !type:ContainerSlot
+      machine_board: !type:Container
+      machine_parts: !type:Container
+  - type: ItemSlots
+    slots:
+      container:
+        whitelist:
+          components:
+          - PlanktonContainer
+  - type: Machine
+    board: TP14PlanktonHarvesterMachineCircuitboard

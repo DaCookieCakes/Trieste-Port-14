@@ -1,0 +1,47 @@
+- type: entity
+  parent: BaseMachineCircuitboard
+  id: TP14PlanktonHarvesterMachineCircuitboard
+  name: plankton harvester machine board
+  description: A machine printed circuit board for a plankton harvester.
+  suffix: Trieste, Circuit-Board
+  components:
+  - type: Sprite
+    state: science
+  - type: MachineBoard
+    prototype: TP14PlanktonHarvester
+    stackRequirements:
+      Manipulator: 2
+      Glass: 2
+      Cable: 5
+
+- type: entity
+  parent: BaseMachineCircuitboard
+  id: TP14PlanktonTankMachineCircuitboard
+  name: plankton culture tank machine board
+  description: A machine printed circuit board for a plankton culture tank.
+  suffix: Trieste, Circuit-Board
+  components:
+  - type: Sprite
+    state: science
+  - type: MachineBoard
+    prototype: TP14PlanktonTank
+    stackRequirements:
+      Manipulator: 1
+      Glass: 5
+      Cable: 2
+
+- type: entity
+  parent: BaseMachineCircuitboard
+  id: TP14PlanktonSeparatorMachineCircuitboard
+  name: plankton separator machine board
+  description: A machine printed circuit board for a plankton separator.
+  suffix: Trieste, Circuit-Board
+  components:
+  - type: Sprite
+    state: science
+  - type: MachineBoard
+    prototype: TP14PlanktonSeparator
+    stackRequirements:
+      Manipulator: 2
+      Glass: 2
+      Steel: 2

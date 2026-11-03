@@ -1,0 +1,50 @@
+# Machine boards (circuit imprinter)
+
+- type: latheRecipe
+  parent: [ BaseCircuitboardRecipe, BaseResearchMachineRecipeCategory ]
+  id: TP14PlanktonHarvesterMachineCircuitboardRecipe
+  result: TP14PlanktonHarvesterMachineCircuitboard
+
+- type: latheRecipe
+  parent: [ BaseCircuitboardRecipe, BaseResearchMachineRecipeCategory ]
+  id: TP14PlanktonTankMachineCircuitboardRecipe
+  result: TP14PlanktonTankMachineCircuitboard
+
+- type: latheRecipe
+  parent: [ BaseCircuitboardRecipe, BaseResearchMachineRecipeCategory ]
+  id: TP14PlanktonSeparatorMachineCircuitboardRecipe
+  result: TP14PlanktonSeparatorMachineCircuitboard
+
+# Equipment (protolathe)
+
+- type: latheRecipe
+  parent: BaseToolRecipe
+  id: TP14PlanktonContainerRecipe
+  result: TP14PlanktonContainer
+  materials:
+    Steel: 300
+    Glass: 100
+
+- type: latheRecipe
+  parent: BaseToolRecipe
+  id: TP14PlanktonScannerRecipe
+  result: TP14PlanktonScanner
+  materials:
+    Steel: 200
+    Glass: 200
+    Plastic: 100
+
+# Packs, both available roundstart.
+
+- type: latheRecipePack
+  id: TP14PlanktologyBoardsStatic
+  recipes:
+  - TP14PlanktonHarvesterMachineCircuitboardRecipe
+  - TP14PlanktonTankMachineCircuitboardRecipe
+  - TP14PlanktonSeparatorMachineCircuitboardRecipe
+
+- type: latheRecipePack
+  id: TP14PlanktologyStatic
+  recipes:
+  - TP14PlanktonContainerRecipe
+  - TP14PlanktonScannerRecipe

@@ -1,0 +1,28 @@
+- type: entity
+  parent: [ SolutionTank, SolutionLarge, BaseMachinePowered, ConstructibleMachine ]
+  id: TP14PlanktonTank
+  name: plankton culture tank
+  description: An advanced tank to simulate living conditions for plankton colonies.
+  suffix: Trieste, Science
+  components:
+  - type: Sprite
+    sprite: Structures/Storage/tanks.rsi # TODO: placeholder sprite
+    state: watertank-2
+  - type: PointLight
+    enabled: false
+    radius: 2
+    energy: 1.5
+    color: "#88E0FF"
+  - type: ApcPowerReceiver
+    powerLoad: 500
+  - type: Plankton
+  - type: PlanktonTank
+  - type: RadiationReceiver
+  - type: RefillableSolution
+    solution: tank
+  - type: DrainableSolution
+    solution: tank
+  - type: ExaminableSolution
+    solution: tank
+  - type: Machine
+    board: TP14PlanktonTankMachineCircuitboard

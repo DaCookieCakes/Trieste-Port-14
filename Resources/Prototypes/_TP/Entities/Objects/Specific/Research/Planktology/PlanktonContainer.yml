@@ -1,0 +1,24 @@
+- type: entity
+  parent: BaseItem
+  id: TP14PlanktonContainer
+  name: plankton container
+  description: A sealed canister for carrying live plankton colonies.
+  suffix: Trieste, Science
+  components:
+  - type: Sprite
+    sprite: Objects/Tanks/generic.rsi # TODO: placeholder sprite
+    state: icon
+  - type: Item
+    sprite: Objects/Tanks/generic.rsi
+    size: Normal
+  - type: PlanktonContainer
+  - type: Plankton
+  - type: RadiationReceiver
+
+- type: entity
+  parent: TP14PlanktonContainer
+  id: TP14PlanktonContainerFilled
+  suffix: Trieste, Science, Filled
+  components:
+  - type: Plankton
+    initialSpecies: 3

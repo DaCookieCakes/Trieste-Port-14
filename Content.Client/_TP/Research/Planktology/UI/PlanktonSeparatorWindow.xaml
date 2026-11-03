@@ -1,0 +1,17 @@
+<controls:FancyWindow xmlns="https://spacestation14.io"
+                      xmlns:controls="clr-namespace:Content.Client.UserInterface.Controls"
+                      Title="{Loc 'plankton-separator-window-title'}"
+                      MinSize="400 320"
+                      SetSize="400 320">
+    <BoxContainer Orientation="Vertical" Margin="8" SeparationOverride="6">
+        <BoxContainer Orientation="Horizontal">
+            <Label Name="ContainerLabel" HorizontalExpand="True" />
+            <Button Name="DepositButton" Text="{Loc 'plankton-separator-deposit'}" />
+        </BoxContainer>
+        <controls:Separator StyleClasses="LowDivider" Margin="0 2" />
+        <Label Text="{Loc 'plankton-separator-frozen-header'}" StyleClasses="LabelHeading" />
+        <ScrollContainer VerticalExpand="True" HScrollEnabled="False">
+            <BoxContainer Name="SpeciesList" Orientation="Vertical" SeparationOverride="2" />
+        </ScrollContainer>
+    </BoxContainer>
+</controls:FancyWindow>

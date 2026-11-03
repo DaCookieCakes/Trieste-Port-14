@@ -1,4 +1,6 @@
+using Content.Shared.Chemistry.Reagent;
 using Content.Shared.Dataset;
+using Content.Shared.FixedPoint;
 using Robust.Shared.GameStates;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom;
@@ -6,7 +8,7 @@ using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom;
 namespace Content.Shared._TP.Research.Planktology.Components;
 
 /// <summary>
-/// A sample of water holding one or more plankton species that eat, grow, fight and die over time.
+///     A sample of water holding one or more plankton species that eat, grow, fight and die over time.
 /// </summary>
 [RegisterComponent, NetworkedComponent, AutoGenerateComponentState, AutoGenerateComponentPause]
 public sealed partial class PlanktonComponent : Component
@@ -26,6 +28,12 @@ public sealed partial class PlanktonComponent : Component
     /// </summary>
     [DataField]
     public int InitialSpecies;
+
+    /// <summary>
+    ///     Frozen plankton don't eat, fight, grow or starve.
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public bool Stasis;
 
     [DataField]
     public ProtoId<DatasetPrototype> FirstNames = "TP14PlanktonFirstNames";
@@ -97,8 +105,76 @@ public sealed partial class PlanktonComponent : Component
     [DataField]
     public float DecomposeRate = 0.2f;
 
+    /// <summary>
+    ///     Food a photosynthetic species gets per interaction tick in a lit, powered tank.
+    /// </summary>
     [DataField]
-    public float PhotosynthesisRate = 0.001f;
+    public float PhotosynthesisRate = 0.15f;
+
+    /// <summary>
+    ///     Food an electrophage gets per interaction tick in a powered tank.
+    ///     Electrophages make the tank draw more power instead, see <see cref="PlanktonTankComponent"/>.
+    /// </summary>
+    [DataField]
+    public float ElectrophageRate = 0.15f;
+
+    /// <summary>
+    ///     Basic, water-soluble reagents a chemophage can eat from the tank's solution.
+    /// </summary>
+    [DataField]
+    public List<ProtoId<ReagentPrototype>> ChemophageFoods = new()
+    {
+        "Sugar",
+        "Iron",
+        "Copper",
+        "Iodine",
+        "Chlorine",
+    };
+
+    /// <summary>
+    ///     Blood types a hemophage can eat from the tank's solution.
+    /// </summary>
+    [DataField]
+    public List<ProtoId<ReagentPrototype>> HemophageFoods = new()
+    {
+        "Blood",
+        "InsectBlood",
+        "Slime",
+        "CopperBlood",
+        "AmmoniaBlood",
+        "SulfurBlood",
+        "ZombieBlood",
+    };
+
+    /// <summary>
+    ///     Units of reagent a chemophage or hemophage eats from the tank per interaction tick.
+    /// </summary>
+    [DataField]
+    public FixedPoint2 ReagentEatRate = 0.1;
+
+    /// <summary>
+    ///     Food gained per unit of reagent eaten.
+    /// </summary>
+    [DataField]
+    public float ReagentFoodValue = 1.5f;
+
+    /// <summary>
+    ///     Below this temperature (K) a tank is cold: only cryophilic species are comfortable.
+    /// </summary>
+    [DataField]
+    public float ColdThreshold = 273.15f;
+
+    /// <summary>
+    ///     Above this temperature (K) a tank is hot: only pyrophilic species are comfortable.
+    /// </summary>
+    [DataField]
+    public float HotThreshold = 313.15f;
+
+    /// <summary>
+    ///     Size lost per interaction tick by a species that is uncomfortable with the tank temperature.
+    /// </summary>
+    [DataField]
+    public float TemperatureDamage = 0.1f;
 
     /// <summary>
     ///     The food a radiophage gets per rad absorbed.

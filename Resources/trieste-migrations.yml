@@ -31,7 +31,7 @@ TheArtifact: TP14TheArtifact
 PinpointerPilot: TP14PinpointerPilot
 ResonanceDelaminator: TP14ResonanceDelaminator
 PlanktonScanner: TP14PlanktonScanner
-PlanktonVial: TP14PlanktonVial
+PlanktonVial: TP14PlanktonContainer
 PlanktonSeparator: TP14PlanktonSeparator
 MagCellDisabler: TP14MagCellDisabler
 BaseMagCell: TP14BaseMagCell

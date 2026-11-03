@@ -120,11 +120,12 @@ public sealed partial class PlanktonScannerSystem : EntitySystem
             {
                 report.AppendLine(Loc.GetString("plankton-scanner-report-species-entry",
                     ("name", s.Name),
-                    ("alive", s.Alive)));
+                    ("alive", s.Alive),
+                    ("size", (int) MathF.Round(s.Size))));
             }
 
             report.AppendLine(Loc.GetString("plankton-scanner-report-dead",
-                ("amount", MathF.Round(sample.Comp.DeadPlankton, 1))));
+                ("amount", (int) MathF.Round(sample.Comp.DeadPlankton))));
         }
 
         var paper = SpawnAtPosition(scanner.Comp.ReportPrototype, Transform(scanner).Coordinates);

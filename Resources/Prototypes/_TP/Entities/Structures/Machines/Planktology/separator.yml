@@ -1,0 +1,35 @@
+- type: entity
+  parent: [ BaseMachinePowered, ConstructibleMachine ]
+  id: TP14PlanktonSeparator
+  name: plankton separator
+  description: A cryogenic storage unit for plankton.
+  suffix: Trieste, Science
+  components:
+  - type: Sprite
+    sprite: Structures/cryostorage.rsi # TODO: placeholder sprite
+    state: sleeper_1
+  - type: ApcPowerReceiver
+    powerLoad: 500
+  - type: Plankton
+    stasis: true
+  - type: PlanktonSeparator
+  - type: ContainerContainer
+    containers:
+      container: !type:ContainerSlot
+      machine_board: !type:Container
+      machine_parts: !type:Container
+  - type: ItemSlots
+    slots:
+      container:
+        whitelist:
+          components:
+          - PlanktonContainer
+  - type: ActivatableUI
+    key: enum.PlanktonSeparatorUiKey.Key
+  - type: ActivatableUIRequiresPower
+  - type: UserInterface
+    interfaces:
+      enum.PlanktonSeparatorUiKey.Key:
+        type: PlanktonSeparatorBoundUserInterface
+  - type: Machine
+    board: TP14PlanktonSeparatorMachineCircuitboard

@@ -47,7 +47,7 @@ public enum PlanktonDiet : byte
     Carnivore,
     Photosynthetic,
     Radiophage,
-    Saguinophage,
+    Hemophage,
     Electrophage,
     Symbiotroph,
     Chemophage,
