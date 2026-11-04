@@ -159,7 +159,7 @@ public sealed partial class PlanktonScannerSystem : EntitySystem
             return;
         }
 
-        var reward = species.Has(PlanktonCharacteristics.HyperExoticSpecies)
+        var reward = species.Has(scanner.Comp.AdvancedRewardCharacteristic)
             ? scanner.Comp.AdvancedRewardPrototype
             : scanner.Comp.RewardPrototype;
 

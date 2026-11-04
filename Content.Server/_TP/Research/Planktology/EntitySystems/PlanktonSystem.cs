@@ -3,6 +3,7 @@ using Content.Server.Administration.Managers;
 using Content.Server.Power.EntitySystems;
 using Content.Shared._TP.Research.Planktology;
 using Content.Shared._TP.Research.Planktology.Components;
+using Content.Shared._TP.Research.Planktology.Prototypes;
 using Content.Shared.Administration;
 using Content.Shared.Chemistry.Components;
 using Content.Shared.Chemistry.EntitySystems;
@@ -29,11 +30,6 @@ public sealed partial class PlanktonSystem : EntitySystem
     [Dependency] private IRobustRandom _random = default!;
     [Dependency] private SharedSolutionContainerSystem _solutions = default!;
 
-    private static readonly PlanktonDiet[] Diets = Enum.GetValues<PlanktonDiet>();
-
-    private static readonly PlanktonCharacteristics[] Characteristics = Enum.GetValues<PlanktonCharacteristics>()
-        .Where(c => c != PlanktonCharacteristics.None)
-        .ToArray();
 
     public override void Update(float frameTime)
     {
@@ -104,13 +100,16 @@ public sealed partial class PlanktonSystem : EntitySystem
         var firstNames = _proto.Index(ent.Comp.FirstNames).Values;
         var secondNames = _proto.Index(ent.Comp.SecondNames).Values;
 
+        var diets = _proto.EnumeratePrototypes<PlanktonDietPrototype>().ToList();
+        var characteristics = _proto.EnumeratePrototypes<PlanktonCharacteristicPrototype>().ToList();
+
         for (var i = 0; i < count; i++)
         {
             ent.Comp.Species.Add(new PlanktonSpecies
             {
                 Name = $"{_random.Pick(firstNames)} {_random.Pick(secondNames)}",
-                Diet = _random.Pick(Diets),
-                Characteristics = PickCharacteristics(_random.Next(2, 4)),
+                Diet = PickWeighted(diets, d => d.Weight).ID,
+                Characteristics = PickCharacteristics(characteristics, _random.Next(2, 4)),
                 Size = 1f,
                 Hunger = ent.Comp.MaxHunger,
                 Alive = true,
@@ -120,24 +119,42 @@ public sealed partial class PlanktonSystem : EntitySystem
         Dirty(ent);
     }
 
-    private PlanktonCharacteristics PickCharacteristics(int count)
+    /// <summary>
+    ///     Rolls up to <paramref name="count"/> distinct, non-conflicting characteristics.
+    /// </summary>
+    private List<ProtoId<PlanktonCharacteristicPrototype>> PickCharacteristics(List<PlanktonCharacteristicPrototype> all, int count)
     {
-        var pool = new List<PlanktonCharacteristics>(Characteristics);
-        var result = PlanktonCharacteristics.None;
+        var pool = new List<PlanktonCharacteristicPrototype>(all);
+        var result = new List<ProtoId<PlanktonCharacteristicPrototype>>();
 
-        for (var i = 0; i < count && pool.Count > 0; i++)
+        while (result.Count < count && pool.Count > 0)
         {
-            var picked = _random.PickAndTake(pool);
-            result |= picked;
+            var picked = PickWeighted(pool, c => c.Weight);
+            result.Add(picked.ID);
 
-            // It can't love both the cold and the heat.
-            if (picked == PlanktonCharacteristics.Cryophilic)
-                pool.Remove(PlanktonCharacteristics.Pyrophilic);
-            else if (picked == PlanktonCharacteristics.Pyrophilic)
-                pool.Remove(PlanktonCharacteristics.Cryophilic);
+            // Taking it out of the pool means it can't be rolled twice.
+            // Conflicts work both ways, so it doesn't matter which side lists the other.
+            pool.RemoveAll(c => c == picked || picked.Conflicts.Contains(c.ID) || c.Conflicts.Contains(picked.ID));
         }
 
         return result;
+    }
+
+    private T PickWeighted<T>(List<T> options, Func<T, float> weight)
+    {
+        var total = 0f;
+        foreach (var option in options)
+            total += MathF.Max(weight(option), 0f);
+
+        var roll = _random.NextFloat() * total;
+        foreach (var option in options)
+        {
+            roll -= MathF.Max(weight(option), 0f);
+            if (roll < 0f)
+                return option;
+        }
+
+        return options[^1];
     }
 
     #endregion
@@ -165,6 +182,8 @@ public sealed partial class PlanktonSystem : EntitySystem
             if (!species.Alive)
                 continue;
 
+            var diet = _proto.Index(species.Diet);
+
             if (tank != null && !IsComfortable(comp, species, tank.Temperature))
             {
                 comp.DeadPlankton += Damage(species, comp.TemperatureDamage);
@@ -172,7 +191,7 @@ public sealed partial class PlanktonSystem : EntitySystem
                     continue;
             }
 
-            if (species.Has(PlanktonCharacteristics.Aggressive))
+            if (HasBehavior(species, PlanktonCharacteristicBehavior.Aggressive))
             {
                 foreach (var other in comp.Species)
                 {
@@ -183,9 +202,9 @@ public sealed partial class PlanktonSystem : EntitySystem
                 }
             }
 
-            switch (species.Diet)
+            switch (diet.Behavior)
             {
-                case PlanktonDiet.Carnivore:
+                case PlanktonDietBehavior.Carnivore:
                     var bite = comp.CarnivoreDamage + species.Size * comp.CarnivoreDamagePerSize;
                     foreach (var prey in comp.Species)
                     {
@@ -196,18 +215,18 @@ public sealed partial class PlanktonSystem : EntitySystem
                     }
                     break;
 
-                case PlanktonDiet.Decomposer:
+                case PlanktonDietBehavior.Decomposer:
                     var eaten = MathF.Min(comp.DecomposeRate, comp.DeadPlankton);
                     comp.DeadPlankton -= eaten;
                     species.Hunger += eaten;
                     break;
 
-                case PlanktonDiet.Photosynthetic:
+                case PlanktonDietBehavior.Photosynthetic:
                     if (lit)
                         species.Hunger += comp.PhotosynthesisRate;
                     break;
 
-                case PlanktonDiet.Electrophage:
+                case PlanktonDietBehavior.Electrophage:
                     if (!powered)
                         break;
 
@@ -215,14 +234,9 @@ public sealed partial class PlanktonSystem : EntitySystem
                     electrophageSize += species.Size;
                     break;
 
-                case PlanktonDiet.Chemophage:
+                case PlanktonDietBehavior.Reagents:
                     if (water != null)
-                        species.Hunger += EatReagent(water.Value, comp.ChemophageFoods, comp.ReagentEatRate) * comp.ReagentFoodValue;
-                    break;
-
-                case PlanktonDiet.Hemophage:
-                    if (water != null)
-                        species.Hunger += EatReagent(water.Value, comp.HemophageFoods, comp.ReagentEatRate) * comp.ReagentFoodValue;
+                        species.Hunger += EatReagents(water.Value, diet.Foods, comp.ReagentEatRate) * comp.ReagentFoodValue;
                     break;
             }
 
@@ -238,31 +252,58 @@ public sealed partial class PlanktonSystem : EntitySystem
     }
 
     /// <summary>
-    ///     Removes up to <paramref name="amount"/> of the first edible reagent found in the solution.
+    ///     Eats up to <paramref name="amount"/> units in total from any of the edible reagents in the solution.
     /// </summary>
     /// <returns>Units actually eaten.</returns>
-    private float EatReagent(Entity<SolutionComponent> solution, List<ProtoId<ReagentPrototype>> foods, FixedPoint2 amount)
+    private float EatReagents(Entity<SolutionComponent> solution, List<ProtoId<ReagentPrototype>> foods, FixedPoint2 amount)
     {
+        // Collect first, removing reagents while iterating the solution would modify it under us.
+        var edible = new List<(ReagentId Reagent, FixedPoint2 Quantity)>();
         foreach (var (reagent, quantity) in solution.Comp.Solution.Contents)
         {
-            if (!foods.Contains(reagent.Prototype))
-                continue;
-
-            return _solutions.RemoveReagent(solution, reagent, FixedPoint2.Min(amount, quantity)).Float();
+            if (foods.Contains(reagent.Prototype))
+                edible.Add((reagent, quantity));
         }
 
-        return 0f;
+        var eaten = FixedPoint2.Zero;
+        foreach (var (reagent, quantity) in edible)
+        {
+            if (eaten >= amount)
+                break;
+
+            eaten += _solutions.RemoveReagent(solution, reagent, FixedPoint2.Min(amount - eaten, quantity));
+        }
+
+        return eaten.Float();
     }
 
-    private static bool IsComfortable(PlanktonComponent comp, PlanktonSpecies species, float temperature)
+    private bool HasBehavior(PlanktonSpecies species, PlanktonCharacteristicBehavior behavior)
     {
-        if (species.Has(PlanktonCharacteristics.Cryophilic))
-            return temperature <= comp.ColdThreshold;
+        foreach (var id in species.Characteristics)
+        {
+            if (_proto.Index(id).Behavior == behavior)
+                return true;
+        }
 
-        if (species.Has(PlanktonCharacteristics.Pyrophilic))
-            return temperature >= comp.HotThreshold;
+        return false;
+    }
 
-        return temperature > comp.ColdThreshold && temperature < comp.HotThreshold;
+    /// <summary>
+    ///     A species is comfortable within the default range, unless its characteristics override either end.
+    /// </summary>
+    private bool IsComfortable(PlanktonComponent comp, PlanktonSpecies species, float temperature)
+    {
+        var min = comp.MinComfortTemperature;
+        var max = comp.MaxComfortTemperature;
+
+        foreach (var id in species.Characteristics)
+        {
+            var characteristic = _proto.Index(id);
+            min = characteristic.MinComfortTemperature ?? min;
+            max = characteristic.MaxComfortTemperature ?? max;
+        }
+
+        return temperature >= min && temperature <= max;
     }
 
     /// <summary>
@@ -329,7 +370,7 @@ public sealed partial class PlanktonSystem : EntitySystem
             if (!species.Alive)
                 continue;
 
-            if (species.Diet == PlanktonDiet.Radiophage)
+            if (_proto.Index(species.Diet).Behavior == PlanktonDietBehavior.Radiophage)
                 species.Hunger = MathF.Min(species.Hunger + rads * ent.Comp.RadiationFood, ent.Comp.MaxHunger);
             else
                 ent.Comp.DeadPlankton += Damage(species, rads * ent.Comp.RadiationDamage);

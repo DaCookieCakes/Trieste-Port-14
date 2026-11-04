@@ -1,0 +1,94 @@
+# Characteristics a plankton species can roll (2-3 each, never the same one twice).
+# Points are placeholders until the evidence/analysis system uses them.
+
+- type: planktonCharacteristic
+  id: TP14PlanktonCharacteristicAggressive
+  name: plankton-characteristic-aggressive
+  points: 2
+  behavior: Aggressive
+
+- type: planktonCharacteristic
+  id: TP14PlanktonCharacteristicBioluminescent
+  name: plankton-characteristic-bioluminescent
+  points: 1
+
+- type: planktonCharacteristic
+  id: TP14PlanktonCharacteristicParasitic
+  name: plankton-characteristic-parasitic
+  points: 3
+
+- type: planktonCharacteristic
+  id: TP14PlanktonCharacteristicRadioactive
+  name: plankton-characteristic-radioactive
+  points: 3
+
+- type: planktonCharacteristic
+  id: TP14PlanktonCharacteristicCharged
+  name: plankton-characteristic-charged
+  points: 2
+
+- type: planktonCharacteristic
+  id: TP14PlanktonCharacteristicPyrotechnic
+  name: plankton-characteristic-pyrotechnic
+  points: 3
+
+- type: planktonCharacteristic
+  id: TP14PlanktonCharacteristicMimicry
+  name: plankton-characteristic-mimicry
+  points: 5
+
+- type: planktonCharacteristic
+  id: TP14PlanktonCharacteristicChemicalProduction
+  name: plankton-characteristic-chemical-production
+  points: 3
+
+- type: planktonCharacteristic
+  id: TP14PlanktonCharacteristicMagneticField
+  name: plankton-characteristic-magnetic-field
+  points: 3
+
+- type: planktonCharacteristic
+  id: TP14PlanktonCharacteristicHallucinogenic
+  name: plankton-characteristic-hallucinogenic
+  points: 2
+
+- type: planktonCharacteristic
+  id: TP14PlanktonCharacteristicPheromoneGlands
+  name: plankton-characteristic-pheromone-glands
+  points: 3
+
+- type: planktonCharacteristic
+  id: TP14PlanktonCharacteristicPolypColony
+  name: plankton-characteristic-polyp-colony
+  points: 3
+
+- type: planktonCharacteristic
+  id: TP14PlanktonCharacteristicAerosolSpores
+  name: plankton-characteristic-aerosol-spores
+  points: 4
+
+- type: planktonCharacteristic
+  id: TP14PlanktonCharacteristicHyperExotic
+  name: plankton-characteristic-hyper-exotic
+  points: 8
+
+- type: planktonCharacteristic
+  id: TP14PlanktonCharacteristicSentience
+  name: plankton-characteristic-sentience
+  points: 10
+
+- type: planktonCharacteristic
+  id: TP14PlanktonCharacteristicCryophilic
+  name: plankton-characteristic-cryophilic
+  points: 1
+  minComfortTemperature: 0
+  maxComfortTemperature: 273.15 # 0C and below
+  conflicts:
+  - TP14PlanktonCharacteristicPyrophilic
+
+- type: planktonCharacteristic
+  id: TP14PlanktonCharacteristicPyrophilic
+  name: plankton-characteristic-pyrophilic
+  points: 1
+  minComfortTemperature: 313.15 # 40C and above
+  maxComfortTemperature: 10000

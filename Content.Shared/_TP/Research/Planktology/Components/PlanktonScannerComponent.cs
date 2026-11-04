@@ -1,4 +1,5 @@
-﻿using Robust.Shared.Audio;
+﻿using Content.Shared._TP.Research.Planktology.Prototypes;
+using Robust.Shared.Audio;
 using Robust.Shared.GameStates;
 using Robust.Shared.Prototypes;
 
@@ -24,10 +25,13 @@ public sealed partial class PlanktonScannerComponent : Component
     public EntProtoId RewardPrototype = "ResearchDisk5000";
 
     /// <summary>
-    ///     The reward for analyzing a <see cref="PlanktonCharacteristics.HyperExoticSpecies"/>.
+    ///     The reward for analyzing a species with <see cref="AdvancedRewardCharacteristic"/>.
     /// </summary>
     [DataField]
     public EntProtoId AdvancedRewardPrototype = "ResearchDisk10000";
+
+    [DataField]
+    public ProtoId<PlanktonCharacteristicPrototype> AdvancedRewardCharacteristic = "TP14PlanktonCharacteristicHyperExotic";
 
     /// <summary>
     ///     The minimum culture size needed before it can be analyzed.

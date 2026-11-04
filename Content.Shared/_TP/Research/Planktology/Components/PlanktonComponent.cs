@@ -1,4 +1,3 @@
-using Content.Shared.Chemistry.Reagent;
 using Content.Shared.Dataset;
 using Content.Shared.FixedPoint;
 using Robust.Shared.GameStates;
@@ -8,7 +7,7 @@ using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom;
 namespace Content.Shared._TP.Research.Planktology.Components;
 
 /// <summary>
-///     A sample of water holding one or more plankton species that eat, grow, fight and die over time.
+///     A container holding one or more plankton species that eat, grow, fight and die over time.
 /// </summary>
 [RegisterComponent, NetworkedComponent, AutoGenerateComponentState, AutoGenerateComponentPause]
 public sealed partial class PlanktonComponent : Component
@@ -119,34 +118,6 @@ public sealed partial class PlanktonComponent : Component
     public float ElectrophageRate = 0.15f;
 
     /// <summary>
-    ///     Basic, water-soluble reagents a chemophage can eat from the tank's solution.
-    /// </summary>
-    [DataField]
-    public List<ProtoId<ReagentPrototype>> ChemophageFoods = new()
-    {
-        "Sugar",
-        "Iron",
-        "Copper",
-        "Iodine",
-        "Chlorine",
-    };
-
-    /// <summary>
-    ///     Blood types a hemophage can eat from the tank's solution.
-    /// </summary>
-    [DataField]
-    public List<ProtoId<ReagentPrototype>> HemophageFoods = new()
-    {
-        "Blood",
-        "InsectBlood",
-        "Slime",
-        "CopperBlood",
-        "AmmoniaBlood",
-        "SulfurBlood",
-        "ZombieBlood",
-    };
-
-    /// <summary>
     ///     Units of reagent a chemophage or hemophage eats from the tank per interaction tick.
     /// </summary>
     [DataField]
@@ -159,16 +130,16 @@ public sealed partial class PlanktonComponent : Component
     public float ReagentFoodValue = 1.5f;
 
     /// <summary>
-    ///     Below this temperature (K) a tank is cold: only cryophilic species are comfortable.
+    ///     Lowest tank temperature (K) a species is comfortable at, unless a characteristic overrides it.
     /// </summary>
     [DataField]
-    public float ColdThreshold = 273.15f;
+    public float MinComfortTemperature = 283.15f;
 
     /// <summary>
-    ///     Above this temperature (K) a tank is hot: only pyrophilic species are comfortable.
+    ///     Highest tank temperature (K) a species is comfortable at, unless a characteristic overrides it.
     /// </summary>
     [DataField]
-    public float HotThreshold = 313.15f;
+    public float MaxComfortTemperature = 303.15f;
 
     /// <summary>
     ///     Size lost per interaction tick by a species that is uncomfortable with the tank temperature.

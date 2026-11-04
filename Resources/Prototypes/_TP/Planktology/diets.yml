@@ -1,0 +1,57 @@
+# Diets a plankton species can roll (exactly one each).
+
+- type: planktonDiet
+  id: TP14PlanktonDietCarnivore
+  name: plankton-diet-carnivore
+  behavior: Carnivore
+
+- type: planktonDiet
+  id: TP14PlanktonDietPhotosynthetic
+  name: plankton-diet-photosynthetic
+  behavior: Photosynthetic
+
+- type: planktonDiet
+  id: TP14PlanktonDietRadiophage
+  name: plankton-diet-radiophage
+  behavior: Radiophage
+
+# Feeds off of any blood sample.
+- type: planktonDiet
+  id: TP14PlanktonDietHemophage
+  name: plankton-diet-hemophage
+  behavior: Reagents
+  foods:
+  - Blood
+  - InsectBlood
+  - Slime
+  - CopperBlood
+  - AmmoniaBlood
+  - SulfurBlood
+  - ZombieBlood
+
+- type: planktonDiet
+  id: TP14PlanktonDietElectrophage
+  name: plankton-diet-electrophage
+  behavior: Electrophage
+
+# Only basic, non-mixed reagents.
+- type: planktonDiet
+  id: TP14PlanktonDietChemophage
+  name: plankton-diet-chemophage
+  behavior: Reagents
+  foods:
+  - Sugar
+  - Iron
+  - Copper
+  - Iodine
+  - Chlorine
+
+- type: planktonDiet
+  id: TP14PlanktonDietDecomposer
+  name: plankton-diet-decomposer
+  behavior: Decomposer
+
+- type: planktonDiet
+  id: TP14PlanktonDietScavenger
+  name: plankton-diet-scavenger
+  # TODO: eats trash

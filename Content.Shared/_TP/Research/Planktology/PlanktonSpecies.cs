@@ -1,3 +1,5 @@
+using Content.Shared._TP.Research.Planktology.Prototypes;
+using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization;
 
 namespace Content.Shared._TP.Research.Planktology;
@@ -14,11 +16,15 @@ public sealed partial class PlanktonSpecies
     [DataField]
     public string Name = string.Empty;
 
-    [DataField]
-    public PlanktonDiet Diet;
+    [DataField(required: true)]
+    public ProtoId<PlanktonDietPrototype> Diet;
 
+    /// <summary>
+    ///     A list of the current characteristics on a species.
+    ///     Used to prevent calling the same ones twice.
+    /// </summary>
     [DataField]
-    public PlanktonCharacteristics Characteristics;
+    public List<ProtoId<PlanktonCharacteristicPrototype>> Characteristics = new();
 
     /// <summary>
     ///     The culture size. Grows while the species is well-fed.
@@ -27,7 +33,7 @@ public sealed partial class PlanktonSpecies
     public float Size = 1f;
 
     /// <summary>
-    /// Satiation. The species starves to death when this hits zero.
+    ///     The species will starve to death when this hits zero.
     /// </summary>
     [DataField]
     public float Hunger;
@@ -35,45 +41,8 @@ public sealed partial class PlanktonSpecies
     [DataField]
     public bool Alive = true;
 
-    public bool Has(PlanktonCharacteristics characteristic)
+    public bool Has(ProtoId<PlanktonCharacteristicPrototype> characteristic)
     {
-        return (Characteristics & characteristic) != 0;
+        return Characteristics.Contains(characteristic);
     }
-}
-
-[Serializable, NetSerializable]
-public enum PlanktonDiet : byte
-{
-    Carnivore,
-    Photosynthetic,
-    Radiophage,
-    Hemophage,
-    Electrophage,
-    Symbiotroph,
-    Chemophage,
-    Decomposer,
-    Scavenger,
-}
-
-[Flags, Serializable, NetSerializable]
-public enum PlanktonCharacteristics
-{
-    None = 0,
-    Aggressive = 1 << 0,
-    Bioluminescent = 1 << 1,
-    Parasitic = 1 << 2,
-    Radioactive = 1 << 3,
-    Charged = 1 << 4,
-    Pyrotechnic = 1 << 5,
-    Mimicry = 1 << 6,
-    ChemicalProduction = 1 << 7,
-    MagneticField = 1 << 8,
-    Hallucinogenic = 1 << 9,
-    PheromoneGlands = 1 << 10,
-    PolypColony = 1 << 11,
-    AerosolSpores = 1 << 12,
-    HyperExoticSpecies = 1 << 13,
-    Sentience = 1 << 14,
-    Pyrophilic = 1 << 15,
-    Cryophilic = 1 << 16,
 }
