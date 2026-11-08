@@ -3,11 +3,22 @@ Science now has a random open slot due to the removal of the chemistry lab. We g
 I'm thinking an ocean based research, similar to ss13 virology in a way. Collecting plankton and microorganisms from the water and doing research on them for science points. Their food, temperature, effects/behaviors and name are randomized. You get research points from growing them into larger cultures, by feeding them their preferred food and giving them optimal temperature before putting them in some kind of analyzer to get research points and log the species. They can also have unique effects of some kind, although i'm not sure what.
 
 
+# Current loop
+
+1. Plankton Harvester: pipe sea water in, insert a plankton container, turn it on. Filters out 3 colonies into the container, then shuts off.
+2. Culture tank (UI): holds up to 3 colonies. Canister slot with dump/extract, beaker slot with +5u/+10u, lights, temp +/-10, radiation flash (cooldown).
+   Research form per colony: guess the diet + up to 3 characteristics, X to rule things out. Notes are stored on the colony, so they follow it.
+   Submit (alive, size 50+, linked R&D server): correct = research points (1000 + 750 per characteristic point), wrong = nothing. One submission per colony.
+3. Plankton Separator: cryogenic filter. Deposit a container, everything freezes (no updates). Pick species out one at a time from the UI into the inserted container.
+
+Sprites are placeholders (gas tank, freezer, water tank, cryo sleeper).
+
+
 # code stuff
 
 Randomly generate a species based off the pre-set modifiers, including body shape and diet. **DONE**
 
-Species needs to be able to be placed in plankton tanks and transferred with special containers
+Species needs to be able to be placed in plankton tanks and transferred with special containers **DONE** (plankton container, culture tank)
 
 Plankton size is a factor, as in culture size. It exponentially increases as it eats and stays alive. **DONE**
 
@@ -17,23 +28,23 @@ Infested component for animals that are being parasitized. The component will ho
 
 Different attributes will have different total point values. Something simple like bioluminescence isn't worth much, but Radiophage or mimicry is worth much more.
 
-A machine that separates cultures somehow, IDing plankton inside and separating the instances from each other.
+A machine that separates cultures somehow, IDing plankton inside and separating the instances from each other. **DONE** (plankton separator, cryogenic, pick species from UI)
 
 **Food Sources**
 
 Carnivore: This species eats other plankton, meaning you need to feed them samples of other cultures to keep them satiated and healthy. **DONE** Maybe a random mutation can make them macroscopic and aggressive towards researchers.
 
-Photosynthetic: Uses photosynthesis from bright lights to feed
+Photosynthetic: Uses photosynthesis from bright lights to feed **DONE** (tank lights)
 
-Radiophage: Consumes radiation for food.
+Radiophage: Consumes radiation for food. **DONE** (radiation, tank radiation flash)
 
-Saguinophage: Eats blood, strangely. Parasite?
+Hemophage: Eats blood, strangely. Parasite? **DONE** (any blood type poured into the tank)
 
-Electrophage: Uses electricity from lightning bolts to satiate themselves.
+Electrophage: Uses electricity from lightning bolts to satiate themselves. **DONE** (feeds off tank power, raises its draw by colony size, max +1000W)
 
 Symbiotroph: This species thrives in tanks with other plankton, living off their byproduct symbiotically.
 
-Chemophage: This species likes a specific or category of chemicals for food.
+Chemophage: This species likes a specific or category of chemicals for food. **DONE** (Sugar, Iron, Copper, Iodine, Chlorine in the tank)
 
 Decomposer: Eats the corpses of dead cultures. Useful for cleaning out dishes that failed to grow. **DONE**
 
@@ -84,7 +95,7 @@ Sentience: A single organism gathered that exhibits behavior of an intelligent b
 
 **Machines**
 
-Plankton Harvester: Needs to be used in water and tries to gather 2-3 species of plankton with a cooldown.
+Plankton Harvester: Needs to be used in water and tries to gather 2-3 species of plankton with a cooldown. **DONE** (piped sea water, 3 colonies per run, shuts off after)
 
 Plankton scanner: Lists species and the name, the size, and if they are alive and dead. Also the amount of dead plankton in the sample. **DONE**
 

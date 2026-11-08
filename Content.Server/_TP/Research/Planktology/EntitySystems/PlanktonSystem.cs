@@ -108,6 +108,7 @@ public sealed partial class PlanktonSystem : EntitySystem
             ent.Comp.Species.Add(new PlanktonSpecies
             {
                 Name = $"{_random.Pick(firstNames)} {_random.Pick(secondNames)}",
+                Number = _random.Next(100, 1000),
                 Diet = PickWeighted(diets, d => d.Weight).ID,
                 Characteristics = PickCharacteristics(characteristics, _random.Next(2, 4)),
                 Size = 1f,

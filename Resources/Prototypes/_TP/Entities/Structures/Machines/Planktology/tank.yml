@@ -26,3 +26,27 @@
     solution: tank
   - type: Machine
     board: TP14PlanktonTankMachineCircuitboard
+  - type: ContainerContainer
+    containers:
+      beaker: !type:ContainerSlot
+      container: !type:ContainerSlot
+      machine_board: !type:Container
+      machine_parts: !type:Container
+  - type: ItemSlots
+    slots:
+      beaker:
+        whitelist:
+          components:
+          - FitsInDispenser
+      container:
+        whitelist:
+          components:
+          - PlanktonContainer
+  - type: ResearchClient
+  - type: ActivatableUI
+    key: enum.PlanktonTankUiKey.Key
+  - type: ActivatableUIRequiresPower
+  - type: UserInterface
+    interfaces:
+      enum.PlanktonTankUiKey.Key:
+        type: PlanktonTankBoundUserInterface

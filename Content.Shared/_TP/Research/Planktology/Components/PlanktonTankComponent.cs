@@ -13,6 +13,45 @@ public sealed partial class PlanktonTankComponent : Component
     public bool LightsOn;
 
     /// <summary>
+    ///     The most colonies the tank holds at once.
+    /// </summary>
+    [DataField]
+    public int MaxSpecies = 3;
+
+    [DataField]
+    public string ContainerSlotId = "container";
+
+    [DataField]
+    public string BeakerSlotId = "beaker";
+
+    /// <summary>
+    ///     A colony must be at least this big before its research form can be submitted.
+    /// </summary>
+    [DataField]
+    public float MinimumSubmitSize = 50f;
+
+    /// <summary>
+    ///     Research points for a correct form, before characteristic points.
+    /// </summary>
+    [DataField]
+    public int BaseResearchPoints = 1000;
+
+    /// <summary>
+    ///     Research points per point of the species' characteristics, for a correct form.
+    /// </summary>
+    [DataField]
+    public int ResearchPointsPerCharacteristicPoint = 750;
+
+    /// <summary>
+    ///     How often an open UI is refreshed so sizes and the radiation timer stay current.
+    /// </summary>
+    [DataField]
+    public TimeSpan UiUpdateInterval = TimeSpan.FromSeconds(1);
+
+    [ViewVariables]
+    public TimeSpan NextUiUpdate;
+
+    /// <summary>
     ///     The tank's water, where chemophages and hemophages find their food.
     /// </summary>
     [DataField]

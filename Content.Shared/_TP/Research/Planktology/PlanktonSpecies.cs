@@ -41,6 +41,48 @@ public sealed partial class PlanktonSpecies
     [DataField]
     public bool Alive = true;
 
+    /// <summary>
+    ///     Random 3 digit tag shown on the species' bubble in the culture tank.
+    /// </summary>
+    [DataField]
+    public int Number;
+
+    #region Research form
+
+    // The research form's notes live on the species, so they follow it between tanks and the separator.
+
+    /// <summary>
+    ///     The diet the researchers think this species has.
+    /// </summary>
+    [DataField]
+    public ProtoId<PlanktonDietPrototype>? GuessedDiet;
+
+    /// <summary>
+    ///     The characteristics the researchers think this species has, at most three.
+    /// </summary>
+    [DataField]
+    public List<ProtoId<PlanktonCharacteristicPrototype>> GuessedCharacteristics = new();
+
+    /// <summary>
+    ///     Diets and characteristics the researchers have ruled out.
+    /// </summary>
+    [DataField]
+    public HashSet<string> CrossedOut = new();
+
+    /// <summary>
+    ///     Whether the form has been submitted. Each species can only be submitted once.
+    /// </summary>
+    [DataField]
+    public bool Submitted;
+
+    /// <summary>
+    ///     Whether the submitted form was correct.
+    /// </summary>
+    [DataField]
+    public bool SubmittedCorrect;
+
+    #endregion
+
     public bool Has(ProtoId<PlanktonCharacteristicPrototype> characteristic)
     {
         return Characteristics.Contains(characteristic);

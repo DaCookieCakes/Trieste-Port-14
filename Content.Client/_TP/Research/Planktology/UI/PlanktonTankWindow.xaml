@@ -1,0 +1,84 @@
+<controls:FancyWindow xmlns="https://spacestation14.io"
+                      xmlns:controls="clr-namespace:Content.Client.UserInterface.Controls"
+                      xmlns:tank="clr-namespace:Content.Client._TP.Research.Planktology.UI.Controls"
+                      xmlns:graphics="clr-namespace:Robust.Client.Graphics;assembly=Robust.Client"
+                      Title="{Loc 'plankton-tank-window-title'}"
+                      MinSize="880 700"
+                      SetSize="880 700">
+    <BoxContainer Orientation="Vertical" Margin="8" SeparationOverride="8">
+
+        <!-- Top row: beaker, tank, container + controls -->
+        <BoxContainer Orientation="Horizontal" SeparationOverride="8" MinHeight="230">
+
+            <!-- Beaker -->
+            <BoxContainer Orientation="Vertical" MinWidth="120" SeparationOverride="4">
+                <Label Text="{Loc 'plankton-tank-ui-beaker'}" StyleClasses="LabelHeading" />
+                <Label Name="BeakerLabel" ClipText="True" />
+                <BoxContainer Orientation="Horizontal" SeparationOverride="6" VerticalExpand="True">
+                    <tank:PlanktonFillBar Name="BeakerBar" MinWidth="28" VerticalExpand="True" />
+                    <BoxContainer Orientation="Vertical" SeparationOverride="4">
+                        <Button Name="Inject5Button" Text="{Loc 'plankton-tank-ui-inject-5'}" />
+                        <Button Name="Inject10Button" Text="{Loc 'plankton-tank-ui-inject-10'}" />
+                    </BoxContainer>
+                </BoxContainer>
+                <Label Name="TankVolumeLabel" StyleClasses="LabelSubText" />
+            </BoxContainer>
+
+            <!-- Tank -->
+            <tank:PlanktonTankView Name="TankView" HorizontalExpand="True" VerticalExpand="True" />
+
+            <!-- Container + controls -->
+            <BoxContainer Orientation="Vertical" MinWidth="170" SeparationOverride="4">
+                <Label Text="{Loc 'plankton-tank-ui-container'}" StyleClasses="LabelHeading" />
+                <Label Name="ContainerLabel" ClipText="True" />
+                <BoxContainer Orientation="Horizontal" SeparationOverride="4">
+                    <Button Name="DumpButton" Text="{Loc 'plankton-tank-ui-dump'}" HorizontalExpand="True" />
+                    <Button Name="ExtractButton" Text="{Loc 'plankton-tank-ui-extract'}" HorizontalExpand="True" />
+                </BoxContainer>
+                <controls:Separator StyleClasses="LowDivider" Margin="0 4" />
+                <Button Name="LightsButton" ToggleMode="True" Text="{Loc 'plankton-tank-ui-lights'}" />
+                <BoxContainer Orientation="Horizontal" SeparationOverride="4">
+                    <Button Name="CoolButton" Text="{Loc 'plankton-tank-ui-cool'}" StyleClasses="OpenRight" />
+                    <Label Name="TemperatureLabel" HorizontalExpand="True" Align="Center" />
+                    <Button Name="HeatButton" Text="{Loc 'plankton-tank-ui-heat'}" StyleClasses="OpenLeft" />
+                </BoxContainer>
+                <Button Name="RadiationButton" />
+                <Label Name="PowerLabel" StyleClasses="LabelSubText" />
+            </BoxContainer>
+        </BoxContainer>
+
+        <!-- Research form -->
+        <PanelContainer VerticalExpand="True">
+            <PanelContainer.PanelOverride>
+                <graphics:StyleBoxFlat BackgroundColor="#0B0B0D" />
+            </PanelContainer.PanelOverride>
+            <BoxContainer Orientation="Horizontal" Margin="10" SeparationOverride="10">
+                <BoxContainer Orientation="Vertical" MinWidth="280" SeparationOverride="6">
+                    <Label Name="FormNameLabel" StyleClasses="LabelHeading" />
+                    <Label Name="FormStatusLabel" FontColorOverride="#9A9A9A" />
+                    <BoxContainer Orientation="Horizontal" SeparationOverride="6">
+                        <Label Text="{Loc 'plankton-tank-ui-diet'}" MinWidth="60" />
+                        <Button Name="DietField" HorizontalExpand="True" ClipText="True" />
+                    </BoxContainer>
+                    <BoxContainer Orientation="Horizontal" SeparationOverride="6">
+                        <Label Text="{Loc 'plankton-tank-ui-characteristics'}" MinWidth="60" />
+                        <Button Name="CharacteristicsField" HorizontalExpand="True" ClipText="True" />
+                    </BoxContainer>
+                    <Control VerticalExpand="True" />
+                    <Button Name="SubmitButton" Text="{Loc 'plankton-tank-ui-submit'}" />
+                </BoxContainer>
+                <PanelContainer MinWidth="2">
+                    <PanelContainer.PanelOverride>
+                        <graphics:StyleBoxFlat BackgroundColor="#5A5A5A" />
+                    </PanelContainer.PanelOverride>
+                </PanelContainer>
+                <BoxContainer Orientation="Vertical" HorizontalExpand="True" SeparationOverride="4">
+                    <Label Name="ListHeader" StyleClasses="LabelSubText" />
+                    <ScrollContainer VerticalExpand="True" HScrollEnabled="False">
+                        <GridContainer Name="OptionList" Columns="2" HSeparationOverride="8" VSeparationOverride="2" />
+                    </ScrollContainer>
+                </BoxContainer>
+            </BoxContainer>
+        </PanelContainer>
+    </BoxContainer>
+</controls:FancyWindow>
