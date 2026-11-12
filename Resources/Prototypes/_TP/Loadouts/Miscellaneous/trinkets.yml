@@ -16,3 +16,17 @@
   id: TP14LoadoutNeckStethoscope
   equipment:
     neck: ClothingNeckStethoscope
+
+- type: loadout
+  id: TP14LoadoutCandleBox
+  groupBy: GroupCandles
+  storage:
+    back:
+    - BoxCandle
+
+- type: loadout
+  id: TP14LoadoutCandleBoxSmall
+  groupBy: GroupCandles
+  storage:
+    back:
+    - BoxCandleSmall

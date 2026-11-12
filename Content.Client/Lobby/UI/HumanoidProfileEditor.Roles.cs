@@ -2,6 +2,7 @@ using System.Linq;
 using System.Numerics;
 using Content.Client.Lobby.UI.Loadouts;
 using Content.Client.Lobby.UI.Roles;
+using Content.Client._TP.Lobby.Loadouts; // TRIESTE
 using Content.Shared.Clothing;
 using Content.Shared.Preferences;
 using Content.Shared.Preferences.Loadouts;
@@ -21,8 +22,9 @@ public sealed partial class HumanoidProfileEditor
     /// </summary>
     public JobPrototype? JobOverride;
 
+    // TRIESTE: 'LoadoutWindow'
     // One at a time.
-    private LoadoutWindow? _loadoutWindow;
+    private TriesteLoadoutWindow? _loadoutWindow;
 
     private List<(string, RequirementsSelector)> _jobPriorities = new();
 
@@ -60,7 +62,8 @@ public sealed partial class HumanoidProfileEditor
         JobOverride = jobProto;
         var session = _playerManager.LocalSession;
 
-        _loadoutWindow = new LoadoutWindow(Profile, roleLoadout, roleLoadoutProto, _playerManager.LocalSession, collection)
+        // TRIESTE: 'LoadoutWindow'
+        _loadoutWindow = new TriesteLoadoutWindow(Profile, roleLoadout, roleLoadoutProto, _playerManager.LocalSession, collection)
         {
             Title = Loc.GetString("loadout-window-title-loadout", ("job", $"{jobProto?.LocalizedName}")),
         };

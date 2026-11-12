@@ -1,5 +1,6 @@
 
 - type: loadoutGroup
+  parent: TP14LoadoutGroupJobTrinketsBase
   id: MimeJobTrinkets
   name: loadout-group-jobtrinkets
   minLimit: 0
@@ -7,8 +8,17 @@
   - LizardPlushieMime
 
 - type: loadoutGroup
+  parent: TP14LoadoutGroupJobTrinketsBase
   id: PsychologistHead
   name: tp14-loadout-group-psychologist-head
   minLimit: 0
   loadouts:
   - Fez
+
+- type: loadoutGroup
+  id: TP14LoadoutGroupJobTrinketsBase
+  name: loadout-group-jobtrinkets
+  minLimit: 0
+  loadouts:
+  - PlushieLizard
+  - PlushieSpaceLizard

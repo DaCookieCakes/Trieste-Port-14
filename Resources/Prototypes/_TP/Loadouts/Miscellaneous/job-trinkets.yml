@@ -278,12 +278,6 @@
 
 - type: loadout
   id: LizardPlushieResearchAssistant
-  effects:
-  - !type:JobRequirementLoadoutEffect
-    requirement:
-      !type:DepartmentTimeRequirement
-      department: Science
-      time: 72000 # 20hr
   storage:
     back:
     - PlushieLizardJobResearchassistant
@@ -338,12 +332,6 @@
 
 - type: loadout
   id: LizardPlushieSecurityCadet
-  effects:
-  - !type:JobRequirementLoadoutEffect
-    requirement:
-      !type:DepartmentTimeRequirement
-      department: Security
-      time: 72000 # 20hr
   storage:
     back:
     - PlushieLizardJobSecuritycadet
@@ -374,12 +362,6 @@
 
 - type: loadout
   id: LizardPlushieMedicalIntern
-  effects:
-  - !type:JobRequirementLoadoutEffect
-    requirement:
-      !type:DepartmentTimeRequirement
-      department: Medical
-      time: 72000 # 20hr
   storage:
     back:
     - PlushieLizardJobMedicalintern

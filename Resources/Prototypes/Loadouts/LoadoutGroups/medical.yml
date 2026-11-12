@@ -74,11 +74,14 @@
   - BrownShoes
   - MedicalWinterBoots
 
-#- type: loadoutGroup
-#  id: ChiefMedicalOfficerJobTrinkets
-#  name: loadout-group-jobtrinkets
-#  minLimit: 0
-#  loadouts:
+# TRIESTE
+- type: loadoutGroup
+  parent: TP14LoadoutGroupJobTrinketsBase # TRIESTE
+  id: ChiefMedicalOfficerJobTrinkets
+  name: loadout-group-jobtrinkets
+  minLimit: 0
+  loadouts:
+  - LizardPlushieChiefMedicalOfficer
 
 # Medical Doctor
 
@@ -123,11 +126,14 @@
   - MedicalDoctorPDA
   - SeniorPhysicianPDA
 
-#- type: loadoutGroup
-#  id: MedicalDoctorJobTrinkets
-#  name: loadout-group-jobtrinkets
-#  minLimit: 0
-#  loadouts:
+# TRIESTE
+- type: loadoutGroup
+  parent: TP14LoadoutGroupJobTrinketsBase # TRIESTE
+  id: MedicalDoctorJobTrinkets
+  name: loadout-group-jobtrinkets
+  minLimit: 0
+  loadouts:
+  - LizardPlushieMedicalDoctor
 
 # Medical Intern
 
@@ -138,11 +144,14 @@
   - WhiteJumpsuit
   - WhiteJumpskirt
 
-#- type: loadoutGroup
-#  id: MedicalInternJobTrinkets
-#  name: loadout-group-jobtrinkets
-#  minLimit: 0
-#  loadouts:
+# TRIESTE
+- type: loadoutGroup
+  parent: TP14LoadoutGroupJobTrinketsBase # TRIESTE
+  id: MedicalInternJobTrinkets
+  name: loadout-group-jobtrinkets
+  minLimit: 0
+  loadouts:
+  - LizardPlushieMedicalIntern
 
 # Chemist
 
@@ -170,11 +179,14 @@
   - ChemistSatchel
   - ChemistDuffel
 
-#- type: loadoutGroup
-#  id: ChemistJobTrinkets
-#  name: loadout-group-jobtrinkets
-#  minLimit: 0
-#  loadouts:
+# TRIESTE
+- type: loadoutGroup
+  parent: TP14LoadoutGroupJobTrinketsBase # TRIESTE
+  id: ChemistJobTrinkets
+  name: loadout-group-jobtrinkets
+  minLimit: 0
+  loadouts:
+  - LizardPlushieChemist
 
 # Paramedic
 
@@ -208,8 +220,11 @@
   - WhiteShoes
   - MedicalWinterBoots
 
-#- type: loadoutGroup
-#  id: ParamedicJobTrinkets
-#  name: loadout-group-jobtrinkets
-#  minLimit: 0
-#  loadouts:
+# TRIESTE
+- type: loadoutGroup
+  parent: TP14LoadoutGroupJobTrinketsBase # TRIESTE
+  id: ParamedicJobTrinkets
+  name: loadout-group-jobtrinkets
+  minLimit: 0
+  loadouts:
+  - LizardPlushieParamedic

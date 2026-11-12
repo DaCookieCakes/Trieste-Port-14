@@ -21,16 +21,18 @@
   - FlowerWreath
   - Hairflower
   - Headphones
-  - PlushieLizard
-  - PlushieSpaceLizard
+  # - PlushieLizard       # TRIESTE
+  # - PlushieSpaceLizard  # TRIESTE
   - ThreeCandles
+  - TP14LoadoutCandleBox      # TRIESTE
+  - TP14LoadoutCandleBoxSmall # TRIESTE
   - Lighter
-  - TP14LoadoutCigPackMixed # TP14
+  - TP14LoadoutCigPackMixed # TRIESTE
   - CigPackGreen
   - CigPackRed
   - CigPackBlue
   - CigPackBlack
-  - TP14LoadoutSmokingPipe # TP14
+  - TP14LoadoutSmokingPipe  # TRIESTE
   - CigarCase
   - CigarGold
   - BoxFolderBaseThreePapers
@@ -66,9 +68,9 @@
   - OffsetCaneWood
   - OffsetCaneClown
   - OffsetCaneMime
-  - OffsetCaneNT
+  # - OffsetCaneNT    # TRIESTE
   - Cane
-  - TowelColorWhite
+  # - TowelColorWhite # TRIESTE
 
 - type: loadoutGroup
   id: GroupTankHarness
@@ -87,9 +89,9 @@
   loadouts:
   - EmergencyNitrogen
   - EmergencyOxygen
-  - EmergencyWater # TRIESTE: Added.
+  - EmergencyWater            # TRIESTE
   - LoadoutSpeciesVoxNitrogen
-  - LoadoutSpeciesJellidWater # TRIESTE: Added.
+  - LoadoutSpeciesJellidWater # TRIESTE
 
 # nitrogen or oxygen tank, depending on what your species needs
 - type: loadoutGroup
@@ -99,7 +101,7 @@
   loadouts:
   - LoadoutSpeciesEVANitrogen
   - LoadoutSpeciesEVAOxygen
-  - LoadoutSpeciesJellidWater # TRIESTE: Added.
+  - LoadoutSpeciesJellidWater # TRIESTE
 
 # vox get a nitrogen tank, other species get nothing
 - type: loadoutGroup
@@ -164,7 +166,9 @@
   - OverseerWintercoat
   - OverseerArmor
 
+# TRIESTE
 - type: loadoutGroup
+  parent: TP14LoadoutGroupJobTrinketsBase
   id: OverseerJobTrinkets
   name: loadout-group-jobtrinkets
   minLimit: 0
@@ -212,6 +216,7 @@
   - HoPWintercoat
 
 - type: loadoutGroup
+  parent: TP14LoadoutGroupJobTrinketsBase # TRIESTE
   id: HoPJobTrinkets
   name: loadout-group-jobtrinkets
   minLimit: 0
@@ -297,6 +302,7 @@
   - WinterBoots
 
 - type: loadoutGroup
+  parent: TP14LoadoutGroupJobTrinketsBase # TRIESTE
   id: PassengerJobTrinkets
   name: loadout-group-jobtrinkets
   minLimit: 0
@@ -329,6 +335,7 @@
   - BartenderWintercoat
 
 - type: loadoutGroup
+  parent: TP14LoadoutGroupJobTrinketsBase # TRIESTE
   id: BartenderJobTrinkets
   name: loadout-group-jobtrinkets
   minLimit: 0
@@ -338,6 +345,7 @@
   - TP14LoadoutGoldenCoffeeFilterBar
 
 - type: loadoutGroup
+  parent: TP14LoadoutGroupJobTrinketsBase # TRIESTE
   id: ServiceWorkerJobTrinkets
   name: loadout-group-jobtrinkets
   minLimit: 0
@@ -376,6 +384,7 @@
   - ChefApron
 
 - type: loadoutGroup
+  parent: TP14LoadoutGroupJobTrinketsBase # TRIESTE
   id: ChefJobTrinkets
   name: loadout-group-jobtrinkets
   minLimit: 0
@@ -392,6 +401,7 @@
   - CuratorJumpskirt
 
 - type: loadoutGroup
+  parent: TP14LoadoutGroupJobTrinketsBase # TRIESTE
   id: LibrarianJobTrinkets
   name: loadout-group-jobtrinkets
   minLimit: 0
@@ -422,6 +432,7 @@
   - LawyerNeck
 
 - type: loadoutGroup
+  parent: TP14LoadoutGroupJobTrinketsBase # TRIESTE
   id: LawyerJobTrinkets
   name: loadout-group-jobtrinkets
   minLimit: 0
@@ -481,6 +492,7 @@
   - BrownSandals
 
 - type: loadoutGroup
+  parent: TP14LoadoutGroupJobTrinketsBase # TRIESTE
   id: ChaplainJobTrinkets
   name: loadout-group-jobtrinkets
   minLimit: 0
@@ -530,6 +542,7 @@
   - JanitorWintercoat
 
 - type: loadoutGroup
+  parent: TP14LoadoutGroupJobTrinketsBase # TRIESTE
   id: JanitorJobTrinkets
   name: loadout-group-jobtrinkets
   minLimit: 0
@@ -571,6 +584,7 @@
   - BotanistWintercoat
 
 - type: loadoutGroup
+  parent: TP14LoadoutGroupJobTrinketsBase # TRIESTE
   id: BotanistJobTrinkets
   name: loadout-group-jobtrinkets
   minLimit: 0
@@ -630,6 +644,7 @@
   - LoadoutSpeciesJellidWater
 
 - type: loadoutGroup
+  parent: TP14LoadoutGroupJobTrinketsBase # TRIESTE
   id: ClownJobTrinkets
   name: loadout-group-jobtrinkets
   minLimit: 0
@@ -730,6 +745,7 @@
   - Bagpipe
 
 - type: loadoutGroup
+  parent: TP14LoadoutGroupJobTrinketsBase # TRIESTE
   id: MusicianJobTrinkets
   name: loadout-group-jobtrinkets
   minLimit: 0
@@ -779,6 +795,7 @@
   - CargoWinterBoots
 
 - type: loadoutGroup
+  parent: TP14LoadoutGroupJobTrinketsBase # TRIESTE
   id: QuartermasterJobTrinkets
   name: loadout-group-jobtrinkets
   minLimit: 0
@@ -831,6 +848,7 @@
   - SeniorCourierPDA
 
 - type: loadoutGroup
+  parent: TP14LoadoutGroupJobTrinketsBase # TRIESTE
   id: CargoTechnicianJobTrinkets
   name: loadout-group-jobtrinkets
   minLimit: 0
@@ -860,6 +878,7 @@
   - CargoWinterBoots
 
 - type: loadoutGroup
+  parent: TP14LoadoutGroupJobTrinketsBase # TRIESTE
   id: SalvageSpecialistJobTrinkets
   name: loadout-group-jobtrinkets
   minLimit: 0
@@ -907,6 +926,7 @@
   - EngineeringWinterBoots
 
 - type: loadoutGroup
+  parent: TP14LoadoutGroupJobTrinketsBase # TRIESTE
   id: ChiefEngineerJobTrinkets
   name: loadout-group-jobtrinkets
   minLimit: 0
@@ -921,6 +941,7 @@
   - YellowJumpskirt
 
 - type: loadoutGroup
+  parent: TP14LoadoutGroupJobTrinketsBase # TRIESTE
   id: TechnicalAssistantJobTrinkets
   name: loadout-group-jobtrinkets
   minLimit: 0
@@ -978,6 +999,7 @@
   - SeniorEngineerPDA
 
 - type: loadoutGroup
+  parent: TP14LoadoutGroupJobTrinketsBase # TRIESTE
   id: StationEngineerJobTrinkets
   name: loadout-group-jobtrinkets
   minLimit: 0
@@ -1015,6 +1037,7 @@
   - EngineeringWinterBoots
 
 - type: loadoutGroup
+  parent: TP14LoadoutGroupJobTrinketsBase # TRIESTE
   id: AtmosphericTechnicianJobTrinkets
   name: loadout-group-jobtrinkets
   minLimit: 0
@@ -1072,6 +1095,7 @@
   - ScienceWinterBoots
 
 - type: loadoutGroup
+  parent: TP14LoadoutGroupJobTrinketsBase # TRIESTE
   id: ResearchDirectorJobTrinkets
   name: loadout-group-jobtrinkets
   minLimit: 0
@@ -1155,6 +1179,7 @@
   - SeniorResearcherPDA
 
 - type: loadoutGroup
+  parent: TP14LoadoutGroupJobTrinketsBase # TRIESTE
   id: ScientistJobTrinkets
   name: loadout-group-jobtrinkets
   minLimit: 0
@@ -1169,6 +1194,7 @@
   - WhiteJumpskirt
 
 - type: loadoutGroup
+  parent: TP14LoadoutGroupJobTrinketsBase # TRIESTE
   id: ResearchAssistantJobTrinkets
   name: loadout-group-jobtrinkets
   minLimit: 0
@@ -1211,6 +1237,7 @@
   - HeadofSecurityWinterCoat
 
 - type: loadoutGroup
+  parent: TP14LoadoutGroupJobTrinketsBase # TRIESTE
   id: HeadofSecurityJobTrinkets
   name: loadout-group-jobtrinkets
   minLimit: 0
@@ -1241,6 +1268,7 @@
   - WardenArmoredWinterCoat
 
 - type: loadoutGroup
+  parent: TP14LoadoutGroupJobTrinketsBase # TRIESTE
   id: WardenJobTrinkets
   name: loadout-group-jobtrinkets
   minLimit: 0
@@ -1308,6 +1336,7 @@
   - SeniorOfficerPDA
 
 - type: loadoutGroup
+  parent: TP14LoadoutGroupJobTrinketsBase # TRIESTE
   id: SecurityJobTrinkets
   name: loadout-group-jobtrinkets
   minLimit: 0
@@ -1360,6 +1389,7 @@
   # Moffstation - End (New Detective Outfits)
 
 - type: loadoutGroup
+  parent: TP14LoadoutGroupJobTrinketsBase # TRIESTE
   id: DetectiveJobTrinkets
   name: loadout-group-jobtrinkets
   minLimit: 0
@@ -1375,6 +1405,7 @@
   - BlueJumpskirt
 
 - type: loadoutGroup
+  parent: TP14LoadoutGroupJobTrinketsBase # TRIESTE
   id: SecurityCadetJobTrinkets
   name: loadout-group-jobtrinkets
   minLimit: 0
@@ -1432,6 +1463,7 @@
   - DoctorsJumpsuit # - TP14
 
 - type: loadoutGroup
+  parent: TP14LoadoutGroupJobTrinketsBase # TRIESTE
   id: PsychologistJobTrinkets
   name: loadout-group-jobtrinkets
   minLimit: 0
