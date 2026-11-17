@@ -10,6 +10,16 @@
   id: TP14SMESAdvancedMachineCircuitboardRecipe
   result: TP14SMESAdvancedMachineCircuitboard
 
+- type: latheRecipe
+  parent: [ BaseGoldCircuitboardRecipe, BaseEngineeringMachineRecipeCategory ]
+  id: TP14WirelessPowerTransmitterMachineCircuitboardRecipe
+  result: TP14WirelessPowerTransmitterMachineCircuitboard
+
+- type: latheRecipe
+  parent: [ BaseGoldCircuitboardRecipe, BaseEngineeringMachineRecipeCategory ]
+  id: TP14WirelessPowerReceiverMachineCircuitboardRecipe
+  result: TP14WirelessPowerReceiverMachineCircuitboard
+
 # Atmospherics
 - type: latheRecipe
   parent: [ BaseCircuitboardRecipe, BaseEngineeringMachineRecipeCategory ]

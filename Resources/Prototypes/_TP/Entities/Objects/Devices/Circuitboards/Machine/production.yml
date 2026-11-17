@@ -159,3 +159,37 @@
       Manipulator: 4
       Steel: 4
       CableMV: 10
+
+- type: entity
+  id: TP14WirelessPowerTransmitterMachineCircuitboard
+  parent: BaseMachineCircuitboard
+  suffix: Trieste, Circuit-Board
+  name: wireless power transmitter machine board
+  description: A machine printed circuit board for a wireless power transmitter.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/module.rsi
+    state: power_mod
+  - type: MachineBoard
+    prototype: TP14WirelessPowerTransmitter
+    stackRequirements:
+      Manipulator: 2
+      CableHV: 15
+      Glass: 2
+
+- type: entity
+  id: TP14WirelessPowerReceiverMachineCircuitboard
+  parent: BaseMachineCircuitboard
+  suffix: Trieste, Circuit-Board
+  name: wireless power receiver machine board
+  description: A machine printed circuit board for a wireless power receiver.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/module.rsi
+    state: power_mod
+  - type: MachineBoard
+    prototype: TP14WirelessPowerReceiver
+    stackRequirements:
+      Manipulator: 2
+      CableHV: 15
+      Glass: 2

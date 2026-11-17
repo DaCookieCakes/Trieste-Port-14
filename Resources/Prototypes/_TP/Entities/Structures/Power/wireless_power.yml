@@ -1,0 +1,116 @@
+# Wireless power transmitter / receiver pair.
+# Transmitters charge from a cable terminal; WirelessPowerSystem beams that charge to every
+# anchored receiver on the same channel, which outputs it onto HV cable. Set the channel with a multitool.
+# Sprites are placeholders borrowed from the tesla coil / grounding rod.
+
+- type: entity
+  abstract: true
+  id: TP14BaseWirelessPower
+  parent: [ BaseMachine, ConstructibleMachine, BaseConstructibleMachineDestructible ]
+  placement:
+    mode: SnapgridCenter
+  components:
+  - type: Appearance
+  - type: Battery
+    netsync: false    # Charge changes every update; keep it off the network.
+    maxCharge: 500000 # Needs to buffer at least one second of transfer.
+    startingCharge: 0
+  - type: ExaminableBattery
+  - type: WiresPanel
+  - type: GuideHelp
+    guides:
+    - PowerStorage
+    - VoltageNetworks
+    - Power
+
+- type: entity
+  parent: TP14BaseWirelessPower
+  id: TP14WirelessPowerTransmitter
+  name: quantum static transmitter
+  suffix: Trieste
+  description: Draws power and beams it to every receiver tuned to its frequency. Multitool not included.
+  components:
+  - type: Sprite
+    sprite: Structures/Power/Generation/Tesla/coil.rsi
+    noRot: true
+    layers:
+    - state: coil
+    - state: coilhit
+      map: [ "linked" ]
+      visible: false
+  - type: GenericVisualizer
+    visuals:
+      enum.WirelessPowerVisuals.Linked:
+        linked:
+          True: { visible: true }
+          False: { visible: false }
+  - type: NodeContainer
+    examinable: true
+    nodes:
+      input:
+        !type:CableTerminalPortNode
+        nodeGroupID: HVPower
+  - type: BatteryCharger
+    voltage: High
+    node: input
+  - type: PowerNetworkBattery
+    maxChargeRate: 250000 # Keep this a bit over the transfer rate!
+    maxSupply: 0
+  - type: WirelessPower
+    mode: Transmitter
+    maxTransferRate: 200000
+  - type: Machine
+    board: TP14WirelessPowerTransmitterMachineCircuitboard
+  - type: Electrified
+    onHandInteract: false
+    onInteractUsing: false
+    onBump: false
+    requirePower: true
+    highVoltageNode: input
+
+- type: entity
+  parent: TP14BaseWirelessPower
+  id: TP14WirelessPowerReceiver
+  name: quantum static receiver
+  suffix: Trieste
+  description: Picks up power beamed from transmitters. Multitool not included.
+  components:
+  - type: Sprite
+    sprite: Structures/Power/Generation/Tesla/coil.rsi
+    noRot: true
+    layers:
+    - state: grounding_rod
+    - state: grounding_rodhit
+      map: [ "linked" ]
+      visible: false
+  - type: GenericVisualizer
+    visuals:
+      enum.WirelessPowerVisuals.Linked:
+        linked:
+          True: { visible: true }
+          False: { visible: false }
+  - type: NodeContainer
+    examinable: true
+    nodes:
+      output:
+        !type:CableDeviceNode
+        nodeGroupID: HVPower
+  - type: BatteryDischarger
+    voltage: High
+    node: output
+  - type: PowerNetworkBattery
+    maxChargeRate: 0
+    maxSupply: 200000
+    supplyRampTolerance: 5000
+    supplyRampRate: 50000
+  - type: WirelessPower
+    mode: Receiver
+    maxTransferRate: 200000
+  - type: Machine
+    board: TP14WirelessPowerReceiverMachineCircuitboard
+  - type: Electrified
+    onHandInteract: false
+    onInteractUsing: false
+    onBump: false
+    requirePower: true
+    highVoltageNode: output

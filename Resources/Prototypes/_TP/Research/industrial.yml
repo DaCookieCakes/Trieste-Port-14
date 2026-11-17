@@ -1,0 +1,14 @@
+- type: technology
+  id: TP14WirelessPowerTransmission
+  name: research-technology-wireless-power
+  icon:
+    sprite: Structures/Power/Generation/Tesla/coil.rsi
+    state: coil
+  discipline: Industrial
+  tier: 2
+  cost: 10000
+  recipeUnlocks:
+  - TP14WirelessPowerTransmitterMachineCircuitboardRecipe
+  - TP14WirelessPowerReceiverMachineCircuitboardRecipe
+  technologyPrerequisites:
+  - AdvancedPowercells

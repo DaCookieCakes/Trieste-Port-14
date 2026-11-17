@@ -93,3 +93,5 @@
   - TelecomServerCircuitboard
   - SMESAdvancedMachineCircuitboard
   - HolopadMachineCircuitboard
+  - TP14WirelessPowerTransmitterMachineCircuitboardRecipe # TP
+  - TP14WirelessPowerReceiverMachineCircuitboardRecipe # TP
