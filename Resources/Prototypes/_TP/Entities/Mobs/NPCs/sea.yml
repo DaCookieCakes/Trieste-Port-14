@@ -477,15 +477,35 @@
     baseWalkSpeed : 0.7
 
 - type: entity
-  parent: MobXenoSpitter
+  parent: MobGoliath
   id: TP14MobSeaBarnacle
   suffix: Trieste
-  name: sea barnacle
-  description: A heaving mass of coral and flesh, capable of spitting corrosive acid at it's prey.
+  name: barnacle
+  description: The sessile stage of a mimic's life cycle. One polyp can start a planetwide infestation!
   components:
+  - type: Sprite
+    sprite: _TP/Mobs/Aliens/barnacle.rsi
+    layers:
+    - map: [ "enum.DamageStateVisualLayers.Base" ]
+      state: barnacle
+    - map: [ "enum.DamageStateVisualLayers.BaseUnshaded" ]
+      state: overlay-eyes
+      shader: unshaded
+  - type: DamageStateVisuals
+    states:
+      Alive:
+        Base: barnacle
+        BaseUnshaded: overlay-eyes
+      Dead:
+        Base: barnacle
   - type: MovementSpeedModifier
     baseWalkSpeed : 0
     baseSprintSpeed: 0
+  - type: MeleeWeapon
+    animation: WeaponArcBite
+    refineResult:
+    - id: MaterialGoliathHide1
+      amount: 3
 
 - type: entity
   parent: [ TP14BaseMobSeaLandCreature, TP14BaseSimpleMob, BaseSlicingRefinable, MobNightVision ]
